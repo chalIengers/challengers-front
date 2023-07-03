@@ -26,12 +26,9 @@
     "linebreak-style": 0, // 운영체제마다 개행차이로 생기는 오류
     "arrow-body-style": "off", // array function 규칙 오프
     "react/self-closing-comp": "off", // 셀프 클로징 오프
-    "prettier/prettier": "error", // eslint-config-prettier에서 제공하는 설정을 활성화해서, Prettier와 충돌하는 몇가지 ESlint 규칙을 무시
+    "prettier/prettier": ["error", { "endOfLine": "auto" }], // eslint-config-prettier에서 제공하는 설정을 활성화해서, Prettier와 충돌하는 몇가지 ESlint 규칙을 무시
     "prefer-arrow-callback": "off", // eslint-plugin-prettier과 충돌이 일어나는 ESLint core 의 규칙을 비활성화한다.
-    "react/function-component-definition": [
-      2,
-      { "namedComponents": ["arrow-function", "function-declaration"] }
-    ], // 함수형 컴포넌트 방식에 화살표 함수도 가능하게 하는 규칙 추가
+    "react/function-component-definition": [2, { "namedComponents": ["arrow-function", "function-declaration"] }], // 함수형 컴포넌트 방식에 화살표 함수도 가능하게 하는 규칙 추가
     "@typescript-eslint/explicit-function-return-type": "off", // 함수형 컴포넌트의 리턴 타입에 대한 규칙 추가
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
