@@ -1,8 +1,13 @@
 import React from "react";
-import Tag from "./emotion/component";
+import Tag, { Header } from "./emotion/component";
 
 const index = () => {
-  return <Tag>서비스 형태가 들어가요</Tag>;
+  return (
+    <>
+      <Header></Header>
+      <Tag>서비스 형태가 들어가요</Tag>
+    </>
+  );
 };
 
 export default index;
