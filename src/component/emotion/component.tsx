@@ -186,3 +186,25 @@ export const Header = () => {
     </Nav>
   );
 };
+
+// 프로젝트 상세 이미지
+interface imgBoxType {
+  imgSrc?: string;
+}
+export const ImageBox = ({ imgSrc }: imgBoxType) => {
+  return (
+    <img
+      alt="프로젝트 상세 이미지"
+      width={1051}
+      height={507}
+      src={`${process.env.PUBLIC_URL}/img/${imgSrc}`}
+      css={css`
+        color: #000;
+      `}
+    ></img>
+  );
+};
+
+ImageBox.defaultProps = {
+  imgSrc: "thumbnail.png",
+};
