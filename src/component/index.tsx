@@ -1,5 +1,5 @@
 import React from "react";
-import Tag, { Header, ImageBox } from "./emotion/component";
+import Tag, { Header, ImageBox, TeamInfoBox } from "./emotion/component";
 
 const index = () => {
   return (
@@ -7,6 +7,7 @@ const index = () => {
       <Header></Header>
       <Tag>서비스 형태가 들어가요</Tag>
       <ImageBox />
+      <TeamInfoBox />
     </>
   );
 };
