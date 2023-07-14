@@ -5,7 +5,10 @@ import React, { ReactNode } from 'react';
 type InnerProps = {
   children: ReactNode;
 };
-
+/**
+ * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
+ * @param children 컴포넌트 안에 넣을 자식 요소
+ */
 export const Inner = ({ children }: InnerProps) => (
   <div
     css={css`
@@ -26,6 +29,11 @@ type ButtonBoxProps = {
   type: 'large' | 'small';
 };
 
+/**
+ * 버튼 컴포넌트
+ * @param text 버튼 안의 text 내용
+ * @param type 버튼의 형태(large, small)
+ */
 export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
   const styles = {
     large: css`
