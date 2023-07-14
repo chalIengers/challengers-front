@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { SelectBox, ContainerComponent } from "../emotion/component";
+import {
+  SelectBox,
+  ContainerComponent,
+  ProjectBox,
+} from "../emotion/component";
 
 const IndexContainer = styled.div`
   background-color: black;
@@ -21,6 +25,8 @@ const Index: React.FC = () => {
     setSelectedOption(selectedValue);
   };
 
+  // ProjectInfoBox 컴포넌트
+  const tags = ["웹 서비스", "토스 프로덕트 팀", "React"];
   return (
     <IndexContainer>
       <ContainerComponent height="200px">
@@ -30,6 +36,28 @@ const Index: React.FC = () => {
           onChange={handleSelectChange}
         />
       </ContainerComponent>
+      <br />
+
+      <ProjectBox
+        title="Main Project"
+        content="This is the content of the main project."
+        tags={tags}
+      />
+      <ProjectBox
+        title="Secondary Project"
+        content="This is the content of the secondary project."
+        tags={tags}
+      />
+      <ProjectBox
+        title="Another Project"
+        content="This is the content of another project."
+        tags={tags}
+      />
+      <ProjectBox
+        title="Another Project"
+        content="This is the content of another project."
+        tags={tags}
+      />
     </IndexContainer>
   );
 };
