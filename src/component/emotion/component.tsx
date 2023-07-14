@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import React, { ReactNode } from "react";
+import { css } from '@emotion/react';
+import React, { ReactNode } from 'react';
 
 type InnerProps = {
   children: ReactNode;
@@ -23,7 +23,7 @@ export const Inner = ({ children }: InnerProps) => (
 
 type ButtonBoxProps = {
   text: string;
-  type: "large" | "small";
+  type: 'large' | 'small';
 };
 
 export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
