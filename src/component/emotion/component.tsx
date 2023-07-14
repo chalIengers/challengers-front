@@ -16,7 +16,7 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   background-color: #212121;
-  border-radius: 10px;
+  border-radius: 1.25em;
 `;
 
 /**
@@ -39,7 +39,7 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({
 };
 
 ContainerComponent.defaultProps = {
-  width: "1200px",
+  width: "75em", // 1200px -> 75em
   children: null,
 };
 
@@ -52,27 +52,27 @@ interface SelectBoxProps {
 }
 
 const StyledSelectBox = styled.select`
-  border-radius: 3.843px;
+  border-radius: 0.484em;
   background: #4f85e8;
   color: #fff;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 0.875em;
   font-style: normal;
   font-weight: 700;
-  padding: 8px;
+  padding: 0.625em;
   border: none;
   outline: none;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  text-indent: 1px;
+  text-indent: 0.0625em;
   text-overflow: "";
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 6px center;
-  background-size: 12px;
-  padding-right: 24px;
+  background-position: right 0.375em center;
+  background-size: 0.75em;
+  padding-right: 1.5em;
 `;
 
 /**
@@ -111,25 +111,25 @@ const StyledProjectBox = styled.div<ProjectBoxProps>`
   flex-direction: column;
   margin: 0 auto;
   color: #ffffff;
-  padding: 16px 21px;
-  width: 370px;
-  height: 395px;
+  padding: 1em 1.3125em;
+  width: 23.125em;
+  height: 24.6875em;
   background: #212121;
-  border-radius: 19px;
-  margin: 0px;
+  border-radius: 1.1875em;
+  margin: 0;
 `;
 const StyledProjectTag = styled.div`
   display: flex;
   flex-direction: row;
 `;
 const StyledTag = styled.div`
-  border-radius: 5px;
+  border-radius: 0.3125em;
   background: #4f85e8;
-  padding: 6px 10px;
-  margin: 0px 9px 9px 0px;
+  padding: 0.375em 0.625em;
+  margin: 0 0.5625em 0.5625em 0;
   color: #fff;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 0.875em;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -141,17 +141,17 @@ const StyledTag = styled.div`
 const StyledTitle = styled.h2`
   color: #fff;
   font-family: Pretendard;
-  font-size: 25px;
+  font-size: 1.5625em;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.75px;
-  margin-bottom: 10px;
+  margin-bottom: 0.625em;
 `;
 const StyledText = styled.p`
   color: #fff;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -173,10 +173,10 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
         alt="Project"
         className="project-image"
         style={{
-          width: "329px",
-          height: "225px",
-          borderRadius: "10px",
-          marginBottom: "16px",
+          width: "20.5625em",
+          height: "14.0625em",
+          borderRadius: "0.625em",
+          marginBottom: "1em",
         }}
       />
       {tags && (
@@ -203,8 +203,8 @@ const StyledFlexContainer = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 45px;
-  width: 1200px;
+  gap: 2.8125em;
+  width: 75em;
   height: 100%;
   margin: 0 auto;
 `;
