@@ -193,3 +193,28 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
 };
 
 export { ProjectBox };
+
+interface FlexContainerProps {
+  children: React.ReactNode;
+}
+
+const StyledFlexContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 45px;
+  width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+`;
+/**
+ * FlexContainer 컴포넌트
+ * @component FlexContainer
+ * @param {React.ReactNode} props.children - FlexContainer 내부의 자식 요소
+ */
+const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
+  return <StyledFlexContainer>{children}</StyledFlexContainer>;
+};
+
+export { FlexContainer };

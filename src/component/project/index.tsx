@@ -5,6 +5,7 @@ import {
   SelectBox,
   ContainerComponent,
   ProjectBox,
+  FlexContainer,
 } from "../emotion/component";
 
 const IndexContainer = styled.div`
@@ -37,27 +38,28 @@ const Index: React.FC = () => {
         />
       </ContainerComponent>
       <br />
-
-      <ProjectBox
-        title="Main Project"
-        content="This is the content of the main project."
-        tags={tags}
-      />
-      <ProjectBox
-        title="Secondary Project"
-        content="This is the content of the secondary project."
-        tags={tags}
-      />
-      <ProjectBox
-        title="Another Project"
-        content="This is the content of another project."
-        tags={tags}
-      />
-      <ProjectBox
-        title="Another Project"
-        content="This is the content of another project."
-        tags={tags}
-      />
+      <FlexContainer>
+        <ProjectBox
+          title="Main Project"
+          content="This is the content of the main project."
+          tags={tags}
+        />
+        <ProjectBox
+          title="Secondary Project"
+          content="This is the content of the secondary project."
+          tags={tags}
+        />
+        <ProjectBox
+          title="Another Project"
+          content="This is the content of another project."
+          tags={tags}
+        />
+        <ProjectBox
+          title="Another Project"
+          content="This is the content of another project."
+          tags={tags}
+        />
+      </FlexContainer>
     </IndexContainer>
   );
 };
