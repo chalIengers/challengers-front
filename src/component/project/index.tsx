@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-import { ContainerComponent } from "../emotion/component";
+import { SelectBox, ContainerComponent } from "../emotion/component";
 
 const IndexContainer = styled.div`
   background-color: black;
@@ -12,9 +12,24 @@ const IndexContainer = styled.div`
 `;
 
 const Index: React.FC = () => {
+  // Selectbox 컴포넌트
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const options = ["전체서비스", "기술스택", "메뉴1"];
+
+  const handleSelectChange = (selectedValue: string) => {
+    setSelectedOption(selectedValue);
+  };
+
   return (
     <IndexContainer>
-      <ContainerComponent height="200px">test</ContainerComponent>
+      <ContainerComponent height="200px">
+        <SelectBox
+          options={options}
+          value={selectedOption}
+          onChange={handleSelectChange}
+        />
+      </ContainerComponent>
     </IndexContainer>
   );
 };
