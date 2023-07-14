@@ -131,7 +131,11 @@ type ClubProps = {
   name: string;
   clubImg: string;
 };
-
+/**
+ * club logo를 가져오는 컴포넌트
+ * @param name 가져올 이미지의 클럽명
+ * @param clubImg 클럽 로고 이미지의 url
+ */
 export const Club = ({ name, clubImg }: ClubProps) => {
   return (
     <span

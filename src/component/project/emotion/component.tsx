@@ -66,7 +66,7 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
         height: 5.4375rem;
         border-radius: 2.71875rem;
         background: #fff;
-        border: solid 1px black;
+        /* border: solid 1px black; */
         cursor: pointer;
         user-select: none;
       `}
@@ -74,5 +74,38 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
     >
       <LinkImg name={name} type="large" />
     </button>
+  );
+};
+
+// project link을 넣어주는 inputBox
+export const LinkInputBox = () => {
+  return (
+    <div
+      css={css`
+        width: 65.1875rem;
+        height: 4.125rem;
+        border-radius: 0.75rem;
+        /* border: 1px solid black; */
+        background: #fff;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 30px;
+        align-items: center;
+        padding: 0 1.69rem;
+      `}
+    >
+      <input
+        type="text"
+        placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
+        css={css`
+          color: #000;
+          font-size: 1.0625rem;
+          font-weight: 500;
+          line-height: normal;
+          letter-spacing: -0.03188rem;
+        `}
+      ></input>
+      <LinkImg name="notion" type="small" />
+    </div>
   );
 };
