@@ -34,6 +34,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/require-default-props": "warn",
     "import/extensions": [
       "error",
       "ignorePackages",
