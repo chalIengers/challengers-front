@@ -1,11 +1,11 @@
-import React from "react";
-import { Global, css } from "@emotion/react";
+import React from 'react';
+import { Global, css } from '@emotion/react';
 
 const GlobalStyle = () => {
   return (
     <Global
       styles={css`
-        @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         html,
         body,
         div,
@@ -99,7 +99,7 @@ const GlobalStyle = () => {
         }
         html {
           font-size: 62.5%;
-          font-family: "Pretendard", "Noto Sans KR", "sans-serif";
+          font-family: 'Pretendard', 'Noto Sans KR', 'sans-serif';
           body {
             font-size: 1.6rem;
             font-style: normal;
