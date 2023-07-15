@@ -4,12 +4,17 @@ import styled from "@emotion/styled";
 import React, { ReactNode, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-// 라벨 컴포넌트
 interface TagType {
   children?: ReactNode;
   width?: string;
   height?: string;
 }
+/**
+ * 라벨 컴포넌트
+ * @param children 컴포넌트 안에 넣을 자식 요소
+ * @param width 가로 길이 (일단 em으로 지정함)
+ * @param height 높이 길이 (일단 em으로 지정함)
+ */
 const Tag = ({ children, width, height }: TagType) => {
   return (
     <span
@@ -43,7 +48,9 @@ Tag.defaultProps = {
 };
 export default Tag;
 
-// 네비게이션 (GNB) 컴포넌트
+/**
+ * 네비게이션 (GNB) 컴포넌트
+ */
 const Nav = styled.nav`
   background-color: #000000;
   z-index: 999;
@@ -190,10 +197,13 @@ export const Header = () => {
   );
 };
 
-// 프로젝트 상세 이미지
 interface imgBoxType {
   imgSrc?: string;
 }
+/**
+ * 프로젝트 상세 이미지
+ * @param imgSrc 이미지 src
+ */
 export const ImageBox = ({ imgSrc }: imgBoxType) => {
   return (
     <img
@@ -311,6 +321,9 @@ const AddPositionText = styled(ContentText)`
     cursor: pointer;
   }
 `;
+/**
+ * 팀원 infobox
+ */
 export const TeamInfoBox = () => {
   const ModalBoxComponent = useRef<HTMLDivElement>(null);
   const [members, setMembers] = useState([{ id: 1, name: "", role: "" }]);
