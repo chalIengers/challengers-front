@@ -1,14 +1,21 @@
-import React from "react";
-import Tag, { Header, ImageBox, TeamInfoBox } from "./emotion/component";
+import React from 'react';
+import Tag, { Banner, Header, ImageBox, TeamInfoBox, Club } from './emotion/component';
+import { LinkInputBox, ProjectLinkButton } from './project/emotion/component';
 
 const index = () => {
   return (
-    <>
-      <Header></Header>
+    <div>
+      Main
+      <Header />
       <Tag>서비스 형태가 들어가요</Tag>
       <ImageBox />
       <TeamInfoBox />
-    </>
+      <Banner type="large" />
+      <Banner type="small" />
+      <Club name="" clubImg="" />
+      <ProjectLinkButton name="notion" url="www.naver.com" />
+      <LinkInputBox />
+    </div>
   );
 };
 
