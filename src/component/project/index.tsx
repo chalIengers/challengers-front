@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
-import {
-  SelectBox,
-  ContainerComponent,
-  ProjectBox,
-  FlexContainer,
-} from "../emotion/component";
+import { SelectBox, ContainerComponent, ProjectBox, FlexContainer } from '../emotion/component';
 
 const IndexContainer = styled.div`
   background-color: black;
@@ -18,24 +13,20 @@ const IndexContainer = styled.div`
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState('');
 
-  const options = ["전체서비스", "기술스택", "메뉴1"];
+  const options = ['전체서비스', '기술스택', '메뉴1'];
 
   const handleSelectChange = (selectedValue: string) => {
     setSelectedOption(selectedValue);
   };
 
   // ProjectInfoBox 컴포넌트
-  const tags = ["웹 서비스", "토스 프로덕트 팀", "React"];
+  const tags = ['웹 서비스', '토스 프로덕트 팀', 'React'];
   return (
     <IndexContainer>
       <ContainerComponent height="200px">
-        <SelectBox
-          options={options}
-          value={selectedOption}
-          onChange={handleSelectChange}
-        />
+        <SelectBox options={options} value={selectedOption} onChange={handleSelectChange} />
       </ContainerComponent>
       <br />
       <FlexContainer>

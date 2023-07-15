@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
 
 interface ContainerComponentProps {
   width?: string;
@@ -30,11 +30,7 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
  * @param {number} props.height - 컨테이너 컴포넌트의 높이
  * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
  */
-const ContainerComponent: React.FC<ContainerComponentProps> = ({
-  width,
-  height,
-  children,
-}) => {
+const ContainerComponent: React.FC<ContainerComponentProps> = ({ width, height, children }) => {
   return (
     <StyledContainerComponent width={width} height={height}>
       {children}
@@ -43,7 +39,7 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({
 };
 
 ContainerComponent.defaultProps = {
-  width: "75em", // 1200px -> 75em
+  width: '75em', // 1200px -> 75em
   children: null,
 };
 
@@ -71,7 +67,7 @@ const StyledSelectBox = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 0.0625em;
-  text-overflow: "";
+  text-overflow: '';
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.375em center;
@@ -177,10 +173,10 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
         alt="Project"
         className="project-image"
         style={{
-          width: "20.5625em",
-          height: "14.0625em",
-          borderRadius: "0.625em",
-          marginBottom: "1em",
+          width: '20.5625em',
+          height: '14.0625em',
+          borderRadius: '0.625em',
+          marginBottom: '1em',
         }}
       />
       {tags && (
@@ -261,9 +257,9 @@ const Tag = ({ children, width, height }: TagType) => {
 };
 
 Tag.defaultProps = {
-  children: "서비스 형태가 들어가요",
-  width: "10",
-  height: "1.7",
+  children: '서비스 형태가 들어가요',
+  width: '10',
+  height: '1.7',
 };
 export default Tag;
 
@@ -333,9 +329,9 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -438,13 +434,13 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
 };
 
 ImageBox.defaultProps = {
-  imgSrc: "thumbnail.png",
+  imgSrc: 'thumbnail.png',
 };
 
 // TeamInfo 컴포넌트
 const TitleText = styled.span`
   display: inline;
-  color: ${(props) => (props.color ? props.color : "white")};
+  color: ${(props) => (props.color ? props.color : 'white')};
   font-size: 20px;
   font-family: Pretendard;
   font-style: normal;
@@ -545,7 +541,7 @@ const AddPositionText = styled(ContentText)`
  */
 export const TeamInfoBox = () => {
   const ModalBoxComponent = useRef<HTMLDivElement>(null);
-  const [members, setMembers] = useState([{ id: 1, name: "", role: "" }]);
+  const [members, setMembers] = useState([{ id: 1, name: '', role: '' }]);
 
   // 팀원 이름 state 설정
   const handleMemberNameChange = (id: number, name: string) => {
@@ -572,12 +568,12 @@ export const TeamInfoBox = () => {
   // 팀원 추가 클릭시 함수
   const addMemberOnClick = () => {
     if (members.length < 5) {
-      const newMembers = { id: members.length + 1, name: "", role: "" };
+      const newMembers = { id: members.length + 1, name: '', role: '' };
       setMembers([...members, newMembers]);
     }
   };
   const addPositionOnClick = () => {
-    ModalBoxComponent.current?.style.setProperty("display", "none");
+    ModalBoxComponent.current?.style.setProperty('display', 'none');
   };
   return (
     <Box>
@@ -596,9 +592,7 @@ export const TeamInfoBox = () => {
               placeholder="이름을 입력해주세요"
               name={`팀원${member.id}이름`}
               value={member.name}
-              onChange={(e) =>
-                handleMemberNameChange(member.id, e.target.value)
-              }
+              onChange={(e) => handleMemberNameChange(member.id, e.target.value)}
               maxLength={10}
             ></TitleInput>
             <ContentInput
@@ -606,9 +600,7 @@ export const TeamInfoBox = () => {
               placeholder="어떤 역할을 했나요?"
               name={`팀원${member.id}이름`}
               value={member.role}
-              onChange={(e) =>
-                handleMemberRoleChange(member.id, e.target.value)
-              }
+              onChange={(e) => handleMemberRoleChange(member.id, e.target.value)}
               maxLength={25}
             ></ContentInput>
           </ContentBox>
@@ -618,11 +610,11 @@ export const TeamInfoBox = () => {
         </AddMememberText>
       </InfoBox>
       <ModalBox ref={ModalBoxComponent}>
-        <AddPositionText onClick={addPositionOnClick}>
-          포지션 추가
-        </AddPositionText>
+        <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
       </ModalBox>
     </Box>
+  );
+};
 
 type InnerProps = {
   children: ReactNode;
