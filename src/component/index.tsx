@@ -13,7 +13,7 @@ const index = () => {
       <Banner type="large" />
       <Banner type="small" />
       <Club name="" clubImg="" />
-      <ProjectLinkButton name="notion" url="www.naver.com" />
+      <ProjectLinkButton name="notion" url="https://www.naver.com" />
       <LinkInputBox />
     </div>
   );

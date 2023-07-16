@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 type LinkImgList = {
   [key: string]: string;
@@ -70,7 +70,7 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
         cursor: pointer;
         user-select: none;
       `}
-      onClick={() => handleClick}
+      onClick={handleClick}
     >
       <LinkImg name={name} type="large" />
     </button>
@@ -79,6 +79,18 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
 
 // project link을 넣어주는 inputBox
 export const LinkInputBox = () => {
+  const regex = /^(http|https):\/\//;
+
+  const [textColor, setTextColor] = useState('black');
+
+  const handleInputChange = (e: any) => {
+    const inputValue = e.target.value;
+    if (regex.test(inputValue)) {
+      setTextColor('black');
+    } else {
+      setTextColor('red');
+    }
+  };
   return (
     <div
       css={css`
@@ -97,8 +109,9 @@ export const LinkInputBox = () => {
       <input
         type="text"
         placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
+        onChange={handleInputChange}
         css={css`
-          color: #000;
+          color: ${textColor};
           font-size: 1.0625rem;
           font-weight: 500;
           line-height: normal;
