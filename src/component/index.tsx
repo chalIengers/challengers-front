@@ -66,11 +66,13 @@ const index = () => {
         </Header1>
         <div
           css={css`
-            width: 100%;
-            height: 10rem;
+            width: 1200px;
+            height: auto;
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
-            gap: 2rem;
+            row-gap: 3rem;
+            column-gap: 2rem;
           `}
         >
           {data2 &&
