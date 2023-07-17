@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -618,12 +618,13 @@ export const TeamInfoBox = () => {
 
 type InnerProps = {
   children: ReactNode;
+  style?: SerializedStyles;
 };
 /**
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-export const Inner = ({ children }: InnerProps) => (
+export const Inner = ({ children, style }: InnerProps) => (
   <div
     css={css`
       width: 1200px;
@@ -632,6 +633,8 @@ export const Inner = ({ children }: InnerProps) => (
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3.6rem;
+      ${style}
     `}
   >
     {children}
@@ -756,10 +759,10 @@ export const Banner = ({ type }: BannerProps) => {
     <div
       css={css`
         ${styles[type].frame}
-        width: 75rem;
+        width: 120rem;
         background: #4a7edc;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
       `}
     >
