@@ -5,7 +5,6 @@ import Tag, {
   Banner,
   ButtonBox,
   ContainerComponent,
-  Header,
   Inner,
   TeamInfoBox,
 } from '../../emotion/component';
@@ -28,7 +27,6 @@ const Publish = () => {
         }
       `}
     >
-      <Header />
       <Inner
         style={css`
           align-items: start;
