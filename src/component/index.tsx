@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { ReactNode } from 'react';
 import { SerializedStyles, css } from '@emotion/react';
-import { Banner, Club, FlexContainer, Header, Inner, ProjectBox } from './emotion/component';
+import { Banner, Club, FlexContainer, Inner, ProjectBox } from './emotion/component';
 import theme from '../styles/theme';
 import data from '../json/data.json';
 import data2 from '../json/data2.json';
@@ -49,7 +49,6 @@ const index = () => {
         }
       `}
     >
-      <Header />
       <Inner
         style={css`
           align-items: start;
