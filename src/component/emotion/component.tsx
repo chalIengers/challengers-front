@@ -393,21 +393,21 @@ export const Header = () => {
               width: 8.61em;
               transition: 0.4s all;
               font-size: 18px;
-              /* @media (max-width: 388px) {
-              font-size: 11px;
-            }
-            @media (min-width: 388px) and (max-width: 481px) {
-              font-size: 13px;
-            }
-            @media (min-width: 481px) and (max-width: 768px) {
-              font-size: 15px;
-            }
-            @media all and (min-width: 768px) and (max-width: 1200px) {
-              font-size: 16px;
-            }
-            @media all and (min-width: 1200px) and (max-width: 2000px) {
-              font-size: 18px;
-            } */
+              @media (max-width: 388px) {
+                font-size: 11px;
+              }
+              @media (min-width: 388px) and (max-width: 481px) {
+                font-size: 13px;
+              }
+              @media (min-width: 481px) and (max-width: 768px) {
+                font-size: 15px;
+              }
+              @media all and (min-width: 768px) and (max-width: 1200px) {
+                font-size: 16px;
+              }
+              @media all and (min-width: 1200px) and (max-width: 2000px) {
+                font-size: 18px;
+              }
             `}
           ></img>
         </Link>
