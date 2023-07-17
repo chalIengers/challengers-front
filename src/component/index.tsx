@@ -12,7 +12,8 @@ const index = () => {
       <TeamInfoBox />
       <Banner type="large" />
       <Banner type="small" />
-      <Club name="" clubImg="" />
+      <Club name="" clubImg="https://via.placeholder.com/30x30" />
+      <Club name="" clubImg="https://via.placeholder.com/30x30" />
       <ProjectLinkButton name="notion" url="https://www.naver.com" />
       <LinkInputBox />
     </div>

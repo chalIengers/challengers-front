@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,8 +17,8 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   justify-content: center;
   margin: 0 auto;
   color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  width: ${(props: any) => props.width};
+  height: ${(props: any) => props.height};
   background-color: #212121;
   border-radius: 1.25em;
 `;
@@ -90,7 +90,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange }) => {
 
   return (
     <StyledSelectBox value={value} onChange={handleChange}>
-      {options.map((option) => (
+      {options.map(option => (
         <option key={option} value={option}>
           {option}
         </option>
@@ -181,7 +181,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
       />
       {tags && (
         <StyledProjectTag>
-          {tags.map((tag) => (
+          {tags.map(tag => (
             <StyledTag key={tag}>{tag}</StyledTag>
           ))}
         </StyledProjectTag>
@@ -234,7 +234,7 @@ const Tag = ({ children, width, height }: TagType) => {
   return (
     <span
       css={css`
-        margin: 100px;
+        /* margin: 100px; */
         width: ${width}em;
         height: ${height}em;
         color: white;
@@ -440,7 +440,7 @@ ImageBox.defaultProps = {
 // TeamInfo 컴포넌트
 const TitleText = styled.span`
   display: inline;
-  color: ${(props) => (props.color ? props.color : 'white')};
+  color: ${(props: any) => (props.color ? props.color : 'white')};
   font-size: 20px;
   font-family: Pretendard;
   font-style: normal;
@@ -459,7 +459,7 @@ const Box = styled.div`
   width: 313px;
   height: auto;
   border-radius: 14px;
-  margin-left: 100px;
+  /* margin-left: 100px; */
 `;
 const ModalBox = styled.div`
   position: absolute;
@@ -545,7 +545,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 이름 state 설정
   const handleMemberNameChange = (id: number, name: string) => {
-    const newMembers = members.map((member) => {
+    const newMembers = members.map(member => {
       if (member.id === id) {
         return { ...member, name };
       }
@@ -556,7 +556,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 역할 state 설정
   const handleMemberRoleChange = (id: number, role: string) => {
-    const newMembers = members.map((member) => {
+    const newMembers = members.map(member => {
       if (member.id === id) {
         return { ...member, role };
       }
@@ -585,14 +585,14 @@ export const TeamInfoBox = () => {
           <TitleText color="black">이진아</TitleText>
           <ContentText>프론트엔드</ContentText>
         </ContentBox> */}
-        {members.map((member) => (
+        {members.map(member => (
           <ContentBox key={member.id}>
             <TitleInput
               type="text"
               placeholder="이름을 입력해주세요"
               name={`팀원${member.id}이름`}
               value={member.name}
-              onChange={(e) => handleMemberNameChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberNameChange(member.id, e.target.value)}
               maxLength={10}
             ></TitleInput>
             <ContentInput
@@ -600,14 +600,12 @@ export const TeamInfoBox = () => {
               placeholder="어떤 역할을 했나요?"
               name={`팀원${member.id}이름`}
               value={member.role}
-              onChange={(e) => handleMemberRoleChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberRoleChange(member.id, e.target.value)}
               maxLength={25}
             ></ContentInput>
           </ContentBox>
         ))}
-        <AddMememberText onClick={addMemberOnClick}>
-          해당 포지션에 팀원을 더 추가하고싶어요
-        </AddMememberText>
+        <AddMememberText onClick={addMemberOnClick}>해당 포지션에 팀원을 더 추가하고싶어요</AddMememberText>
       </InfoBox>
       <ModalBox ref={ModalBoxComponent}>
         <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
@@ -618,20 +616,23 @@ export const TeamInfoBox = () => {
 
 type InnerProps = {
   children: ReactNode;
+  style?: SerializedStyles;
 };
 /**
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-export const Inner = ({ children }: InnerProps) => (
+export const Inner = ({ children, style }: InnerProps) => (
   <div
     css={css`
-      width: 1200px;
+      width: 120rem;
       margin: 0 auto;
-      margin-top: 50px;
+      margin-top: 5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3.6rem;
+      ${style}
     `}
   >
     {children}
@@ -694,61 +695,59 @@ export const Banner = ({ type }: BannerProps) => {
   const styles = {
     large: {
       frame: css`
-        height: 25.9375rem;
-        border-radius: 0.8125rem;
+        height: 41.5rem;
+        border-radius: 1.3rem;
       `,
       image: css`
-        width: 18.375rem;
-        height: 18.4375rem;
-        margin-left: 10.6rem;
+        width: 29.4rem;
+        height: 29.5rem;
+        margin-left: 16.1rem;
       `,
       textBox: css`
-        margin-right: 17.9rem;
+        margin-right: 27.5rem;
       `,
       title: css`
-        font-size: 2.5rem;
-        padding-bottom: 0.56rem;
-        letter-spacing: -0.075rem;
+        font-size: 4rem;
+        padding-bottom: 0.9rem;
+        letter-spacing: -0.12rem;
       `,
       middleTitle: css`
-        font-size: 1.4375rem;
-        letter-spacing: -0.04313rem;
-        padding-bottom: 2.19rem;
+        font-size: 2.3rem;
+        letter-spacing: -0.069rem;
+        padding-bottom: 3.5rem;
       `,
       description: css`
-        font-size: 1.0625rem;
-        letter-spacing: -0.03188rem;
+        font-size: 1.7rem;
+        letter-spacing: -0.051rem;
       `,
     },
     small: {
       frame: css`
-        height: 8.5625rem;
-        border-radius: 0.5625rem;
+        height: 13.7rem;
+        border-radius: 0.9rem;
       `,
       image: css`
-        width: 6.5625rem;
-        height: 6.5625rem;
-        margin-left: 26rem;
+        width: 10.5rem;
+        height: 10.5rem;
+        margin-left: 41.6rem;
       `,
       textBox: css`
-        margin-right: 21.5rem;
+        margin-right: 39.7rem;
         text-align: left;
       `,
       title: css`
-        font-size: 1.3125rem;
-        padding-bottom: 0.19rem;
-        letter-spacing: -0.03938rem;
+        font-size: 2.1rem;
+        padding-bottom: 0.3rem;
+        letter-spacing: -0.063rem;
       `,
       middleTitle: css`
-        font-size: 0.9375rem;
-        letter-spacing: -0.02813rem;
-        padding-bottom: 0.81rem;
+        font-size: 1.5rem;
+        letter-spacing: -0.045rem;
+        padding-bottom: 1.3rem;
       `,
       description: css`
-        font-size: 0.1rem;
-        transform: scale(0.83);
-        letter-spacing: -0.0225rem;
-        margin-left: -1.56rem;
+        font-size: 1.2rem;
+        letter-spacing: -0.036rem;
       `,
     },
   };
@@ -756,7 +755,7 @@ export const Banner = ({ type }: BannerProps) => {
     <div
       css={css`
         ${styles[type].frame}
-        width: 75rem;
+        width: 120rem;
         background: #4a7edc;
         display: flex;
         justify-content: space-between;
@@ -822,11 +821,18 @@ export const Club = ({ name, clubImg }: ClubProps) => {
   return (
     <span
       css={css`
-        height: 1.875rem;
-        padding-right: 2.125rem;
+        height: 3rem;
+        padding-right: 4.3rem;
       `}
     >
-      <img src={clubImg} alt={name} />
+      <img
+        css={css`
+          height: '100%';
+          object-fit: 'cover';
+        `}
+        src={clubImg}
+        alt={name}
+      />
     </span>
   );
 };
