@@ -82,16 +82,16 @@ export const LinkInputBox = () => {
   return (
     <div
       css={css`
-        width: 65.1875rem;
-        height: 4.125rem;
-        border-radius: 0.75rem;
+        width: 104.3rem;
+        height: 6.6rem;
+        border-radius: 1.2rem;
         /* border: 1px solid black; */
         background: #fff;
         display: grid;
         grid-template-columns: 1fr auto;
         gap: 30px;
         align-items: center;
-        padding: 0 1.69rem;
+        padding: 0 2.2rem;
       `}
     >
       <input
@@ -99,10 +99,10 @@ export const LinkInputBox = () => {
         placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
         css={css`
           color: #000;
-          font-size: 1.0625rem;
+          font-size: 1.7rem;
           font-weight: 500;
           line-height: normal;
-          letter-spacing: -0.03188rem;
+          letter-spacing: -0.051rem;
         `}
       ></input>
       <LinkImg name="notion" type="small" />
