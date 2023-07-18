@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="app">
       <BrowserRouter>
+        <Header />
         <Routes>
           <Header />
           <Route path="/" element={<Main />} />
