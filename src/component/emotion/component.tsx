@@ -39,7 +39,7 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({ width, height, 
 };
 
 ContainerComponent.defaultProps = {
-  width: '75em', // 1200px -> 75em
+  width: '120rem',
   children: null,
 };
 
@@ -49,47 +49,41 @@ interface SelectBoxProps {
   options: string[];
   value: string;
   onChange: any;
+  back?: string;
 }
 
-const StyledSelectBox = styled.select`
-  border-radius: 0.484em;
-  background: #4f85e8;
+const StyledSelectBox = styled.select<{ back?: string }>`
+  border-radius: 0.7744rem;
+  background: ${(props) => (props.back ? props.back : '#4f85e8')};
   color: #fff;
   font-family: Pretendard;
-  font-size: 0.875em;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
-  padding: 0.625em;
+  padding: 1rem;
   border: none;
   outline: none;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  text-indent: 0.0625em;
+  text-indent: 0.1rem;
   text-overflow: '';
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.375em center;
-  background-size: 0.75em;
-  padding-right: 1.5em;
+  background-position: right 0.6rem center;
+  background-size: 1.2rem;
+  padding-right: 2.4rem;
 `;
 
-/**
- * SelectBox 컴포넌트
- * @component SelectBox
- * @param {string[]} props.options - 선택할 수 있는 옵션들의 배열
- * @param {string} props.value - 현재 선택된 값
- * @param {function} props.onChange - 값이 변경될 때 호출되는 콜백 함수
- */
-const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange }) => {
+const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
   };
 
   return (
-    <StyledSelectBox value={value} onChange={handleChange}>
+    <StyledSelectBox value={value} onChange={handleChange} back={back}>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}
@@ -97,6 +91,10 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange }) => {
       ))}
     </StyledSelectBox>
   );
+};
+
+SelectBox.defaultProps = {
+  back: '#4f85e8',
 };
 export { SelectBox };
 
@@ -111,11 +109,11 @@ const StyledProjectBox = styled.div<ProjectBoxProps>`
   flex-direction: column;
   margin: 0 auto;
   color: #ffffff;
-  padding: 1em 1.3125em;
-  width: 23.125em;
-  height: 24.6875em;
+  padding: 1.6rem 2.1rem;
+  width: 37rem;
+  height: 39.5rem;
   background: #212121;
-  border-radius: 1.1875em;
+  border-radius: 1.9rem;
   margin: 0;
 `;
 const StyledProjectTag = styled.div`
@@ -123,13 +121,13 @@ const StyledProjectTag = styled.div`
   flex-direction: row;
 `;
 const StyledTag = styled.div`
-  border-radius: 0.3125em;
+  border-radius: 0.5rem;
   background: #4f85e8;
-  padding: 0.375em 0.625em;
-  margin: 0 0.5625em 0.5625em 0;
+  padding: 0.6rem 1rem;
+  margin: 0 0.9rem 0.9rem 0;
   color: #fff;
   font-family: Pretendard;
-  font-size: 0.875em;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -166,6 +164,7 @@ const StyledText = styled.p`
  * @param {string[]} props.tags - 프로젝트 태그들의 배열
  */
 const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
+  const generatedTags = tags.length === 0 ? ['임의 태그'] : tags;
   return (
     <StyledProjectBox title={title} content={content} tags={tags}>
       <img
@@ -179,9 +178,9 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
           marginBottom: '1em',
         }}
       />
-      {tags && (
+      {generatedTags && (
         <StyledProjectTag>
-          {tags.map((tag) => (
+          {generatedTags.map((tag) => (
             <StyledTag key={tag}>{tag}</StyledTag>
           ))}
         </StyledProjectTag>
@@ -204,7 +203,7 @@ const StyledFlexContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 2.8125em;
-  width: 75em;
+  width: 120rem;
   height: 100%;
   margin: 0 auto;
 `;
@@ -234,21 +233,21 @@ const Tag = ({ children, width, height }: TagType) => {
   return (
     <span
       css={css`
-        margin: 100px;
+        margin: 10rem;
         width: ${width}em;
         height: ${height}em;
         color: white;
         background-color: #4f85e8;
-        border-radius: 5px;
+        border-radius: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 1.4rem;
         font-family: Pretendard;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
-        letter-spacing: -0.42px;
+        letter-spacing: -0.042rem;
       `}
     >
       {children}
@@ -689,66 +688,63 @@ export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
 type BannerProps = {
   type: 'large' | 'small';
 };
-
 export const Banner = ({ type }: BannerProps) => {
   const styles = {
     large: {
       frame: css`
-        height: 25.9375rem;
-        border-radius: 0.8125rem;
+        height: 41.5rem;
+        border-radius: 1.3rem;
       `,
       image: css`
-        width: 18.375rem;
-        height: 18.4375rem;
-        margin-left: 10.6rem;
+        width: 29.4rem;
+        height: 29.5rem;
+        margin-left: 16.1rem;
       `,
       textBox: css`
-        margin-right: 17.9rem;
+        margin-right: 27.5rem;
       `,
       title: css`
-        font-size: 2.5rem;
-        padding-bottom: 0.56rem;
-        letter-spacing: -0.075rem;
+        font-size: 4rem;
+        padding-bottom: 0.9rem;
+        letter-spacing: -0.12rem;
       `,
       middleTitle: css`
-        font-size: 1.4375rem;
-        letter-spacing: -0.04313rem;
-        padding-bottom: 2.19rem;
+        font-size: 2.3rem;
+        letter-spacing: -0.069rem;
+        padding-bottom: 3.5rem;
       `,
       description: css`
-        font-size: 1.0625rem;
-        letter-spacing: -0.03188rem;
+        font-size: 1.7rem;
+        letter-spacing: -0.051rem;
       `,
     },
     small: {
       frame: css`
-        height: 8.5625rem;
-        border-radius: 0.5625rem;
+        height: 13.7rem;
+        border-radius: 0.9rem;
       `,
       image: css`
-        width: 6.5625rem;
-        height: 6.5625rem;
-        margin-left: 26rem;
+        width: 10.5rem;
+        height: 10.5rem;
+        margin-left: 41.6rem;
       `,
       textBox: css`
-        margin-right: 21.5rem;
+        margin-right: 39.7rem;
         text-align: left;
       `,
       title: css`
-        font-size: 1.3125rem;
-        padding-bottom: 0.19rem;
-        letter-spacing: -0.03938rem;
+        font-size: 2.1rem;
+        padding-bottom: 0.3rem;
+        letter-spacing: -0.063rem;
       `,
       middleTitle: css`
-        font-size: 0.9375rem;
-        letter-spacing: -0.02813rem;
-        padding-bottom: 0.81rem;
+        font-size: 1.5rem;
+        letter-spacing: -0.045rem;
+        padding-bottom: 1.3rem;
       `,
       description: css`
-        font-size: 0.1rem;
-        transform: scale(0.83);
-        letter-spacing: -0.0225rem;
-        margin-left: -1.56rem;
+        font-size: 1.2rem;
+        letter-spacing: -0.036rem;
       `,
     },
   };
@@ -756,7 +752,7 @@ export const Banner = ({ type }: BannerProps) => {
     <div
       css={css`
         ${styles[type].frame}
-        width: 75rem;
+        width: 120rem;
         background: #4a7edc;
         display: flex;
         justify-content: space-between;
