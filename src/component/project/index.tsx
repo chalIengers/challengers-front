@@ -1,56 +1,90 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
-
-import { SelectBox, ContainerComponent, ProjectBox, FlexContainer } from '../emotion/component';
-
-const IndexContainer = styled.div`
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-`;
+import test from '../../json/test.json';
+import {
+  Banner,
+  SelectBox,
+  // ContainerComponent,
+  ProjectBox,
+  FlexContainer,
+  Header,
+} from '../emotion/component';
+import {
+  IndexContainer,
+  InnerContainer,
+  Head,
+  HeadTitle,
+  Body,
+  BodyTitle,
+  SelectBoxWrapper,
+} from './component';
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption1, setSelectedOption1] = useState('');
+  const [selectedOption2, setSelectedOption2] = useState('');
+  const [selectedOption3, setSelectedOption3] = useState('');
 
-  const options = ['전체서비스', '기술스택', '메뉴1'];
+  const options1 = ['전체서비스', '메뉴1'];
+  const options2 = ['기술스택', '메뉴1'];
+  const options3 = ['최신 등록순', '메뉴1'];
 
-  const handleSelectChange = (selectedValue: string) => {
-    setSelectedOption(selectedValue);
+  const handleSelectChange1 = (selectedValue: string) => {
+    setSelectedOption1(selectedValue);
   };
 
-  // ProjectInfoBox 컴포넌트
-  const tags = ['웹 서비스', '토스 프로덕트 팀', 'React'];
+  const handleSelectChange2 = (selectedValue: string) => {
+    setSelectedOption2(selectedValue);
+  };
+
+  const handleSelectChange3 = (selectedValue: string) => {
+    setSelectedOption3(selectedValue);
+  };
+
   return (
     <IndexContainer>
-      <ContainerComponent height="200px">
-        <SelectBox options={options} value={selectedOption} onChange={handleSelectChange} />
-      </ContainerComponent>
-      <br />
-      <FlexContainer>
-        <ProjectBox
-          title="Main Project"
-          content="This is the content of the main project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Secondary Project"
-          content="This is the content of the secondary project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Another Project"
-          content="This is the content of another project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Another Project"
-          content="This is the content of another project."
-          tags={tags}
-        />
-      </FlexContainer>
+      <Header />
+      <InnerContainer>
+        <Banner type="small" />
+        <Head>
+          <HeadTitle>챌린저스에 등록된 프로젝트</HeadTitle>
+          <SelectBox
+            options={options3}
+            value={selectedOption3}
+            onChange={handleSelectChange3}
+            back="#000"
+          />
+        </Head>
+        <Body>
+          <BodyTitle>
+            <SelectBoxWrapper>
+              <SelectBox
+                options={options1}
+                value={selectedOption1}
+                onChange={handleSelectChange1}
+              />
+            </SelectBoxWrapper>
+            <SelectBoxWrapper>
+              <SelectBox
+                options={options2}
+                value={selectedOption2}
+                onChange={handleSelectChange2}
+              />
+            </SelectBoxWrapper>
+          </BodyTitle>
+          <br />
+          <FlexContainer>
+            {test &&
+              test.Project.map((project) => (
+                <ProjectBox
+                  key={project.id}
+                  title={project.title}
+                  content={project.content}
+                  tags={project.tags}
+                />
+              ))}
+          </FlexContainer>
+        </Body>
+      </InnerContainer>
     </IndexContainer>
   );
 };
