@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import Tag, { Banner, ContainerComponent, Header, ImageBox, Inner, TeamInfoBox } from '../../emotion/component';
+import Tag, { Banner, ContainerComponent, ImageBox, Inner, TeamInfoBox } from '../../emotion/component';
 import { ProjectLinkButton } from '../emotion/component';
 import { Body2, GridBox, Header1, Header3 } from './component';
 
-const Publish = () => {
+const Detail = () => {
   return (
     <div
       css={css`
@@ -21,7 +21,6 @@ const Publish = () => {
         }
       `}
     >
-      <Header />
       <Inner
         style={css`
           align-items: start;
@@ -234,4 +233,4 @@ const Publish = () => {
   );
 };
 
-export default Publish;
+export default Detail;
