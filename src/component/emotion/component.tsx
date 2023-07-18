@@ -17,8 +17,8 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   justify-content: center;
   margin: 0 auto;
   color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  width: ${(props: any) => props.width};
+  height: ${(props: any) => props.height};
   background-color: #212121;
   border-radius: 1.25em;
 `;
@@ -90,7 +90,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange }) => {
 
   return (
     <StyledSelectBox value={value} onChange={handleChange}>
-      {options.map((option) => (
+      {options.map(option => (
         <option key={option} value={option}>
           {option}
         </option>
@@ -181,7 +181,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
       />
       {tags && (
         <StyledProjectTag>
-          {tags.map((tag) => (
+          {tags.map(tag => (
             <StyledTag key={tag}>{tag}</StyledTag>
           ))}
         </StyledProjectTag>
@@ -450,7 +450,7 @@ ImageBox.defaultProps = {
 // TeamInfo 컴포넌트
 const TitleText = styled.span`
   display: inline;
-  color: ${(props) => (props.color ? props.color : 'white')};
+  color: ${(props: any) => (props.color ? props.color : 'white')};
   font-size: 20px;
   font-family: Pretendard;
   font-style: normal;
@@ -554,7 +554,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 이름 state 설정
   const handleMemberNameChange = (id: number, name: string) => {
-    const newMembers = members.map((member) => {
+    const newMembers = members.map(member => {
       if (member.id === id) {
         return { ...member, name };
       }
@@ -565,7 +565,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 역할 state 설정
   const handleMemberRoleChange = (id: number, role: string) => {
-    const newMembers = members.map((member) => {
+    const newMembers = members.map(member => {
       if (member.id === id) {
         return { ...member, role };
       }
@@ -594,14 +594,14 @@ export const TeamInfoBox = () => {
           <TitleText color="black">이진아</TitleText>
           <ContentText>프론트엔드</ContentText>
         </ContentBox> */}
-        {members.map((member) => (
+        {members.map(member => (
           <ContentBox key={member.id}>
             <TitleInput
               type="text"
               placeholder="이름을 입력해주세요"
               name={`팀원${member.id}이름`}
               value={member.name}
-              onChange={(e) => handleMemberNameChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberNameChange(member.id, e.target.value)}
               maxLength={10}
             ></TitleInput>
             <ContentInput
@@ -609,14 +609,12 @@ export const TeamInfoBox = () => {
               placeholder="어떤 역할을 했나요?"
               name={`팀원${member.id}이름`}
               value={member.role}
-              onChange={(e) => handleMemberRoleChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberRoleChange(member.id, e.target.value)}
               maxLength={25}
             ></ContentInput>
           </ContentBox>
         ))}
-        <AddMememberText onClick={addMemberOnClick}>
-          해당 포지션에 팀원을 더 추가하고싶어요
-        </AddMememberText>
+        <AddMememberText onClick={addMemberOnClick}>해당 포지션에 팀원을 더 추가하고싶어요</AddMememberText>
       </InfoBox>
       <ModalBox ref={ModalBoxComponent}>
         <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
@@ -706,30 +704,30 @@ export const Banner = ({ type }: BannerProps) => {
   const styles = {
     large: {
       frame: css`
-        height: 25.9375rem;
-        border-radius: 0.8125rem;
+        height: 41.5rem;
+        border-radius: 1.3rem;
       `,
       image: css`
-        width: 18.375rem;
-        height: 18.4375rem;
-        margin-left: 10.6rem;
+        width: 29.4rem;
+        height: 29.5rem;
+        margin-left: 16.1rem;
       `,
       textBox: css`
-        margin-right: 17.9rem;
+        margin-right: 27.5rem;
       `,
       title: css`
-        font-size: 2.5rem;
-        padding-bottom: 0.56rem;
-        letter-spacing: -0.075rem;
+        font-size: 4rem;
+        padding-bottom: 0.9rem;
+        letter-spacing: -0.12rem;
       `,
       middleTitle: css`
-        font-size: 1.4375rem;
-        letter-spacing: -0.04313rem;
-        padding-bottom: 2.19rem;
+        font-size: 2.3rem;
+        letter-spacing: -0.069rem;
+        padding-bottom: 3.5rem;
       `,
       description: css`
-        font-size: 1.0625rem;
-        letter-spacing: -0.03188rem;
+        font-size: 1.7rem;
+        letter-spacing: -0.051rem;
       `,
     },
     small: {
@@ -758,9 +756,7 @@ export const Banner = ({ type }: BannerProps) => {
       `,
       description: css`
         font-size: 1.2rem;
-        /* transform: scale(0.83); */
         letter-spacing: -0.036rem;
-        /* margin-left: -1.56rem; */
       `,
     },
   };
@@ -832,11 +828,18 @@ export const Club = ({ name, clubImg }: ClubProps) => {
   return (
     <span
       css={css`
-        height: 1.875rem;
-        padding-right: 2.125rem;
+        height: 3rem;
+        padding-right: 4.3rem;
       `}
     >
-      <img src={clubImg} alt={name} />
+      <img
+        css={css`
+          height: '100%';
+          object-fit: 'cover';
+        `}
+        src={clubImg}
+        alt={name}
+      />
     </span>
   );
 };

@@ -30,26 +30,10 @@ const Index: React.FC = () => {
       </ContainerComponent>
       <br />
       <FlexContainer>
-        <ProjectBox
-          title="Main Project"
-          content="This is the content of the main project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Secondary Project"
-          content="This is the content of the secondary project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Another Project"
-          content="This is the content of another project."
-          tags={tags}
-        />
-        <ProjectBox
-          title="Another Project"
-          content="This is the content of another project."
-          tags={tags}
-        />
+        <ProjectBox title="Main Project" content="This is the content of the main project." tags={tags} />
+        <ProjectBox title="Secondary Project" content="This is the content of the secondary project." tags={tags} />
+        <ProjectBox title="Another Project" content="This is the content of another project." tags={tags} />
+        <ProjectBox title="Another Project" content="This is the content of another project." tags={tags} />
       </FlexContainer>
     </IndexContainer>
   );

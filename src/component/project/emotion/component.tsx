@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 type LinkImgList = {
   [key: string]: string;
@@ -26,12 +26,12 @@ type LinkImgProps = {
 export const LinkImg = ({ name, type }: LinkImgProps) => {
   const styles = {
     large: css`
-      width: 2.813rem;
-      height: 2.813rem;
+      width: 4.5rem;
+      height: 4.5rem;
     `,
     small: css`
-      width: 2.063rem;
-      height: 2.063rem;
+      width: 3.3rem;
+      height: 3.3rem;
     `,
   };
   return (
@@ -62,15 +62,15 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
     <button
       type="button"
       css={css`
-        width: 5.4375rem;
-        height: 5.4375rem;
-        border-radius: 2.71875rem;
+        width: 8.7rem;
+        height: 8.7rem;
+        border-radius: 4.35rem;
         background: #fff;
-        /* border: solid 1px black; */
+        border: solid 1px black;
         cursor: pointer;
         user-select: none;
       `}
-      onClick={() => handleClick}
+      onClick={handleClick}
     >
       <LinkImg name={name} type="large" />
     </button>
@@ -79,13 +79,25 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
 
 // project link을 넣어주는 inputBox
 export const LinkInputBox = () => {
+  const regex = /^(http|https):\/\//;
+
+  const [textColor, setTextColor] = useState('black');
+
+  const handleInputChange = (e: any) => {
+    const inputValue = e.target.value;
+    if (regex.test(inputValue)) {
+      setTextColor('black');
+    } else {
+      setTextColor('red');
+    }
+  };
   return (
     <div
       css={css`
         width: 104.3rem;
         height: 6.6rem;
         border-radius: 1.2rem;
-        /* border: 1px solid black; */
+        border: 1px solid black;
         background: #fff;
         display: grid;
         grid-template-columns: 1fr auto;
@@ -97,8 +109,9 @@ export const LinkInputBox = () => {
       <input
         type="text"
         placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
+        onChange={handleInputChange}
         css={css`
-          color: #000;
+          color: ${textColor};
           font-size: 1.7rem;
           font-weight: 500;
           line-height: normal;
