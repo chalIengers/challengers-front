@@ -15,7 +15,7 @@ export const IndexContainer = styled.div`
   }
 `;
 
-export const Inner = styled.div`
+export const InnerContainer = styled.div`
   align-items: start;
   margin-top: 13rem;
   margin-bottom: 16.6rem;

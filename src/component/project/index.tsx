@@ -10,7 +10,7 @@ import {
 } from '../emotion/component';
 import {
   IndexContainer,
-  Inner,
+  InnerContainer,
   Head,
   HeadTitle,
   Body,
@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   return (
     <IndexContainer>
       <Header />
-      <Inner>
+      <InnerContainer>
         <Banner type="small" />
         <Head>
           <HeadTitle>챌린저스에 등록된 프로젝트</HeadTitle>
@@ -84,7 +84,7 @@ const Index: React.FC = () => {
               ))}
           </FlexContainer>
         </Body>
-      </Inner>
+      </InnerContainer>
     </IndexContainer>
   );
 };
