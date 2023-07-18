@@ -13,9 +13,7 @@ type HeaderProps = {
 const Header1 = ({ children, style }: HeaderProps) => (
   <h1
     css={css`
-      font-size: ${theme.textVariants.heading1.fontSizes};
-      font-weight: ${theme.textVariants.heading1.fontWeight};
-      letter-spacing: -0.075rem;
+      ${theme.textVariants.heading1}
       color: #fff;
       ${style}
     `}
@@ -26,9 +24,7 @@ const Header1 = ({ children, style }: HeaderProps) => (
 const Header4 = ({ children }: { children: ReactNode }) => (
   <h4
     css={css`
-      font-size: ${theme.textVariants.heading4.fontSizes};
-      font-weight: ${theme.textVariants.heading4.fontWeight};
-      letter-spacing: -0.06rem;
+      ${theme.textVariants.heading1}
       color: #fff;
     `}
   >

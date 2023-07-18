@@ -7,9 +7,7 @@ import theme from '../../../styles/theme';
 export const Header1 = ({ children }: { children: ReactNode }) => (
   <h1
     css={css`
-      font-size: ${theme.textVariants.heading1.fontSizes};
-      font-weight: ${theme.textVariants.heading1.fontWeight};
-      letter-spacing: -0.075rem;
+      ${theme.textVariants.heading1}
     `}
   >
     {children}
@@ -19,9 +17,7 @@ export const Header1 = ({ children }: { children: ReactNode }) => (
 export const Header3 = ({ children }: { children: ReactNode }) => (
   <h3
     css={css`
-      font-size: ${theme.textVariants.heading3.fontSizes};
-      font-weight: ${theme.textVariants.heading3.fontWeight};
-      letter-spacing: -0.06rem;
+      ${theme.textVariants.heading3}
     `}
   >
     {children}

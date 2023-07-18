@@ -29,8 +29,7 @@ export const Head = styled.div`
   margin-top: 3rem;
 `;
 export const HeadTitle = styled.div`
-  font-size: ${theme.textVariants.heading2.fontSizes};
-  font-weight: ${theme.textVariants.heading2.fontWeight};
+  ${theme.textVariants.heading2}
 `;
 export const Body = styled.div``;
 export const BodyTitle = styled.div`
