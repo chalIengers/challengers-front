@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,8 +17,8 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   justify-content: center;
   margin: 0 auto;
   color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  width: ${(props: any) => props.width};
+  height: ${(props: any) => props.height};
   background-color: #212121;
   border-radius: 1.25em;
 `;
@@ -233,9 +233,8 @@ const Tag = ({ children, width, height }: TagType) => {
   return (
     <span
       css={css`
-        margin: 10rem;
-        width: ${width}em;
-        height: ${height}em;
+        width: ${width};
+        height: ${height};
         color: white;
         background-color: #4f85e8;
         border-radius: 0.5rem;
@@ -257,8 +256,8 @@ const Tag = ({ children, width, height }: TagType) => {
 
 Tag.defaultProps = {
   children: '서비스 형태가 들어가요',
-  width: '10',
-  height: '1.7',
+  width: '10rem',
+  height: '2.9rem',
 };
 export default Tag;
 
@@ -374,39 +373,49 @@ export const Header = () => {
         `}
       `}
     >
-      <Link to="/">
-        <img
-          alt="챌린저스 로고"
-          src={`${process.env.PUBLIC_URL}/img/logo.png`}
-          css={css`
-            height: auto;
-            width: 8.61em;
-            transition: 0.4s all;
-            font-size: 18px;
-            @media (max-width: 388px) {
-              font-size: 11px;
-            }
-            @media (min-width: 388px) and (max-width: 481px) {
-              font-size: 13px;
-            }
-            @media (min-width: 481px) and (max-width: 768px) {
-              font-size: 15px;
-            }
-            @media all and (min-width: 768px) and (max-width: 1200px) {
-              font-size: 16px;
-            }
-            @media all and (min-width: 1200px) and (max-width: 2000px) {
+      <div
+        style={{
+          display: 'flex',
+          width: '1200px',
+          margin: '0 auto',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Link to="/">
+          <img
+            alt="챌린저스 로고"
+            src={`${process.env.PUBLIC_URL}/img/logo.png`}
+            css={css`
+              height: auto;
+              width: 8.61em;
+              transition: 0.4s all;
               font-size: 18px;
-            }
-          `}
-        ></img>
-      </Link>
-      <NavList>
-        <NavItem to="/">챌린저스란?</NavItem>
-        <NavItem to="/">클럽 등록</NavItem>
-        <NavItem to="/">프로젝트</NavItem>
-        <NavItem to="/">회원가입</NavItem>
-      </NavList>
+              @media (max-width: 388px) {
+                font-size: 11px;
+              }
+              @media (min-width: 388px) and (max-width: 481px) {
+                font-size: 13px;
+              }
+              @media (min-width: 481px) and (max-width: 768px) {
+                font-size: 15px;
+              }
+              @media all and (min-width: 768px) and (max-width: 1200px) {
+                font-size: 16px;
+              }
+              @media all and (min-width: 1200px) and (max-width: 2000px) {
+                font-size: 18px;
+              }
+            `}
+          ></img>
+        </Link>
+        <NavList>
+          <NavItem to="/">챌린저스란?</NavItem>
+          <NavItem to="/">클럽 등록</NavItem>
+          <NavItem to="/project">프로젝트</NavItem>
+          <NavItem to="/">회원가입</NavItem>
+        </NavList>
+      </div>
     </Nav>
   );
 };
@@ -439,7 +448,7 @@ ImageBox.defaultProps = {
 // TeamInfo 컴포넌트
 const TitleText = styled.span`
   display: inline;
-  color: ${(props) => (props.color ? props.color : 'white')};
+  color: ${(props: any) => (props.color ? props.color : 'white')};
   font-size: 20px;
   font-family: Pretendard;
   font-style: normal;
@@ -458,7 +467,6 @@ const Box = styled.div`
   width: 313px;
   height: auto;
   border-radius: 14px;
-  margin-left: 100px;
 `;
 const ModalBox = styled.div`
   position: absolute;
@@ -591,7 +599,7 @@ export const TeamInfoBox = () => {
               placeholder="이름을 입력해주세요"
               name={`팀원${member.id}이름`}
               value={member.name}
-              onChange={(e) => handleMemberNameChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberNameChange(member.id, e.target.value)}
               maxLength={10}
             ></TitleInput>
             <ContentInput
@@ -599,7 +607,7 @@ export const TeamInfoBox = () => {
               placeholder="어떤 역할을 했나요?"
               name={`팀원${member.id}이름`}
               value={member.role}
-              onChange={(e) => handleMemberRoleChange(member.id, e.target.value)}
+              onChange={(e: any) => handleMemberRoleChange(member.id, e.target.value)}
               maxLength={25}
             ></ContentInput>
           </ContentBox>
@@ -617,20 +625,25 @@ export const TeamInfoBox = () => {
 
 type InnerProps = {
   children: ReactNode;
+  style?: SerializedStyles;
 };
+
 /**
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
+ * @param style 컴포넌트의 스타일 css 요소
  */
-export const Inner = ({ children }: InnerProps) => (
+export const Inner = ({ children, style }: InnerProps) => (
   <div
     css={css`
-      width: 1200px;
+      width: 120rem;
       margin: 0 auto;
-      margin-top: 50px;
+      margin-top: 5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3.6rem;
+      ${style}
     `}
   >
     {children}
@@ -650,18 +663,18 @@ type ButtonBoxProps = {
 export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
   const styles = {
     large: css`
-      width: 1198px;
-      height: 99px;
-      border-radius: 12px;
-      font-size: 25px;
-      letter-spacing: -0.75px;
+      width: 119.8rem;
+      height: 9.9rem;
+      border-radius: 1.2rem;
+      font-size: 2.5rem;
+      letter-spacing: -0.075rem;
     `,
     small: css`
-      width: 198px;
-      height: 53px;
-      border-radius: 7px;
-      font-size: 17px;
-      letter-spacing: -0.51px;
+      width: 1.98rem;
+      height: 5.3rem;
+      border-radius: 0.7rem;
+      font-size: 1.7rem;
+      letter-spacing: -0.051rem;
     `,
   };
 
@@ -671,7 +684,6 @@ export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
       css={css`
         ${styles[type]}
         background: #4a7edc;
-        color: #fff;
         font-weight: 700;
 
         &:active {
@@ -726,11 +738,11 @@ export const Banner = ({ type }: BannerProps) => {
       image: css`
         width: 10.5rem;
         height: 10.5rem;
-        margin-left: 41.6rem;
+        /* margin-left: 26rem; */
       `,
       textBox: css`
-        margin-right: 39.7rem;
-        text-align: left;
+        /* margin-right: 21.5rem;
+        text-align: left; */
       `,
       title: css`
         font-size: 2.1rem;
@@ -755,8 +767,9 @@ export const Banner = ({ type }: BannerProps) => {
         width: 120rem;
         background: #4a7edc;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
+        gap: 5.8rem;
       `}
     >
       <img
@@ -776,7 +789,6 @@ export const Banner = ({ type }: BannerProps) => {
           css={css`
             ${styles[type].title}
             font-weight: 800;
-            color: #fff;
           `}
         >
           챌린저스 서비스 오픈
@@ -785,7 +797,6 @@ export const Banner = ({ type }: BannerProps) => {
           css={css`
             ${styles[type].middleTitle}
             font-weight: 700;
-            color: #fff;
           `}
         >
           사이드 프로젝트 기록과 추적을 용이하게
@@ -794,7 +805,6 @@ export const Banner = ({ type }: BannerProps) => {
           css={css`
             ${styles[type].description}
             font-weight: 500;
-            color: #fff;
           `}
         >
           내가 소속한 클럽을 등록하고 챌린저스 서비스에서
@@ -818,11 +828,18 @@ export const Club = ({ name, clubImg }: ClubProps) => {
   return (
     <span
       css={css`
-        height: 1.875rem;
-        padding-right: 2.125rem;
+        height: 3rem;
+        padding-right: 4.3rem;
       `}
     >
-      <img src={clubImg} alt={name} />
+      <img
+        css={css`
+          height: '100%';
+          object-fit: 'cover';
+        `}
+        src={clubImg}
+        alt={name}
+      />
     </span>
   );
 };
