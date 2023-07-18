@@ -12,9 +12,9 @@ const theme: DefaultTheme = {
     xxxl: '2.4rem',
   },
   textVariants: {
-    heading1: { fontSizes: '2.4rem', fontWeight: '400' },
-    heading2: { fontSizes: '2.2rem', fontWeight: '400' },
-    heading3: { fontSizes: '2.0rem', fontWeight: '400' },
+    heading1: { fontSizes: '2.4rem', fontWeight: '700' },
+    heading2: { fontSizes: '2.2rem', fontWeight: '700' },
+    heading3: { fontSizes: '2.0rem', fontWeight: '700' },
     heading4: { fontSizes: '1.8rem', fontWeight: '400' },
     body1: { fontSizes: '1.6rem', fontWeight: '700' },
     body2: { fontSizes: '1.6rem', fontWeight: '400' },
