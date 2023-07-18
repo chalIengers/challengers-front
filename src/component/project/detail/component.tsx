@@ -52,7 +52,13 @@ export const GridBox = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
-export const TextInputBox = ({ type, text }: { type: 'title' | 'subTitle' | 'select'; text: string }) => {
+export const TextInputBox = ({
+  type,
+  text,
+}: {
+  type: 'title' | 'subTitle' | 'select';
+  text: string;
+}) => {
   const style = {
     title: css`
       font-size: 2.5rem;

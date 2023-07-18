@@ -90,7 +90,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange }) => {
 
   return (
     <StyledSelectBox value={value} onChange={handleChange}>
-      {options.map(option => (
+      {options.map((option) => (
         <option key={option} value={option}>
           {option}
         </option>
@@ -181,7 +181,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
       />
       {tags && (
         <StyledProjectTag>
-          {tags.map(tag => (
+          {tags.map((tag) => (
             <StyledTag key={tag}>{tag}</StyledTag>
           ))}
         </StyledProjectTag>
@@ -554,7 +554,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 이름 state 설정
   const handleMemberNameChange = (id: number, name: string) => {
-    const newMembers = members.map(member => {
+    const newMembers = members.map((member) => {
       if (member.id === id) {
         return { ...member, name };
       }
@@ -565,7 +565,7 @@ export const TeamInfoBox = () => {
 
   // 팀원 역할 state 설정
   const handleMemberRoleChange = (id: number, role: string) => {
-    const newMembers = members.map(member => {
+    const newMembers = members.map((member) => {
       if (member.id === id) {
         return { ...member, role };
       }
@@ -594,7 +594,7 @@ export const TeamInfoBox = () => {
           <TitleText color="black">이진아</TitleText>
           <ContentText>프론트엔드</ContentText>
         </ContentBox> */}
-        {members.map(member => (
+        {members.map((member) => (
           <ContentBox key={member.id}>
             <TitleInput
               type="text"
@@ -614,7 +614,9 @@ export const TeamInfoBox = () => {
             ></ContentInput>
           </ContentBox>
         ))}
-        <AddMememberText onClick={addMemberOnClick}>해당 포지션에 팀원을 더 추가하고싶어요</AddMememberText>
+        <AddMememberText onClick={addMemberOnClick}>
+          해당 포지션에 팀원을 더 추가하고싶어요
+        </AddMememberText>
       </InfoBox>
       <ModalBox ref={ModalBoxComponent}>
         <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
@@ -631,6 +633,7 @@ type InnerProps = {
 /**
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
+ * @param style 컴포넌트의 스타일 css 요소
  */
 export const Inner = ({ children, style }: InnerProps) => (
   <div
