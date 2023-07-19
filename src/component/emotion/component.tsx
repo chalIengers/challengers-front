@@ -22,7 +22,6 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   height: ${(props) => props.height};
   padding: ${(props) => props.padding};
   background-color: #212121;
-  padding: 
   border-radius: 1.25em;
 `;
 
