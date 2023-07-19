@@ -8,6 +8,7 @@ import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstrac
 interface ContainerComponentProps {
   width?: string;
   height: string;
+  padding?: string;
   children?: ReactNode;
 }
 
@@ -17,9 +18,11 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   justify-content: center;
   margin: 0 auto;
   color: #ffffff;
-  width: ${(props: any) => props.width};
-  height: ${(props: any) => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  padding: ${(props) => props.padding};
   background-color: #212121;
+  padding: 
   border-radius: 1.25em;
 `;
 
@@ -30,9 +33,14 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
  * @param {number} props.height - 컨테이너 컴포넌트의 높이
  * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
  */
-const ContainerComponent: React.FC<ContainerComponentProps> = ({ width, height, children }) => {
+const ContainerComponent: React.FC<ContainerComponentProps> = ({
+  width,
+  height,
+  children,
+  padding,
+}) => {
   return (
-    <StyledContainerComponent width={width} height={height}>
+    <StyledContainerComponent width={width} height={height} padding={padding}>
       {children}
     </StyledContainerComponent>
   );
@@ -41,6 +49,7 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({ width, height, 
 ContainerComponent.defaultProps = {
   width: '120rem',
   children: null,
+  padding: '7.2rem',
 };
 
 export { ContainerComponent };
