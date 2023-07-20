@@ -3,7 +3,9 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
+import { openModal } from '../../store/modalSlice';
 
 interface ContainerComponentProps {
   width?: string;
@@ -274,7 +276,7 @@ export default Tag;
  */
 const Nav = styled.nav`
   background-color: #000000;
-  z-index: 999;
+  z-index: 99;
   width: 100%;
   height: 102px;
   display: flex;
@@ -325,6 +327,7 @@ const NavItem = styled(Link)`
 `;
 export const Header = () => {
   const [scrollState, setScrollState] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleScroll = () => {
     if (window.scrollY || document.documentElement.scrollTop > 0) {
@@ -423,6 +426,14 @@ export const Header = () => {
           <NavItem to="/project">프로젝트</NavItem>
           <NavItem to="/">회원가입</NavItem>
         </NavList>
+        <div
+          role="presentation"
+          onClick={() => {
+            dispatch(openModal({ modalType: 'CreateClubModal' }));
+          }}
+        >
+          모달 테스트
+        </div>
       </div>
     </Nav>
   );
