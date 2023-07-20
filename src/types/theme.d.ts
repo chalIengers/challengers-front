@@ -1,9 +1,9 @@
 import '@emotion/react';
 
 type Text = {
-  'font-size': string;
-  'font-weight': string;
-  'letter-spacing': string;
+  fontSize: string;
+  fontWeight: string;
+  letterSpacing: string;
 };
 declare module '@emotion/react' {
   export interface DefaultTheme {

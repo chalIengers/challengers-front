@@ -13,16 +13,16 @@ const font = {
 
 const theme: DefaultTheme = {
   textVariants: {
-    heading1: { 'font-size': font.xxxl, 'font-weight': '700', 'letter-spacing': '-0.12rem' },
-    heading2: { 'font-size': font.xxl, 'font-weight': '700', 'letter-spacing': '-0.066rem' },
-    heading3: { 'font-size': font.xl, 'font-weight': '700', 'letter-spacing': '-0.06rem' },
-    heading4: { 'font-size': font.lg, 'font-weight': '400', 'letter-spacing': '-0.054rem' },
-    body1: { 'font-size': font.md, 'font-weight': '700', 'letter-spacing': '-0.048rem' },
-    body1_bold: { 'font-size': font.md, 'font-weight': '400', 'letter-spacing': '-0.048rem' },
-    body2: { 'font-size': font.sm, 'font-weight': '700', 'letter-spacing': '-0.042rem' },
-    body2_bold: { 'font-size': font.sm, 'font-weight': '400', 'letter-spacing': '-0.042rem' },
-    detail: { 'font-size': font.xs, 'font-weight': '700', 'letter-spacing': '-0.036rem' },
-    detail_bold: { 'font-size': font.xs, 'font-weight': '400', 'letter-spacing': '-0.036rem' },
+    heading1: { fontSize: font.xxxl, fontWeight: '700', letterSpacing: '-0.12rem' },
+    heading2: { fontSize: font.xxl, fontWeight: '700', letterSpacing: '-0.066rem' },
+    heading3: { fontSize: font.xl, fontWeight: '700', letterSpacing: '-0.06rem' },
+    heading4: { fontSize: font.lg, fontWeight: '400', letterSpacing: '-0.054rem' },
+    body1: { fontSize: font.md, fontWeight: '700', letterSpacing: '-0.048rem' },
+    body1_bold: { fontSize: font.md, fontWeight: '400', letterSpacing: '-0.048rem' },
+    body2: { fontSize: font.sm, fontWeight: '700', letterSpacing: '-0.042rem' },
+    body2_bold: { fontSize: font.sm, fontWeight: '400', letterSpacing: '-0.042rem' },
+    detail: { fontSize: font.xs, fontWeight: '700', letterSpacing: '-0.036rem' },
+    detail_bold: { fontSize: font.xs, fontWeight: '400', letterSpacing: '-0.036rem' },
   },
   palette: {
     primary: {
