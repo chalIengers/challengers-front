@@ -6,6 +6,7 @@ import Project from './component/project';
 import Publish from './component/project/publish/Publish';
 import Detail from './component/project/detail/Detail';
 import { Header } from './component/emotion/component';
+import Signup from './component/Signup';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/project" element={<Project />} />
           <Route path="/project/detail" element={<Detail />} />
           <Route path="/project/publish" element={<Publish />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </div>

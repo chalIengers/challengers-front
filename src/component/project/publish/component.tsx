@@ -30,7 +30,8 @@ export const GridBox = ({ children }: { children: ReactNode }) => {
       css={css`
         /* flex-direction: column; */
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 3fr;
+        width: 100%;
       `}
     >
       {children}
@@ -40,9 +41,15 @@ export const GridBox = ({ children }: { children: ReactNode }) => {
 export const TextInputBox = ({
   type,
   text,
+  size,
+  max,
+  inputType,
 }: {
-  type: 'title' | 'subTitle' | 'select';
-  text: string;
+  type: 'title' | 'subTitle' | 'select' | 'border';
+  text?: string;
+  size?: number;
+  max?: number;
+  inputType?: string;
 }) => {
   const style = {
     title: css`
@@ -57,6 +64,11 @@ export const TextInputBox = ({
       font-size: 2rem;
       letter-spacing: -0.6px;
     `,
+    border: css`
+      font-size: 2rem;
+      letter-spacing: -0.6px;
+      border-bottom: 1px solid #cbcbcb;
+    `,
   };
   return (
     <input
@@ -66,9 +78,12 @@ export const TextInputBox = ({
         &::placeholder {
           color: #cbcbcb;
         }
-        ${style[type]}
+        ${style[type]};
       `}
       placeholder={text}
+      size={size}
+      maxLength={max}
+      type={inputType}
     ></input>
   );
 };
