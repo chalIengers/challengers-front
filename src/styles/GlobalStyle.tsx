@@ -104,6 +104,7 @@ const GlobalStyle = () => {
             font-size: 1.6rem;
             font-style: normal;
             line-height: normal;
+            letter-spacing: -3%;
             color: #fff;
           }
         }
