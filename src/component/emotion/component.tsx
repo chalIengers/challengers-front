@@ -4,10 +4,11 @@ import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
+import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
   width?: string;
-  height: string;
+  height?: string;
   padding?: string;
   children?: ReactNode;
 }
@@ -17,11 +18,11 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  color: #ffffff;
+  color: ${theme.palette.gray.white};
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   padding: ${(props) => props.padding};
-  background-color: #212121;
+  background-color: ${theme.palette.gray[900]};
   border-radius: 1.25em;
 `;
 
@@ -47,6 +48,7 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({
 
 ContainerComponent.defaultProps = {
   width: '120rem',
+  height: 'auto',
   children: null,
   padding: '7.2rem',
 };
@@ -61,13 +63,11 @@ interface SelectBoxProps {
 }
 
 const StyledSelectBox = styled.select<{ back?: string }>`
-  border-radius: 0.7744rem;
-  background: ${(props) => (props.back ? props.back : '#4f85e8')};
-  color: #fff;
+  border-radius: 0.8rem;
+  background: ${(props) => (props.back ? props.back : `${theme.palette.primary[500]}`)};
+  color: ${theme.palette.gray.white};
+  ${theme.textVariants.body2}
   font-family: Pretendard;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 700;
   padding: 1rem;
   border: none;
   outline: none;
@@ -102,7 +102,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back })
 };
 
 SelectBox.defaultProps = {
-  back: '#4f85e8',
+  back: `${theme.palette.primary[500]}`,
 };
 export { SelectBox };
 
@@ -112,14 +112,15 @@ interface ProjectBoxProps {
   tags: string[];
 }
 
+// width 35.5 -> 36 height 39.5 -> 40
 const StyledProjectBox = styled.div<ProjectBoxProps>`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  color: #ffffff;
+  color: ;
   padding: 1.6rem 2.1rem;
-  width: 37rem;
-  height: 39.5rem;
+  width: 36rem;
+  height: 40rem;
   background: #212121;
   border-radius: 1.9rem;
   margin: 0;
@@ -130,32 +131,27 @@ const StyledProjectTag = styled.div`
 `;
 const StyledTag = styled.div`
   border-radius: 0.5rem;
-  background: #4f85e8;
+  background: ${theme.palette.primary[500]};
   padding: 0.6rem 1rem;
   margin: 0 0.9rem 0.9rem 0;
-  color: #fff;
+  color: ${theme.palette.gray.white};
   font-family: Pretendard;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 700;
+  ${theme.textVariants.body2}
   line-height: normal;
-  letter-spacing: -0.42px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const StyledTitle = styled.h2`
-  color: #fff;
+  color: ${theme.palette.gray.white};
   font-family: Pretendard;
-  font-size: 1.5625em;
+  ${theme.textVariants.body1}
   font-style: normal;
-  font-weight: 700;
   line-height: normal;
-  letter-spacing: -0.75px;
   margin-bottom: 0.625em;
 `;
 const StyledText = styled.p`
-  color: #fff;
+  color: ${theme.palette.gray.white};
   font-family: Pretendard;
   font-size: 1em;
   font-style: normal;
@@ -180,7 +176,7 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
         alt="Project"
         className="project-image"
         style={{
-          width: '20.5625em',
+          width: '20.em',
           height: '14.0625em',
           borderRadius: '0.625em',
           marginBottom: '1em',
@@ -210,7 +206,7 @@ const StyledFlexContainer = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 2.8125em;
+  gap: 2.8em;
   width: 120rem;
   height: 100%;
   margin: 0 auto;
@@ -244,17 +240,15 @@ const Tag = ({ children, width, height }: TagType) => {
         width: ${width};
         height: ${height};
         color: white;
-        background-color: #4f85e8;
+        background-color: ${theme.palette.primary[500]};
         border-radius: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
         font-family: Pretendard;
+        ${theme.textVariants.body2}
         font-style: normal;
-        font-weight: 700;
         line-height: normal;
-        letter-spacing: -0.042rem;
       `}
     >
       {children}
@@ -273,7 +267,7 @@ export default Tag;
  * 네비게이션 (GNB) 컴포넌트
  */
 const Nav = styled.nav`
-  background-color: #000000;
+  background-color: ${theme.palette.gray.black};
   z-index: 99;
   width: 100%;
   height: 102px;
@@ -381,10 +375,11 @@ export const Header = () => {
         `}
       `}
     >
+      {/* 1200px -> 120rem */}
       <div
         style={{
           display: 'flex',
-          width: '1200px',
+          width: '120rem',
           margin: '0 auto',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -443,7 +438,7 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
       height={507}
       src={`${process.env.PUBLIC_URL}/img/${imgSrc}`}
       css={css`
-        color: #000;
+        color: ${theme.palette.gray.black};
       `}
     ></img>
   );
@@ -454,15 +449,14 @@ ImageBox.defaultProps = {
 };
 
 // TeamInfo 컴포넌트
+// font 변경
 const TitleText = styled.span`
   display: inline;
   color: ${(props: any) => (props.color ? props.color : 'white')};
-  font-size: 20px;
+  ${theme.textVariants.heading4}
   font-family: Pretendard;
   font-style: normal;
-  font-weight: 700;
   line-height: normal;
-  letter-spacing: -1.3px;
 `;
 const ContentText = styled(TitleText)`
   font-size: 16px;
@@ -493,7 +487,7 @@ const PositionBox = styled.div`
   width: 313px;
   height: 57px;
   border-radius: 14px 14px 0px 0px;
-  background: #4a7edc;
+  background: ${theme.palette.primary[500]};
   display: flex;
   align-items: center;
   padding: 0px 20px;
@@ -543,7 +537,7 @@ const AddMememberText = styled(ContentText)`
   }
 `;
 const AddPositionText = styled(ContentText)`
-  color: #fff;
+  color: ${theme.palette.gray.white};
   font-size: 25px;
   text-decoration: #fff 2.5px solid underline;
   text-underline-offset: 5px;
@@ -851,3 +845,99 @@ export const Club = ({ name, clubImg }: ClubProps) => {
     </span>
   );
 };
+
+interface Header1Props {
+  children: React.ReactNode;
+}
+
+export const Header1: React.FC<Header1Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.heading1}
+    `}
+  >
+    {children}
+  </div>
+);
+
+interface Header2Props {
+  children: React.ReactNode;
+}
+
+export const Header2: React.FC<Header2Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.heading2}
+    `}
+  >
+    {children}
+  </div>
+);
+
+interface Header3Props {
+  children: React.ReactNode;
+}
+
+export const Header3: React.FC<Header3Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.heading3}
+    `}
+  >
+    {children}
+  </div>
+);
+
+interface Header4Props {
+  children: React.ReactNode;
+}
+
+export const Header4: React.FC<Header4Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.heading4}
+    `}
+  >
+    {children}
+  </div>
+);
+interface Header5Props {
+  children: React.ReactNode;
+}
+
+export const Header5: React.FC<Header5Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.heading5}
+    `}
+  >
+    {children}
+  </div>
+);
+
+interface Body1Props {
+  children: React.ReactNode;
+}
+
+export const Body1: React.FC<Body1Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.body1}
+    `}
+  >
+    {children}
+  </div>
+);
+
+interface Body2Props {
+  children: React.ReactNode;
+}
+export const Body2: React.FC<Body2Props> = ({ children }) => (
+  <div
+    css={css`
+      ${theme.textVariants.body1}
+    `}
+  >
+    {children}
+  </div>
+);

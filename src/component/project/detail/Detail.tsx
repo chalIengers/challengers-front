@@ -10,12 +10,13 @@ import Tag, {
 } from '../../emotion/component';
 import { ProjectLinkButton } from '../emotion/component';
 import { Body2, GridBox, Header1, Header3 } from './component';
+import theme from '../../../styles/theme';
 
 const Detail = () => {
   return (
     <div
       css={css`
-        background-color: #000;
+        background-color: ${theme.palette.gray.black};
         height: 100vh;
         overflow-y: scroll;
         display: flex;

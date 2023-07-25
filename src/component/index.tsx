@@ -35,7 +35,7 @@ const index = () => {
   return (
     <div
       css={css`
-        background-color: #000;
+        background-color: ${theme.palette.gray.black};
         height: 100vh;
         overflow: scroll;
         -ms-overflow-style: none; /* 인터넷 익스플로러 */
@@ -60,9 +60,10 @@ const index = () => {
         >
           현재 다양한 클럽이 챌린저스에서 활동하고 있어요
         </Header1>
+        {/* 1200px -> 120rem */}
         <div
           css={css`
-            width: 1200px;
+            width: 120rem;
             height: auto;
             display: flex;
             justify-content: center;

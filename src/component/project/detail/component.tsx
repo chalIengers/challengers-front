@@ -71,9 +71,9 @@ export const TextInputBox = ({
     <input
       css={css`
         background: none;
-        color: #fff;
+        color: ${theme.palette.gray.white};
         &::placeholder {
-          color: #cbcbcb;
+          color: ${theme.palette.primary[400]};
         }
         ${style[type]}
       `}

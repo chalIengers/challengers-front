@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import theme from '../../styles/theme';
 
+//  color 
 export const IndexContainer = styled.div`
-  background-color: #000;
+  background-color: ${theme.palette.gray.black};
   height: 100vh;
   overflow-y: scroll;
   display: flex;
@@ -17,9 +18,9 @@ export const IndexContainer = styled.div`
 
 export const InnerContainer = styled.div`
   align-items: start;
-  margin-top: 13rem;
+  margin-top: 12rem;
   margin-bottom: 16.6rem;
-  color: #fff;
+  color: ${theme.palette.gray.white};
 `;
 
 export const Head = styled.div`

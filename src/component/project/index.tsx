@@ -7,12 +7,12 @@ import {
   ProjectBox,
   FlexContainer,
   Header,
+  Header1,
 } from '../emotion/component';
 import {
   IndexContainer,
   InnerContainer,
   Head,
-  HeadTitle,
   Body,
   BodyTitle,
   SelectBoxWrapper,
@@ -46,7 +46,7 @@ const Index: React.FC = () => {
       <InnerContainer>
         <Banner type="small" />
         <Head>
-          <HeadTitle>챌린저스에 등록된 프로젝트</HeadTitle>
+          <Header1>챌린저스에 등록된 프로젝트</Header1>
           <SelectBox
             options={options3}
             value={selectedOption3}
