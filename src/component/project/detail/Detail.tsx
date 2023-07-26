@@ -4,12 +4,13 @@ import { css } from '@emotion/react';
 import Tag, {
   Banner,
   ContainerComponent,
+  GridBox,
   ImageBox,
   Inner,
   TeamInfoBox,
 } from '../../emotion/component';
 import { ProjectLinkButton } from '../emotion/component';
-import { Body2, GridBox, Header1, Header3 } from './component';
+import { Body2, Header1, Header3 } from './component';
 
 const Detail = () => {
   return (

@@ -5,11 +5,13 @@ import Tag, {
   Banner,
   ButtonBox,
   ContainerComponent,
+  GridBox,
   Inner,
   TeamInfoBox,
+  TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
-import { GridBox, Header1, Header3, TextInputBox } from './component';
+import { Header1, Header3 } from './component';
 
 const Publish = () => {
   return (
