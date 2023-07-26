@@ -851,3 +851,67 @@ export const Club = ({ name, clubImg }: ClubProps) => {
     </span>
   );
 };
+
+export const GridBox = ({ children }: { children: ReactNode }) => {
+  return (
+    <div
+      css={css`
+        /* flex-direction: column; */
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        width: 100%;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+export const TextInputBox = ({
+  type,
+  text,
+  size,
+  max,
+  inputType,
+}: {
+  type: 'title' | 'subTitle' | 'select' | 'border';
+  text?: string;
+  size?: number;
+  max?: number;
+  inputType?: string;
+}) => {
+  const style = {
+    title: css`
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.075rem;
+    `,
+    subTitle: css`
+      letter-spacing: -0.048rem;
+    `,
+    select: css`
+      font-size: 2rem;
+      letter-spacing: -0.6px;
+    `,
+    border: css`
+      font-size: 2rem;
+      letter-spacing: -0.6px;
+      border-bottom: 1px solid #cbcbcb;
+    `,
+  };
+  return (
+    <input
+      css={css`
+        background: none;
+        color: #fff;
+        &::placeholder {
+          color: #cbcbcb;
+        }
+        ${style[type]};
+      `}
+      placeholder={text}
+      size={size}
+      maxLength={max}
+      type={inputType}
+    ></input>
+  );
+};
