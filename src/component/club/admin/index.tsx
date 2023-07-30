@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { Banner, Inner } from '../emotion/component';
 import { ClubBox, Header2, Header4, Head } from './emotion/component';
+import { Banner, Inner } from '../../emotion/component';
 
 const index = () => {
   return (

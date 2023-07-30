@@ -9,8 +9,7 @@ import Club from './component/club';
 import { Header } from './component/emotion/component';
 import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
-import Admin from './component/admin';
-import AdminClub from './component/admin/club/AdminClub';
+import AdminClub from './component/club/admin';
 
 function App() {
   return (
@@ -25,8 +24,7 @@ function App() {
           <Route path="/club" element={<Club />} />
           <Route path="/club/signUp" element={<SignUp />} />
           <Route path="/club/publish" element={<ClubPublish />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/club" element={<AdminClub />} />
+          <Route path="/club/admin" element={<AdminClub />} />
         </Routes>
       </BrowserRouter>
     </div>
