@@ -672,7 +672,7 @@ export const Inner = ({ children, style }: InnerProps) => (
 
 type ButtonBoxProps = {
   text: string;
-  type: 'large' | 'small' | 'modal' | 'modal_cancel';
+  type: 'large' | 'small' | 'modal' | 'modal_cancel' | 'very_small';
   onClickFunction?: any;
 };
 
@@ -718,6 +718,15 @@ export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
       letter-spacing: -0.06rem;
       color: ${theme.palette.gray.black};
       background: ${theme.palette.gray[300]};
+    `,
+    very_small: css`
+      width: 9.7rem;
+      height: 5.3rem;
+      border-radius: 0.7rem;
+      ${theme.textVariants.body1};
+      letter-spacing: -0.051rem;
+      color: ${theme.palette.gray.white};
+      background: ${theme.palette.primary[500]};
     `,
   };
 

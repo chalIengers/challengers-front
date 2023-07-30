@@ -1,7 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { ClubBox, Header2, Header4, Head } from './emotion/component';
+import { Header2, Header4, Head } from '../emotion/component';
 import { Banner, Inner } from '../../emotion/component';
+import { ChallengersLogo, ClubAcceptBox } from './emotion/component';
 
 const index = () => {
   return (
@@ -14,20 +15,10 @@ const index = () => {
       `}
     >
       <Banner type="small" />
-      <Header2
-        style={css`
-          letter-spacing: -0.075rem;
-          margin-top: 8.8rem;
-          margin-bottom: 6rem;
-        `}
-      >
-        내가 소속된 클럽
-      </Header2>
-      <ClubBox />
       <Head
         style={css`
-          margin-bottom: 6rem;
-          margin-top: 11.1rem;
+          margin-bottom: 10.4rem;
+          margin-top: 6rem;
         `}
       >
         <Header2
@@ -36,28 +27,36 @@ const index = () => {
             padding-right: 10px;
           `}
         >
-          챌린저스에 등록된 클럽
+          클럽 : 챌린저스
         </Header2>
         <Header4
           style={css`
             letter-spacing: -0.054rem;
+            align-items: center;
+            display: flex;
             cursor: pointer;
           `}
         >
-          클럽을 등록하고 싶다면?
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
+              fill="white"
+            />
+          </svg>
+          뒤로가기
         </Header4>
       </Head>
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
+      <ChallengersLogo />
+      <ClubAcceptBox />
+      <ClubAcceptBox />
+      <ClubAcceptBox />
+      <ClubAcceptBox />
     </Inner>
   );
 };
