@@ -75,25 +75,25 @@ export const ClubBox = () => {
 };
 
 export const Header2 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <h3
+  <h2
     css={css`
       ${theme.textVariants.heading2}
       ${style}
     `}
   >
     {children}
-  </h3>
+  </h2>
 );
 
 export const Header4 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <h3
+  <h4
     css={css`
       ${theme.textVariants.heading4}
       ${style}
     `}
   >
     {children}
-  </h3>
+  </h4>
 );
 
 /**
@@ -110,4 +110,15 @@ export const Head = ({ children, style }: { children: ReactNode; style?: Seriali
   >
     {children}
   </div>
+);
+
+export const Header5 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
+  <h5
+    css={css`
+      ${theme.textVariants.heading5}
+      ${style}
+    `}
+  >
+    {children}
+  </h5>
 );

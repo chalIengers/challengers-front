@@ -866,7 +866,7 @@ export const Banner = ({ type }: BannerProps) => {
   );
 };
 
-type ClubProps = {
+type ClubComponentProps = {
   name: string;
   clubImg: string;
 };
@@ -875,7 +875,7 @@ type ClubProps = {
  * @param name 가져올 이미지의 클럽명
  * @param clubImg 클럽 로고 이미지의 url
  */
-export const ClubComponent = ({ name, clubImg }: ClubProps) => {
+export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
   return (
     <span
       css={css`

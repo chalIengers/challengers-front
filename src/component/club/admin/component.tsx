@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-
 import { css } from '@emotion/react';
 import { ButtonBox, ContainerComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
