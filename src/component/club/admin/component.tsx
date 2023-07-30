@@ -2,8 +2,8 @@
 import React from 'react';
 
 import { css } from '@emotion/react';
-import { ButtonBox, ContainerComponent } from '../../../emotion/component';
-import theme from '../../../../styles/theme';
+import { ButtonBox, ContainerComponent } from '../../emotion/component';
+import theme from '../../../styles/theme';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트

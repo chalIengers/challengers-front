@@ -9,7 +9,7 @@ import Club from './component/club';
 import { Header } from './component/emotion/component';
 import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
-import AdminClub from './component/club/admin';
+import AdminClub from './component/club/admin/ClubAdmin';
 
 function App() {
   return (

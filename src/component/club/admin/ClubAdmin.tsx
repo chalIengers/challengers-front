@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Header2, Header4, Head } from '../emotion/component';
 import { Banner, Inner } from '../../emotion/component';
-import { ChallengersLogo, ClubAcceptBox } from './emotion/component';
+import { ChallengersLogo, ClubAcceptBox } from './component';
 
 const index = () => {
   return (
