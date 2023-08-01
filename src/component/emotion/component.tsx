@@ -4,18 +4,17 @@ import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
+import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
   width?: string;
   height: string;
   padding?: string;
   children?: ReactNode;
+  margin?: string;
 }
 
 const StyledContainerComponent = styled.div<ContainerComponentProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0 auto;
   color: #ffffff;
   width: ${(props) => props.width};
@@ -23,6 +22,7 @@ const StyledContainerComponent = styled.div<ContainerComponentProps>`
   padding: ${(props) => props.padding};
   background-color: #212121;
   border-radius: 1.25em;
+  margin: ${(props) => props.margin};
 `;
 
 /**
@@ -37,9 +37,10 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({
   height,
   children,
   padding,
+  margin,
 }) => {
   return (
-    <StyledContainerComponent width={width} height={height} padding={padding}>
+    <StyledContainerComponent width={width} height={height} padding={padding} margin={margin}>
       {children}
     </StyledContainerComponent>
   );
@@ -660,15 +661,16 @@ export const Inner = ({ children, style }: InnerProps) => (
 
 type ButtonBoxProps = {
   text: string;
-  type: 'large' | 'small';
+  type: 'large' | 'small' | 'modal' | 'modal_cancel' | 'very_small';
+  onClickFunction?: any;
 };
 
 /**
  * 버튼 컴포넌트
  * @param text 버튼 안의 text 내용
- * @param type 버튼의 형태(large, small)
+ * @param type 버튼의 형태(large, small, modal, modal_cancel)
  */
-export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
+export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
   const styles = {
     large: css`
       width: 119.8rem;
@@ -676,13 +678,44 @@ export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
       border-radius: 1.2rem;
       font-size: 2.5rem;
       letter-spacing: -0.075rem;
+      background: ${theme.palette.primary[500]};
+      font-weight: 700;
     `,
     small: css`
-      width: 1.98rem;
+      width: 19.8rem;
       height: 5.3rem;
       border-radius: 0.7rem;
       font-size: 1.7rem;
       letter-spacing: -0.051rem;
+      background: ${theme.palette.primary[500]};
+      font-weight: 700;
+    `,
+    modal: css`
+      width: 22.2rem;
+      height: 6.2rem;
+      border-radius: 0.7rem;
+      ${theme.textVariants.heading4};
+      letter-spacing: -0.06rem;
+      color: ${theme.palette.gray.white};
+      background: ${theme.palette.primary[500]};
+    `,
+    modal_cancel: css`
+      width: 22.2rem;
+      height: 6.2rem;
+      border-radius: 0.7rem;
+      ${theme.textVariants.heading4};
+      letter-spacing: -0.06rem;
+      color: ${theme.palette.gray.black};
+      background: ${theme.palette.gray[300]};
+    `,
+    very_small: css`
+      width: 9.7rem;
+      height: 5.3rem;
+      border-radius: 0.7rem;
+      ${theme.textVariants.body1};
+      letter-spacing: -0.051rem;
+      color: ${theme.palette.gray.white};
+      background: ${theme.palette.primary[500]};
     `,
   };
 
@@ -691,14 +724,13 @@ export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
       type="button"
       css={css`
         ${styles[type]}
-        background: #4a7edc;
-        font-weight: 700;
 
         &:active {
           transform: scale(0.98);
           box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
         }
       `}
+      onClick={onClickFunction}
     >
       {text}
     </button>
@@ -823,7 +855,7 @@ export const Banner = ({ type }: BannerProps) => {
   );
 };
 
-type ClubProps = {
+type ClubComponentProps = {
   name: string;
   clubImg: string;
 };
@@ -832,7 +864,7 @@ type ClubProps = {
  * @param name 가져올 이미지의 클럽명
  * @param clubImg 클럽 로고 이미지의 url
  */
-export const Club = ({ name, clubImg }: ClubProps) => {
+export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
   return (
     <span
       css={css`

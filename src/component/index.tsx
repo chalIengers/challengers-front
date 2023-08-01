@@ -2,7 +2,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Banner, Club, FlexContainer, Inner, ProjectBox } from './emotion/component';
+import { Banner, ClubComponent, FlexContainer, Inner, ProjectBox } from './emotion/component';
 import theme from '../styles/theme';
 import data from '../json/data.json';
 import data2 from '../json/data2.json';
@@ -41,7 +41,7 @@ const index = () => {
       >
         {data2 &&
           data2.Clubs.map((club) => (
-            <Club
+            <ClubComponent
               key={club.id}
               name={club.name}
               clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}

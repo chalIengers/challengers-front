@@ -9,9 +9,9 @@ import {
   GridBox,
   Inner,
   TextInputBox,
-} from './emotion/component';
-import { HeadTitle } from './project/component';
-import theme from '../styles/theme';
+} from '../../emotion/component';
+import { HeadTitle } from '../../project/component';
+import theme from '../../../styles/theme';
 
 export const Heading4 = styled.div`
   ${theme.textVariants.heading4}
