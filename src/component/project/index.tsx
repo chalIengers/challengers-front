@@ -8,15 +8,8 @@ import {
   FlexContainer,
   Header,
 } from '../emotion/component';
-import {
-  IndexContainer,
-  InnerContainer,
-  Head,
-  HeadTitle,
-  Body,
-  BodyTitle,
-  SelectBoxWrapper,
-} from './component';
+import { IndexContainer, InnerContainer, Head, BodyTitle, SelectBoxWrapper } from './component';
+import { Header2 } from '../emotion/GlobayStyle';
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트
@@ -46,7 +39,7 @@ const Index: React.FC = () => {
       <InnerContainer>
         <Banner type="small" />
         <Head>
-          <HeadTitle>챌린저스에 등록된 프로젝트</HeadTitle>
+          <Header2>챌린저스에 등록된 프로젝트</Header2>
           <SelectBox
             options={options3}
             value={selectedOption3}
@@ -54,7 +47,7 @@ const Index: React.FC = () => {
             back="#000"
           />
         </Head>
-        <Body>
+        <div>
           <BodyTitle>
             <SelectBoxWrapper>
               <SelectBox
@@ -83,7 +76,7 @@ const Index: React.FC = () => {
                 />
               ))}
           </FlexContainer>
-        </Body>
+        </div>
       </InnerContainer>
     </IndexContainer>
   );
