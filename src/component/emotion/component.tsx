@@ -3,7 +3,6 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
 import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
@@ -799,7 +798,7 @@ export const Banner = ({ type }: BannerProps) => {
     >
       <img
         alt="banner_img"
-        src={bannerImg}
+        src={`${process.env.PUBLIC_URL}/img/3d-construction-made-of-glass-abstract-geometrical-composition 1.png`}
         css={css`
           ${styles[type].image}
         `}
