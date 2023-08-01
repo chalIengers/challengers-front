@@ -270,60 +270,63 @@ Tag.defaultProps = {
 };
 export default Tag;
 
+const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles }) => {
+  return (
+    <nav
+      css={css`
+        background-color: #000000;
+        z-index: 99;
+        width: 100%;
+        height: 102px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        column-gap: 30em;
+        transition: 0.5s all;
+        ${style}
+      `}
+    >
+      {children}
+    </nav>
+  );
+};
+const NavList = ({ children }: { children: ReactNode }) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        column-gap: 3em;
+        transition: 0.4s all;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+const NavItem = ({ children, to }: { children: ReactNode; to: string }) => {
+  return (
+    <Link to={to}>
+      <p
+        css={css`
+          color: white;
+          text-decoration-line: none;
+          transition: 0.5s all;
+          &:hover {
+            color: rgba(255, 255, 255, 0.7);
+          }
+        `}
+      >
+        {children}
+      </p>
+    </Link>
+  );
+};
 /**
  * 네비게이션 (GNB) 컴포넌트
  */
-const Nav = styled.nav`
-  background-color: #000000;
-  z-index: 99;
-  width: 100%;
-  height: 102px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  column-gap: 30em;
-  transition: 0.5s all;
-
-  @media (max-width: 388px) {
-    font-size: 5px;
-    column-gap: 3em;
-  }
-  @media (min-width: 388px) and (max-width: 481px) {
-    font-size: 6px;
-    column-gap: 1em;
-  }
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 11px;
-    column-gap: 1.5em;
-  }
-  @media (min-width: 768px) and (max-width: 960px) {
-    font-size: 13px;
-    column-gap: 10em;
-  }
-  @media all and (min-width: 960px) and (max-width: 1200px) {
-    font-size: 15px;
-    column-gap: 20em;
-  }
-  @media all and (min-width: 1200) and (max-width: 2000px) {
-    font-size: 18px;
-  }
-`;
-const NavList = styled.div`
-  display: flex;
-  column-gap: 3em;
-  transition: 0.4s all;
-`;
-const NavItem = styled(Link)`
-  color: white;
-  text-decoration-line: none;
-  transition: 0.5s all;
-  &:hover {
-    color: rgba(255, 255, 255, 0.7);
-  }
-`;
 export const Header = () => {
   const [scrollState, setScrollState] = useState<boolean>(false);
 
@@ -344,7 +347,7 @@ export const Header = () => {
 
   return (
     <Nav
-      css={css`
+      style={css`
         transition: ease-out;
         ${scrollState &&
         css`
@@ -352,7 +355,7 @@ export const Header = () => {
           animation-fill-mode: forwards;
           @keyframes fadeout {
             from {
-              height: 102px;
+              height: 10.2rem;
               opacity: 1;
               visibility: visible;
             }
