@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import React, { ReactNode } from 'react';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
-import registerSuccessImg from '../../assets/images/image 21.png';
 
 export const ModalContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -104,7 +103,7 @@ export const RegisterSuccessModal = () => {
             text-align: center;
           `}
         >
-          <img alt="registerSuccess_img" src={registerSuccessImg} />
+          <img alt="registerSuccess_img" src={`${process.env.PUBLIC_URL}/img/image 21.png`} />
         </div>
         <div
           css={css`
