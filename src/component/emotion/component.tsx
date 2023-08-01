@@ -3,7 +3,6 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
 import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
@@ -802,7 +801,7 @@ export const Banner = ({ type }: BannerProps) => {
     >
       <img
         alt="banner_img"
-        src={bannerImg}
+        src={`${process.env.PUBLIC_URL}/img/3d-construction-made-of-glass-abstract-geometrical-composition 1.png`}
         css={css`
           ${styles[type].image}
         `}
@@ -935,107 +934,3 @@ export const TextInputBox = ({
     ></input>
   );
 };
-
-/**
- * 공통 헤더를 사용하는 컴포넌트들 (Header)
- * @param children 컴포넌트 안에 넣을 자식 요소
- */
-interface Header1Props {
-  children: React.ReactNode;
-}
-
-export const Header1: React.FC<Header1Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.heading1}
-    `}
-  >
-    {children}
-  </div>
-);
-
-interface Header2Props {
-  children: React.ReactNode;
-}
-
-export const Header2: React.FC<Header2Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.heading2}
-    `}
-  >
-    {children}
-  </div>
-);
-
-interface Header3Props {
-  children: React.ReactNode;
-}
-
-export const Header3: React.FC<Header3Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.heading3}
-    `}
-  >
-    {children}
-  </div>
-);
-
-interface Header4Props {
-  children: React.ReactNode;
-}
-
-export const Header4: React.FC<Header4Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.heading4}
-    `}
-  >
-    {children}
-  </div>
-);
-interface Header5Props {
-  children: React.ReactNode;
-}
-
-export const Header5: React.FC<Header5Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.heading5}
-    `}
-  >
-    {children}
-  </div>
-);
-
-interface Body1Props {
-  children: React.ReactNode;
-}
-
-/**
- * 공통 헤더를 사용하는 컴포넌트들 (Body)
- * @param children 컴포넌트 안에 넣을 자식 요소
- */
-export const Body1: React.FC<Body1Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.body1}
-    `}
-  >
-    {children}
-  </div>
-);
-
-interface Body2Props {
-  children: React.ReactNode;
-}
-export const Body2: React.FC<Body2Props> = ({ children }) => (
-  <div
-    css={css`
-      ${theme.textVariants.body1}
-    `}
-  >
-    {children}
-  </div>
-);
