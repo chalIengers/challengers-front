@@ -3,9 +3,7 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
-import { openModal } from '../../store/modalSlice';
 import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
@@ -328,7 +326,6 @@ const NavItem = styled(Link)`
 `;
 export const Header = () => {
   const [scrollState, setScrollState] = useState<boolean>(false);
-  const dispatch = useDispatch();
 
   const handleScroll = () => {
     if (window.scrollY || document.documentElement.scrollTop > 0) {
@@ -427,14 +424,6 @@ export const Header = () => {
           <NavItem to="/project">프로젝트</NavItem>
           <NavItem to="/">회원가입</NavItem>
         </NavList>
-      </div>
-      <div
-        role="presentation"
-        onClick={() => {
-          dispatch(openModal({ modalType: 'RegisterModal' }));
-        }}
-      >
-        모달 테스트
       </div>
     </Nav>
   );
