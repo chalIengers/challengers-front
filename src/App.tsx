@@ -6,7 +6,7 @@ import Project from './component/project';
 import Publish from './component/project/publish/Publish';
 import Detail from './component/project/detail/Detail';
 import { Header } from './component/emotion/component';
-import Signup from './component/Signup';
+import Signup from './component/club/signUp/SignUp';
 
 function App() {
   return (

@@ -3,6 +3,7 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import bannerImg from '../../assets/images/3d-construction-made-of-glass-abstract-geometrical-composition 1.png';
 
 interface ContainerComponentProps {
@@ -661,14 +662,16 @@ export const Inner = ({ children, style }: InnerProps) => (
 type ButtonBoxProps = {
   text: string;
   type: 'large' | 'small';
+  submit?: boolean;
 };
 
 /**
  * 버튼 컴포넌트
  * @param text 버튼 안의 text 내용
  * @param type 버튼의 형태(large, small)
+ * @param submit 버튼 타입 지정
  */
-export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
+export const ButtonBox = ({ text, type, submit }: ButtonBoxProps) => {
   const styles = {
     large: css`
       width: 119.8rem;
@@ -688,7 +691,7 @@ export const ButtonBox = ({ text, type }: ButtonBoxProps) => {
 
   return (
     <button
-      type="button"
+      type={submit ? 'submit' : 'button'}
       css={css`
         ${styles[type]}
         background: #4a7edc;
@@ -872,12 +875,14 @@ export const TextInputBox = ({
   size,
   max,
   inputType,
+  register,
 }: {
   type: 'title' | 'subTitle' | 'select' | 'border';
   text?: string;
   size?: number;
   max?: number;
   inputType?: string;
+  register?: UseFormRegisterReturn;
 }) => {
   const style = {
     title: css`
@@ -912,6 +917,8 @@ export const TextInputBox = ({
       size={size}
       maxLength={max}
       type={inputType}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...register}
     ></input>
   );
 };
