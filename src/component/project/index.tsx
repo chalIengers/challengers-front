@@ -6,11 +6,11 @@ import {
   // ContainerComponent,
   ProjectBox,
   FlexContainer,
-  Header,
   Inner,
+  TextBox,
 } from '../emotion/component';
-import { IndexContainer, InnerContainer, Head, BodyTitle, SelectBoxWrapper } from './component';
-import { Header2 } from '../emotion/GlobayStyle';
+import { TagList } from './component';
+import { Header2, Section } from '../emotion/GlobayStyle';
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트
@@ -35,11 +35,10 @@ const Index: React.FC = () => {
   };
 
   return (
-    <IndexContainer>
-      <Header />
-      <InnerContainer>
-        <Banner type="small" />
-        <Head>
+    <Inner>
+      <Banner type="small" />
+      <Section>
+        <TextBox margin="1.6">
           <Header2>챌린저스에 등록된 프로젝트</Header2>
           <SelectBox
             options={options3}
@@ -47,39 +46,24 @@ const Index: React.FC = () => {
             onChange={handleSelectChange3}
             back="#000"
           />
-        </Head>
-        <div>
-          <BodyTitle>
-            <SelectBoxWrapper>
-              <SelectBox
-                options={options1}
-                value={selectedOption1}
-                onChange={handleSelectChange1}
+        </TextBox>
+        <TagList>
+          <SelectBox options={options1} value={selectedOption1} onChange={handleSelectChange1} />
+          <SelectBox options={options2} value={selectedOption2} onChange={handleSelectChange2} />
+        </TagList>
+        <FlexContainer>
+          {test &&
+            test.Project.map((project) => (
+              <ProjectBox
+                key={project.id}
+                title={project.title}
+                content={project.content}
+                tags={project.tags}
               />
-            </SelectBoxWrapper>
-            <SelectBoxWrapper>
-              <SelectBox
-                options={options2}
-                value={selectedOption2}
-                onChange={handleSelectChange2}
-              />
-            </SelectBoxWrapper>
-          </BodyTitle>
-          <br />
-          <FlexContainer>
-            {test &&
-              test.Project.map((project) => (
-                <ProjectBox
-                  key={project.id}
-                  title={project.title}
-                  content={project.content}
-                  tags={project.tags}
-                />
-              ))}
-          </FlexContainer>
-        </div>
-      </InnerContainer>
-    </IndexContainer>
+            ))}
+        </FlexContainer>
+      </Section>
+    </Inner>
   );
 };
 

@@ -2,22 +2,21 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
-import { ContainerComponent } from '../../emotion/component';
-import { Body1 } from '../../emotion/GlobayStyle';
+import { ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
+import { Header2, Body2, Header1 } from '../../emotion/GlobayStyle';
 
 export const ClubLogoPreView = () => {
   return (
     <div
       css={css`
         display: flex;
-        flex-direction: row;
         gap: 1.5rem;
       `}
     >
       <div
         css={css`
-          width: 15.9rem;
-          height: 15.7rem;
+          width: 16rem;
+          height: 16rem;
           border-radius: 1.2rem;
           background: ${theme.palette.gray[900]};
           display: flex;
@@ -38,15 +37,19 @@ export const ClubLogoPreView = () => {
           />
         </svg>
       </div>
-      <p
+      <div
         css={css`
-          margin-top: auto;
-          bottom: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          color: #c8c8c8;
         `}
       >
-        클럽에서 사용되는 로고를 등록해주세요
-        <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요
-      </p>
+        <Body2>
+          클럽에서 사용되는 로고를 등록해주세요
+          <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요
+        </Body2>
+      </div>
     </div>
   );
 };
@@ -55,64 +58,24 @@ export const ClubLogoPreView = () => {
  * 클럽 신청서 컴포넌트
  */
 export const ClubInfoInput = () => {
-  const styles = {
-    attributeWrapper: css`
-      display: grid;
-      grid-template-columns: 17.9rem auto;
-    `,
-  };
   return (
-    <ContainerComponent height="auto" padding="5.1rem 7.2rem" margin="0 0 3.8rem 0">
+    <ContainerComponent padding="5.1rem 7.2rem" margin="0 0 3.8rem 0">
       <div
         css={css`
           display: flex;
           flex-direction: column;
-          gap: 3.7rem;
+          gap: 4rem;
         `}
       >
-        <Body1>클럽신청서</Body1>
-        <div
-          css={css`
-            ${styles.attributeWrapper}
-          `}
-        >
-          <Body1>클럽 이름</Body1>
-          <Body1
-          // css={css`
-          //   color: ${theme.palette.gray[400]};
-          // `}
-          >
-            소속 클럽을 입력해주세요
-          </Body1>
-        </div>
-        <div
-          css={css`
-            ${styles.attributeWrapper}
-          `}
-        >
-          <Body1>클럽 형태</Body1>
-          <Body1
-          // style={css`
-          //   color: ${theme.palette.gray[400]};
-          // `}
-          >
-            소속 형태을 입력해주세요
-          </Body1>
-        </div>
-        <div
-          css={css`
-            ${styles.attributeWrapper}
-          `}
-        >
-          <Body1>클럽 소개</Body1>
-          <Body1
-          // style={css`
-          //   color: ${theme.palette.gray[400]};
-          // `}
-          >
-            클럽에 대한 간단한 소개 메세지를 입력해주세요
-          </Body1>
-        </div>
+        <Header1>클럽신청서</Header1>
+        <GridBox>
+          <Header2>클럽 이름</Header2>
+          <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
+          <Header2>클럽 형태</Header2>
+          <TextInputBox type="body1" text="클럽 형태를 선택해주세요" />
+          <Header2>클럽 소개</Header2>
+          <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />
+        </GridBox>
       </div>
     </ContainerComponent>
   );

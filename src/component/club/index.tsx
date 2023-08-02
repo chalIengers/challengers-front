@@ -1,61 +1,34 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
-import { Banner, Inner } from '../emotion/component';
-import { ClubBox, Head } from './emotion/component';
-import { Body1, Header2 } from '../emotion/GlobayStyle';
+import { Banner, Inner, TextBox } from '../emotion/component';
+import { ClubBox } from './emotion/component';
+import { Body1Bold, Header1, Section } from '../emotion/GlobayStyle';
 
 const index = () => {
   return (
-    <Inner
-      style={css`
-        align-items: start;
-        margin-top: 15.1rem;
-        padding-bottom: 16.6rem;
-        display: block;
-      `}
-    >
+    <Inner>
       <Banner type="small" />
-      <div
-        css={css`
-          margin-top: 8.8rem;
-          margin-bottom: 6rem;
-        `}
-      >
-        <Body1>내가 소속된 클럽</Body1>
-      </div>
-      <ClubBox />
-      <Head
-        style={css`
-          margin-bottom: 6rem;
-          margin-top: 11.1rem;
-        `}
-      >
-        <Header2
-        // style={css`
-        //   padding-right: 10px;
-        // `}
-        >
-          챌린저스에 등록된 클럽
-        </Header2>
-        <Header2
-        // style={css`
-        //   cursor: pointer;
-        // `}
-        >
-          클럽을 등록하고 싶다면?
-        </Header2>
-      </Head>
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
+      <Section gap="4.8">
+        <Header1>내가 소속된 클럽</Header1>
+        <ClubBox text="클럽 마스터의 이메일 보기" />
+      </Section>
+      <Section>
+        <TextBox>
+          <Header1>챌린저스에 등록된 클럽</Header1>
+          <Body1Bold>클럽을 등록하고 싶다면?</Body1Bold>
+        </TextBox>
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+      </Section>
     </Inner>
   );
 };

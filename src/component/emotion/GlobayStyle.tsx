@@ -62,3 +62,18 @@ export const Body3Bold = ({ children }: { children: React.ReactNode }) => (
     {children}
   </div>
 );
+export const Section = ({ children, gap }: { children: React.ReactNode; gap?: string }) => (
+  <div
+    css={css`
+      display: flex;
+      flex-direction: column;
+      gap: ${gap}rem;
+    `}
+  >
+    {children}
+  </div>
+);
+
+Section.defaultProps = {
+  gap: 0,
+};

@@ -1,60 +1,43 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { Banner, Inner } from '../../emotion/component';
+import { Banner, Inner, TextBox } from '../../emotion/component';
 import { ChallengersLogo, ClubAcceptBox } from './component';
-import { Header2 } from '../../emotion/GlobayStyle';
+import { Body1Bold, Header2, Section } from '../../emotion/GlobayStyle';
 
 const index = () => {
   return (
-    <Inner
-      style={css`
-        align-items: start;
-        margin-top: 15.1rem;
-        padding-bottom: 16.6rem;
-        display: block;
-      `}
-    >
+    <Inner>
       <Banner type="small" />
-      <div
-        css={css`
-          margin-bottom: 10.4rem;
-          margin-top: 6rem;
-        `}
-      >
-        <Header2
-        // style={css`
-        //   padding-right: 10px;
-        // `}
-        >
-          클럽 : 챌린저스
-        </Header2>
-        <Header2
-        // style={css`
-        //   align-items: center;
-        //   display: flex;
-        //   cursor: pointer;
-        // `}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
+      <Section>
+        <TextBox>
+          <Header2>클럽 : 챌린저스</Header2>
+          <div
+            css={css`
+              display: flex;
+            `}
           >
-            <path
-              d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
-              fill="white"
-            />
-          </svg>
-          뒤로가기
-        </Header2>
-      </div>
-      <ChallengersLogo />
-      <ClubAcceptBox />
-      <ClubAcceptBox />
-      <ClubAcceptBox />
-      <ClubAcceptBox />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
+                fill="white"
+              />
+            </svg>
+            <Body1Bold>뒤로가기</Body1Bold>
+          </div>
+        </TextBox>
+        <ChallengersLogo />
+        <ClubAcceptBox />
+        <ClubAcceptBox />
+        <ClubAcceptBox />
+        <ClubAcceptBox />
+      </Section>
     </Inner>
   );
 };

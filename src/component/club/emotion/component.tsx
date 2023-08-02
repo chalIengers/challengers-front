@@ -46,7 +46,7 @@ export const Toast = () => {
  * 자신의 소속 클럽과 받아온 클럽을 비교해 소속이 같은지, 관리자인지 확인하고
  * 버튼 text를 바꾸면 어떨까요?
  */
-export const ClubBox = () => {
+export const ClubBox = ({ text }: { text?: string }) => {
   const [showToast, setShowToast] = useState(false);
 
   const ShowToast = () => {
@@ -57,7 +57,7 @@ export const ClubBox = () => {
   };
   return (
     <>
-      <ContainerComponent height="auto" padding="2.5rem" margin="0 0 3.8rem 0">
+      <ContainerComponent padding="2.5rem" margin="0 0 3.8rem 0">
         <div
           css={css`
             display: flex;
@@ -66,12 +66,16 @@ export const ClubBox = () => {
           `}
         >
           <ClubComponent key="1" name="챌린저스" clubImg="challenger.png" />
-          <ButtonBox text="클럽 마스터 이메일 보기" type="small" onClickFunction={ShowToast} />
+          <ButtonBox text={text} type="small" onClickFunction={ShowToast} />
         </div>
       </ContainerComponent>
       {showToast && <Toast />}
     </>
   );
+};
+
+ClubBox.defaultProps = {
+  text: '클럽 가입 신청',
 };
 
 /**

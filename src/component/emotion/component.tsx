@@ -6,52 +6,44 @@ import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 
 interface ContainerComponentProps {
-  width?: string;
-  height: string;
   padding?: string;
   children?: ReactNode;
   margin?: string;
 }
 
-const StyledContainerComponent = styled.div<ContainerComponentProps>`
-  margin: 0 auto;
-  color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  padding: ${(props) => props.padding};
-  background-color: #212121;
-  border-radius: 1.25em;
-  margin: ${(props) => props.margin};
-`;
-
 /**
  * Container 컴포넌트
  * @Containercomponent
- * @param {number} props.width - 컨테이너 컴포넌트의 너비
- * @param {number} props.height - 컨테이너 컴포넌트의 높이
  * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
  */
-const ContainerComponent: React.FC<ContainerComponentProps> = ({
-  width,
-  height,
+export const ContainerComponent: React.FC<ContainerComponentProps> = ({
   children,
   padding,
   margin,
 }) => {
   return (
-    <StyledContainerComponent width={width} height={height} padding={padding} margin={margin}>
+    <div
+      css={css`
+        width: 120rem;
+        margin: 0 auto;
+        padding: ${padding};
+        background-color: #212121;
+        border-radius: 1.25em;
+        margin: ${margin};
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+      `}
+    >
       {children}
-    </StyledContainerComponent>
+    </div>
   );
 };
 
 ContainerComponent.defaultProps = {
-  width: '120rem',
   children: null,
   padding: '7.2rem',
 };
-
-export { ContainerComponent };
 
 interface SelectBoxProps {
   options: string[];
@@ -63,11 +55,8 @@ interface SelectBoxProps {
 const StyledSelectBox = styled.select<{ back?: string }>`
   border-radius: 0.7744rem;
   background: ${(props) => (props.back ? props.back : '#4f85e8')};
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 700;
+  ${theme.typography.body3Bold}
+  color: white;
   padding: 1rem;
   border: none;
   outline: none;
@@ -228,33 +217,23 @@ export { FlexContainer };
 
 interface TagType {
   children?: ReactNode;
-  width?: string;
-  height?: string;
 }
 /**
  * 라벨 컴포넌트
  * @param children 컴포넌트 안에 넣을 자식 요소
- * @param width 가로 길이 (일단 em으로 지정함)
- * @param height 높이 길이 (일단 em으로 지정함)
  */
-const Tag = ({ children, width, height }: TagType) => {
+const Tag = ({ children }: TagType) => {
   return (
     <span
       css={css`
-        width: ${width};
-        height: ${height};
+        padding: 0.8rem;
         color: white;
         background-color: #4f85e8;
         border-radius: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
-        font-family: Pretendard;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: -0.042rem;
+        ${theme.typography.body3Bold}
       `}
     >
       {children}
@@ -264,8 +243,6 @@ const Tag = ({ children, width, height }: TagType) => {
 
 Tag.defaultProps = {
   children: '서비스 형태가 들어가요',
-  width: '10rem',
-  height: '2.9rem',
 };
 export default Tag;
 
@@ -621,7 +598,6 @@ export const TeamInfoBox = () => {
 
 type InnerProps = {
   children: ReactNode;
-  style?: SerializedStyles;
 };
 
 /**
@@ -629,25 +605,23 @@ type InnerProps = {
  * @param children 컴포넌트 안에 넣을 자식 요소
  * @param style 컴포넌트의 스타일 css 요소
  */
-export const Inner = ({ children, style }: InnerProps) => (
-  <div
+export const Inner = ({ children }: InnerProps) => (
+  <section
     css={css`
       width: 120rem;
       margin: 0 auto;
-      margin-top: 5rem;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 3.6rem;
-      ${style}
+      align-items: start;
+      gap: 9.6rem;
     `}
   >
     {children}
-  </div>
+  </section>
 );
 
 type ButtonBoxProps = {
-  text: string;
+  text: string | undefined;
   type: 'large' | 'small' | 'modal' | 'modal_cancel' | 'very_small';
   onClickFunction?: any;
 };
@@ -876,6 +850,7 @@ export const GridBox = ({ children }: { children: ReactNode }) => {
         display: grid;
         grid-template-columns: 1fr 3fr;
         width: 100%;
+        gap: 3.2rem;
       `}
     >
       {children}
@@ -889,24 +864,21 @@ export const TextInputBox = ({
   max,
   inputType,
 }: {
-  type: 'title' | 'subTitle' | 'select' | 'border';
+  type: 'header1' | 'body2' | 'body1' | 'border';
   text?: string;
   size?: number;
   max?: number;
   inputType?: string;
 }) => {
   const style = {
-    title: css`
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -0.075rem;
+    header1: css`
+      ${theme.typography.header1}
     `,
-    subTitle: css`
-      letter-spacing: -0.048rem;
+    body2: css`
+      ${theme.typography.body2}
     `,
-    select: css`
-      font-size: 2rem;
-      letter-spacing: -0.6px;
+    body1: css`
+      ${theme.typography.body1}
     `,
     border: css`
       font-size: 2rem;
@@ -928,6 +900,24 @@ export const TextInputBox = ({
       size={size}
       maxLength={max}
       type={inputType}
-    ></input>
+    />
   );
+};
+
+export const TextBox = ({ children, margin }: { children: ReactNode; margin?: string }) => (
+  <div
+    css={css`
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: ${margin}rem;
+      align-items: center;
+    `}
+  >
+    {children}
+  </div>
+);
+
+TextBox.defaultProps = {
+  margin: '4.8',
 };

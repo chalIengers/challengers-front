@@ -2,6 +2,7 @@
 
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
+import theme from '../../../styles/theme';
 
 type LinkImgList = {
   [key: string]: string;
@@ -112,10 +113,7 @@ export const LinkInputBox = () => {
         onChange={handleInputChange}
         css={css`
           color: ${textColor};
-          font-size: 1.7rem;
-          font-weight: 500;
-          line-height: normal;
-          letter-spacing: -0.051rem;
+          ${theme.typography.body1}
         `}
       ></input>
       <LinkImg name="notion" type="small" />

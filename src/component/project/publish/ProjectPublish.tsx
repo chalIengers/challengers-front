@@ -11,158 +11,90 @@ import Tag, {
   TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
-import { Header1, Header2 } from '../../emotion/GlobayStyle';
+import { Header1, Header2, Section } from '../../emotion/GlobayStyle';
 
 const ProjectPublish = () => {
   return (
-    <div
-      css={css`
-        background-color: #000;
-        height: 100vh;
-        overflow-y: scroll;
-        display: flex;
-        flex-direction: column;
-        -ms-overflow-style: none; /* 인터넷 익스플로러 */
-        scrollbar-width: none; /* 파이어폭스 */
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      `}
-    >
-      <Inner
-        style={css`
-          align-items: start;
-          margin-top: 13rem;
-          margin-bottom: 16.6rem;
-        `}
-      >
-        <Banner type="small" />
+    <Inner>
+      <Banner type="small" />
+      <Section gap="4">
         <Header1>프로젝트 상세페이지</Header1>
 
-        <ContainerComponent height="auto">
-          <div
-            css={css`
-              margin: 3rem 0;
-              display: flex;
-              flex-direction: column;
-              gap: 3.2rem;
-            `}
-          >
-            <div
-              css={css`
-                width: 105rem;
-                height: 50rem;
-                background-color: #404040;
-                border-radius: 1.3rem;
-                margin-top: 5.1rem;
-              `}
-            />
-            <div
-              css={css`
-                display: flex;
-                gap: 1.3rem;
-              `}
-            >
-              <Tag width="15.3rem">서비스 형태가 들어가요</Tag>
-              <Tag width="16.2rem">소속 클럽 이름이 들어가요</Tag>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                gap: 0.9rem;
-              `}
-            >
-              <TextInputBox type="title" text="제목을 입력해주세요" />
-              <TextInputBox type="subTitle" text="소제목을 입력해주세요" />
-            </div>
-          </div>
-        </ContainerComponent>
-
-        <ContainerComponent height="auto">
+        <ContainerComponent>
           <div
             css={css`
               width: 105rem;
-              margin: 5.2rem 0;
+              height: 50rem;
+              background-color: #404040;
+              border-radius: 1.3rem;
+            `}
+          />
+          <div
+            css={css`
               display: flex;
-              flex-direction: column;
-              align-items: start;
-              gap: 3.7rem;
+              gap: 1.2rem;
             `}
           >
-            <div>
-              <Header1>프로젝트 요약</Header1>
-            </div>
-            <GridBox>
-              <Header2>소속 클럽</Header2>
-              <TextInputBox type="select" text="소속 클럽을 입력해주세요" />
-            </GridBox>
-            <GridBox>
-              <Header2>서비스 형태</Header2>
-              <TextInputBox type="select" text="서비스 형태를 선택해주세요" />
-            </GridBox>
-            <GridBox>
-              <Header2>프로젝트 상태</Header2>
-              <TextInputBox type="select" text="프로젝트 현재 상태를 선택해주세요" />
-            </GridBox>
-            <GridBox>
-              <Header2>프로젝트 기간</Header2>
-              <TextInputBox type="select" text="기간을 선택해주세요" />
-            </GridBox>
-            <GridBox>
-              <Header2>사용된 기술 스택</Header2>
-              <TextInputBox type="select" text="사용된 기술 스택을 선택해주세요" />
-            </GridBox>
+            <Tag>서비스 형태가 들어가요</Tag>
+            <Tag>소속 클럽 이름이 들어가요</Tag>
+          </div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            `}
+          >
+            <TextInputBox type="header1" text="제목을 입력해주세요" />
+            <TextInputBox type="body2" text="소제목을 입력해주세요" />
           </div>
         </ContainerComponent>
 
-        <ContainerComponent height="73.3rem">
+        <ContainerComponent>
+          <Header1>프로젝트 요약</Header1>
+          <GridBox>
+            <Header2>소속 클럽</Header2>
+            <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
+            <Header2>서비스 형태</Header2>
+            <TextInputBox type="body1" text="서비스 형태를 선택해주세요" />
+            <Header2>프로젝트 상태</Header2>
+            <TextInputBox type="body1" text="프로젝트 현재 상태를 선택해주세요" />
+            <Header2>프로젝트 기간</Header2>
+            <TextInputBox type="body1" text="기간을 선택해주세요" />
+            <Header2>사용된 기술 스택</Header2>
+            <TextInputBox type="body1" text="사용된 기술 스택을 선택해주세요" />
+          </GridBox>
+        </ContainerComponent>
+
+        <ContainerComponent>
           <p>에디터입니다.</p>
         </ContainerComponent>
 
-        <ContainerComponent height="auto">
+        <ContainerComponent>
+          <Header1>팀원구성</Header1>
           <div
             css={css`
-              width: 105rem;
               display: flex;
-              flex-direction: column;
-              margin: 6.3rem 0;
-              gap: 56px;
+              justify-content: start;
+              flex-wrap: wrap;
+              gap: 4.5rem;
             `}
           >
-            <Header1>팀원구성</Header1>
-            <div
-              css={css`
-                display: flex;
-                justify-content: start;
-                gap: 4.5rem;
-              `}
-            >
-              <TeamInfoBox></TeamInfoBox>
-              <TeamInfoBox></TeamInfoBox>
-              <TeamInfoBox></TeamInfoBox>
-            </div>
+            <TeamInfoBox />
+            <TeamInfoBox />
+            <TeamInfoBox />
+            <TeamInfoBox />
           </div>
         </ContainerComponent>
 
-        <ContainerComponent height="auto">
-          <div
-            css={css`
-              width: 105rem;
-              display: flex;
-              flex-direction: column;
-              margin: 6.3rem 0;
-              gap: 4rem;
-            `}
-          >
-            <Header1>프로젝트 링크</Header1>
-            <LinkInputBox />
-            <LinkInputBox />
-          </div>
+        <ContainerComponent>
+          <Header1>프로젝트 링크</Header1>
+          <LinkInputBox />
+          <LinkInputBox />
         </ContainerComponent>
         <ButtonBox text="프로젝트 발행하기" type="large" />
-      </Inner>
-    </div>
+      </Section>
+    </Inner>
   );
 };
 

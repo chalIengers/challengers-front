@@ -9,7 +9,7 @@ import { Body1 } from '../../emotion/GlobayStyle';
  */
 export const ClubAcceptBox = () => {
   return (
-    <ContainerComponent height="auto" padding="2.5rem" margin="0 0 3.8rem 0">
+    <ContainerComponent padding="2.5rem" margin="0 0 3.8rem 0">
       <div
         css={css`
           display: flex;

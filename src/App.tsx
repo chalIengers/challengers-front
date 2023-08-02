@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Main from './component';
+import Main from './component/main';
 import Project from './component/project';
 import ProjectPublish from './component/project/publish/ProjectPublish';
 import Detail from './component/project/detail/Detail';
@@ -13,7 +13,7 @@ import ClubAdmin from './component/club/admin/ClubAdmin';
 
 function App() {
   return (
-    <div className="app">
+    <div className="App">
       <BrowserRouter>
         <Header />
         <Routes>
