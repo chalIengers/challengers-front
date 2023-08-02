@@ -66,8 +66,7 @@ const ModalInput = () => {
       <input
         css={css`
           background: ${theme.palette.gray[100]};
-          ${theme.textVariants.heading5};
-          letter-spacing: -0.06rem;
+          ${theme.typography.body1};
           width: 100%;
           ::placeholder {
             color: ${theme.palette.gray[300]};
@@ -90,8 +89,7 @@ export const RegisterSuccessModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
+            ${theme.typography.header2};
             text-align: center;
             margin-bottom: 2.2rem;
           `}
@@ -108,8 +106,7 @@ export const RegisterSuccessModal = () => {
         <div
           css={css`
             color: ${theme.palette.gray[400]};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
+            ${theme.typography.body1Bold};
             margin-bottom: 5.1rem;
             text-align: center;
           `}
@@ -133,8 +130,7 @@ export const RegisterModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
+            ${theme.typography.header2};
             text-align: center;
             margin-bottom: 4.3rem;
           `}
@@ -144,8 +140,7 @@ export const RegisterModal = () => {
         <div
           css={css`
             color: ${theme.palette.gray.black};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
+            ${theme.typography.header2};
             margin-bottom: 5.1rem;
             text-align: center;
           `}
@@ -182,8 +177,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
+            ${theme.typography.header2};
             text-align: center;
             margin-bottom: 6.2rem;
           `}
@@ -193,8 +187,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray.black};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
+            ${theme.typography.body1Bold};
             margin-bottom: 3.6rem;
           `}
         >
@@ -205,8 +198,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[600]};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
+            ${theme.typography.body1Bold};
             margin-bottom: 5.3rem;
           `}
         >

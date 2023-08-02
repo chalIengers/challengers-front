@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { Header2, Header4, Head } from '../emotion/component';
 import { Banner, Inner } from '../../emotion/component';
 import { ChallengersLogo, ClubAcceptBox } from './component';
+import { Header2 } from '../../emotion/GlobayStyle';
 
 const index = () => {
   return (
@@ -15,27 +15,25 @@ const index = () => {
       `}
     >
       <Banner type="small" />
-      <Head
-        style={css`
+      <div
+        css={css`
           margin-bottom: 10.4rem;
           margin-top: 6rem;
         `}
       >
         <Header2
-          style={css`
-            letter-spacing: -0.075rem;
-            padding-right: 10px;
-          `}
+        // style={css`
+        //   padding-right: 10px;
+        // `}
         >
           클럽 : 챌린저스
         </Header2>
-        <Header4
-          style={css`
-            letter-spacing: -0.054rem;
-            align-items: center;
-            display: flex;
-            cursor: pointer;
-          `}
+        <Header2
+        // style={css`
+        //   align-items: center;
+        //   display: flex;
+        //   cursor: pointer;
+        // `}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,8 +48,8 @@ const index = () => {
             />
           </svg>
           뒤로가기
-        </Header4>
-      </Head>
+        </Header2>
+      </div>
       <ChallengersLogo />
       <ClubAcceptBox />
       <ClubAcceptBox />

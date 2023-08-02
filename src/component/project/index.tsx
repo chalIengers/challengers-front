@@ -7,16 +7,10 @@ import {
   ProjectBox,
   FlexContainer,
   Header,
+  Inner,
 } from '../emotion/component';
-import {
-  IndexContainer,
-  InnerContainer,
-  Head,
-  HeadTitle,
-  Body,
-  BodyTitle,
-  SelectBoxWrapper,
-} from './component';
+import { IndexContainer, InnerContainer, Head, SelectBoxWrapper } from './component';
+import { Header1 } from '../emotion/GlobayStyle';
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트
@@ -46,7 +40,7 @@ const Index: React.FC = () => {
       <InnerContainer>
         <Banner type="small" />
         <Head>
-          <HeadTitle>챌린저스에 등록된 프로젝트</HeadTitle>
+          <Header1>챌린저스에 등록된 프로젝트</Header1>
           <SelectBox
             options={options3}
             value={selectedOption3}
@@ -54,23 +48,13 @@ const Index: React.FC = () => {
             back="#000"
           />
         </Head>
-        <Body>
-          <BodyTitle>
-            <SelectBoxWrapper>
-              <SelectBox
-                options={options1}
-                value={selectedOption1}
-                onChange={handleSelectChange1}
-              />
-            </SelectBoxWrapper>
-            <SelectBoxWrapper>
-              <SelectBox
-                options={options2}
-                value={selectedOption2}
-                onChange={handleSelectChange2}
-              />
-            </SelectBoxWrapper>
-          </BodyTitle>
+        <Inner>
+          <SelectBoxWrapper>
+            <SelectBox options={options1} value={selectedOption1} onChange={handleSelectChange1} />
+          </SelectBoxWrapper>
+          <SelectBoxWrapper>
+            <SelectBox options={options2} value={selectedOption2} onChange={handleSelectChange2} />
+          </SelectBoxWrapper>
           <br />
           <FlexContainer>
             {test &&
@@ -83,7 +67,7 @@ const Index: React.FC = () => {
                 />
               ))}
           </FlexContainer>
-        </Body>
+        </Inner>
       </InnerContainer>
     </IndexContainer>
   );

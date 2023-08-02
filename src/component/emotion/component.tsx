@@ -681,8 +681,7 @@ export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
       width: 22.2rem;
       height: 6.2rem;
       border-radius: 0.7rem;
-      ${theme.textVariants.heading4};
-      letter-spacing: -0.06rem;
+      ${theme.typography.body1}
       color: ${theme.palette.gray.white};
       background: ${theme.palette.primary[500]};
     `,
@@ -690,8 +689,7 @@ export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
       width: 22.2rem;
       height: 6.2rem;
       border-radius: 0.7rem;
-      ${theme.textVariants.heading4};
-      letter-spacing: -0.06rem;
+      ${theme.typography.body1}
       color: ${theme.palette.gray.black};
       background: ${theme.palette.gray[300]};
     `,
@@ -699,8 +697,7 @@ export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
       width: 9.7rem;
       height: 5.3rem;
       border-radius: 0.7rem;
-      ${theme.textVariants.body1};
-      letter-spacing: -0.051rem;
+      ${theme.typography.body1};
       color: ${theme.palette.gray.white};
       background: ${theme.palette.primary[500]};
     `,

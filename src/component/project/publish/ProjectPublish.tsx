@@ -11,9 +11,9 @@ import Tag, {
   TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
-import { Header1, Header3 } from './component';
+import { Header1, Header2 } from '../../emotion/GlobayStyle';
 
-const Publish = () => {
+const ProjectPublish = () => {
   return (
     <div
       css={css`
@@ -94,23 +94,23 @@ const Publish = () => {
               <Header1>프로젝트 요약</Header1>
             </div>
             <GridBox>
-              <Header3>소속 클럽</Header3>
+              <Header2>소속 클럽</Header2>
               <TextInputBox type="select" text="소속 클럽을 입력해주세요" />
             </GridBox>
             <GridBox>
-              <Header3>서비스 형태</Header3>
+              <Header2>서비스 형태</Header2>
               <TextInputBox type="select" text="서비스 형태를 선택해주세요" />
             </GridBox>
             <GridBox>
-              <Header3>프로젝트 상태</Header3>
+              <Header2>프로젝트 상태</Header2>
               <TextInputBox type="select" text="프로젝트 현재 상태를 선택해주세요" />
             </GridBox>
             <GridBox>
-              <Header3>프로젝트 기간</Header3>
+              <Header2>프로젝트 기간</Header2>
               <TextInputBox type="select" text="기간을 선택해주세요" />
             </GridBox>
             <GridBox>
-              <Header3>사용된 기술 스택</Header3>
+              <Header2>사용된 기술 스택</Header2>
               <TextInputBox type="select" text="사용된 기술 스택을 선택해주세요" />
             </GridBox>
           </div>
@@ -166,4 +166,4 @@ const Publish = () => {
   );
 };
 
-export default Publish;
+export default ProjectPublish;

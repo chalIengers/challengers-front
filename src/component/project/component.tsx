@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import theme from '../../styles/theme';
 
 export const IndexContainer = styled.div`
   background-color: #000;
@@ -27,13 +26,6 @@ export const Head = styled.div`
   justify-content: space-between;
   margin-bottom: 2.3rem;
   margin-top: 3rem;
-`;
-export const HeadTitle = styled.div`
-  ${theme.textVariants.heading2}
-`;
-export const Body = styled.div``;
-export const BodyTitle = styled.div`
-  display: flex;
 `;
 
 export const SelectBoxWrapper = styled.div`

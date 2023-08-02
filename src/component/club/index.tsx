@@ -1,7 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { Banner, Inner } from '../emotion/component';
-import { ClubBox, Header2, Header4, Head } from './emotion/component';
+import { ClubBox, Head } from './emotion/component';
+import { Body1, Header2 } from '../emotion/GlobayStyle';
 
 const index = () => {
   return (
@@ -14,15 +15,14 @@ const index = () => {
       `}
     >
       <Banner type="small" />
-      <Header2
-        style={css`
-          letter-spacing: -0.075rem;
+      <div
+        css={css`
           margin-top: 8.8rem;
           margin-bottom: 6rem;
         `}
       >
-        내가 소속된 클럽
-      </Header2>
+        <Body1>내가 소속된 클럽</Body1>
+      </div>
       <ClubBox />
       <Head
         style={css`
@@ -31,21 +31,19 @@ const index = () => {
         `}
       >
         <Header2
-          style={css`
-            letter-spacing: -0.075rem;
-            padding-right: 10px;
-          `}
+        // style={css`
+        //   padding-right: 10px;
+        // `}
         >
           챌린저스에 등록된 클럽
         </Header2>
-        <Header4
-          style={css`
-            letter-spacing: -0.054rem;
-            cursor: pointer;
-          `}
+        <Header2
+        // style={css`
+        //   cursor: pointer;
+        // `}
         >
           클럽을 등록하고 싶다면?
-        </Header4>
+        </Header2>
       </Head>
       <ClubBox />
       <ClubBox />

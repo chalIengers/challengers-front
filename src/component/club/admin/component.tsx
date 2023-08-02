@@ -2,7 +2,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { ButtonBox, ContainerComponent } from '../../emotion/component';
-import theme from '../../../styles/theme';
+import { Body1 } from '../../emotion/GlobayStyle';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트
@@ -17,14 +17,7 @@ export const ClubAcceptBox = () => {
           align-items: center;
         `}
       >
-        <p
-          css={css`
-            ${theme.textVariants.heading3}
-            letter-spacing: -0.066rem;
-          `}
-        >
-          김멋사 (likelion@kangnam.ac.kr)
-        </p>
+        <Body1>김멋사 (likelion@kangnam.ac.kr)</Body1>
         <div
           css={css`
             display: flex;

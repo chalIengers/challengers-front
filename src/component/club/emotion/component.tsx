@@ -4,6 +4,7 @@ import React, { ReactNode, useState } from 'react';
 import { SerializedStyles, css } from '@emotion/react';
 import { ButtonBox, ClubComponent, ContainerComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
+import { Body1 } from '../../emotion/GlobayStyle';
 
 /**
  * '클럽 마스터 이메일 보기' 버튼을 눌렀을 때 뜨게 되는 컴포넌트
@@ -26,15 +27,14 @@ export const Toast = () => {
         box-shadow: 6px 7px 9px 5px rgba(0, 0, 0, 0.25);
       `}
     >
-      <p
-        css={css`
-          display: block;
-          font-size: ${theme.textVariants.heading5};
-          color: ${theme.palette.gray[800]};
-        `}
+      <Body1
+      // css={css`
+      //   display: block;
+      //   color: ${theme.palette.gray[800]};
+      // `}
       >
         해당 클럽 마스터의 이메일이 클립보드에 복사되었어요
-      </p>
+      </Body1>
     </div>
     // </div>
   );
@@ -74,28 +74,6 @@ export const ClubBox = () => {
   );
 };
 
-export const Header2 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <h2
-    css={css`
-      ${theme.textVariants.heading2}
-      ${style}
-    `}
-  >
-    {children}
-  </h2>
-);
-
-export const Header4 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <h4
-    css={css`
-      ${theme.textVariants.heading4}
-      ${style}
-    `}
-  >
-    {children}
-  </h4>
-);
-
 /**
  * ContainerComponent를 쓰지 않은 컴포넌트들의 배치를 위해 만든 컴포넌트
  */
@@ -110,15 +88,4 @@ export const Head = ({ children, style }: { children: ReactNode; style?: Seriali
   >
     {children}
   </div>
-);
-
-export const Header5 = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <h5
-    css={css`
-      ${theme.textVariants.heading5}
-      ${style}
-    `}
-  >
-    {children}
-  </h5>
 );

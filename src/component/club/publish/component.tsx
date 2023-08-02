@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ContainerComponent } from '../../emotion/component';
-import { Header4, Header5 } from '../emotion/component';
+import { Body1 } from '../../emotion/GlobayStyle';
 
 export const ClubLogoPreView = () => {
   return (
@@ -70,76 +70,48 @@ export const ClubInfoInput = () => {
           gap: 3.7rem;
         `}
       >
-        <p
-          css={css`
-            ${theme.textVariants.heading2}
-            letter-spacing: -0.075rem;
-          `}
-        >
-          클럽신청서
-        </p>
+        <Body1>클럽신청서</Body1>
         <div
           css={css`
             ${styles.attributeWrapper}
           `}
         >
-          <Header4
-            style={css`
-              letter-spacing: -0.06rem;
-            `}
-          >
-            클럽 이름
-          </Header4>
-          <Header5
-            style={css`
-              letter-spacing: -0.06rem;
-              color: ${theme.palette.gray[400]};
-            `}
+          <Body1>클럽 이름</Body1>
+          <Body1
+          // css={css`
+          //   color: ${theme.palette.gray[400]};
+          // `}
           >
             소속 클럽을 입력해주세요
-          </Header5>
+          </Body1>
         </div>
         <div
           css={css`
             ${styles.attributeWrapper}
           `}
         >
-          <Header4
-            style={css`
-              letter-spacing: -0.06rem;
-            `}
-          >
-            클럽 형태
-          </Header4>
-          <Header5
-            style={css`
-              letter-spacing: -0.06rem;
-              color: ${theme.palette.gray[400]};
-            `}
+          <Body1>클럽 형태</Body1>
+          <Body1
+          // style={css`
+          //   color: ${theme.palette.gray[400]};
+          // `}
           >
             소속 형태을 입력해주세요
-          </Header5>
+          </Body1>
         </div>
         <div
           css={css`
             ${styles.attributeWrapper}
           `}
         >
-          <Header4
-            style={css`
-              letter-spacing: -0.06rem;
-            `}
-          >
-            클럽 소개
-          </Header4>
-          <Header5
-            style={css`
-              letter-spacing: -0.06rem;
-              color: ${theme.palette.gray[400]};
-            `}
+          <Body1>클럽 소개</Body1>
+          <Body1
+          // style={css`
+          //   color: ${theme.palette.gray[400]};
+          // `}
           >
             클럽에 대한 간단한 소개 메세지를 입력해주세요
-          </Header5>
+          </Body1>
         </div>
       </div>
     </ContainerComponent>

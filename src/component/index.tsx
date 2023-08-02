@@ -1,31 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { Banner, ClubComponent, FlexContainer, Inner, ProjectBox } from './emotion/component';
-import theme from '../styles/theme';
 import data from '../json/data.json';
 import data2 from '../json/data2.json';
-import { HeadTitle } from './project/component';
+import { Body1, Header1 } from './emotion/GlobayStyle';
 
-export const Heading5 = styled.div`
-  ${theme.textVariants.heading5}
-  &:hover {
-    cursor: pointer;
-  }
-`;
 const index = () => {
   return (
     <Inner
       style={css`
         align-items: start;
-        margin-top: 15rem;
-        margin-bottom: 16.6rem;
+        margin: 0 16rem;
       `}
     >
       <Banner type="large" />
       <div style={{ marginTop: '3rem' }}></div>
-      <HeadTitle>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</HeadTitle>
+      <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
       <div
         css={css`
           width: 1200px;
@@ -64,8 +55,8 @@ const index = () => {
           margin-top: 5rem;
         `}
       >
-        <HeadTitle>붐하고 뜨고 있는 프로젝트</HeadTitle>
-        <Heading5>더 보러가기 &gt;</Heading5>
+        <Header1>붐하고 뜨고 있는 프로젝트</Header1>
+        <Body1>더 보러가기 &gt;</Body1>
       </div>
       <FlexContainer>
         {data &&
@@ -86,8 +77,8 @@ const index = () => {
           margin-top: 10rem;
         `}
       >
-        <HeadTitle>최근 등록된 프로젝트</HeadTitle>
-        <Heading5>더 보러가기 &gt;</Heading5>
+        <Header1>최근 등록된 프로젝트</Header1>
+        <Body1>더 보러가기 &gt;</Body1>
       </div>
       <FlexContainer>
         {data &&

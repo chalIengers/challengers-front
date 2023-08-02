@@ -10,7 +10,7 @@ import Tag, {
   TeamInfoBox,
 } from '../../emotion/component';
 import { ProjectLinkButton } from '../emotion/component';
-import { Body2, Header1, Header3 } from './component';
+import { Body2, Header1, Header2 } from '../../emotion/GlobayStyle';
 
 const Detail = () => {
   return (
@@ -72,56 +72,56 @@ const Detail = () => {
             <Header1>프로젝트 요약</Header1>
           </div>
           <GridBox>
-            <Header3>소속 클럽</Header3>
+            <Header2>소속 클럽</Header2>
             <Body2
-              style={css`
-                position: absolute;
-                left: 25.1rem;
-              `}
+            // style={css`
+            //   position: absolute;
+            //   left: 25.1rem;
+            // `}
             >
               소속 클럽
             </Body2>
           </GridBox>
           <GridBox>
-            <Header3>서비스 형태</Header3>
+            <Header2>서비스 형태</Header2>
             <Body2
-              style={css`
-                position: absolute;
-                left: 25.1rem;
-              `}
+            // style={css`
+            //   position: absolute;
+            //   left: 25.1rem;
+            // `}
             >
               서비스 형태
             </Body2>
           </GridBox>
           <GridBox>
-            <Header3>프로젝트 상태</Header3>
+            <Header2>프로젝트 상태</Header2>
             <Body2
-              style={css`
-                position: absolute;
-                left: 25.1rem;
-              `}
+            // style={css`
+            //   position: absolute;
+            //   left: 25.1rem;
+            // `}
             >
               프로젝트 형태
             </Body2>
           </GridBox>
           <GridBox>
-            <Header3>프로젝트 기간</Header3>
+            <Header2>프로젝트 기간</Header2>
             <Body2
-              style={css`
-                position: absolute;
-                left: 25.1rem;
-              `}
+            // style={css`
+            //   position: absolute;
+            //   left: 25.1rem;
+            // `}
             >
               프로젝트 기간
             </Body2>
           </GridBox>
           <GridBox>
-            <Header3>사용된 기술 스택</Header3>
+            <Header2>사용된 기술 스택</Header2>
             <Body2
-              style={css`
-                position: absolute;
-                left: 25.1rem;
-              `}
+            // style={css`
+            //   position: absolute;
+            //   left: 25.1rem;
+            // `}
             >
               사용된 기술 스택
             </Body2>
