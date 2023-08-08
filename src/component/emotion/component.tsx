@@ -11,20 +11,31 @@ interface ContainerComponentProps {
   height: string;
   padding?: string;
   children?: ReactNode;
+  style?: SerializedStyles;
 }
 
-const StyledContainerComponent = styled.div<ContainerComponentProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  padding: ${(props) => props.padding};
-  background-color: #212121;
-  border-radius: 1.25em;
-`;
+const StyledContainerComponent = ({
+  width,
+  height,
+  padding,
+  children,
+  style,
+}: ContainerComponentProps) => (
+  <div
+    css={css`
+      margin: 0 auto;
+      color: #ffffff;
+      width: ${width};
+      height: ${height};
+      padding: ${padding};
+      background-color: #212121;
+      border-radius: 1.25em;
+      ${style}
+    `}
+  >
+    {children}
+  </div>
+);
 
 /**
  * Container 컴포넌트
@@ -38,9 +49,10 @@ const ContainerComponent: React.FC<ContainerComponentProps> = ({
   height,
   children,
   padding,
+  style,
 }) => {
   return (
-    <StyledContainerComponent width={width} height={height} padding={padding}>
+    <StyledContainerComponent width={width} height={height} padding={padding} style={style}>
       {children}
     </StyledContainerComponent>
   );
@@ -50,6 +62,7 @@ ContainerComponent.defaultProps = {
   width: '120rem',
   children: null,
   padding: '7.2rem',
+  style: undefined,
 };
 
 export { ContainerComponent };
