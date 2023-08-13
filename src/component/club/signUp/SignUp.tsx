@@ -9,7 +9,7 @@ import {
   Inner,
   TextInputBox,
 } from '../../emotion/component';
-import { Body1, Body2, Header1, Header2, Section } from '../../emotion/GlobayStyle';
+import { Body1, Body2, Header1, Header2, Section } from '../../emotion/GlobalStyle';
 
 const Signup = () => {
   return (

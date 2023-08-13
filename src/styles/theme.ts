@@ -41,6 +41,10 @@ export const theme: DefaultTheme = {
       fontWeight: 'Bold',
       fontSize: '1.4rem',
     },
+    body4: {
+      fontWeight: 'Medium',
+      fontSize: '1.2rem',
+    },
   },
   palette: {
     primary: {

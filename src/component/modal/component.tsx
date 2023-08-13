@@ -89,7 +89,7 @@ export const RegisterSuccessModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.typography.header2};
+            ${theme.typography.header1};
             text-align: center;
             margin-bottom: 2.2rem;
           `}
@@ -106,7 +106,7 @@ export const RegisterSuccessModal = () => {
         <div
           css={css`
             color: ${theme.palette.gray[400]};
-            ${theme.typography.body1Bold};
+            ${theme.typography.body2};
             margin-bottom: 5.1rem;
             text-align: center;
           `}
@@ -130,7 +130,7 @@ export const RegisterModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.typography.header2};
+            ${theme.typography.header1};
             text-align: center;
             margin-bottom: 4.3rem;
           `}
@@ -140,7 +140,7 @@ export const RegisterModal = () => {
         <div
           css={css`
             color: ${theme.palette.gray.black};
-            ${theme.typography.header2};
+            ${theme.typography.body1};
             margin-bottom: 5.1rem;
             text-align: center;
           `}
@@ -177,7 +177,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[900]};
-            ${theme.typography.header2};
+            ${theme.typography.header1};
             text-align: center;
             margin-bottom: 6.2rem;
           `}
@@ -187,7 +187,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray.black};
-            ${theme.typography.body1Bold};
+            ${theme.typography.body1};
             margin-bottom: 3.6rem;
           `}
         >
@@ -198,7 +198,7 @@ export const CreateClubModal = () => {
         <p
           css={css`
             color: ${theme.palette.gray[600]};
-            ${theme.typography.body1Bold};
+            ${theme.typography.body1};
             margin-bottom: 5.3rem;
           `}
         >

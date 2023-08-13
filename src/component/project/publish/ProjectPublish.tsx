@@ -11,7 +11,7 @@ import Tag, {
   TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
-import { Header1, Header2, Section } from '../../emotion/GlobayStyle';
+import { Header1, Header2, Section } from '../../emotion/GlobalStyle';
 
 const ProjectPublish = () => {
   return (

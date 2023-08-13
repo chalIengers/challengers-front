@@ -2,7 +2,7 @@
 import React from 'react';
 import { Banner, ButtonBox, Inner } from '../../emotion/component';
 import { ClubInfoInput, ClubLogoPreView } from './component';
-import { Body1, Header1, Section } from '../../emotion/GlobayStyle';
+import { Body1, Header1, Section } from '../../emotion/GlobalStyle';
 
 const Publish = () => {
   return (

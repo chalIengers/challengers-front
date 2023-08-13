@@ -4,10 +4,10 @@ import { css } from '@emotion/react';
 import React, { useState } from 'react';
 import theme from '../../../styles/theme';
 
-type LinkImgList = {
-  [key: string]: string;
-};
 // 링크 이미지 더미 데이터
+interface LinkImgList {
+  [key: string]: string;
+}
 const linkImgList: LinkImgList = {
   github: 'https://via.placeholder.com/30x30',
   notion: 'https://via.placeholder.com/30x30',
@@ -15,16 +15,16 @@ const linkImgList: LinkImgList = {
   other: 'https://via.placeholder.com/30x30',
 };
 
-type LinkImgProps = {
+interface LinkImgProps {
   name: string;
   type: 'large' | 'small';
-};
+}
 /**
  * 노션, 깃허브 등의 이미지를 보여주는 컴포넌트
  * @param name link 이미지 이름
  * @param type link 이미지 크기 타입
  */
-export const LinkImg = ({ name, type }: LinkImgProps) => {
+const LinkImg = ({ name, type }: LinkImgProps) => {
   const styles = {
     large: css`
       width: 4.5rem;
@@ -46,10 +46,10 @@ export const LinkImg = ({ name, type }: LinkImgProps) => {
   );
 };
 
-type ProjectLinkButtonProps = {
+interface ProjectLinkButtonProps {
   name: string;
   url: string;
-};
+}
 /**
  * ProjectLink를 연결해주는 UI 컴포넌트
  * @param name 보여줄 link 이미지의 이름
@@ -66,7 +66,7 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
         width: 8.7rem;
         height: 8.7rem;
         border-radius: 4.35rem;
-        background: #fff;
+        background: ${theme.palette.gray.white};
         border: solid 1px black;
         cursor: pointer;
         user-select: none;
@@ -99,7 +99,7 @@ export const LinkInputBox = () => {
         height: 6.6rem;
         border-radius: 1.2rem;
         border: 1px solid black;
-        background: #fff;
+        background: ${theme.palette.gray.white};
         display: grid;
         grid-template-columns: 1fr auto;
         gap: 30px;

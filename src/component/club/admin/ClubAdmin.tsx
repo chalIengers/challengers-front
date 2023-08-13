@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Banner, Inner, TextBox } from '../../emotion/component';
 import { ChallengersLogo, ClubAcceptBox } from './component';
-import { Body1Bold, Header2, Section } from '../../emotion/GlobayStyle';
+import { Body1Bold, Header2, Section } from '../../emotion/GlobalStyle';
 
 const index = () => {
   return (

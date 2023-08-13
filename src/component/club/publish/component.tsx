@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
-import { Header2, Body2, Header1 } from '../../emotion/GlobayStyle';
+import { Header2, Body2, Header1 } from '../../emotion/GlobalStyle';
 
 export const ClubLogoPreView = () => {
   return (
@@ -42,7 +42,7 @@ export const ClubLogoPreView = () => {
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          color: #c8c8c8;
+          color: ${theme.palette.gray[400]};
         `}
       >
         <Body2>

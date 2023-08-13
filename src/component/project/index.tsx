@@ -10,7 +10,7 @@ import {
   TextBox,
 } from '../emotion/component';
 import { TagList } from './component';
-import { Header2, Section } from '../emotion/GlobayStyle';
+import { Header2, Section } from '../emotion/GlobalStyle';
 
 const Index: React.FC = () => {
   // Selectbox 컴포넌트

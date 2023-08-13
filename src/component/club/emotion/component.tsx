@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 
-import { SerializedStyles, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import { ButtonBox, ClubComponent, ContainerComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
-import { Body1 } from '../../emotion/GlobayStyle';
+import { Body1 } from '../../emotion/GlobalStyle';
 
 /**
  * '클럽 마스터 이메일 보기' 버튼을 눌렀을 때 뜨게 되는 컴포넌트
@@ -24,19 +24,18 @@ export const Toast = () => {
         overflow: auto;
         border-radius: 1.2rem;
         background: ${theme.palette.gray.white};
-        box-shadow: 6px 7px 9px 5px rgba(0, 0, 0, 0.25);
+        box-shadow: 0.6rem 0.7rem 0.9rem 0.5rem rgba(0, 0, 0, 0.25);
       `}
     >
       <Body1
-      // css={css`
-      //   display: block;
-      //   color: ${theme.palette.gray[800]};
-      // `}
+        style={css`
+          display: block;
+          color: ${theme.palette.gray[900]};
+        `}
       >
         해당 클럽 마스터의 이메일이 클립보드에 복사되었어요
       </Body1>
     </div>
-    // </div>
   );
 };
 
@@ -77,19 +76,3 @@ export const ClubBox = ({ text }: { text?: string }) => {
 ClubBox.defaultProps = {
   text: '클럽 가입 신청',
 };
-
-/**
- * ContainerComponent를 쓰지 않은 컴포넌트들의 배치를 위해 만든 컴포넌트
- */
-export const Head = ({ children, style }: { children: ReactNode; style?: SerializedStyles }) => (
-  <div
-    css={css`
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      ${style};
-    `}
-  >
-    {children}
-  </div>
-);

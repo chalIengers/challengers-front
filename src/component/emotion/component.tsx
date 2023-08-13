@@ -695,9 +695,9 @@ export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
   );
 };
 
-type BannerProps = {
+interface BannerProps {
   type: 'large' | 'small';
-};
+}
 export const Banner = ({ type }: BannerProps) => {
   const styles = {
     large: {
@@ -714,18 +714,15 @@ export const Banner = ({ type }: BannerProps) => {
         margin-right: 27.5rem;
       `,
       title: css`
-        font-size: 4rem;
+        ${theme.typography.title}
         padding-bottom: 0.9rem;
-        letter-spacing: -0.12rem;
       `,
       middleTitle: css`
-        font-size: 2.3rem;
-        letter-spacing: -0.069rem;
+        ${theme.typography.header1}
         padding-bottom: 3.5rem;
       `,
       description: css`
-        font-size: 1.7rem;
-        letter-spacing: -0.051rem;
+        ${theme.typography.body1}
       `,
     },
     small: {
@@ -736,25 +733,21 @@ export const Banner = ({ type }: BannerProps) => {
       image: css`
         width: 10.5rem;
         height: 10.5rem;
-        /* margin-left: 26rem; */
+        margin-left: 41.6rem;
       `,
       textBox: css`
-        /* margin-right: 21.5rem;
-        text-align: left; */
+        margin-right: 37.5rem;
       `,
       title: css`
-        font-size: 2.1rem;
+        ${theme.typography.header2}
         padding-bottom: 0.3rem;
-        letter-spacing: -0.063rem;
       `,
       middleTitle: css`
-        font-size: 1.5rem;
-        letter-spacing: -0.045rem;
+        ${theme.typography.body3Bold}
         padding-bottom: 1.3rem;
       `,
       description: css`
-        font-size: 1.2rem;
-        letter-spacing: -0.036rem;
+        ${theme.typography.body4}
       `,
     },
   };
@@ -813,10 +806,10 @@ export const Banner = ({ type }: BannerProps) => {
   );
 };
 
-type ClubComponentProps = {
+interface ClubComponentProps {
   name: string;
   clubImg: string;
-};
+}
 /**
  * club logo를 가져오는 컴포넌트
  * @param name 가져올 이미지의 클럽명

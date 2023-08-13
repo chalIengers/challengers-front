@@ -11,7 +11,7 @@ import {
 } from '../emotion/component';
 import data from '../../json/data.json';
 import data2 from '../../json/data2.json';
-import { Body1, Header1, Section } from '../emotion/GlobayStyle';
+import { Body1, Header1, Section } from '../emotion/GlobalStyle';
 import { ClubList } from './component';
 
 const index = () => {
