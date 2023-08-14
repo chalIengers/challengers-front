@@ -5,31 +5,20 @@ import React, { ReactNode, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 
-interface ContainerComponentProps {
-  padding?: string;
-  children?: ReactNode;
-  margin?: string;
-}
-
 /**
  * Container 컴포넌트
  * @Containercomponent
  * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
  */
-export const ContainerComponent: React.FC<ContainerComponentProps> = ({
-  children,
-  padding,
-  margin,
-}) => {
+export const ContainerComponent = ({ children }: { children: ReactNode }) => {
   return (
     <div
       css={css`
         width: 120rem;
         margin: 0 auto;
-        padding: ${padding};
-        background-color: #212121;
-        border-radius: 1.25em;
-        margin: ${margin};
+        padding: 5.6rem 7.2rem;
+        background-color: ${theme.palette.gray[900]};
+        border-radius: 1.6rem;
         display: flex;
         flex-direction: column;
         gap: 4rem;
@@ -38,11 +27,6 @@ export const ContainerComponent: React.FC<ContainerComponentProps> = ({
       {children}
     </div>
   );
-};
-
-ContainerComponent.defaultProps = {
-  children: null,
-  padding: '7.2rem',
 };
 
 interface SelectBoxProps {
@@ -168,12 +152,10 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
         src="https://i.ibb.co/yktPkxP/image-5.png"
         alt="Project"
         className="project-image"
-        style={{
-          width: '20.5625em',
-          height: '14.0625em',
-          borderRadius: '0.625em',
-          marginBottom: '1em',
-        }}
+        css={css`
+          border-radius: 0.8rem;
+          margin-bottom: 1.6rem;
+        `}
       />
       {generatedTags && (
         <StyledProjectTag>
@@ -362,25 +344,21 @@ export const Header = () => {
       `}
     >
       <div
-        style={{
-          display: 'flex',
-          width: '1200px',
-          margin: '0 auto',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
+        css={css`
+          display: flex;
+          width: 120rem;
+          justify-content: space-between;
+          align-items: center;
+        `}
       >
         <Link to="/">
           <img
             alt="챌린저스 로고"
             src={`${process.env.PUBLIC_URL}/img/logo.png`}
             css={css`
-              height: auto;
-              width: 8.61em;
-              transition: 0.4s all;
-              font-size: 18px;
+              width: 16rem;
             `}
-          ></img>
+          />
         </Link>
         <NavList>
           <NavItem to="/">챌린저스란?</NavItem>
@@ -596,100 +574,57 @@ export const TeamInfoBox = () => {
   );
 };
 
-type InnerProps = {
-  children: ReactNode;
-};
-
-/**
- * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
- * @param children 컴포넌트 안에 넣을 자식 요소
- * @param style 컴포넌트의 스타일 css 요소
- */
-export const Inner = ({ children }: InnerProps) => (
-  <section
-    css={css`
-      width: 120rem;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      gap: 9.6rem;
-    `}
-  >
-    {children}
-  </section>
-);
-
-type ButtonBoxProps = {
+interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'modal_cancel' | 'very_small';
-  onClickFunction?: any;
-};
+  type: 'large' | 'small' | 'modal' | 'very_small';
+  cancel?: boolean;
+  onClick?: () => void;
+}
 
 /**
  * 버튼 컴포넌트
  * @param text 버튼 안의 text 내용
  * @param type 버튼의 형태(large, small, modal, modal_cancel)
  */
-export const ButtonBox = ({ text, type, onClickFunction }: ButtonBoxProps) => {
-  const styles = {
+export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
+  const buttonStyles = {
     large: css`
-      width: 119.8rem;
-      height: 9.9rem;
-      border-radius: 1.2rem;
-      font-size: 2.5rem;
-      letter-spacing: -0.075rem;
-      background: ${theme.palette.primary[500]};
-      font-weight: 700;
-    `,
-    small: css`
-      width: 19.8rem;
-      height: 5.3rem;
-      border-radius: 0.7rem;
-      font-size: 1.7rem;
-      letter-spacing: -0.051rem;
-      background: ${theme.palette.primary[500]};
-      font-weight: 700;
+      width: 120rem;
+      height: 9.6rem;
+      ${theme.typography.header1}
     `,
     modal: css`
-      width: 22.2rem;
-      height: 6.2rem;
-      border-radius: 0.7rem;
-      ${theme.typography.body1}
-      color: ${theme.palette.gray.white};
-      background: ${theme.palette.primary[500]};
+      width: 22.4rem;
+      height: 6.4rem;
+      ${theme.typography.header2}
+      color: ${cancel && theme.palette.gray.black};
+      background-color: ${cancel && theme.palette.gray[300]};
     `,
-    modal_cancel: css`
-      width: 22.2rem;
-      height: 6.2rem;
-      border-radius: 0.7rem;
-      ${theme.typography.body1}
-      color: ${theme.palette.gray.black};
-      background: ${theme.palette.gray[300]};
+    small: css`
+      width: 22.4rem;
+      height: 5.6rem;
+      ${theme.typography.body1Bold}
     `,
     very_small: css`
-      width: 9.7rem;
-      height: 5.3rem;
-      border-radius: 0.7rem;
-      ${theme.typography.body1};
-      color: ${theme.palette.gray.white};
-      background: ${theme.palette.primary[500]};
+      width: 9.6rem;
+      height: 5.6rem;
+      ${theme.typography.body1Bold};
     `,
   };
 
-  return (
-    <button
-      type="button"
-      css={css`
-        ${styles[type]}
+  const buttonStyle = css`
+    border-radius: ${type === 'large' ? 1.2 : 0.8}rem;
+    background-color: ${theme.palette.primary[500]};
+    ${buttonStyles[type]}
 
-        &:active {
-          transform: scale(0.98);
-          box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-        }
-      `}
-      onClick={onClickFunction}
-    >
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    }
+  `;
+
+  return (
+    <button type="button" css={buttonStyle} onClick={onClick}>
       {text}
     </button>
   );
@@ -896,6 +831,11 @@ export const TextInputBox = ({
     />
   );
 };
+
+/**
+ * @param children space-between을 적용 할 Text
+ * @param margin margin-bottom 설정이 가능(단위 rem, 기본값 4.8)
+ */
 
 export const TextBox = ({ children, margin }: { children: ReactNode; margin?: string }) => (
   <div

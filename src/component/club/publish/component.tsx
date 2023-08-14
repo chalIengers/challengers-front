@@ -59,7 +59,7 @@ export const ClubLogoPreView = () => {
  */
 export const ClubInfoInput = () => {
   return (
-    <ContainerComponent padding="5.1rem 7.2rem" margin="0 0 3.8rem 0">
+    <ContainerComponent>
       <div
         css={css`
           display: flex;

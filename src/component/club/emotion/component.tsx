@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import { css } from '@emotion/react';
-import { ButtonBox, ClubComponent, ContainerComponent } from '../../emotion/component';
+import { ButtonBox, ClubComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
 import { Body1 } from '../../emotion/GlobalStyle';
 
@@ -39,6 +39,24 @@ export const Toast = () => {
   );
 };
 
+export const ClubContainer = ({ children }: { children: ReactNode }) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 120rem;
+        background-color: ${theme.palette.gray[900]};
+        padding: 3.6rem 4.8rem;
+        border-radius: 1.2rem;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+
 /**
  * 클럽 페이지의 클럽로고 + 버튼 컴포넌트
  *
@@ -55,21 +73,11 @@ export const ClubBox = ({ text }: { text?: string }) => {
     }, 3000);
   };
   return (
-    <>
-      <ContainerComponent padding="2.5rem" margin="0 0 3.8rem 0">
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          `}
-        >
-          <ClubComponent key="1" name="챌린저스" clubImg="challenger.png" />
-          <ButtonBox text={text} type="small" onClickFunction={ShowToast} />
-        </div>
-      </ContainerComponent>
+    <ClubContainer>
+      <ClubComponent key="1" name="챌린저스" clubImg="challenger.png" />
+      <ButtonBox text={text} type="small" onClick={ShowToast} />
       {showToast && <Toast />}
-    </>
+    </ClubContainer>
   );
 };
 
