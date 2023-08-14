@@ -110,19 +110,7 @@ const Signup = () => {
                     },
                   })}
                 />
-                <Heading4
-                  css={css`
-                    color: #cbcbcb;
-                    font-size: 2rem;
-                    font-family: Pretendard;
-                    font-style: normal;
-                    font-weight: 500;
-                    line-height: normal;
-                    letter-spacing: -0.6px;
-                  `}
-                >
-                  @ kangnam.ac.kr
-                </Heading4>
+                <Heading4>@ kangnam.ac.kr</Heading4>
               </div>
               <div>
                 {errors.email || !getValues('email') ? (
@@ -139,6 +127,7 @@ const Signup = () => {
               <TextInputBox
                 type="select"
                 text="서비스에서 사용할 비밀번호를 입력해주세요"
+                size={30}
                 max={20}
                 inputType="password"
                 register={register('pw', {
@@ -170,6 +159,7 @@ const Signup = () => {
               <TextInputBox
                 type="select"
                 text="입력한 비밀번호를 한번 더 입력해주세요"
+                size={30}
                 max={20}
                 inputType="password"
                 register={register('pwConfirm', {
