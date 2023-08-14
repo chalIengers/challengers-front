@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import Tag, {
+import {
+  Tag,
   Banner,
   ContainerComponent,
   GridBox,

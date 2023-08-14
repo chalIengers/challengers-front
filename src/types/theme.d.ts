@@ -82,6 +82,7 @@ declare module '@emotion/react' {
         info: { 500: string };
         warning: { 500: string };
         danger: { 500: string };
+        lightblue: { 500: string };
       };
     };
     // spacing: {

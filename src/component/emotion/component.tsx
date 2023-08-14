@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { ReactNode, useEffect, useState, useRef } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 
@@ -222,13 +222,13 @@ interface TagType {
  * 라벨 컴포넌트
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-const Tag = ({ children }: TagType) => {
+export const Tag = ({ children }: TagType) => {
   return (
     <span
       css={css`
         padding: 0.8rem;
-        color: white;
-        background-color: #4f85e8;
+        color: ${theme.palette.gray.white};
+        background-color: ${theme.palette.semantic.lightblue[500]};
         border-radius: 0.5rem;
         display: flex;
         align-items: center;
@@ -244,13 +244,12 @@ const Tag = ({ children }: TagType) => {
 Tag.defaultProps = {
   children: '서비스 형태가 들어가요',
 };
-export default Tag;
 
 const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles }) => {
   return (
     <nav
       css={css`
-        background-color: #000000;
+        background-color: ${theme.palette.gray.black};
         z-index: 99;
         width: 100%;
         height: 102px;
@@ -260,7 +259,6 @@ const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles
         position: fixed;
         top: 0px;
         left: 0px;
-        column-gap: 30em;
         transition: 0.5s all;
         ${style}
       `}
@@ -274,7 +272,7 @@ const NavList = ({ children }: { children: ReactNode }) => {
     <div
       css={css`
         display: flex;
-        column-gap: 3em;
+        column-gap: 6.4rem;
         transition: 0.4s all;
       `}
     >
@@ -287,7 +285,7 @@ const NavItem = ({ children, to }: { children: ReactNode; to: string }) => {
     <Link to={to}>
       <p
         css={css`
-          color: white;
+          color: ${theme.palette.gray.white};
           text-decoration-line: none;
           transition: 0.5s all;
           &:hover {
@@ -404,11 +402,11 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
   return (
     <img
       alt="프로젝트 상세 이미지"
-      width={1051}
-      height={507}
       src={`${process.env.PUBLIC_URL}/img/${imgSrc}`}
       css={css`
         color: #000;
+        width: '105.1rem';
+        height: '50.7rem';
       `}
     ></img>
   );
@@ -419,180 +417,172 @@ ImageBox.defaultProps = {
 };
 
 // TeamInfo 컴포넌트
-const TitleText = styled.span`
-  display: inline;
-  color: ${(props: any) => (props.color ? props.color : 'white')};
-  font-size: 20px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -1.3px;
-`;
-const ContentText = styled(TitleText)`
-  font-size: 16px;
-  color: black;
-`;
-const Box = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 313px;
-  height: auto;
-  border-radius: 14px;
-`;
-const ModalBox = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 313px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 206px;
-  border-radius: 14px;
-  background: rgba(73, 73, 73, 0.6);
-`;
-const PositionBox = styled.div`
-  width: 313px;
-  height: 57px;
-  border-radius: 14px 14px 0px 0px;
-  background: #4a7edc;
-  display: flex;
-  align-items: center;
-  padding: 0px 20px;
-`;
-const InfoBox = styled.div`
-  width: 313px;
-  border-radius: 0px 0px 14px 14px;
-  background: #e8f3ff;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 17px;
-`;
-const ContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 9px;
-`;
-const TitleInput = styled.input`
-  background: #e8f3ff;
-  background-position: right center;
-  padding: 0;
-  height: 30px;
-  outline: none;
-  border: none;
-  box-sizing: border-box;
-  font-size: 20px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.6px;
-  overflow: auto;
-  ::placeholder {
-    color: #cbcbcb;
-  }
-`;
-const ContentInput = styled(TitleInput)`
-  font-size: 16px;
-`;
-const AddMememberText = styled(ContentText)`
-  color: #4a7edc;
-  text-decoration: #4a7edc 2.5px solid underline;
-  text-underline-offset: 5px;
-  letter-spacing: -0.6px;
-  :hover {
-    cursor: pointer;
-  }
-`;
-const AddPositionText = styled(ContentText)`
-  color: #fff;
-  font-size: 25px;
-  text-decoration: #fff 2.5px solid underline;
-  text-underline-offset: 5px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+const InfoText = ({
+  children,
+  type,
+}: {
+  children: ReactNode;
+  type: 'title' | 'content' | 'addMemberText' | 'addPositionText';
+}) => {
+  const styles = {
+    title: css`
+      color: '#cbcbcb';
+      ${theme.typography.header2};
+    `,
+    content: css`
+      color: ${theme.palette.gray.black};
+      ${theme.typography.body2};
+    `,
+    addMemberText: css`
+      ${theme.typography.body2};
+      font-weight: normal;
+      color: ${theme.palette.primary[500]};
+      text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
+      text-underline-offset: 0.5rem;
+      :hover {
+        cursor: pointer;
+      }
+    `,
+    addPositionText: css`
+      ${theme.typography.header1};
+      color: ${theme.palette.gray.white};
+      text-decoration: ${theme.palette.gray.white} 0.25rem solid underline;
+      text-underline-offset: 0.5rem;
+      &:hover {
+        cursor: pointer;
+      }
+    `,
+  };
+  return (
+    <span
+      css={css`
+        ${styles[type]}
+        display: inline;
+      `}
+    >
+      {children}
+    </span>
+  );
+};
+const InfoBox = ({
+  children,
+  type,
+}: {
+  children: ReactNode;
+  type: 'wrap' | 'modal' | 'upBox' | 'downBox' | 'content';
+}) => {
+  const styles = {
+    wrap: css`
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 31.3rem;
+      height: auto;
+      border-radius: 1.4rem;
+    `,
+    modal: css`
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 10;
+      width: 31.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20.6rem;
+      border-radius: 1.4rem;
+      background: rgba(73, 73, 73, 0.6);
+      display: none;
+    `,
+    upBox: css`
+      width: 31.3rem;
+      height: 5.7rem;
+      border-radius: 1.4rem 1.4rem 0 0;
+      background: ${theme.palette.primary[500]};
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+    `,
+    downBox: css`
+      width: 31.3rem;
+      border-radius: 0 0 1.4rem 1.4rem;
+      background: #e8f3ff;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 1.7rem;
+    `,
+    content: css`
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.9rem;
+    `,
+  };
+  return (
+    <div
+      css={css`
+        ${styles[type]}
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+const InfoInput = ({
+  placeholder,
+  max,
+  isContent,
+}: {
+  placeholder: string;
+  max: number;
+  isContent: boolean;
+}) => (
+  <input
+    css={css`
+      background: #e8f3ff;
+      background-position: right center;
+      padding: 0;
+      height: 30px;
+      outline: none;
+      border: none;
+      box-sizing: border-box;
+      font-size: ${isContent ? `${theme.font.md}` : `${theme.font.xl}`};
+      overflow: auto;
+      &::placeholder {
+        color: #cbcbcb;
+      }
+    `}
+    placeholder={placeholder}
+    maxLength={max}
+  />
+);
 /**
  * 팀원 infobox
  */
 export const TeamInfoBox = () => {
-  const ModalBoxComponent = useRef<HTMLDivElement>(null);
-  const [members, setMembers] = useState([{ id: 1, name: '', role: '' }]);
-
-  // 팀원 이름 state 설정
-  const handleMemberNameChange = (id: number, name: string) => {
-    const newMembers = members.map((member) => {
-      if (member.id === id) {
-        return { ...member, name };
-      }
-      return member;
-    });
-    setMembers(newMembers);
-  };
-
-  // 팀원 역할 state 설정
-  const handleMemberRoleChange = (id: number, role: string) => {
-    const newMembers = members.map((member) => {
-      if (member.id === id) {
-        return { ...member, role };
-      }
-      return member;
-    });
-    setMembers(newMembers);
-  };
-
-  // 팀원 추가 클릭시 함수
-  const addMemberOnClick = () => {
-    if (members.length < 5) {
-      const newMembers = { id: members.length + 1, name: '', role: '' };
-      setMembers([...members, newMembers]);
-    }
-  };
-  const addPositionOnClick = () => {
-    ModalBoxComponent.current?.style.setProperty('display', 'none');
-  };
+  // const addPositionOnClick = () => {
+  //   ModalBoxComponent.current?.style.setProperty('display', 'none');
+  // };
   return (
-    <Box>
-      <PositionBox>
-        <TitleText color="#CBCBCB">역할을 선택해주세요</TitleText>
-      </PositionBox>
-      <InfoBox>
+    <InfoBox type="wrap">
+      <InfoBox type="upBox">
+        <InfoText type="title">역할을 선택해주세요</InfoText>
+      </InfoBox>
+      <InfoBox type="downBox">
         {/* <ContentBox>
           <TitleText color="black">이진아</TitleText>
           <ContentText>프론트엔드</ContentText>
         </ContentBox> */}
-        {members.map((member) => (
-          <ContentBox key={member.id}>
-            <TitleInput
-              type="text"
-              placeholder="이름을 입력해주세요"
-              name={`팀원${member.id}이름`}
-              value={member.name}
-              onChange={(e: any) => handleMemberNameChange(member.id, e.target.value)}
-              maxLength={10}
-            ></TitleInput>
-            <ContentInput
-              type="text"
-              placeholder="어떤 역할을 했나요?"
-              name={`팀원${member.id}이름`}
-              value={member.role}
-              onChange={(e: any) => handleMemberRoleChange(member.id, e.target.value)}
-              maxLength={25}
-            ></ContentInput>
-          </ContentBox>
-        ))}
-        <AddMememberText onClick={addMemberOnClick}>
-          해당 포지션에 팀원을 더 추가하고싶어요
-        </AddMememberText>
+        <InfoBox type="content">
+          <InfoInput placeholder="이름을 입력해주세요" max={10} isContent={false}></InfoInput>
+          <InfoInput placeholder="어떤 역할을 했나요?" max={25} isContent></InfoInput>
+        </InfoBox>
+        <InfoText type="addMemberText">해당 포지션에 팀원을 더 추가하고싶어요</InfoText>
       </InfoBox>
-      <ModalBox ref={ModalBoxComponent}>
-        <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
-      </ModalBox>
-    </Box>
+      <InfoBox type="modal">
+        <InfoText type="addPositionText">포지션 추가</InfoText>
+      </InfoBox>
+    </InfoBox>
   );
 };
 
