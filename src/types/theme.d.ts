@@ -42,6 +42,10 @@ declare module '@emotion/react' {
         fontWeight: 'Medium';
         fontSize: '1.6rem';
       };
+      body2Bold: {
+        fontWeight: 'Bold';
+        fontSize: '1.6rem';
+      };
       body3Bold: {
         fontWeight: 'Bold';
         fontSize: '1.4rem';
