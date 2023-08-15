@@ -74,7 +74,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, 
         cursor: pointer;
         appearance: none;
         text-indent: 0.1rem;
-        background: ${back || `${theme.palette.primary[900]}`};
+        background: ${back || `${theme.palette.primary[500]}`};
         ${theme.typography.body3Bold}
         color: ${theme.palette.gray.white};
         padding-right: 2.4rem;
