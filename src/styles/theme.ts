@@ -14,7 +14,7 @@ export const theme: DefaultTheme = {
   },
   typography: {
     title: {
-      fontWeight: 'ExtraBold',
+      fontWeight: '800',
       fontSize: '4.0rem',
     },
     header1: {

@@ -8,17 +8,16 @@ import {
   ContainerComponent,
   GridBox,
   TextInputBox,
+  TagList,
+  FlexWrapContainer,
 } from '../../emotion/component';
-import { LinkInputBox } from '../emotion/component';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
-import { TeamInfoInputBox } from './component';
-import { TagList } from '../component';
-        
+import { LinkInputBox, TeamInfoInputBox } from './component';
 
 const ProjectPublish = () => {
   return (
     <Inner>
-      <Banner type="small" />
+      <Banner />
       <Section gap="4">
         <Header1>프로젝트 발행페이지</Header1>
 
@@ -69,19 +68,14 @@ const ProjectPublish = () => {
 
         <ContainerComponent>
           <Header1>팀원구성</Header1>
-          <div
-            css={css`
-              display: flex;
-              justify-content: start;
-              flex-wrap: wrap;
-              gap: 4rem;
-            `}
-          >
+
+          <FlexWrapContainer>
             <TeamInfoInputBox />
             <TeamInfoInputBox />
             <TeamInfoInputBox />
             <TeamInfoInputBox />
-          </div>
+            <TeamInfoInputBox addInfo />
+          </FlexWrapContainer>
         </ContainerComponent>
 
         <ContainerComponent>

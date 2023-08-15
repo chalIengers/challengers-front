@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { ContainerType } from '../../types/globalType';
 
-export const ClubList = ({ children }: { children: ReactNode }) => (
+export const ClubList = ({ children }: ContainerType) => (
   <div
     css={css`
-      width: 120rem;
-      height: auto;
-      row-gap: 3rem;
+      width: 100%;
+      row-gap: 4rem;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     `}

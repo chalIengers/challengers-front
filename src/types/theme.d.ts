@@ -19,7 +19,7 @@ declare module '@emotion/react' {
     };
     typography: {
       title: {
-        fontWeight: 'ExtraBold';
+        fontWeight: '800';
         fontSize: '4.0rem';
       };
       header1: {

@@ -3,15 +3,14 @@ import test from '../../json/test.json';
 import {
   Banner,
   SelectBox,
-  // ContainerComponent,
   ProjectBox,
-  FlexContainer,
+  FlexWrapContainer,
   TextBox,
+  TagList,
 } from '../emotion/component';
-import { TagList } from './component';
 import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 
-const Index: React.FC = () => {
+const Index = () => {
   // Selectbox 컴포넌트
   const [selectedOption1, setSelectedOption1] = useState('');
   const [selectedOption2, setSelectedOption2] = useState('');
@@ -35,7 +34,7 @@ const Index: React.FC = () => {
 
   return (
     <Inner>
-      <Banner type="small" />
+      <Banner />
       <Section gap="5.6">
         <div>
           <TextBox margin="1.6">
@@ -44,7 +43,7 @@ const Index: React.FC = () => {
               options={options3}
               value={selectedOption3}
               onChange={handleSelectChange3}
-              back="#000"
+              background="#000"
             />
           </TextBox>
 
@@ -54,7 +53,7 @@ const Index: React.FC = () => {
           </TagList>
         </div>
 
-        <FlexContainer>
+        <FlexWrapContainer>
           {test &&
             test.Project.map((project) => (
               <ProjectBox
@@ -64,7 +63,7 @@ const Index: React.FC = () => {
                 tags={project.tags}
               />
             ))}
-        </FlexContainer>
+        </FlexWrapContainer>
       </Section>
     </Inner>
   );

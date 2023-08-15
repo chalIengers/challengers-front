@@ -1,21 +1,41 @@
 /** @jsxImportSource @emotion/react */
-import { SerializedStyles, css } from '@emotion/react';
-import styled from '@emotion/styled';
-import React, { ReactNode, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+import React, { ChangeEvent } from 'react';
 import theme from '../../styles/theme';
+import {
+  BannerProps,
+  ButtonBoxProps,
+  ClubComponentProps,
+  ContainerType,
+  ProjectBoxProps,
+  SelectBoxProps,
+  TagListType,
+  TextBoxProps,
+  TextInputBoxType,
+} from '../../types/globalType';
+import { Body2, Header1, Section } from './GlobalStyle';
+
+export const TagList = ({ children, small }: TagListType) => (
+  <div
+    css={css`
+      display: flex;
+      gap: ${small ? 0.8 : 1.6}rem;
+    `}
+  >
+    {children}
+  </div>
+);
 
 /**
  * Container 컴포넌트
  * @Containercomponent
- * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
+ * @param children - 컨테이너 컴포넌트의 자식 요소
  */
-export const ContainerComponent = ({ children }: { children: ReactNode }) => {
+export const ContainerComponent = ({ children }: ContainerType) => {
   return (
     <div
       css={css`
-        width: 120rem;
-        margin: 0 auto;
+        width: 100%;
         padding: 5.6rem 7.2rem;
         background-color: ${theme.palette.gray[900]};
         border-radius: 1.6rem;
@@ -29,28 +49,13 @@ export const ContainerComponent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-
-ContainerComponent.defaultProps = {
-  children: null,
-  padding: '7.2rem',
-  margin: '0rem',
-};
-
 /**
  * SelectBox 컴포넌트
  * @StyledSelectBox
- * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
  */
 
-interface SelectBoxProps {
-  options: string[];
-  value: string;
-  onChange: any;
-  back?: string;
-}
-
-export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+export const SelectBox = ({ options, value, onChange, background }: SelectBoxProps) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
   };
@@ -66,7 +71,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, 
         cursor: pointer;
         appearance: none;
         text-indent: 0.1rem;
-        background: ${back || `${theme.palette.primary[500]}`};
+        background: ${background || `${theme.palette.primary[500]}`};
         ${theme.typography.body3Bold}
         color: ${theme.palette.gray.white};
         padding-right: 2.4rem;
@@ -87,6 +92,30 @@ export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, 
 };
 
 /**
+ * 라벨 컴포넌트
+ * @param children 컴포넌트 안에 넣을 자식 요소
+ */
+export const Tag = ({ children }: ContainerType) => {
+  return (
+    <span
+      css={css`
+        padding: 0.8rem;
+        color: ${theme.palette.gray.white};
+        background-color: ${theme.palette.primary[500]};
+        border-radius: 0.4rem;
+        ${theme.typography.body3Bold}
+      `}
+    >
+      {children}
+    </span>
+  );
+};
+
+Tag.defaultProps = {
+  children: '서비스 형태가 들어가요',
+};
+
+/**
  * Projectbox 컴포넌트
  * @component ProjectBox
  * @param {string} props.title - 프로젝트 제목
@@ -94,12 +123,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, 
  * @param {string[]} props.tags - 프로젝트 태그들의 배열
  */
 
-interface ProjectBoxProps {
-  title: string;
-  content: string;
-  tags: string[];
-}
-export const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
+export const ProjectBox = ({ title, content, tags }: ProjectBoxProps) => {
   const generatedTags = tags.length === 0 ? ['임의 태그'] : tags;
   return (
     <div
@@ -116,43 +140,15 @@ export const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) 
       `}
     >
       <img src="https://i.ibb.co/yktPkxP/image-5.png" alt="Project" />
-      {generatedTags && (
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            gap: 0.8rem;
-          `}
-        >
-          {generatedTags.map((tag) => (
-            <div
-              css={css`
-                border-radius: 0.5rem;
-                padding: 0.8rem;
-                background: ${theme.palette.primary[500]};
-                ${theme.typography.body3Bold};
-              `}
-              key={tag}
-            >
-              {tag}
-            </div>
-          ))}
-        </div>
-      )}
-      <div
-        css={css`
-          ${theme.typography.header1};
-        `}
-      >
-        {title}
-      </div>
-      <div
-        css={css`
-          ${theme.typography.body2};
-        `}
-      >
-        {content}
-      </div>
+
+      <TagList>
+        {generatedTags.map((tag) => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
+      </TagList>
+
+      <Header1>{title}</Header1>
+      <Body2>{content}</Body2>
     </div>
   );
 };
@@ -160,229 +156,23 @@ export const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) 
 /**
  * FlexContainer 컴포넌트
  * @component FlexContainer
- * @param {React.ReactNode} props.children - FlexContainer 내부의 자식 요소
+ * @param children - FlexContainer 내부의 자식 요소
  */
-interface FlexContainerProps {
-  children: React.ReactNode;
-}
-export const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
+
+export const FlexWrapContainer = ({ children }: ContainerType) => {
   return (
     <div
       css={css`
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2.4rem;
-        width: 120rem;
-      `}
-    >
-      {children}
-    </div>
-  );
-};
-
-interface TagType {
-  children?: ReactNode;
-}
-/**
- * 라벨 컴포넌트
- * @param children 컴포넌트 안에 넣을 자식 요소
- */
-export const Tag = ({ children }: TagType) => {
-  return (
-    <span
-      css={css`
-        padding: 0.8rem;
-        color: ${theme.palette.gray.white};
-        background-color: ${theme.palette.primary[500]};
-        border-radius: 0.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        ${theme.typography.body3Bold}
-      `}
-    >
-      {children}
-    </span>
-  );
-};
-
-Tag.defaultProps = {
-  children: '서비스 형태가 들어가요',
-};
-
-const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles }) => {
-  return (
-    <nav
-      css={css`
-        background-color: ${theme.palette.gray.black};
-        z-index: 99;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         width: 100%;
-        height: 102px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        transition: 0.5s all;
-        ${style}
-      `}
-    >
-      {children}
-    </nav>
-  );
-};
-const NavList = ({ children }: { children: ReactNode }) => {
-  return (
-    <div
-      css={css`
-        display: flex;
-        column-gap: 6.4rem;
-        transition: 0.4s all;
+        gap: 2.4rem;
       `}
     >
       {children}
     </div>
   );
 };
-const NavItem = ({ children, to }: { children: ReactNode; to: string }) => {
-  return (
-    <Link to={to}>
-      <p
-        css={css`
-          color: ${theme.palette.gray.white};
-          text-decoration-line: none;
-          transition: 0.5s all;
-          &:hover {
-            color: rgba(255, 255, 255, 0.7);
-          }
-        `}
-      >
-        {children}
-      </p>
-    </Link>
-  );
-};
-/**
- * 네비게이션 (GNB) 컴포넌트
- */
-export const Header = () => {
-  const [scrollState, setScrollState] = useState<boolean>(false);
-
-  const handleScroll = () => {
-    if (window.scrollY || document.documentElement.scrollTop > 0) {
-      setScrollState(true);
-    } else {
-      setScrollState(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  return (
-    <Nav
-      style={css`
-        transition: ease-out;
-        ${scrollState &&
-        css`
-          animation: fadeout 0.5s;
-          animation-fill-mode: forwards;
-          @keyframes fadeout {
-            from {
-              height: 10.2rem;
-              opacity: 1;
-              visibility: visible;
-            }
-            to {
-              height: 0px;
-              opacity: 0;
-              visibility: hidden;
-            }
-          }
-        `}
-        ${!scrollState &&
-        css`
-          animation: fadein 0.5s;
-          animation-fill-mode: forwards;
-          @keyframes fadein {
-            from {
-              height: 0px;
-              opacity: 0;
-              visibility: hidden;
-            }
-            to {
-              height: 102px;
-              opacity: 1;
-              visibility: visible;
-            }
-          }
-        `}
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          width: 120rem;
-          justify-content: space-between;
-          align-items: center;
-        `}
-      >
-        <Link to="/">
-          <img
-            alt="챌린저스 로고"
-            src={`${process.env.PUBLIC_URL}/img/logo.png`}
-            css={css`
-              width: 16rem;
-            `}
-          />
-        </Link>
-        <NavList>
-          <NavItem to="/">챌린저스란?</NavItem>
-          <NavItem to="/">클럽 등록</NavItem>
-          <NavItem to="/project">프로젝트</NavItem>
-          <NavItem to="/">회원가입</NavItem>
-        </NavList>
-      </div>
-    </Nav>
-  );
-};
-
-interface imgBoxType {
-  imgSrc?: string;
-}
-/**
- * 프로젝트 상세 이미지
- * @param imgSrc 이미지 src
- */
-export const ImageBox = ({ imgSrc }: imgBoxType) => {
-  return (
-    <img
-      alt="프로젝트 상세 이미지"
-      src={`${process.env.PUBLIC_URL}/img/${imgSrc}`}
-      css={css`
-        color: #000;
-        width: 105.1rem;
-        height: 50.7rem;
-      `}
-    ></img>
-  );
-};
-
-ImageBox.defaultProps = {
-  imgSrc: 'thumbnail.png',
-};
-
-interface ButtonBoxProps {
-  text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small';
-  cancel?: boolean;
-  onClick?: () => void;
-}
 
 /**
  * 버튼 컴포넌트
@@ -392,7 +182,7 @@ interface ButtonBoxProps {
 export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
   const buttonStyles = {
     large: css`
-      width: 120rem;
+      width: 100%;
       height: 9.6rem;
       ${theme.typography.header1}
     `,
@@ -433,67 +223,13 @@ export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
   );
 };
 
-interface BannerProps {
-  type: 'large' | 'small';
-}
-export const Banner = ({ type }: BannerProps) => {
-  const styles = {
-    large: {
-      frame: css`
-        height: 41.5rem;
-        border-radius: 1.3rem;
-      `,
-      image: css`
-        width: 29.4rem;
-        height: 29.5rem;
-        margin-left: 16.1rem;
-      `,
-      textBox: css`
-        margin-right: 27.5rem;
-      `,
-      title: css`
-        ${theme.typography.title}
-        padding-bottom: 0.9rem;
-      `,
-      middleTitle: css`
-        ${theme.typography.header1}
-        padding-bottom: 3.5rem;
-      `,
-      description: css`
-        ${theme.typography.body1}
-      `,
-    },
-    small: {
-      frame: css`
-        height: 13.7rem;
-        border-radius: 0.9rem;
-      `,
-      image: css`
-        width: 10.5rem;
-        height: 10.5rem;
-        margin-left: 41.6rem;
-      `,
-      textBox: css`
-        margin-right: 37.5rem;
-      `,
-      title: css`
-        ${theme.typography.header2}
-        padding-bottom: 0.3rem;
-      `,
-      middleTitle: css`
-        ${theme.typography.body3Bold}
-        padding-bottom: 1.3rem;
-      `,
-      description: css`
-        ${theme.typography.body4}
-      `,
-    },
-  };
+export const Banner = ({ large }: BannerProps) => {
   return (
     <div
       css={css`
-        ${styles[type].frame}
-        width: 120rem;
+        border-radius: 1.2rem;
+        width: 100%;
+        padding: ${large ? 4.8 : 2.4}rem;
         background: #4a7edc;
         display: flex;
         justify-content: center;
@@ -505,49 +241,38 @@ export const Banner = ({ type }: BannerProps) => {
         alt="banner_img"
         src={`${process.env.PUBLIC_URL}/img/3d-construction-made-of-glass-abstract-geometrical-composition 1.png`}
         css={css`
-          ${styles[type].image}
+          width: ${large ? 29.4 : 10.5}rem;
         `}
       />
-      <div
-        css={css`
-          ${styles[type].textBox}
-          color: #fff;
-        `}
-      >
-        <div
+
+      <Section gap={large ? '2.4' : '1.2'}>
+        <h1
           css={css`
-            ${styles[type].title}
-            font-weight: 800;
+            ${large ? theme.typography.title : theme.typography.header2}
           `}
         >
           챌린저스 서비스 오픈
-        </div>
-        <div
+        </h1>
+        <h2
           css={css`
-            ${styles[type].middleTitle}
-            font-weight: 700;
+            ${large ? theme.typography.header1 : theme.typography.body3Bold}
           `}
         >
           사이드 프로젝트 기록과 추적을 용이하게
-        </div>
-        <div
+        </h2>
+        <p
           css={css`
-            ${styles[type].description}
-            font-weight: 500;
+            ${large ? theme.typography.body1 : theme.typography.body4}
           `}
         >
           내가 소속한 클럽을 등록하고 챌린저스 서비스에서
           <br /> 사이드 프로젝트를 기록과 소통해보세요
-        </div>
-      </div>
+        </p>
+      </Section>
     </div>
   );
 };
 
-interface ClubComponentProps {
-  name: string;
-  clubImg: string;
-}
 /**
  * club logo를 가져오는 컴포넌트
  * @param name 가져올 이미지의 클럽명
@@ -573,11 +298,10 @@ export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
   );
 };
 
-export const GridBox = ({ children }: { children: ReactNode }) => {
+export const GridBox = ({ children }: ContainerType) => {
   return (
     <div
       css={css`
-        /* flex-direction: column; */
         display: grid;
         grid-template-columns: 1fr 3fr;
         width: 100%;
@@ -588,19 +312,8 @@ export const GridBox = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
-export const TextInputBox = ({
-  type,
-  text,
-  size,
-  max,
-  inputType,
-}: {
-  type: 'header1' | 'body2' | 'body1' | 'border';
-  text?: string;
-  size?: number;
-  max?: number;
-  inputType?: string;
-}) => {
+
+export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxType) => {
   const style = {
     header1: css`
       ${theme.typography.header1}
@@ -640,7 +353,7 @@ export const TextInputBox = ({
  * @param margin margin-bottom 설정이 가능(단위 rem, 기본값 4.8)
  */
 
-export const TextBox = ({ children, margin }: { children: ReactNode; margin?: string }) => (
+export const TextBox = ({ children, margin }: TextBoxProps) => (
   <div
     css={css`
       width: 100%;

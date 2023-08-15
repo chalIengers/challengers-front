@@ -6,10 +6,10 @@ import Project from './component/project';
 import ProjectPublish from './component/project/publish/ProjectPublish';
 import Detail from './component/project/detail/Detail';
 import Club from './component/club';
-import { Header } from './component/emotion/component';
 import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
+import { Header } from './component/emotion/Header';
 
 function App() {
   return (

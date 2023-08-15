@@ -12,6 +12,7 @@ export const ClubAcceptBox = () => {
   return (
     <ClubContainer>
       <Body1>김멋사 (likelion@kangnam.ac.kr)</Body1>
+
       <div
         css={css`
           display: flex;
@@ -29,20 +30,22 @@ export const ClubAcceptBox = () => {
  * 클럽 관리자 페이지 안에 있는 logo 컴포넌트
  */
 export const ChallengersLogo = () => (
-  <div
+  <img
+    alt="챌린저스 로고"
+    src={`${process.env.PUBLIC_URL}/img/logo.png`}
     css={css`
-      text-align: center;
-      margin-bottom: 15.1rem;
+      width: 24rem;
+      margin: auto;
+      margin-bottom: 4.8rem;
     `}
-  >
-    <img
-      alt="챌린저스 로고"
-      src={`${process.env.PUBLIC_URL}/img/logo.png`}
-      css={css`
-        height: 4.1rem;
-        width: 22.1rem;
-        transition: 0.4s all;
-      `}
+  />
+);
+
+export const LeftArrow = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path
+      d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
+      fill="white"
     />
-  </div>
+  </svg>
 );

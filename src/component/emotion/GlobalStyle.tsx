@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { SerializedStyles, css } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import { css } from '@emotion/react';
+import React from 'react';
 import theme from '../../styles/theme';
+import { ContainerType, SectionType, StyleContainerType } from '../../types/globalType';
 
 /**
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-export const Inner = ({ children }: { children: ReactNode }) => (
+export const Inner = ({ children }: ContainerType) => (
   <section
     css={css`
       width: 120rem;
@@ -22,13 +23,7 @@ export const Inner = ({ children }: { children: ReactNode }) => (
   </section>
 );
 
-export const Header1 = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Header1 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.header1}
@@ -39,13 +34,7 @@ export const Header1 = ({
   </div>
 );
 
-export const Header2 = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Header2 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.header2}
@@ -56,13 +45,7 @@ export const Header2 = ({
   </div>
 );
 
-export const Body1 = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Body1 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.body1}
@@ -73,13 +56,7 @@ export const Body1 = ({
   </div>
 );
 
-export const Body1Bold = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Body1Bold = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.body1Bold}
@@ -90,13 +67,7 @@ export const Body1Bold = ({
   </div>
 );
 
-export const Body2 = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Body2 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.body2}
@@ -107,13 +78,18 @@ export const Body2 = ({
   </div>
 );
 
-export const Body3Bold = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Body2Bold = ({ children, style }: StyleContainerType) => (
+  <div
+    css={css`
+      ${theme.typography.body2Bold}
+      ${style}
+    `}
+  >
+    {children}
+  </div>
+);
+
+export const Body3Bold = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.body3Bold}
@@ -124,13 +100,7 @@ export const Body3Bold = ({
   </div>
 );
 
-export const Body4 = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: SerializedStyles;
-}) => (
+export const Body4 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
       ${theme.typography.body4}
@@ -141,7 +111,7 @@ export const Body4 = ({
   </div>
 );
 
-export const Section = ({ children, gap }: { children: React.ReactNode; gap?: string }) => (
+export const Section = ({ children, gap }: SectionType) => (
   <div
     css={css`
       display: flex;
