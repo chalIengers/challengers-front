@@ -1,17 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import Tag, {
+import {
+  Tag,
   Banner,
   ButtonBox,
   ContainerComponent,
   GridBox,
-  TeamInfoBox,
   TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
+import { TeamInfoInputBox } from './component';
 import { TagList } from '../component';
+        
 
 const ProjectPublish = () => {
   return (
@@ -75,10 +77,10 @@ const ProjectPublish = () => {
               gap: 4rem;
             `}
           >
-            <TeamInfoBox />
-            <TeamInfoBox />
-            <TeamInfoBox />
-            <TeamInfoBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
           </div>
         </ContainerComponent>
 

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { ReactNode, useEffect, useState, useRef } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 
@@ -29,6 +29,19 @@ export const ContainerComponent = ({ children }: { children: ReactNode }) => {
   );
 };
 
+
+ContainerComponent.defaultProps = {
+  children: null,
+  padding: '7.2rem',
+  margin: '0rem',
+};
+
+/**
+ * SelectBox 컴포넌트
+ * @StyledSelectBox
+ * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
+ */
+
 interface SelectBoxProps {
   options: string[];
   value: string;
@@ -36,106 +49,42 @@ interface SelectBoxProps {
   back?: string;
 }
 
-const StyledSelectBox = styled.select<{ back?: string }>`
-  border-radius: 0.7744rem;
-  background: ${(props) => (props.back ? props.back : '#4f85e8')};
-  ${theme.typography.body3Bold}
-  color: white;
-  padding: 1rem;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 0.1rem;
-  text-overflow: '';
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.6rem center;
-  background-size: 1.2rem;
-  padding-right: 2.4rem;
-`;
-
-const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
+export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
   };
 
   return (
-    <StyledSelectBox value={value} onChange={handleChange} back={back}>
+    <select
+      value={value}
+      onChange={handleChange}
+      css={css`
+        padding: 0.8rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        text-indent: 0.1rem;
+        background: ${back || `${theme.palette.primary[500]}`};
+        ${theme.typography.body3Bold}
+        color: ${theme.palette.gray.white};
+        padding-right: 2.4rem;
+        border-radius: 0.8rem;
+        background-size: 1.2rem;
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+      `}
+    >
       {options.map((option) => (
         <option key={option} value={option}>
           {option}
         </option>
       ))}
-    </StyledSelectBox>
+    </select>
   );
 };
-
-SelectBox.defaultProps = {
-  back: '#4f85e8',
-};
-export { SelectBox };
-
-interface ProjectBoxProps {
-  title: string;
-  content: string;
-  tags: string[];
-}
-
-const StyledProjectBox = styled.div<ProjectBoxProps>`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  color: #ffffff;
-  padding: 1.6rem 2.1rem;
-  width: 37rem;
-  height: 39.5rem;
-  background: #212121;
-  border-radius: 1.9rem;
-  margin: 0;
-`;
-const StyledProjectTag = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const StyledTag = styled.div`
-  border-radius: 0.5rem;
-  background: #4f85e8;
-  padding: 0.6rem 1rem;
-  margin: 0 0.9rem 0.9rem 0;
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledTitle = styled.h2`
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.5625em;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.75px;
-  margin-bottom: 0.625em;
-`;
-const StyledText = styled.p`
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1em;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.48px;
-`;
 
 /**
  * Projectbox 컴포넌트
@@ -144,58 +93,92 @@ const StyledText = styled.p`
  * @param {string} props.content - 프로젝트 내용
  * @param {string[]} props.tags - 프로젝트 태그들의 배열
  */
-const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
+
+interface ProjectBoxProps {
+  title: string;
+  content: string;
+  tags: string[];
+}
+export const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
   const generatedTags = tags.length === 0 ? ['임의 태그'] : tags;
   return (
-    <StyledProjectBox title={title} content={content} tags={tags}>
-      <img
-        src="https://i.ibb.co/yktPkxP/image-5.png"
-        alt="Project"
-        className="project-image"
-        css={css`
-          border-radius: 0.8rem;
-          margin-bottom: 1.6rem;
-        `}
-      />
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        padding: 1.6rem 2rem;
+        width: 38.4rem;
+        height: 40rem;
+        background: ${theme.palette.gray[900]};
+        color: ${theme.palette.gray.white};
+        border-radius: 1.6rem;
+        gap: 1.6rem;
+      `}
+    >
+      <img src="https://i.ibb.co/yktPkxP/image-5.png" alt="Project" />
       {generatedTags && (
-        <StyledProjectTag>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            gap: 0.8rem;
+          `}
+        >
           {generatedTags.map((tag) => (
-            <StyledTag key={tag}>{tag}</StyledTag>
+            <div
+              css={css`
+                border-radius: 0.5rem;
+                padding: 0.8rem;
+                background: ${theme.palette.primary[500]};
+                ${theme.typography.body3Bold};
+              `}
+              key={tag}
+            >
+              {tag}
+            </div>
           ))}
-        </StyledProjectTag>
+        </div>
       )}
-      <StyledTitle>{title}</StyledTitle>
-      <StyledText>{content}</StyledText>
-    </StyledProjectBox>
+      <div
+        css={css`
+          ${theme.typography.header1};
+        `}
+      >
+        {title}
+      </div>
+      <div
+        css={css`
+          ${theme.typography.body2};
+        `}
+      >
+        {content}
+      </div>
+    </div>
   );
 };
 
-export { ProjectBox };
-
-interface FlexContainerProps {
-  children: React.ReactNode;
-}
-
-const StyledFlexContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 2.8125em;
-  width: 120rem;
-  height: 100%;
-  margin: 0 auto;
-`;
 /**
  * FlexContainer 컴포넌트
  * @component FlexContainer
  * @param {React.ReactNode} props.children - FlexContainer 내부의 자식 요소
  */
-const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
-  return <StyledFlexContainer>{children}</StyledFlexContainer>;
+interface FlexContainerProps {
+  children: React.ReactNode;
+}
+export const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.4rem;
+        width: 120rem;
+      `}
+    >
+      {children}
+    </div>
+  );
 };
-
-export { FlexContainer };
 
 interface TagType {
   children?: ReactNode;
@@ -204,14 +187,14 @@ interface TagType {
  * 라벨 컴포넌트
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-const Tag = ({ children }: TagType) => {
+export const Tag = ({ children }: TagType) => {
   return (
     <span
       css={css`
         padding: 0.8rem;
-        color: white;
-        background-color: #4f85e8;
-        border-radius: 0.5rem;
+        color: ${theme.palette.gray.white};
+        background-color: ${theme.palette.primary[500]};
+        border-radius: 0.4rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -226,13 +209,12 @@ const Tag = ({ children }: TagType) => {
 Tag.defaultProps = {
   children: '서비스 형태가 들어가요',
 };
-export default Tag;
 
 const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles }) => {
   return (
     <nav
       css={css`
-        background-color: #000000;
+        background-color: ${theme.palette.gray.black};
         z-index: 99;
         width: 100%;
         height: 102px;
@@ -242,7 +224,6 @@ const Nav = ({ children, style }: { children: ReactNode; style: SerializedStyles
         position: fixed;
         top: 0px;
         left: 0px;
-        column-gap: 30em;
         transition: 0.5s all;
         ${style}
       `}
@@ -256,7 +237,7 @@ const NavList = ({ children }: { children: ReactNode }) => {
     <div
       css={css`
         display: flex;
-        column-gap: 3em;
+        column-gap: 6.4rem;
         transition: 0.4s all;
       `}
     >
@@ -269,7 +250,7 @@ const NavItem = ({ children, to }: { children: ReactNode; to: string }) => {
     <Link to={to}>
       <p
         css={css`
-          color: white;
+          color: ${theme.palette.gray.white};
           text-decoration-line: none;
           transition: 0.5s all;
           &:hover {
@@ -382,11 +363,11 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
   return (
     <img
       alt="프로젝트 상세 이미지"
-      width={1051}
-      height={507}
       src={`${process.env.PUBLIC_URL}/img/${imgSrc}`}
       css={css`
         color: #000;
+        width: 105.1rem;
+        height: 50.7rem;
       `}
     ></img>
   );
@@ -394,184 +375,6 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
 
 ImageBox.defaultProps = {
   imgSrc: 'thumbnail.png',
-};
-
-// TeamInfo 컴포넌트
-const TitleText = styled.span`
-  display: inline;
-  color: ${(props: any) => (props.color ? props.color : 'white')};
-  font-size: 20px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -1.3px;
-`;
-const ContentText = styled(TitleText)`
-  font-size: 16px;
-  color: black;
-`;
-const Box = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 313px;
-  height: auto;
-  border-radius: 14px;
-`;
-const ModalBox = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 313px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 206px;
-  border-radius: 14px;
-  background: rgba(73, 73, 73, 0.6);
-`;
-const PositionBox = styled.div`
-  width: 313px;
-  height: 57px;
-  border-radius: 14px 14px 0px 0px;
-  background: #4a7edc;
-  display: flex;
-  align-items: center;
-  padding: 0px 20px;
-`;
-const InfoBox = styled.div`
-  width: 313px;
-  border-radius: 0px 0px 14px 14px;
-  background: #e8f3ff;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 17px;
-`;
-const ContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 9px;
-`;
-const TitleInput = styled.input`
-  background: #e8f3ff;
-  background-position: right center;
-  padding: 0;
-  height: 30px;
-  outline: none;
-  border: none;
-  box-sizing: border-box;
-  font-size: 20px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.6px;
-  overflow: auto;
-  ::placeholder {
-    color: #cbcbcb;
-  }
-`;
-const ContentInput = styled(TitleInput)`
-  font-size: 16px;
-`;
-const AddMememberText = styled(ContentText)`
-  color: #4a7edc;
-  text-decoration: #4a7edc 2.5px solid underline;
-  text-underline-offset: 5px;
-  letter-spacing: -0.6px;
-  :hover {
-    cursor: pointer;
-  }
-`;
-const AddPositionText = styled(ContentText)`
-  color: #fff;
-  font-size: 25px;
-  text-decoration: #fff 2.5px solid underline;
-  text-underline-offset: 5px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-/**
- * 팀원 infobox
- */
-export const TeamInfoBox = () => {
-  const ModalBoxComponent = useRef<HTMLDivElement>(null);
-  const [members, setMembers] = useState([{ id: 1, name: '', role: '' }]);
-
-  // 팀원 이름 state 설정
-  const handleMemberNameChange = (id: number, name: string) => {
-    const newMembers = members.map((member) => {
-      if (member.id === id) {
-        return { ...member, name };
-      }
-      return member;
-    });
-    setMembers(newMembers);
-  };
-
-  // 팀원 역할 state 설정
-  const handleMemberRoleChange = (id: number, role: string) => {
-    const newMembers = members.map((member) => {
-      if (member.id === id) {
-        return { ...member, role };
-      }
-      return member;
-    });
-    setMembers(newMembers);
-  };
-
-  // 팀원 추가 클릭시 함수
-  const addMemberOnClick = () => {
-    if (members.length < 5) {
-      const newMembers = { id: members.length + 1, name: '', role: '' };
-      setMembers([...members, newMembers]);
-    }
-  };
-  const addPositionOnClick = () => {
-    ModalBoxComponent.current?.style.setProperty('display', 'none');
-  };
-  return (
-    <Box>
-      <PositionBox>
-        <TitleText color="#CBCBCB">역할을 선택해주세요</TitleText>
-      </PositionBox>
-      <InfoBox>
-        {/* <ContentBox>
-          <TitleText color="black">이진아</TitleText>
-          <ContentText>프론트엔드</ContentText>
-        </ContentBox> */}
-        {members.map((member) => (
-          <ContentBox key={member.id}>
-            <TitleInput
-              type="text"
-              placeholder="이름을 입력해주세요"
-              name={`팀원${member.id}이름`}
-              value={member.name}
-              onChange={(e: any) => handleMemberNameChange(member.id, e.target.value)}
-              maxLength={10}
-            ></TitleInput>
-            <ContentInput
-              type="text"
-              placeholder="어떤 역할을 했나요?"
-              name={`팀원${member.id}이름`}
-              value={member.role}
-              onChange={(e: any) => handleMemberRoleChange(member.id, e.target.value)}
-              maxLength={25}
-            ></ContentInput>
-          </ContentBox>
-        ))}
-        <AddMememberText onClick={addMemberOnClick}>
-          해당 포지션에 팀원을 더 추가하고싶어요
-        </AddMememberText>
-      </InfoBox>
-      <ModalBox ref={ModalBoxComponent}>
-        <AddPositionText onClick={addPositionOnClick}>포지션 추가</AddPositionText>
-      </ModalBox>
-    </Box>
-  );
 };
 
 interface ButtonBoxProps {
