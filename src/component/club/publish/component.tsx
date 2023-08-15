@@ -59,24 +59,16 @@ export const ClubLogoPreView = () => {
  */
 export const ClubInfoInput = () => {
   return (
-    <ContainerComponent padding="5.1rem 7.2rem" margin="0 0 3.8rem 0">
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 4rem;
-        `}
-      >
-        <Header1>클럽신청서</Header1>
-        <GridBox>
-          <Header2>클럽 이름</Header2>
-          <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
-          <Header2>클럽 형태</Header2>
-          <TextInputBox type="body1" text="클럽 형태를 선택해주세요" />
-          <Header2>클럽 소개</Header2>
-          <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />
-        </GridBox>
-      </div>
+    <ContainerComponent>
+      <Header1>클럽신청서</Header1>
+      <GridBox>
+        <Header2>클럽 이름</Header2>
+        <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
+        <Header2>클럽 형태</Header2>
+        <TextInputBox type="body1" text="클럽 형태를 선택해주세요" />
+        <Header2>클럽 소개</Header2>
+        <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />
+      </GridBox>
     </ContainerComponent>
   );
 };

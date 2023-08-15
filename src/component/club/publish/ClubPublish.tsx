@@ -1,10 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { Banner, ButtonBox, Inner } from '../../emotion/component';
+import { useDispatch } from 'react-redux';
+import { Banner, ButtonBox } from '../../emotion/component';
+import { Inner, Body1, Header1, Section } from '../../emotion/GlobalStyle';
 import { ClubInfoInput, ClubLogoPreView } from './component';
-import { Body1, Header1, Section } from '../../emotion/GlobalStyle';
+import { openModal } from '../../../store/modalSlice';
 
 const Publish = () => {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(openModal({ modalType: 'CreateClubModal' }));
+  };
   return (
     <Inner>
       <Banner type="small" />
@@ -20,7 +26,7 @@ const Publish = () => {
         <ClubLogoPreView />
       </Section>
       <ClubInfoInput />
-      <ButtonBox text="클럽을 등록하고 싶어요" type="large" />
+      <ButtonBox text="클럽을 등록하고 싶어요" type="large" onClick={handleClick} />
     </Inner>
   );
 };

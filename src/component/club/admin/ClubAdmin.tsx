@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { Banner, Inner, TextBox } from '../../emotion/component';
+import { Banner, TextBox } from '../../emotion/component';
+import { Inner, Body1Bold, Header2, Section } from '../../emotion/GlobalStyle';
 import { ChallengersLogo, ClubAcceptBox } from './component';
-import { Body1Bold, Header2, Section } from '../../emotion/GlobalStyle';
 
 const index = () => {
   return (
     <Inner>
       <Banner type="small" />
-      <Section>
+      <Section gap="3.2">
         <TextBox>
           <Header2>클럽 : 챌린저스</Header2>
           <div

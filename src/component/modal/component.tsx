@@ -158,7 +158,7 @@ export const RegisterModal = () => {
             margin-top: 3.6rem;
           `}
         >
-          <ButtonBox text="취소" type="modal_cancel" />
+          <ButtonBox text="취소" type="modal" cancel />
           <ButtonBox text="회원가입" type="modal" />
         </div>
       </div>
@@ -211,7 +211,7 @@ export const CreateClubModal = () => {
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소할게요" type="modal_cancel" />
+          <ButtonBox text="취소할게요" type="modal" cancel />
           <ButtonBox text="등록할게요" type="modal" />
         </div>
       </div>

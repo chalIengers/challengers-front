@@ -1,17 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import {
-  Banner,
-  ClubComponent,
-  FlexContainer,
-  Inner,
-  ProjectBox,
-  TextBox,
-} from '../emotion/component';
+import { Banner, ClubComponent, FlexContainer, ProjectBox, TextBox } from '../emotion/component';
 import data from '../../json/data.json';
 import data2 from '../../json/data2.json';
-import { Body1, Header1, Section } from '../emotion/GlobalStyle';
+import { Body1, Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList } from './component';
 
 const index = () => {

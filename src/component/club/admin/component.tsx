@@ -1,34 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { ButtonBox, ContainerComponent } from '../../emotion/component';
+import { ButtonBox } from '../../emotion/component';
 import { Body1 } from '../../emotion/GlobalStyle';
+import { ClubContainer } from '../emotion/component';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트
  */
 export const ClubAcceptBox = () => {
   return (
-    <ContainerComponent padding="2.5rem" margin="0 0 3.8rem 0">
+    <ClubContainer>
+      <Body1>김멋사 (likelion@kangnam.ac.kr)</Body1>
       <div
         css={css`
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          gap: 1.6rem;
         `}
       >
-        <Body1>김멋사 (likelion@kangnam.ac.kr)</Body1>
-        <div
-          css={css`
-            display: flex;
-            gap: 1.2rem;
-          `}
-        >
-          <ButtonBox text="수락" type="very_small" />
-          <ButtonBox text="거절" type="very_small" />
-        </div>
+        <ButtonBox text="수락" type="very_small" />
+        <ButtonBox text="거절" type="very_small" />
       </div>
-    </ContainerComponent>
+    </ClubContainer>
   );
 };
 
