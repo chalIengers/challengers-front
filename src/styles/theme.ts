@@ -77,7 +77,6 @@ export const theme: DefaultTheme = {
       info: { 500: '#47C1FF' },
       warning: { 500: '#FFB200' },
       danger: { 500: '#FF3A3A' },
-      lightblue: { 500: '#4f85e8' },
     },
   },
   // spacing: {

@@ -8,11 +8,11 @@ import {
   ContainerComponent,
   GridBox,
   Inner,
-  TeamInfoBox,
   TextInputBox,
 } from '../../emotion/component';
 import { LinkInputBox } from '../emotion/component';
 import { Header1, Header2, Section } from '../../emotion/GlobalStyle';
+import { TeamInfoInputBox } from './component';
 
 const ProjectPublish = () => {
   return (
@@ -81,10 +81,10 @@ const ProjectPublish = () => {
               gap: 4.5rem;
             `}
           >
-            <TeamInfoBox />
-            <TeamInfoBox />
-            <TeamInfoBox />
-            <TeamInfoBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
+            <TeamInfoInputBox />
           </div>
         </ContainerComponent>
 
