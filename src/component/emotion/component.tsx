@@ -25,10 +25,9 @@ export const ContainerComponent: React.FC<ContainerComponentProps> = ({
     <div
       css={css`
         width: 120rem;
-        margin: 0 auto;
         padding: ${padding};
-        background-color: #212121;
-        border-radius: 1.25em;
+        background-color: ${theme.palette.gray[900]};
+        border-radius: 1.2rem;
         margin: ${margin};
         display: flex;
         flex-direction: column;
@@ -43,8 +42,14 @@ export const ContainerComponent: React.FC<ContainerComponentProps> = ({
 ContainerComponent.defaultProps = {
   children: null,
   padding: '7.2rem',
+  margin: '0rem',
 };
 
+/**
+ * SelectBox 컴포넌트
+ * @StyledSelectBox
+ * @param {ReactNode} props.children - 컨테이너 컴포넌트의 자식 요소
+ */
 interface SelectBoxProps {
   options: string[];
   value: string;
@@ -52,106 +57,42 @@ interface SelectBoxProps {
   back?: string;
 }
 
-const StyledSelectBox = styled.select<{ back?: string }>`
-  border-radius: 0.7744rem;
-  background: ${(props) => (props.back ? props.back : '#4f85e8')};
-  ${theme.typography.body3Bold}
-  color: white;
-  padding: 1rem;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 0.1rem;
-  text-overflow: '';
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.6rem center;
-  background-size: 1.2rem;
-  padding-right: 2.4rem;
-`;
-
-const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
+export const SelectBox: React.FC<SelectBoxProps> = ({ options, value, onChange, back }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
   };
 
   return (
-    <StyledSelectBox value={value} onChange={handleChange} back={back}>
+    <select
+      value={value}
+      onChange={handleChange}
+      css={css`
+        padding: 0.8rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        text-indent: 0.1rem;
+        background: ${back || `${theme.palette.primary[500]}`};
+        ${theme.typography.body3Bold}
+        color: ${theme.palette.gray.white};
+        padding-right: 2.4rem;
+        border-radius: 0.8rem;
+        background-size: 1.2rem;
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+      `}
+    >
       {options.map((option) => (
         <option key={option} value={option}>
           {option}
         </option>
       ))}
-    </StyledSelectBox>
+    </select>
   );
 };
-
-SelectBox.defaultProps = {
-  back: '#4f85e8',
-};
-export { SelectBox };
-
-interface ProjectBoxProps {
-  title: string;
-  content: string;
-  tags: string[];
-}
-
-const StyledProjectBox = styled.div<ProjectBoxProps>`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  color: #ffffff;
-  padding: 1.6rem 2.1rem;
-  width: 37rem;
-  height: 39.5rem;
-  background: #212121;
-  border-radius: 1.9rem;
-  margin: 0;
-`;
-const StyledProjectTag = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const StyledTag = styled.div`
-  border-radius: 0.5rem;
-  background: #4f85e8;
-  padding: 0.6rem 1rem;
-  margin: 0 0.9rem 0.9rem 0;
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledTitle = styled.h2`
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.5625em;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.75px;
-  margin-bottom: 0.625em;
-`;
-const StyledText = styled.p`
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1em;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.48px;
-`;
 
 /**
  * Projectbox 컴포넌트
@@ -160,60 +101,92 @@ const StyledText = styled.p`
  * @param {string} props.content - 프로젝트 내용
  * @param {string[]} props.tags - 프로젝트 태그들의 배열
  */
-const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
+
+interface ProjectBoxProps {
+  title: string;
+  content: string;
+  tags: string[];
+}
+export const ProjectBox: React.FC<ProjectBoxProps> = ({ title, content, tags }) => {
   const generatedTags = tags.length === 0 ? ['임의 태그'] : tags;
   return (
-    <StyledProjectBox title={title} content={content} tags={tags}>
-      <img
-        src="https://i.ibb.co/yktPkxP/image-5.png"
-        alt="Project"
-        className="project-image"
-        style={{
-          width: '20.5625em',
-          height: '14.0625em',
-          borderRadius: '0.625em',
-          marginBottom: '1em',
-        }}
-      />
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        padding: 1.6rem 2rem;
+        width: 38.4rem;
+        height: 40rem;
+        background: ${theme.palette.gray[900]};
+        color: ${theme.palette.gray.white};
+        border-radius: 1.6rem;
+        gap: 1.6rem;
+      `}
+    >
+      <img src="https://i.ibb.co/yktPkxP/image-5.png" alt="Project" />
       {generatedTags && (
-        <StyledProjectTag>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            gap: 0.8rem;
+          `}
+        >
           {generatedTags.map((tag) => (
-            <StyledTag key={tag}>{tag}</StyledTag>
+            <div
+              css={css`
+                border-radius: 0.5rem;
+                padding: 0.8rem;
+                background: ${theme.palette.primary[500]};
+                ${theme.typography.body3Bold};
+              `}
+              key={tag}
+            >
+              {tag}
+            </div>
           ))}
-        </StyledProjectTag>
+        </div>
       )}
-      <StyledTitle>{title}</StyledTitle>
-      <StyledText>{content}</StyledText>
-    </StyledProjectBox>
+      <div
+        css={css`
+          ${theme.typography.header1};
+        `}
+      >
+        {title}
+      </div>
+      <div
+        css={css`
+          ${theme.typography.body2};
+        `}
+      >
+        {content}
+      </div>
+    </div>
   );
 };
 
-export { ProjectBox };
-
-interface FlexContainerProps {
-  children: React.ReactNode;
-}
-
-const StyledFlexContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 2.8125em;
-  width: 120rem;
-  height: 100%;
-  margin: 0 auto;
-`;
 /**
  * FlexContainer 컴포넌트
  * @component FlexContainer
  * @param {React.ReactNode} props.children - FlexContainer 내부의 자식 요소
  */
-const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
-  return <StyledFlexContainer>{children}</StyledFlexContainer>;
+interface FlexContainerProps {
+  children: React.ReactNode;
+}
+export const FlexContainer: React.FC<FlexContainerProps> = ({ children }) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.4rem;
+        width: 120rem;
+      `}
+    >
+      {children}
+    </div>
+  );
 };
-
-export { FlexContainer };
 
 interface TagType {
   children?: ReactNode;
