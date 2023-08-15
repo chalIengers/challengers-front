@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import Tag, {
-  Banner,
-  ContainerComponent,
-  GridBox,
-  ImageBox,
-  Inner,
-  TeamInfoBox,
-} from '../../emotion/component';
+import { Tag, Banner, ContainerComponent, GridBox, ImageBox, Inner } from '../../emotion/component';
 import { ProjectLinkButton } from '../emotion/component';
 import { Body1, Body2, Header1, Header2, Section } from '../../emotion/GlobalStyle';
+import { TeamInfoBox } from '../publish/component';
 
 const Detail = () => {
   return (
