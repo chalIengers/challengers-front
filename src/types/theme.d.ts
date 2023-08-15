@@ -1,8 +1,8 @@
 import '@emotion/react';
 
 type Text = {
-  fontSize: string;
-  fontWeight: string;
+  fontfontSize: string;
+  fontfontWeight: string;
 };
 declare module '@emotion/react' {
   export interface DefaultTheme {
@@ -17,18 +17,43 @@ declare module '@emotion/react' {
       xxxl: '2.2rem';
       xxxxl: '4.0rem';
     };
-    textVariants: {
-      heading1: { fontSize: '4rem'; fontWeight: '700' };
-      heading2: { fontSize: '2.4rem'; fontWeight: '700' };
-      heading3: { fontSize: '2.2rem'; fontWeight: '700' };
-      heading4: { fontSize: '2.0rem'; fontWeight: '700' };
-      heading5: { fontSize: '1.8rem'; fontWeight: '400' };
-      body1: { fontSize: '1.6rem'; fontWeight: '700' };
-      body1_bold: { fontSize: '1.6rem'; fontWeight: '400' };
-      body2: { fontSize: '1.4rem'; fontWeight: '700' };
-      body2_bold: { fontSize: '1.4rem'; fontWeight: '400' };
-      detail: { fontSize: '1.2rem'; fontWeight: '700' };
-      detail_bold: { fontSize: '1.2rme'; fontWeight: '400' };
+    typography: {
+      title: {
+        fontWeight: '800';
+        fontSize: '4.0rem';
+      };
+      header1: {
+        fontWeight: 'Bold';
+        fontSize: '2.4rem';
+      };
+      header2: {
+        fontWeight: 'Bold';
+        fontSize: '2.0rem';
+      };
+      body1: {
+        fontWeight: 'Medium';
+        fontSize: '1.8rem';
+      };
+      body1Bold: {
+        fontWeight: 'Bold';
+        fontSize: '1.8rem';
+      };
+      body2: {
+        fontWeight: 'Medium';
+        fontSize: '1.6rem';
+      };
+      body2Bold: {
+        fontWeight: 'Bold';
+        fontSize: '1.6rem';
+      };
+      body3Bold: {
+        fontWeight: 'Bold';
+        fontSize: '1.4rem';
+      };
+      body4: {
+        fontWeight: 'Medium';
+        fontSize: '1.2rem';
+      };
     };
     palette: {
       primary: {

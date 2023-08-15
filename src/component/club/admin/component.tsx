@@ -1,41 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { ButtonBox, ContainerComponent } from '../../emotion/component';
-import theme from '../../../styles/theme';
+import { ButtonBox } from '../../emotion/component';
+import { Body1 } from '../../emotion/GlobalStyle';
+import { ClubContainer } from '../emotion/component';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트
  */
 export const ClubAcceptBox = () => {
   return (
-    <ContainerComponent height="auto" padding="2.5rem" margin="0 0 3.8rem 0">
+    <ClubContainer>
+      <Body1>김멋사 (likelion@kangnam.ac.kr)</Body1>
+
       <div
         css={css`
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          gap: 1.6rem;
         `}
       >
-        <p
-          css={css`
-            ${theme.textVariants.heading3}
-            letter-spacing: -0.066rem;
-          `}
-        >
-          김멋사 (likelion@kangnam.ac.kr)
-        </p>
-        <div
-          css={css`
-            display: flex;
-            gap: 1.2rem;
-          `}
-        >
-          <ButtonBox text="수락" type="very_small" />
-          <ButtonBox text="거절" type="very_small" />
-        </div>
+        <ButtonBox text="수락" type="very_small" />
+        <ButtonBox text="거절" type="very_small" />
       </div>
-    </ContainerComponent>
+    </ClubContainer>
   );
 };
 
@@ -43,20 +30,22 @@ export const ClubAcceptBox = () => {
  * 클럽 관리자 페이지 안에 있는 logo 컴포넌트
  */
 export const ChallengersLogo = () => (
-  <div
+  <img
+    alt="챌린저스 로고"
+    src={`${process.env.PUBLIC_URL}/img/logo.png`}
     css={css`
-      text-align: center;
-      margin-bottom: 15.1rem;
+      width: 24rem;
+      margin: auto;
+      margin-bottom: 4.8rem;
     `}
-  >
-    <img
-      alt="챌린저스 로고"
-      src={`${process.env.PUBLIC_URL}/img/logo.png`}
-      css={css`
-        height: 4.1rem;
-        width: 22.1rem;
-        transition: 0.4s all;
-      `}
+  />
+);
+
+export const LeftArrow = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path
+      d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
+      fill="white"
     />
-  </div>
+  </svg>
 );

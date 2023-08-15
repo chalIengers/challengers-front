@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
-import registerSuccessImg from '../../assets/images/image 21.png';
+import { ContainerType } from '../../types/globalType';
+import { Body1, Body2, Header1, Section } from '../emotion/GlobalStyle';
+import { openModal } from '../../store/modalSlice';
 
-export const ModalContainer = ({ children }: { children: ReactNode }) => {
+export const ModalContainer = ({ children }: ContainerType) => {
   return (
     <div
       css={css`
@@ -43,11 +46,11 @@ const ModalBackGround = css`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 65rem;
-  height: 46rem;
   background-color: ${theme.palette.gray.white};
   box-shadow: 6px 7px 9px 5px rgba(0, 0, 0, 0.25);
   border-radius: 2rem;
+  padding: 5.6rem 7.2rem;
+  min-width: 64rem;
 `;
 
 /**
@@ -57,8 +60,6 @@ const ModalInput = () => {
   return (
     <div
       css={css`
-        width: 49.9rem;
-        height: 5.6rem;
         border-radius: 0.8rem;
         background: ${theme.palette.gray[100]};
         padding: 1.6rem 2.5rem;
@@ -66,9 +67,8 @@ const ModalInput = () => {
     >
       <input
         css={css`
-          background: ${theme.palette.gray[100]};
-          ${theme.textVariants.heading5};
-          letter-spacing: -0.06rem;
+          background-color: transparent;
+          ${theme.typography.body1};
           width: 100%;
           ::placeholder {
             color: ${theme.palette.gray[300]};
@@ -83,91 +83,73 @@ const ModalInput = () => {
 export const RegisterSuccessModal = () => {
   return (
     <div css={ModalBackGround}>
-      <div
-        css={css`
-          padding: 4.7rem 7.8rem;
-        `}
-      >
-        <p
-          css={css`
+      <Section gap="2.4">
+        <Header1
+          style={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
             text-align: center;
-            margin-bottom: 2.2rem;
           `}
         >
           회원가입 성공
-        </p>
+        </Header1>
         <div
           css={css`
             text-align: center;
           `}
         >
-          <img alt="registerSuccess_img" src={registerSuccessImg} />
+          <img alt="registerSuccess_img" src={`${process.env.PUBLIC_URL}/img/image 21.png`} />
         </div>
-        <div
-          css={css`
+        <Body2
+          style={css`
             color: ${theme.palette.gray[400]};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
-            margin-bottom: 5.1rem;
             text-align: center;
           `}
         >
           챌린저스의 일원이 되신 것을 감사드려요
           <br /> 3초 뒤에 메인 화면으로 이동합니다 =&#41;
-        </div>
-      </div>
+        </Body2>
+      </Section>
     </div>
   );
 };
 
 export const RegisterModal = () => {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(openModal({ modalType: 'RegisterSuccessModal' }));
+  };
   return (
     <div css={ModalBackGround}>
-      <div
-        css={css`
-          padding: 4.7rem 7.8rem;
-        `}
-      >
-        <p
-          css={css`
+      <Section gap="2.4">
+        <Header1
+          style={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
             text-align: center;
-            margin-bottom: 4.3rem;
           `}
         >
           인증번호를 발송했어요
-        </p>
-        <div
-          css={css`
+        </Header1>
+        <Body1
+          style={css`
             color: ${theme.palette.gray.black};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
-            margin-bottom: 5.1rem;
-            text-align: center;
           `}
         >
           챌린저스 서비스는 현재 강남대학교 학생들을 대상으로 시범운영하고 있어요
           <br /> 입력하신 강남대학교 웹 메일 시스템에서 인증번호를 확인하고 입력해주세요 <br />
           <br />
           앗, 이메일이 안왔다면 이메일을 확인하거나 다시 등록 버튼을 눌러주세요
-        </div>
+        </Body1>
         <ModalInput />
         <div
           css={css`
             display: flex;
             justify-content: space-between;
-            margin-top: 3.6rem;
           `}
         >
-          <ButtonBox text="취소" type="modal_cancel" />
-          <ButtonBox text="회원가입" type="modal" />
+          <ButtonBox text="취소" type="modal" cancel />
+          <ButtonBox text="회원가입" type="modal" onClick={handleClick} />
         </div>
-      </div>
+      </Section>
     </div>
   );
 };
@@ -175,55 +157,42 @@ export const RegisterModal = () => {
 export const CreateClubModal = () => {
   return (
     <div css={ModalBackGround}>
-      <div
-        css={css`
-          padding: 4.7rem 8.3rem;
-        `}
-      >
-        <p
-          css={css`
+      <Section gap="3.6">
+        <Header1
+          style={css`
             color: ${theme.palette.gray[900]};
-            ${theme.textVariants.heading2};
-            letter-spacing: -0.075rem;
             text-align: center;
-            margin-bottom: 6.2rem;
           `}
         >
           000님의 000 클럽
-        </p>
-        <p
-          css={css`
+        </Header1>
+        <Body1
+          style={css`
             color: ${theme.palette.gray.black};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
-            margin-bottom: 3.6rem;
           `}
         >
           클럽은 영업일 기준 2일 이내 승인이 될 예정이며,
           <br /> 승인 결과는 이메일 또는 입력하신 핸드폰을 통해 발송됩니다. <br />
           클럽 생성 전 하단의 주의사항을 확인해주세요 =&#41;
-        </p>
-        <p
-          css={css`
+        </Body1>
+        <Body1
+          style={css`
             color: ${theme.palette.gray[600]};
-            ${theme.textVariants.body1_bold};
-            letter-spacing: -0.051rem;
-            margin-bottom: 5.3rem;
           `}
         >
           1. 다른 유저들에게 피해를 제공하는 클럽은 해체될 수 있습니다.
           <br /> 2. 타인의 저작물을 침해하거나, 피해를 주는 행동을 해서는 안됩니다.
-        </p>
+        </Body1>
         <div
           css={css`
             display: flex;
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소할게요" type="modal_cancel" />
+          <ButtonBox text="취소할게요" type="modal" cancel />
           <ButtonBox text="등록할게요" type="modal" />
         </div>
-      </div>
+      </Section>
     </div>
   );
 };

@@ -1,63 +1,36 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
-import { Banner, Inner } from '../emotion/component';
-import { ClubBox, Header2, Header4, Head } from './emotion/component';
+import { Banner, TextBox } from '../emotion/component';
+import { Inner, Body1Bold, Header1, Section } from '../emotion/GlobalStyle';
+import { ClubBox } from './emotion/component';
 
 const index = () => {
   return (
-    <Inner
-      style={css`
-        align-items: start;
-        margin-top: 15.1rem;
-        padding-bottom: 16.6rem;
-        display: block;
-      `}
-    >
-      <Banner type="small" />
-      <Header2
-        style={css`
-          letter-spacing: -0.075rem;
-          margin-top: 8.8rem;
-          margin-bottom: 6rem;
-        `}
-      >
-        내가 소속된 클럽
-      </Header2>
-      <ClubBox />
-      <Head
-        style={css`
-          margin-bottom: 6rem;
-          margin-top: 11.1rem;
-        `}
-      >
-        <Header2
-          style={css`
-            letter-spacing: -0.075rem;
-            padding-right: 10px;
-          `}
-        >
-          챌린저스에 등록된 클럽
-        </Header2>
-        <Header4
-          style={css`
-            letter-spacing: -0.054rem;
-            cursor: pointer;
-          `}
-        >
-          클럽을 등록하고 싶다면?
-        </Header4>
-      </Head>
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
-      <ClubBox />
+    <Inner>
+      <Banner />
+      <Section gap="4.8">
+        <Header1>내가 소속된 클럽</Header1>
+        <ClubBox text="클럽 마스터의 이메일 보기" />
+      </Section>
+
+      <Section gap="3.2">
+        <TextBox margin="2.4">
+          <Header1>챌린저스에 등록된 클럽</Header1>
+          <Body1Bold>클럽을 등록하고 싶다면?</Body1Bold>
+        </TextBox>
+
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+        <ClubBox />
+      </Section>
     </Inner>
   );
 };

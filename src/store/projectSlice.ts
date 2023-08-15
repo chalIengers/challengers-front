@@ -1,16 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Project, ProjectsState } from '../types/globalType';
 import { RootState } from '.';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  // Add other project-related properties here
-}
-
-interface ProjectsState {
-  projects: Project[];
-}
 
 const initialState: ProjectsState = {
   projects: [],
