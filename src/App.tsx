@@ -26,8 +26,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/project/*" element={<Project />} />
-          <Route path="/project/detail" element={<Detail />} />
+          <Route path="/project/:sort?" element={<Project />} />
+          <Route path="/project/detail/:id" element={<Detail />} />
           <Route path="/project/publish" element={<ProjectPublish />} />
           <Route path="/club" element={<Club />} />
           <Route path="/club/signUp" element={<SignUp />} />

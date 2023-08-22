@@ -7,12 +7,13 @@ import {
   ProjectBox,
   TextBox,
 } from '../emotion/component';
-import data from '../../json/data.json';
-import clubController from '../../json/club-controller.json';
+import clubData from '../../json/club-controller.json';
+import projectData from '../../json/project-controller.json';
 import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList, NavigateMore, DivisionLine } from './component';
 
 const index = () => {
+  const sliceProjectData = projectData.Project.slice(0, 6);
   return (
     <Inner>
       <Banner large />
@@ -20,8 +21,8 @@ const index = () => {
       <Section gap="3.2">
         <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
         <ClubList>
-          {clubController &&
-            clubController.Clubs.map((club) => (
+          {clubData &&
+            clubData.Clubs.map((club) => (
               <ClubComponent
                 key={club.id}
                 name={club.name}
@@ -40,14 +41,9 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {data &&
-            data.Project.map((project) => (
-              <ProjectBox
-                key={project.id}
-                title={project.title}
-                content={project.content}
-                tags={project.tags}
-              />
+          {projectData &&
+            sliceProjectData.map((project) => (
+              <ProjectBox key={project.id} projectData={project} />
             ))}
         </FlexWrapContainer>
       </Section>
@@ -59,14 +55,9 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {data &&
-            data.Project.map((project) => (
-              <ProjectBox
-                key={project.id}
-                title={project.title}
-                content={project.content}
-                tags={project.tags}
-              />
+          {projectData &&
+            sliceProjectData.map((project) => (
+              <ProjectBox key={project.id} projectData={project} />
             ))}
         </FlexWrapContainer>
       </Section>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import test from '../../json/test.json';
 import {
   Banner,
   SelectBox,
@@ -9,6 +8,7 @@ import {
   TagList,
 } from '../emotion/component';
 import { Header2, Inner, Section } from '../emotion/GlobalStyle';
+import projectData from '../../json/project-controller.json';
 
 const Index = () => {
   // Selectbox 컴포넌트
@@ -54,14 +54,9 @@ const Index = () => {
         </div>
 
         <FlexWrapContainer>
-          {test &&
-            test.Project.map((project) => (
-              <ProjectBox
-                key={project.id}
-                title={project.title}
-                content={project.content}
-                tags={project.tags}
-              />
+          {projectData &&
+            projectData.Project.map((project) => (
+              <ProjectBox key={project.id} projectData={project} />
             ))}
         </FlexWrapContainer>
       </Section>

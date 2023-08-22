@@ -22,9 +22,7 @@ export interface SelectBoxProps {
 }
 
 export interface ProjectBoxProps {
-  title: string;
-  content: string;
-  tags: string[];
+  projectData: { id: number; title: string; content: string; tags: string[]; image: string };
 }
 
 export interface NavItemProps extends ContainerType {

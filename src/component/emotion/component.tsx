@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import {
   BannerProps,
@@ -122,11 +123,19 @@ Tag.defaultProps = {
  * @param {string} props.content - 프로젝트 내용
  * @param {string[]} props.tags - 프로젝트 태그들의 배열
  */
+const generateTags = (tags: string[]) => (tags.length === 0 ? ['임의 태그'] : tags);
 
-export const ProjectBox = ({ title, content, tags }: ProjectBoxProps) => {
-  const generatedTags = tags.length === 0 ? ['임의 태그'] : tags;
+export const ProjectBox = ({ projectData }: ProjectBoxProps) => {
+  const { id, title, content, tags, image } = projectData;
+  const generatedTags = generateTags(tags);
+  const navigate = useNavigate();
+
   return (
     <div
+      role="presentation"
+      onClick={() => {
+        navigate(`/project/detail/${id}`);
+      }}
       css={css`
         display: flex;
         flex-direction: column;
@@ -134,12 +143,12 @@ export const ProjectBox = ({ title, content, tags }: ProjectBoxProps) => {
         width: 38.4rem;
         height: 40rem;
         background: ${theme.palette.gray[900]};
-        color: ${theme.palette.gray.white};
         border-radius: 1.6rem;
         gap: 1.6rem;
+        cursor: pointer;
       `}
     >
-      <img src="https://i.ibb.co/yktPkxP/image-5.png" alt="Project" />
+      <img src={image} alt="Project" />
 
       <TagList>
         {generatedTags.map((tag) => (
