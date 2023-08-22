@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './component/main';
@@ -10,15 +10,23 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
+import ScrollToTop from './util/ScrollToTop';
 
 function App() {
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/project" element={<Project />} />
+          <Route path="/project/*" element={<Project />} />
           <Route path="/project/detail" element={<Detail />} />
           <Route path="/project/publish" element={<ProjectPublish />} />
           <Route path="/club" element={<Club />} />

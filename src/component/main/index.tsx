@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
 import {
   Banner,
   ClubComponent,
@@ -9,9 +8,9 @@ import {
   TextBox,
 } from '../emotion/component';
 import data from '../../json/data.json';
-import clubController from '../../json/clubController.json';
-import { Body1, Header1, Inner, Section } from '../emotion/GlobalStyle';
-import { ClubList } from './component';
+import clubController from '../../json/club-controller.json';
+import { Header1, Inner, Section } from '../emotion/GlobalStyle';
+import { ClubList, NavigateMore, DivisionLine } from './component';
 
 const index = () => {
   return (
@@ -32,18 +31,12 @@ const index = () => {
         </ClubList>
       </Section>
 
-      <hr
-        css={css`
-          width: 72rem;
-          border: 1px solid #fff;
-          margin: auto;
-        `}
-      />
+      <DivisionLine />
 
       <Section>
         <TextBox>
           <Header1>붐하고 뜨고 있는 프로젝트</Header1>
-          <Body1>더 보러가기 &gt;</Body1>
+          <NavigateMore sort="popular" />
         </TextBox>
 
         <FlexWrapContainer>
@@ -62,7 +55,7 @@ const index = () => {
       <Section>
         <TextBox>
           <Header1>최근 등록된 프로젝트</Header1>
-          <Body1>더 보러가기 &gt;</Body1>
+          <NavigateMore sort="recent" />
         </TextBox>
 
         <FlexWrapContainer>

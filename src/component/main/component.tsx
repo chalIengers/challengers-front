@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ContainerType } from '../../types/globalType';
+import { Body1 } from '../emotion/GlobalStyle';
 
 export const ClubList = ({ children }: ContainerType) => (
   <div
@@ -21,4 +23,26 @@ export const ClubList = ({ children }: ContainerType) => (
       {children}
     </div>
   </div>
+);
+
+export const NavigateMore = ({ sort }: { sort: string }) => (
+  <Link to={`project/${sort}`}>
+    <Body1
+      style={css`
+        cursor: pointer;
+      `}
+    >
+      더 보러가기 &gt;
+    </Body1>
+  </Link>
+);
+
+export const DivisionLine = () => (
+  <hr
+    css={css`
+      width: 72rem;
+      border: 1px solid #fff;
+      margin: auto;
+    `}
+  />
 );

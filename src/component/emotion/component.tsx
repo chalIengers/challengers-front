@@ -229,6 +229,7 @@ export const Banner = ({ large }: BannerProps) => {
       css={css`
         border-radius: 1.2rem;
         width: 100%;
+        height: ${large ? 41.5 : 13.6}rem;
         padding: ${large ? 4.8 : 2.4}rem;
         background: #4a7edc;
         display: flex;
@@ -239,7 +240,7 @@ export const Banner = ({ large }: BannerProps) => {
     >
       <img
         alt="banner_img"
-        src={`${process.env.PUBLIC_URL}/img/3d-construction-made-of-glass-abstract-geometrical-composition 1.png`}
+        src={`${process.env.PUBLIC_URL}/img/banner.png`}
         css={css`
           width: ${large ? 29.4 : 10.5}rem;
         `}
@@ -248,14 +249,14 @@ export const Banner = ({ large }: BannerProps) => {
       <Section gap={large ? '2.4' : '1.2'}>
         <h1
           css={css`
-            ${large ? theme.typography.title : theme.typography.header2}
+            ${large ? theme.typography.title : theme.typography.header1}
           `}
         >
           챌린저스 서비스 오픈
         </h1>
         <h2
           css={css`
-            ${large ? theme.typography.header1 : theme.typography.body3Bold}
+            ${large ? theme.typography.header1 : theme.typography.body2Bold}
           `}
         >
           사이드 프로젝트 기록과 추적을 용이하게
