@@ -280,21 +280,23 @@ export const Banner = ({ large }: BannerProps) => {
  */
 export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
   return (
-    <span
+    <div
       css={css`
-        height: 3rem;
-        padding-right: 4.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       `}
     >
       <img
         css={css`
-          height: '100%';
-          object-fit: 'cover';
+          max-width: 16rem;
+          max-height: 4rem;
+          object-fit: cover;
         `}
         src={clubImg}
         alt={name}
       />
-    </span>
+    </div>
   );
 };
 

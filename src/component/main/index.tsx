@@ -9,7 +9,7 @@ import {
   TextBox,
 } from '../emotion/component';
 import data from '../../json/data.json';
-import data2 from '../../json/data2.json';
+import clubController from '../../json/clubController.json';
 import { Body1, Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList } from './component';
 
@@ -21,8 +21,8 @@ const index = () => {
       <Section gap="3.2">
         <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
         <ClubList>
-          {data2 &&
-            data2.Clubs.map((club) => (
+          {clubController &&
+            clubController.Clubs.map((club) => (
               <ClubComponent
                 key={club.id}
                 name={club.name}

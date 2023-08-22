@@ -6,12 +6,19 @@ import { ContainerType } from '../../types/globalType';
 export const ClubList = ({ children }: ContainerType) => (
   <div
     css={css`
-      width: 100%;
-      row-gap: 4rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      height: 13.6rem;
+      overflow: hidden;
     `}
   >
-    {children}
+    <div
+      css={css`
+        width: 100%;
+        display: flex;
+        gap: 4.4rem;
+        flex-wrap: wrap;
+      `}
+    >
+      {children}
+    </div>
   </div>
 );
