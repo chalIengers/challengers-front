@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   InfoContainer,
   InfoDownContainer,
@@ -9,20 +10,29 @@ import {
 } from '../emotion/component';
 import { Body2, Header2, Section } from '../../emotion/GlobalStyle';
 import theme from '../../../styles/theme';
-import { ProjectLinkButtonProps, imgBoxType } from '../../../types/globalType';
+import {
+  DescribeBoxType,
+  ProjectLinkProps,
+  TeamInfoProps,
+  imgBoxType,
+} from '../../../types/globalType';
 
-export const TeamInfoBox = () => {
+export const TeamInfoBox = ({ teamInfo }: { teamInfo: TeamInfoProps }) => {
   return (
     <InfoContainer>
       <InfoUpperContainer>
-        <Header2>프론트 엔드</Header2>
+        <Header2>{teamInfo.field}</Header2>
       </InfoUpperContainer>
 
       <InfoDownContainer fixHeight>
-        <Section gap="0.8">
-          <Header2>이진아</Header2>
-          <Body2>프론트엔드</Body2>
-        </Section>
+        {teamInfo.crew.map((crew) => {
+          return (
+            <Section gap="0.8" key={uuidv4()}>
+              <Header2>{crew.name}</Header2>
+              <Body2>{crew.role}</Body2>
+            </Section>
+          );
+        })}
       </InfoDownContainer>
     </InfoContainer>
   );
@@ -30,12 +40,11 @@ export const TeamInfoBox = () => {
 
 /**
  * ProjectLink를 연결해주는 UI 컴포넌트
- * @param name 보여줄 link 이미지의 이름
- * @param url 프로젝트 연결 link URL
+ * @param {ProjectLinkProps} projectLink 프로젝트 링크 정보
  */
-export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
+export const ProjectLinkButton = ({ projectLink }: { projectLink: ProjectLinkProps }) => {
   const handleClick = () => {
-    window.open(url);
+    window.open(projectLink.url);
   };
   return (
     <button
@@ -50,7 +59,7 @@ export const ProjectLinkButton = ({ name, url }: ProjectLinkButtonProps) => {
       `}
       onClick={handleClick}
     >
-      <LinkImg name={name} type="large" />
+      <LinkImg name={projectLink.icon} large />
     </button>
   );
 };
@@ -66,3 +75,20 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
 ImageBox.defaultProps = {
   imgSrc: 'thumbnail.png',
 };
+
+export const DescribeBox = ({ text }: DescribeBoxType) => (
+  <div
+    // eslint-disable-next-line react/no-danger
+    dangerouslySetInnerHTML={{ __html: text }}
+    css={css`
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+      ${theme.typography.body1}
+      line-height: 30px; /* 150% */
+      h1 {
+        ${theme.typography.body1Bold}
+      }
+    `}
+  />
+);
