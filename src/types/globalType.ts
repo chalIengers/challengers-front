@@ -22,7 +22,37 @@ export interface SelectBoxProps {
 }
 
 export interface ProjectBoxProps {
-  projectData: { id: number; title: string; content: string; tags: string[]; image: string };
+  id: number;
+  title: string;
+  subTitle: string;
+  tags: string[];
+  thumbnail: string;
+}
+
+interface Crew {
+  name: string;
+  role: string;
+}
+export interface TeamInfoProps {
+  field: string;
+  crew: Crew[];
+}
+export interface ProjectLinkProps {
+  url: string;
+  icon: string;
+}
+export interface ProjectDetailProps extends ProjectBoxProps {
+  club: string;
+  serviceType: string;
+  projectState: string;
+  projectPeriod: string;
+  techStack: string;
+
+  describe: string;
+
+  teamInfoBoxs: TeamInfoProps[];
+
+  projectLinks: ProjectLinkProps[];
 }
 
 export interface NavItemProps extends ContainerType {
