@@ -113,7 +113,7 @@ export const LinkInputBox = () => {
           ${theme.typography.body1}
         `}
       />
-      <LinkImg name="notion" type="small" />
+      <LinkImg name="notion" />
     </div>
   );
 };

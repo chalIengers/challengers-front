@@ -98,7 +98,7 @@ export interface LinkImgList {
 
 export interface LinkImgProps {
   name: string;
-  type: 'large' | 'small';
+  large?: boolean;
 }
 
 export interface InfoDownContainerType extends ContainerType {
@@ -126,4 +126,8 @@ export interface TextInputBoxType {
 
 export interface TagListType extends ContainerType {
   small?: boolean;
+}
+
+export interface DescribeBoxType {
+  text: string;
 }

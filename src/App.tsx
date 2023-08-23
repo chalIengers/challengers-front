@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './component/main';
@@ -10,14 +10,10 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
-import ScrollToTop from './util/ScrollToTop';
+import { PreventAutoScroll, ScrollToTop } from './util/util';
 
 function App() {
-  useEffect(() => {
-    window.onbeforeunload = function pushRefresh() {
-      window.scrollTo(0, 0);
-    };
-  }, []);
+  PreventAutoScroll();
 
   return (
     <div className="App">

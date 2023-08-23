@@ -8,7 +8,7 @@ import {
   TagList,
 } from '../emotion/component';
 import { Header2, Inner, Section } from '../emotion/GlobalStyle';
-import projectData from '../../json/project-controller.json';
+import { ProjectPreview } from '../../json/project-controller';
 
 const Index = () => {
   // Selectbox 컴포넌트
@@ -31,12 +31,13 @@ const Index = () => {
   const handleSelectChange3 = (selectedValue: string) => {
     setSelectedOption3(selectedValue);
   };
+  if (!ProjectPreview) return <div>Loading ...</div>;
 
   return (
     <Inner>
       <Banner />
       <Section gap="5.6">
-        <div>
+        <>
           <TextBox margin="1.6">
             <Header2>챌린저스에 등록된 프로젝트</Header2>
             <SelectBox
@@ -51,13 +52,12 @@ const Index = () => {
             <SelectBox options={options1} value={selectedOption1} onChange={handleSelectChange1} />
             <SelectBox options={options2} value={selectedOption2} onChange={handleSelectChange2} />
           </TagList>
-        </div>
+        </>
 
         <FlexWrapContainer>
-          {projectData &&
-            projectData.Project.map((project) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
+          {ProjectPreview.map((project) => (
+            <ProjectBox key={project.id} projectData={project} />
+          ))}
         </FlexWrapContainer>
       </Section>
     </Inner>

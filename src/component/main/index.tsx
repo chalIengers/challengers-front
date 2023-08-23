@@ -7,13 +7,16 @@ import {
   ProjectBox,
   TextBox,
 } from '../emotion/component';
-import clubData from '../../json/club-controller.json';
-import projectData from '../../json/project-controller.json';
+import { Clubs } from '../../json/club-controller';
+import { ProjectPreview } from '../../json/project-controller';
 import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList, NavigateMore, DivisionLine } from './component';
 
 const index = () => {
-  const sliceProjectData = projectData.Project.slice(0, 6);
+  if (!ProjectPreview) return <div>Loading ...</div>;
+  if (!Clubs) return <div>Loading ...</div>;
+  const sliceProjectData = ProjectPreview.slice(0, 6);
+
   return (
     <Inner>
       <Banner large />
@@ -21,14 +24,13 @@ const index = () => {
       <Section gap="3.2">
         <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
         <ClubList>
-          {clubData &&
-            clubData.Clubs.map((club) => (
-              <ClubComponent
-                key={club.id}
-                name={club.name}
-                clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
-              />
-            ))}
+          {Clubs.map((club) => (
+            <ClubComponent
+              key={club.id}
+              name={club.name}
+              clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
+            />
+          ))}
         </ClubList>
       </Section>
 
@@ -41,10 +43,9 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {projectData &&
-            sliceProjectData.map((project) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
+          {sliceProjectData.map((project) => (
+            <ProjectBox key={project.id} projectData={project} />
+          ))}
         </FlexWrapContainer>
       </Section>
 
@@ -55,10 +56,9 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {projectData &&
-            sliceProjectData.map((project) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
+          {sliceProjectData.map((project) => (
+            <ProjectBox key={project.id} projectData={project} />
+          ))}
         </FlexWrapContainer>
       </Section>
     </Inner>

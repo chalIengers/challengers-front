@@ -15,6 +15,7 @@ import {
   TextInputBoxType,
 } from '../../types/globalType';
 import { Body2, Header1, Section } from './GlobalStyle';
+import { GenerateTags } from '../../util/util';
 
 export const TagList = ({ children, small }: TagListType) => (
   <div
@@ -119,15 +120,12 @@ Tag.defaultProps = {
 /**
  * Projectbox 컴포넌트
  * @component ProjectBox
- * @param {string} props.title - 프로젝트 제목
- * @param {string} props.content - 프로젝트 내용
- * @param {string[]} props.tags - 프로젝트 태그들의 배열
+ * @param {ProjectBoxProps} projectData - 프로젝트 정보
  */
-const generateTags = (tags: string[]) => (tags.length === 0 ? ['임의 태그'] : tags);
 
-export const ProjectBox = ({ projectData }: ProjectBoxProps) => {
-  const { id, title, content, tags, image } = projectData;
-  const generatedTags = generateTags(tags);
+export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) => {
+  const { id, title, subTitle, tags, thumbnail } = projectData;
+  const generatedTags = GenerateTags(tags);
   const navigate = useNavigate();
 
   return (
@@ -148,7 +146,7 @@ export const ProjectBox = ({ projectData }: ProjectBoxProps) => {
         cursor: pointer;
       `}
     >
-      <img src={image} alt="Project" />
+      <img src={thumbnail} alt="Project" />
 
       <TagList>
         {generatedTags.map((tag) => (
@@ -157,7 +155,7 @@ export const ProjectBox = ({ projectData }: ProjectBoxProps) => {
       </TagList>
 
       <Header1>{title}</Header1>
-      <Body2>{content}</Body2>
+      <Body2>{subTitle}</Body2>
     </div>
   );
 };
