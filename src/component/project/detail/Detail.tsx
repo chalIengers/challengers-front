@@ -12,23 +12,23 @@ import {
 } from '../../emotion/component';
 import { Body1, Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { DescribeBox, ImageBox, ProjectLinkButton, TeamInfoBox } from './component';
-import { GenerateTags } from '../../../util/util';
 import { useGetVideoQuery } from '../../../store/projectApi';
-import { ProjectDetailProps } from '../../../types/globalType';
-import { ProjectPreview, teamInfoBoxs } from '../../../json/project-controller';
+import useProjectCrew from './hook';
+import { ProjectPreview } from '../../../json/project-controller';
+import { GenerateTags } from '../../../util/util';
+import { ProjectLink, ProjectTechStack } from '../../../types/globalType';
 
 const Detail = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isError }: { data?: ProjectDetailProps; isLoading: any; isError: any } =
-    useGetVideoQuery({
-      id,
-    });
+  const { data, isLoading, isError } = useGetVideoQuery({ id });
+  const groupedByPosition = useProjectCrew(data?.projectCrew);
+
+  // 임시
+  const generatedTags = GenerateTags(ProjectPreview[0].tags);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
-
-  const generatedTags = GenerateTags(ProjectPreview[0].tags);
 
   return (
     <Inner>
@@ -70,11 +70,11 @@ const Detail = () => {
             <Body1>{data?.projectPeriod}</Body1>
 
             <Header2>사용된 기술 스택</Header2>
-            <div>
-              {data?.projectTechStack.map((stack) => {
-                return <Body1>{stack.name}</Body1>;
+            <TagList>
+              {data?.projectTechStack.map((stack: ProjectTechStack) => {
+                return <Body1 key={uuidv4()}>{stack.name}</Body1>;
               })}
-            </div>
+            </TagList>
           </GridBox>
         </ContainerComponent>
 
@@ -87,8 +87,16 @@ const Detail = () => {
           <Header1>팀원구성</Header1>
 
           <FlexWrapContainer>
-            {teamInfoBoxs.map((crew) => {
-              return <TeamInfoBox teamInfo={crew} key={uuidv4()} />;
+            {Object.entries(groupedByPosition).map((crew) => {
+              return <TeamInfoBox teamInfo={crew} key={crew[0]} />;
+              // return (
+              //   <InfoContainer>
+              //     <InfoUpperContainer>
+              //       <Header2>{teamInfo.field}</Header2>
+              //     </InfoUpperContainer>
+              //     <TeamInfoBox teamInfo={crew} key={uuidv4()} />;
+              //   </InfoContainer>
+              // );
             })}
           </FlexWrapContainer>
         </ContainerComponent>
@@ -97,8 +105,8 @@ const Detail = () => {
           <Header1>프로젝트 링크</Header1>
 
           <TagList>
-            {data?.projectLink.map((projectLink) => {
-              return <ProjectLinkButton projectLink={projectLink} key={projectLink.url} />;
+            {data?.projectLink.map((projectLink: ProjectLink) => {
+              return <ProjectLinkButton projectLink={projectLink} key={projectLink.id} />;
             })}
           </TagList>
         </ContainerComponent>

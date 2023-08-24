@@ -24,14 +24,13 @@ export const PreventAutoScroll = () => {
   }, []);
 };
 
-//
-// function Fetcher({query, children}: {query: ,children: ReactNode}){
-//   const { isLoading, error, data } = query();
-//   if(isLoading) {
-//     return <Loading />
+// export const Fetcher = ({ query, children }: { query: any; children: ReactNode }) => {
+//   const { isLoading, isError } = query();
+//   if (isLoading) {
+//     return <div>Loading...</div>;
 //   }
-//   if(error){
-//     return <Error />
+//   if (isError) {
+//     return <div>Error!</div>;
 //   }
 //   return children;
-// }
+// };

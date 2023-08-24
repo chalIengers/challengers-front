@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { v4 as uuidv4 } from 'uuid';
 import {
   InfoContainer,
   InfoDownContainer,
@@ -10,19 +9,19 @@ import {
 } from '../emotion/component';
 import { Body2, Header2, Section } from '../../emotion/GlobalStyle';
 import theme from '../../../styles/theme';
-import { DescribeBoxType, ProjectLink, TeamInfoProps, imgBoxType } from '../../../types/globalType';
+import { DescribeBoxType, ProjectCrew, ProjectLink, imgBoxType } from '../../../types/globalType';
 
-export const TeamInfoBox = ({ teamInfo }: { teamInfo: TeamInfoProps }) => {
+export const TeamInfoBox = ({ teamInfo }: { teamInfo: [string, ProjectCrew[]] }) => {
   return (
     <InfoContainer>
       <InfoUpperContainer>
-        <Header2>{teamInfo.field}</Header2>
+        <Header2>{teamInfo[0]}</Header2>
       </InfoUpperContainer>
 
       <InfoDownContainer fixHeight>
-        {teamInfo.crew.map((crew) => {
+        {teamInfo[1].map((crew) => {
           return (
-            <Section gap="0.8" key={uuidv4()}>
+            <Section gap="0.8" key={crew.id}>
               <Header2>{crew.name}</Header2>
               <Body2>{crew.role}</Body2>
             </Section>
@@ -64,7 +63,17 @@ export const ProjectLinkButton = ({ projectLink }: { projectLink: ProjectLink })
  * @param imgSrc 이미지 src
  */
 export const ImageBox = ({ imgSrc }: imgBoxType) => {
-  return <img alt="프로젝트 상세 이미지" src={`${process.env.PUBLIC_URL}/img/${imgSrc}`} />;
+  return (
+    <img
+      alt="프로젝트 상세 이미지"
+      src={imgSrc}
+      css={css`
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      `}
+    />
+  );
 };
 
 ImageBox.defaultProps = {
