@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { LoadingBox } from '../component/emotion/component';
 
 // 경로에 변화가 생기거나 새로고침 시 페이지의 최상단으로 이동
 export const ScrollToTop = () => {
@@ -21,13 +22,25 @@ export const PreventAutoScroll = () => {
   }, []);
 };
 
-// export const Fetcher = ({ query, children }: { query: any; children: ReactNode }) => {
-//   const { isLoading, isError } = query();
-//   if (isLoading) {
-//     return <div>Loading...</div>;
-//   }
-//   if (isError) {
-//     return <div>Error!</div>;
-//   }
-//   return children;
-// };
+interface FetcherProps {
+  query: () => {
+    isLoading: boolean;
+    isError: boolean;
+  };
+  children: ReactNode;
+}
+
+const Fetcher = ({ query, children }: FetcherProps) => {
+  const { isLoading, isError } = query();
+
+  if (isLoading) {
+    return <LoadingBox />;
+  }
+  if (isError) {
+    return <div>API Error!</div>;
+  }
+
+  return <div>{children}</div>;
+};
+
+export default Fetcher;

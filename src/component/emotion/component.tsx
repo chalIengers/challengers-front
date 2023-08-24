@@ -167,6 +167,34 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
   );
 };
 
+export const LoadingBox = () => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        padding: 1.6rem 2rem;
+        width: 38.4rem;
+        height: 40rem;
+        background: ${theme.palette.gray[900]};
+        border-radius: 1.6rem;
+        gap: 1.6rem;
+        cursor: pointer;
+      `}
+    >
+      <div
+        css={css`
+          height: 22.4rem;
+          width: 35.2rem;
+          border-radius: 1.2rem;
+          object-fit: cover;
+          background-color: ${theme.palette.gray[600]};
+        `}
+      />
+    </div>
+  );
+};
+
 /**
  * FlexContainer 컴포넌트
  * @component FlexContainer

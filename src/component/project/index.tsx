@@ -12,17 +12,15 @@ import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
 import { useGetVideosQuery } from '../../store/projectApi';
 import { ProjectBoxProps } from '../../types/globalType';
+import Fetcher from '../../util/util';
 
 const Index = () => {
   const { sort } = useParams();
-  const { data, isLoading, isError } = useGetVideosQuery({});
+  const queryResult = useGetVideosQuery({});
 
   const { sortType, optionType, handleSelectChange } = useSelectBoxes(
     sort === 'popular' ? '인기도 순' : '최신 등록순',
   );
-
-  if (isLoading) return <div>Loading ...</div>;
-  if (isError) return <div>Loading ...</div>;
 
   return (
     <Inner>
@@ -51,11 +49,13 @@ const Index = () => {
           />
         </TagList>
 
-        <FlexWrapContainer>
-          {data.map((project: ProjectBoxProps) => (
-            <ProjectBox key={project.id} projectData={project} />
-          ))}
-        </FlexWrapContainer>
+        <Fetcher query={() => queryResult}>
+          <FlexWrapContainer>
+            {queryResult.data?.map((project: ProjectBoxProps) => (
+              <ProjectBox key={project.id} projectData={project} />
+            ))}
+          </FlexWrapContainer>
+        </Fetcher>
       </Section>
     </Inner>
   );
