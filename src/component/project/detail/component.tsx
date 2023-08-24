@@ -10,12 +10,7 @@ import {
 } from '../emotion/component';
 import { Body2, Header2, Section } from '../../emotion/GlobalStyle';
 import theme from '../../../styles/theme';
-import {
-  DescribeBoxType,
-  ProjectLinkProps,
-  TeamInfoProps,
-  imgBoxType,
-} from '../../../types/globalType';
+import { DescribeBoxType, ProjectLink, TeamInfoProps, imgBoxType } from '../../../types/globalType';
 
 export const TeamInfoBox = ({ teamInfo }: { teamInfo: TeamInfoProps }) => {
   return (
@@ -42,7 +37,7 @@ export const TeamInfoBox = ({ teamInfo }: { teamInfo: TeamInfoProps }) => {
  * ProjectLink를 연결해주는 UI 컴포넌트
  * @param {ProjectLinkProps} projectLink 프로젝트 링크 정보
  */
-export const ProjectLinkButton = ({ projectLink }: { projectLink: ProjectLinkProps }) => {
+export const ProjectLinkButton = ({ projectLink }: { projectLink: ProjectLink }) => {
   const handleClick = () => {
     window.open(projectLink.url);
   };
@@ -59,7 +54,7 @@ export const ProjectLinkButton = ({ projectLink }: { projectLink: ProjectLinkPro
       `}
       onClick={handleClick}
     >
-      <LinkImg name={projectLink.icon} large />
+      <LinkImg name={projectLink.name} large />
     </button>
   );
 };

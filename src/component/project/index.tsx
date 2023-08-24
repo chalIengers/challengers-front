@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Banner,
   SelectBox,
@@ -8,54 +9,50 @@ import {
   TagList,
 } from '../emotion/component';
 import { Header2, Inner, Section } from '../emotion/GlobalStyle';
-import { ProjectPreview } from '../../json/project-controller';
+import { useSelectBoxes } from './hook';
+import { useGetVideosQuery } from '../../store/projectApi';
+import { ProjectBoxProps } from '../../types/globalType';
 
 const Index = () => {
-  // Selectbox 컴포넌트
-  const [selectedOption1, setSelectedOption1] = useState('');
-  const [selectedOption2, setSelectedOption2] = useState('');
-  const [selectedOption3, setSelectedOption3] = useState('');
+  const { sort } = useParams();
+  const { data, isLoading, isError } = useGetVideosQuery({});
 
-  const options1 = ['전체서비스', '메뉴1'];
-  const options2 = ['기술스택', '메뉴1'];
-  const options3 = ['최신 등록순', '메뉴1'];
+  const { sortType, optionType, handleSelectChange } = useSelectBoxes(
+    sort === 'popular' ? '인기도 순' : '최신 등록순',
+  );
 
-  const handleSelectChange1 = (selectedValue: string) => {
-    setSelectedOption1(selectedValue);
-  };
-
-  const handleSelectChange2 = (selectedValue: string) => {
-    setSelectedOption2(selectedValue);
-  };
-
-  const handleSelectChange3 = (selectedValue: string) => {
-    setSelectedOption3(selectedValue);
-  };
-  if (!ProjectPreview) return <div>Loading ...</div>;
+  if (isLoading) return <div>Loading ...</div>;
+  if (isError) return <div>Loading ...</div>;
 
   return (
     <Inner>
       <Banner />
       <Section gap="5.6">
-        <>
-          <TextBox margin="1.6">
-            <Header2>챌린저스에 등록된 프로젝트</Header2>
-            <SelectBox
-              options={options3}
-              value={selectedOption3}
-              onChange={handleSelectChange3}
-              background="#000"
-            />
-          </TextBox>
+        <TextBox margin="1.6">
+          <Header2>챌린저스에 등록된 프로젝트</Header2>
+          <SelectBox
+            options={optionType.sort}
+            value={sortType.sort}
+            onChange={handleSelectChange('sortKey')}
+            background="#000"
+          />
+        </TextBox>
 
-          <TagList>
-            <SelectBox options={options1} value={selectedOption1} onChange={handleSelectChange1} />
-            <SelectBox options={options2} value={selectedOption2} onChange={handleSelectChange2} />
-          </TagList>
-        </>
+        <TagList>
+          <SelectBox
+            options={optionType.service}
+            value={sortType.service}
+            onChange={handleSelectChange('serviceType')}
+          />
+          <SelectBox
+            options={optionType.stack}
+            value={sortType.stack}
+            onChange={handleSelectChange('techStack')}
+          />
+        </TagList>
 
         <FlexWrapContainer>
-          {ProjectPreview.map((project) => (
+          {data.map((project: ProjectBoxProps) => (
             <ProjectBox key={project.id} projectData={project} />
           ))}
         </FlexWrapContainer>

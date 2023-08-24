@@ -23,3 +23,15 @@ export const PreventAutoScroll = () => {
     };
   }, []);
 };
+
+//
+// function Fetcher({query, children}: {query: ,children: ReactNode}){
+//   const { isLoading, error, data } = query();
+//   if(isLoading) {
+//     return <Loading />
+//   }
+//   if(error){
+//     return <Error />
+//   }
+//   return children;
+// }

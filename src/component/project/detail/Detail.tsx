@@ -12,19 +12,23 @@ import {
 } from '../../emotion/component';
 import { Body1, Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { DescribeBox, ImageBox, ProjectLinkButton, TeamInfoBox } from './component';
-import { ProjectDetail } from '../../../json/project-controller';
 import { GenerateTags } from '../../../util/util';
+import { useGetVideoQuery } from '../../../store/projectApi';
+import { ProjectDetailProps } from '../../../types/globalType';
+import { ProjectPreview, teamInfoBoxs } from '../../../json/project-controller';
 
 const Detail = () => {
   const { id } = useParams();
 
-  // 임시로 작성
-  const filteredProjects = id ? ProjectDetail.filter((project) => project.id === Number(id)) : null;
-  const data = filteredProjects ? filteredProjects[0] : null;
+  const { data, isLoading, isError }: { data?: ProjectDetailProps; isLoading: any; isError: any } =
+    useGetVideoQuery({
+      id,
+    });
 
-  if (data === null) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
 
-  const generatedTags = GenerateTags(data.tags);
+  const generatedTags = GenerateTags(ProjectPreview[0].tags);
 
   return (
     <Inner>
@@ -33,7 +37,7 @@ const Detail = () => {
         <Header1>프로젝트 상세페이지</Header1>
 
         <ContainerComponent>
-          <ImageBox imgSrc={data.image} />
+          <ImageBox imgSrc={data?.imageUrl} />
 
           <Section gap="1.6">
             <TagList>
@@ -43,8 +47,8 @@ const Detail = () => {
             </TagList>
 
             <Section gap="0.8">
-              <Header1>{data.title}</Header1>
-              <Body1>{data.subTitle}</Body1>
+              <Header1>{data?.projectName}</Header1>
+              <Body1>{data?.projectDescription}</Body1>
             </Section>
           </Section>
         </ContainerComponent>
@@ -54,33 +58,37 @@ const Detail = () => {
 
           <GridBox>
             <Header2>소속 클럽</Header2>
-            <Body1>{data.club}</Body1>
+            <Body1>{data?.belongedClubName}</Body1>
 
             <Header2>서비스 형태</Header2>
-            <Body1>{data.serviceType}</Body1>
+            <Body1>{data?.projectCategory}</Body1>
 
             <Header2>프로젝트 상태</Header2>
-            <Body1>{data.projectState}</Body1>
+            <Body1>{data?.projectStatus}</Body1>
 
             <Header2>프로젝트 기간</Header2>
-            <Body1>{data.projectPeriod}</Body1>
+            <Body1>{data?.projectPeriod}</Body1>
 
             <Header2>사용된 기술 스택</Header2>
-            <Body1>{data.techStack}</Body1>
+            <div>
+              {data?.projectTechStack.map((stack) => {
+                return <Body1>{stack.name}</Body1>;
+              })}
+            </div>
           </GridBox>
         </ContainerComponent>
 
         <ContainerComponent>
           <Header1>프로젝트 설명</Header1>
-          <DescribeBox text={data.describe} />
+          <DescribeBox text={data?.projectDetail ? data.projectDetail : ''} />
         </ContainerComponent>
 
         <ContainerComponent>
           <Header1>팀원구성</Header1>
 
           <FlexWrapContainer>
-            {data.teamInfoBoxs.map((teamInfo) => {
-              return <TeamInfoBox teamInfo={teamInfo} key={uuidv4()} />;
+            {teamInfoBoxs.map((crew) => {
+              return <TeamInfoBox teamInfo={crew} key={uuidv4()} />;
             })}
           </FlexWrapContainer>
         </ContainerComponent>
@@ -89,7 +97,7 @@ const Detail = () => {
           <Header1>프로젝트 링크</Header1>
 
           <TagList>
-            {data.projectLink.map((projectLink) => {
+            {data?.projectLink.map((projectLink) => {
               return <ProjectLinkButton projectLink={projectLink} key={projectLink.url} />;
             })}
           </TagList>

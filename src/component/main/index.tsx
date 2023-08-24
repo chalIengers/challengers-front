@@ -8,14 +8,22 @@ import {
   TextBox,
 } from '../emotion/component';
 import { Clubs } from '../../json/club-controller';
-import { ProjectPreview } from '../../json/project-controller';
 import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList, NavigateMore, DivisionLine } from './component';
+import { useGetVideosQuery } from '../../store/projectApi';
+import { ProjectBoxProps } from '../../types/globalType';
 
-const index = () => {
-  if (!ProjectPreview) return <div>Loading ...</div>;
+const Index = () => {
+  const { data, isLoading, isError, error } = useGetVideosQuery({});
+
+  if (isLoading) return <div>Loading ...</div>;
+  if (isError) {
+    console.log(error);
+    return <div>Error ...</div>;
+  }
   if (!Clubs) return <div>Loading ...</div>;
-  const sliceProjectData = ProjectPreview.slice(0, 6);
+
+  const sliceProjectData = data.slice(0, 6);
 
   return (
     <Inner>
@@ -43,7 +51,7 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {sliceProjectData.map((project) => (
+          {sliceProjectData.map((project: ProjectBoxProps) => (
             <ProjectBox key={project.id} projectData={project} />
           ))}
         </FlexWrapContainer>
@@ -56,7 +64,7 @@ const index = () => {
         </TextBox>
 
         <FlexWrapContainer>
-          {sliceProjectData.map((project) => (
+          {sliceProjectData.map((project: ProjectBoxProps) => (
             <ProjectBox key={project.id} projectData={project} />
           ))}
         </FlexWrapContainer>
@@ -65,4 +73,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

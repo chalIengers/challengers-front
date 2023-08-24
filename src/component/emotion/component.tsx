@@ -16,6 +16,7 @@ import {
 } from '../../types/globalType';
 import { Body2, Header1, Section } from './GlobalStyle';
 import { GenerateTags } from '../../util/util';
+import { ProjectPreview } from '../../json/project-controller';
 
 export const TagList = ({ children, small }: TagListType) => (
   <div
@@ -124,8 +125,8 @@ Tag.defaultProps = {
  */
 
 export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) => {
-  const { id, title, subTitle, tags, thumbnail } = projectData;
-  const generatedTags = GenerateTags(tags);
+  const { id, projectName, projectDescription, imageUrl } = projectData;
+  const generatedTags = GenerateTags(ProjectPreview[0].tags);
   const navigate = useNavigate();
 
   return (
@@ -146,7 +147,16 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
         cursor: pointer;
       `}
     >
-      <img src={thumbnail} alt="Project" />
+      <img
+        src={imageUrl}
+        alt="Project"
+        css={css`
+          height: 22.4rem;
+          width: 35.2rem;
+          border-radius: 1.2rem;
+          object-fit: cover;
+        `}
+      />
 
       <TagList>
         {generatedTags.map((tag) => (
@@ -154,8 +164,8 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
         ))}
       </TagList>
 
-      <Header1>{title}</Header1>
-      <Body2>{subTitle}</Body2>
+      <Header1>{projectName}</Header1>
+      <Body2>{projectDescription}</Body2>
     </div>
   );
 };
