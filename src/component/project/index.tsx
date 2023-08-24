@@ -33,7 +33,7 @@ const Index = () => {
           <SelectBox
             options={optionType.sort}
             value={sortType.sort}
-            onChange={handleSelectChange('sortKey')}
+            onChange={handleSelectChange('sort')}
             background="#000"
           />
         </TextBox>
@@ -42,12 +42,12 @@ const Index = () => {
           <SelectBox
             options={optionType.service}
             value={sortType.service}
-            onChange={handleSelectChange('serviceType')}
+            onChange={handleSelectChange('service')}
           />
           <SelectBox
             options={optionType.stack}
             value={sortType.stack}
-            onChange={handleSelectChange('techStack')}
+            onChange={handleSelectChange('stack')}
           />
         </TagList>
 
