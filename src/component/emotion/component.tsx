@@ -15,8 +15,6 @@ import {
   TextInputBoxType,
 } from '../../types/globalType';
 import { Body2, Header1, Section } from './GlobalStyle';
-import { GenerateTags } from '../../util/util';
-import { ProjectPreview } from '../../json/project-controller';
 
 export const TagList = ({ children, small }: TagListType) => (
   <div
@@ -126,7 +124,7 @@ Tag.defaultProps = {
 
 export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) => {
   const { id, projectName, projectDescription, imageUrl } = projectData;
-  const generatedTags = GenerateTags(ProjectPreview[0].tags);
+
   const navigate = useNavigate();
 
   return (
@@ -159,9 +157,8 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
       />
 
       <TagList>
-        {generatedTags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
+        <Tag>{projectData?.projectCategory}</Tag>
+        <Tag>{projectData?.belongedClubName ? projectData.belongedClubName : '클럽 없음'}</Tag>
       </TagList>
 
       <Header1>{projectName}</Header1>

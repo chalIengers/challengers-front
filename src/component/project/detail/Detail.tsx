@@ -14,8 +14,6 @@ import { Body1, Header1, Header2, Inner, Section } from '../../emotion/GlobalSty
 import { DescribeBox, ImageBox, ProjectLinkButton, TeamInfoBox } from './component';
 import { useGetVideoQuery } from '../../../store/projectApi';
 import useProjectCrew from './hook';
-import { ProjectPreview } from '../../../json/project-controller';
-import { GenerateTags } from '../../../util/util';
 import { ProjectLink, ProjectTechStack } from '../../../types/globalType';
 
 const Detail = () => {
@@ -23,9 +21,6 @@ const Detail = () => {
 
   const { data, isLoading, isError } = useGetVideoQuery({ id });
   const groupedByPosition = useProjectCrew(data?.projectCrew);
-
-  // 임시
-  const generatedTags = GenerateTags(ProjectPreview[0].tags);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
@@ -41,9 +36,8 @@ const Detail = () => {
 
           <Section gap="1.6">
             <TagList>
-              {generatedTags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
+              <Tag>{data?.projectCategory}</Tag>
+              <Tag>{data?.belongedClubName}</Tag>
             </TagList>
 
             <Section gap="0.8">

@@ -70,6 +70,7 @@ export const ImageBox = ({ imgSrc }: imgBoxType) => {
       css={css`
         width: 100%;
         height: 100%;
+        border-radius: 1.6rem;
         object-fit: cover;
       `}
     />

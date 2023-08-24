@@ -34,7 +34,8 @@ interface Crew {
   role: string;
 }
 export interface TeamInfoProps {
-  field: string;
+  id: number;
+  position: string;
   crew: Crew[];
 }
 export interface ProjectCrew {
