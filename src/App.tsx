@@ -10,12 +10,14 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
+import GlobalModal from './component/modal/GlobalModal';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
+        <GlobalModal />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/project" element={<Project />} />

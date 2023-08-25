@@ -7,7 +7,6 @@ import theme from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import GlobalModal from './component/modal/GlobalModal';
 import store from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -16,7 +15,6 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <GlobalModal />
         <App />
       </ThemeProvider>
     </Provider>

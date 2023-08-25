@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-
+import React from 'react';
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import { ButtonBox, ClubComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
-import { Body1 } from '../../emotion/GlobalStyle';
-import { ContainerType } from '../../../types/globalType';
+import { Body1, Body1Bold } from '../../emotion/GlobalStyle';
+import { ClubBoxProps, ContainerType, LinkToProps } from '../../../types/globalType';
 
 /**
  * '클럽 마스터 이메일 보기' 버튼을 눌렀을 때 뜨게 되는 컴포넌트
@@ -51,28 +51,25 @@ export const ClubContainer = ({ children }: ContainerType) => {
 
 /**
  * 클럽 페이지의 클럽로고 + 버튼 컴포넌트
- *
- * 자신의 소속 클럽과 받아온 클럽을 비교해 소속이 같은지, 관리자인지 확인하고
- * 버튼 text를 바꾸면 어떨까요?
  */
-export const ClubBox = ({ text }: { text?: string }) => {
-  const [showToast, setShowToast] = useState(false);
-
-  const ShowToast = () => {
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
+export const ClubBox = ({ text, key, name, clubImg, onClick, showToast }: ClubBoxProps) => {
   return (
     <ClubContainer>
-      <ClubComponent key="1" name="챌린저스" clubImg="challenger.png" />
-      <ButtonBox text={text} type="small" onClick={ShowToast} />
-      {showToast && <Toast />}
+      <ClubComponent key={key} name={name} clubImg={clubImg} />
+      <ButtonBox text={text} type="small" onClick={onClick} />
+      {showToast !== undefined ? showToast && <Toast /> : null}
     </ClubContainer>
   );
 };
 
 ClubBox.defaultProps = {
   text: '클럽 가입 신청',
+};
+
+export const LinkTo = ({ to, children }: LinkToProps) => {
+  return (
+    <Link to={to}>
+      <Body1Bold>{children}</Body1Bold>
+    </Link>
+  );
 };

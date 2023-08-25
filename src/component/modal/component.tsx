@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
 import { Body1, Body2, Header1, Section } from '../emotion/GlobalStyle';
-import { openModal } from '../../store/modalSlice';
+import { closeModal, openModal } from '../../store/modalSlice';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -155,6 +156,16 @@ export const RegisterModal = () => {
 };
 
 export const CreateClubModal = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const CancelButton = () => {
+    dispatch(closeModal());
+  };
+  const RegisterButton = () => {
+    navigate('/');
+    dispatch(closeModal());
+  };
   return (
     <div css={ModalBackGround}>
       <Section gap="3.6">
@@ -189,8 +200,8 @@ export const CreateClubModal = () => {
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소할게요" type="modal" cancel />
-          <ButtonBox text="등록할게요" type="modal" />
+          <ButtonBox text="취소할게요" type="modal" onClick={CancelButton} cancel />
+          <ButtonBox text="등록할게요" type="modal" onClick={RegisterButton} />
         </div>
       </Section>
     </div>

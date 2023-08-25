@@ -55,6 +55,13 @@ export interface ClubComponentProps {
   clubImg: string;
 }
 
+export interface ClubBoxProps extends ClubComponentProps {
+  text: string;
+  key: number;
+  showToast?: boolean;
+  onClick(): void;
+}
+
 export interface SectionType extends ContainerType {
   gap?: string;
 }
@@ -98,4 +105,8 @@ export interface TextInputBoxType {
 
 export interface TagListType extends ContainerType {
   small?: boolean;
+}
+
+export interface LinkToProps extends ContainerType {
+  to: string;
 }
