@@ -26,16 +26,20 @@ interface FetcherProps {
   query: {
     isLoading: boolean;
     isError: boolean;
+    error?: any;
   };
   children: ReactNode;
   loading: ReactNode;
 }
 
 const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
-  const { isLoading, isError } = query;
+  const { isLoading, isError, error } = query;
 
   if (isLoading) return loading;
-  if (isError) return <Body1>Api 통신 에러!</Body1>;
+  if (isError) {
+    console.log(error);
+    return <Body1>Api 통신 에러!</Body1>;
+  }
 
   return children;
 };
