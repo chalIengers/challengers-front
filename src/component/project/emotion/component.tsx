@@ -99,7 +99,18 @@ InfoDownContainer.defaultProps = {
   fixHeight: false,
 };
 
-export const InfoInput = ({ placeholder, large }: { placeholder: string; large?: boolean }) => (
+export const InfoInput = ({
+  placeholder,
+  large,
+  value,
+  onChange,
+}: {
+  placeholder: string;
+  large?: boolean;
+  value?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
   <input
     css={css`
       background-color: transparent;
@@ -109,9 +120,13 @@ export const InfoInput = ({ placeholder, large }: { placeholder: string; large?:
       }
     `}
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
   />
 );
 
 InfoInput.defaultProps = {
   large: false,
+  value: '',
+  onChange: () => {},
 };

@@ -12,6 +12,7 @@ export interface StyleType {
 export interface StyleContainerType {
   children: ReactNode;
   style?: SerializedStyles;
+  onClick?: () => void;
 }
 
 export interface SelectBoxProps {
@@ -100,4 +101,9 @@ export interface TextInputBoxType {
 
 export interface TagListType extends ContainerType {
   small?: boolean;
+}
+export interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
 }
