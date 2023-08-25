@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
 import { Body1, Body2, Header1, Section } from '../emotion/GlobalStyle';
-import { openModal } from '../../store/modalSlice';
+import { closeModal, openModal } from '../../store/modalSlice';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -81,6 +82,17 @@ const ModalInput = () => {
 };
 
 export const RegisterSuccessModal = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // 3초뒤 메인화면으로 이동
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(closeModal());
+      navigate('/');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <div css={ModalBackGround}>
       <Section gap="2.4">
@@ -118,6 +130,9 @@ export const RegisterModal = () => {
   const handleClick = () => {
     dispatch(openModal({ modalType: 'RegisterSuccessModal' }));
   };
+  const handleCancleClick = () => {
+    dispatch(closeModal());
+  };
   return (
     <div css={ModalBackGround}>
       <Section gap="2.4">
@@ -146,7 +161,7 @@ export const RegisterModal = () => {
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소" type="modal" cancel />
+          <ButtonBox text="취소" type="modal" cancel onClick={handleCancleClick} />
           <ButtonBox text="회원가입" type="modal" onClick={handleClick} />
         </div>
       </Section>

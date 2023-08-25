@@ -179,7 +179,7 @@ export const FlexWrapContainer = ({ children }: ContainerType) => {
  * @param text 버튼 안의 text 내용
  * @param type 버튼의 형태(large, small, modal, modal_cancel)
  */
-export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
+export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProps) => {
   const buttonStyles = {
     large: css`
       width: 100%;
@@ -217,7 +217,7 @@ export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
   `;
 
   return (
-    <button type="button" css={buttonStyle} onClick={onClick}>
+    <button type={submit ? 'submit' : 'button'} css={buttonStyle} onClick={onClick}>
       {text}
     </button>
   );
@@ -313,7 +313,7 @@ export const GridBox = ({ children }: ContainerType) => {
   );
 };
 
-export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxType) => {
+export const TextInputBox = ({ type, text, size, max, inputType, register }: TextInputBoxType) => {
   const style = {
     header1: css`
       ${theme.typography.header1}
@@ -344,6 +344,8 @@ export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxT
       size={size}
       maxLength={max}
       type={inputType}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...register}
     />
   );
 };
