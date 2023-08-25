@@ -107,3 +107,40 @@ export interface TeamMember {
   name: string;
   role: string;
 }
+
+interface Crew {
+  name: string;
+  role: string;
+}
+interface Link {
+  name: string;
+  linkUrl: string;
+}
+export interface ProjectInfo {
+  imageUrl: string;
+  projectName: string;
+  projectDescription: string;
+  projectCategory: string;
+  belonedClubId: string;
+  projectStatus: string;
+  projectPeriod: string;
+  projectTechStack: string;
+  projectDetail: string;
+  belonedCrewName: string;
+  projectCrew: Crew[];
+  projectLink: Link[];
+}
+export const initialProjectData: ProjectInfo = {
+  imageUrl: '',
+  projectName: '',
+  projectDescription: '',
+  projectCategory: '',
+  belonedCrewName: '',
+  belonedClubId: '',
+  projectStatus: '',
+  projectPeriod: '',
+  projectTechStack: '',
+  projectDetail: '',
+  projectCrew: [],
+  projectLink: [],
+};

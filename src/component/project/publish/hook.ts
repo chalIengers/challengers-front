@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
 export const useImageUpload = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -15,12 +15,20 @@ export const useImageUpload = () => {
   return { imageSrc, uploadImage };
 };
 
-export const useInputState = <T>(initialValue: T | null = null) => {
-  const [value, setValue] = useState<T | null>(initialValue);
+export const useFormFields = (State: any) => {
+  const [fields, setFields] = useState(State);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value as T);
+  const handleFieldChange = (key: any, value: any) => {
+    setFields({
+      ...fields,
+      [key]: value,
+    });
   };
 
-  return { value, onChange: handleChange };
+  return {
+    fields,
+    handleFieldChange,
+  };
 };
+
+export default useFormFields;

@@ -5,16 +5,28 @@ export const publishApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
 
   endpoints: (builder) => ({
+    fileUpload: builder.mutation({
+      query: (fileData) => {
+        const formData = new FormData();
+        formData.append('file', fileData);
+
+        return {
+          url: 'file/upload',
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
     createPublish: builder.mutation({
       query: (newProjectData) => ({
         url: 'project/create',
         method: 'POST',
-        body: newProjectData, // 보내고자 하는 데이터
+        body: newProjectData,
       }),
     }),
   }),
 });
 
-export const { useCreatePublishMutation } = publishApi;
+export const { useFileUploadMutation, useCreatePublishMutation } = publishApi;
 
 export default publishApi;
