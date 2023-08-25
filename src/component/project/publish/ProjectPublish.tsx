@@ -17,17 +17,26 @@ import {
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { LinkInputBox, TeamInfoInputBox, Labels } from './component';
 import { useImageUpload, useInputState } from './hook';
+import publishApi, { useCreatePublishMutation } from '../../../store/publishApi';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
   const { value: service, onChange: ServiceChange } = useInputState<string | null>();
   const { value: club, onChange: ClubChange } = useInputState<string | null>();
 
+  const createPublishMutation = useCreatePublishMutation();
+  const test = createPublishMutation[0];
   const onChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
       uploadImage(file);
     }
+  };
+
+  const handlePublish = () => {
+    console.log(publishApi);
+    const newProjectData = {};
+    test(newProjectData);
   };
 
   return (
@@ -129,7 +138,7 @@ const ProjectPublish = () => {
           <LinkInputBox />
         </ContainerComponent>
 
-        <ButtonBox text="프로젝트 발행하기" type="large" />
+        <ButtonBox text="프로젝트 발행하기" type="large" onClick={handlePublish} />
       </Section>
     </Inner>
   );
