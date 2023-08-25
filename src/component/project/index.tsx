@@ -12,7 +12,8 @@ import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
 import { useGetVideosQuery } from '../../store/projectApi';
 import { ProjectBoxProps } from '../../types/globalType';
-import Fetcher from '../../util/util';
+import ApiFetcher from '../../util/util';
+import { LoadingContainer } from './component';
 
 const Index = () => {
   const { sort } = useParams();
@@ -49,13 +50,13 @@ const Index = () => {
           />
         </TagList>
 
-        <Fetcher query={() => queryResult}>
+        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
           <FlexWrapContainer>
             {queryResult.data?.map((project: ProjectBoxProps) => (
               <ProjectBox key={project.id} projectData={project} />
             ))}
           </FlexWrapContainer>
-        </Fetcher>
+        </ApiFetcher>
       </Section>
     </Inner>
   );

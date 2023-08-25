@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ContainerType } from '../../types/globalType';
 import { Body1 } from '../emotion/GlobalStyle';
+import { FlexWrapContainer, LoadingBox } from '../emotion/component';
 
 export const ClubList = ({ children }: ContainerType) => (
   <div
@@ -45,4 +46,15 @@ export const DivisionLine = () => (
       margin: auto;
     `}
   />
+);
+
+export const LoadingContainer = () => (
+  <FlexWrapContainer>
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+  </FlexWrapContainer>
 );

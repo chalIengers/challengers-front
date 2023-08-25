@@ -9,21 +9,13 @@ import {
 } from '../emotion/component';
 import { Clubs } from '../../json/club-controller';
 import { Header1, Inner, Section } from '../emotion/GlobalStyle';
-import { ClubList, NavigateMore, DivisionLine } from './component';
+import { ClubList, NavigateMore, DivisionLine, LoadingContainer } from './component';
 import { useGetVideosQuery } from '../../store/projectApi';
 import { ProjectBoxProps } from '../../types/globalType';
+import ApiFetcher from '../../util/util';
 
 const Index = () => {
-  const { data, isLoading, isError, error } = useGetVideosQuery({});
-
-  if (isLoading) return <div>Loading ...</div>;
-  if (isError) {
-    console.log(error);
-    return <div>Error ...</div>;
-  }
-  if (!Clubs) return <div>Loading ...</div>;
-
-  const sliceProjectData = data.slice(0, 6);
+  const queryResult = useGetVideosQuery({});
 
   return (
     <Inner>
@@ -50,11 +42,13 @@ const Index = () => {
           <NavigateMore sort="popular" />
         </TextBox>
 
-        <FlexWrapContainer>
-          {sliceProjectData.map((project: ProjectBoxProps) => (
-            <ProjectBox key={project.id} projectData={project} />
-          ))}
-        </FlexWrapContainer>
+        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
+          <FlexWrapContainer>
+            {queryResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+              <ProjectBox key={project.id} projectData={project} />
+            ))}
+          </FlexWrapContainer>
+        </ApiFetcher>
       </Section>
 
       <Section>
@@ -63,11 +57,13 @@ const Index = () => {
           <NavigateMore sort="recent" />
         </TextBox>
 
-        <FlexWrapContainer>
-          {sliceProjectData.map((project: ProjectBoxProps) => (
-            <ProjectBox key={project.id} projectData={project} />
-          ))}
-        </FlexWrapContainer>
+        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
+          <FlexWrapContainer>
+            {queryResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+              <ProjectBox key={project.id} projectData={project} />
+            ))}
+          </FlexWrapContainer>
+        </ApiFetcher>
       </Section>
     </Inner>
   );

@@ -97,3 +97,13 @@ export const DescribeBox = ({ text }: DescribeBoxType) => (
     `}
   />
 );
+
+export const LoadingComponent = () => {
+  return (
+    <div
+      css={css`
+        height: 40rem;
+      `}
+    ></div>
+  );
+};

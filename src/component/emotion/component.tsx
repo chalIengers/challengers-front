@@ -36,7 +36,7 @@ export const ContainerComponent = ({ children }: ContainerType) => {
   return (
     <div
       css={css`
-        width: 100%;
+        width: 120rem;
         padding: 5.6rem 7.2rem;
         background-color: ${theme.palette.gray[900]};
         border-radius: 1.6rem;
