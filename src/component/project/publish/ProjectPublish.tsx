@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { Editor } from 'editor_likelion';
 import {
@@ -16,31 +16,20 @@ import {
 } from '../../emotion/component';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { LinkInputBox, TeamInfoInputBox, Labels } from './component';
+import { useImageUpload, useInputState } from './hook';
 
 const ProjectPublish = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [service, setService] = useState<string | null>(null);
-  const [club, setClub] = useState<string | null>(null);
-
-  const ServiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setService(e.target.value);
-  };
-
-  const ClubChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setClub(e.target.value);
-  };
+  const { imageSrc, uploadImage } = useImageUpload();
+  const { value: service, onChange: ServiceChange } = useInputState<string | null>();
+  const { value: club, onChange: ClubChange } = useInputState<string | null>();
 
   const onChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        setImageSrc(result);
-      };
-      reader.readAsDataURL(file);
+      uploadImage(file);
     }
   };
+
   return (
     <Inner>
       <Banner />
