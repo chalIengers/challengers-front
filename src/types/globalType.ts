@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export interface ContainerType {
   children: ReactNode;
@@ -94,6 +94,8 @@ export interface TextInputBoxType {
   size?: number;
   max?: number;
   inputType?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface TagListType extends ContainerType {

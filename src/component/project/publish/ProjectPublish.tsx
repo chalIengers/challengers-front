@@ -1,6 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
+import { Editor } from 'editor_likelion';
 import {
   Tag,
   Banner,
@@ -12,9 +15,32 @@ import {
   FlexWrapContainer,
 } from '../../emotion/component';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
-import { LinkInputBox, TeamInfoInputBox } from './component';
+import { LinkInputBox, TeamInfoInputBox, Labels } from './component';
 
 const ProjectPublish = () => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [service, setService] = useState<string | null>(null);
+  const [club, setClub] = useState<string | null>(null);
+
+  const ServiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setService(e.target.value);
+  };
+
+  const ClubChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setClub(e.target.value);
+  };
+
+  const onChange = (e: any) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        setImageSrc(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <Inner>
       <Banner />
@@ -22,18 +48,42 @@ const ProjectPublish = () => {
         <Header1>프로젝트 발행페이지</Header1>
 
         <ContainerComponent>
-          <div
-            css={css`
-              width: 104rem;
-              height: 48rem;
-              background-color: #404040;
-              border-radius: 1.2rem;
-            `}
-          />
+          {imageSrc ? (
+            <img
+              css={css`
+                width: 104rem;
+                height: 48rem;
+                background-color: #404040;
+                border-radius: 1.2rem;
+              `}
+              src={imageSrc}
+              alt="프로젝트 이미지"
+            />
+          ) : (
+            <div
+              css={css`
+                width: 104rem;
+                height: 48rem;
+                background-color: #404040;
+                border-radius: 1.2rem;
+              `}
+            />
+          )}
 
           <TagList>
-            <Tag>서비스 형태가 들어가요</Tag>
-            <Tag>소속 클럽 이름이 들어가요</Tag>
+            {service ? <Tag>{service}</Tag> : <Tag>서비스 형태가 들어가요</Tag>}
+            {club ? <Tag>{club}</Tag> : <Tag>소속 클럽 이름이 들어가요</Tag>}
+            <Labels htmlFor="fileInput">
+              프로젝트 이미지 선택
+              <input
+                type="file"
+                id="fileInput"
+                onChange={onChange}
+                css={css`
+                  display: none;
+                `}
+              />
+            </Labels>
           </TagList>
 
           <Section gap="0.8">
@@ -46,10 +96,10 @@ const ProjectPublish = () => {
           <Header1>프로젝트 요약</Header1>
           <GridBox>
             <Header2>소속 클럽</Header2>
-            <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
+            <TextInputBox type="body1" text="소속 클럽을 입력해주세요" onChange={ServiceChange} />
 
             <Header2>서비스 형태</Header2>
-            <TextInputBox type="body1" text="서비스 형태를 선택해주세요" />
+            <TextInputBox type="body1" text="서비스 형태를 선택해주세요" onChange={ClubChange} />
 
             <Header2>프로젝트 상태</Header2>
             <TextInputBox type="body1" text="프로젝트 현재 상태를 선택해주세요" />
@@ -63,7 +113,13 @@ const ProjectPublish = () => {
         </ContainerComponent>
 
         <ContainerComponent>
-          <p>에디터입니다.</p>
+          <Header1>프로젝트 설명</Header1>
+          <Editor
+            environmentColor="dark"
+            placeholder="프로젝트 설명을 입력해주세요"
+            defaultFontColor="white"
+            defaultFontSize="1.2rem"
+          />
         </ContainerComponent>
 
         <ContainerComponent>

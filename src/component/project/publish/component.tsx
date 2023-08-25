@@ -117,3 +117,30 @@ export const LinkInputBox = () => {
     </div>
   );
 };
+export const labelStyle = css`
+  padding: 0.8rem;
+  color: ${theme.palette.gray.white};
+  background-color: ${theme.palette.primary[500]};
+  border-radius: 0.4rem;
+  ${theme.typography.body3Bold}
+  cursor: pointer;
+`;
+
+export const Labels = (props: { htmlFor: string; children: React.ReactNode }) => {
+  const { htmlFor, children } = props;
+  return (
+    <label
+      css={css`
+        padding: 0.8rem;
+        color: ${theme.palette.gray.white};
+        background-color: ${theme.palette.primary[500]};
+        border-radius: 0.4rem;
+        ${theme.typography.body3Bold}
+        cursor: pointer;
+      `}
+      htmlFor={htmlFor}
+    >
+      {children}
+    </label>
+  );
+};
