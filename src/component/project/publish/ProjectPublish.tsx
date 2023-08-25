@@ -24,8 +24,7 @@ const ProjectPublish = () => {
   const { value: service, onChange: ServiceChange } = useInputState<string | null>();
   const { value: club, onChange: ClubChange } = useInputState<string | null>();
 
-  const createPublishMutation = useCreatePublishMutation();
-  const test = createPublishMutation[0];
+  const mutation = useCreatePublishMutation();
   const onChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -36,7 +35,7 @@ const ProjectPublish = () => {
   const handlePublish = () => {
     console.log(publishApi);
     const newProjectData = {};
-    test(newProjectData);
+    mutation[0](newProjectData);
   };
 
   return (
@@ -138,7 +137,11 @@ const ProjectPublish = () => {
           <LinkInputBox />
         </ContainerComponent>
 
-        <ButtonBox text="프로젝트 발행하기" type="large" onClick={handlePublish} />
+        {mutation[1].isLoading ? (
+          'updating...'
+        ) : (
+          <ButtonBox text="프로젝트 발행하기" type="large" onClick={handlePublish} />
+        )}
       </Section>
     </Inner>
   );
