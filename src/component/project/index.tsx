@@ -10,7 +10,7 @@ import {
 } from '../emotion/component';
 import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
-import { useGetVideosQuery } from '../../store/projectApi';
+import { useGetVideosQuery } from '../../store/projectController';
 import { ProjectBoxProps } from '../../types/globalType';
 import ApiFetcher from '../../util/util';
 import { LoadingContainer } from './component';

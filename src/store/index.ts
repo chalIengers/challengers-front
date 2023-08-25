@@ -1,15 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalSlice from './modalSlice';
 import projectSlice from './projectSlice';
-import projectApi from './projectApi';
+import projectController from './projectController';
+import clubController from './clubController';
 
 const store = configureStore({
   reducer: {
     modal: modalSlice,
     project: projectSlice,
-    [projectApi.reducerPath]: projectApi.reducer,
+    [projectController.reducerPath]: projectController.reducer,
+    [clubController.reducerPath]: clubController.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(projectApi.middleware), // API 미들웨어를 추가합니다.
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(projectController.middleware).concat(clubController.middleware), // API 미들웨어를 추가합니다.
 });
 
 export type RootState = ReturnType<typeof store.getState>;

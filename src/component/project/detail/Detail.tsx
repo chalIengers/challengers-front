@@ -18,7 +18,7 @@ import {
   ProjectLinkButton,
   TeamInfoBox,
 } from './component';
-import { useGetVideoQuery } from '../../../store/projectApi';
+import { useGetVideoQuery } from '../../../store/projectController';
 import useProjectCrew from './hook';
 import { ProjectLink, ProjectTechStack } from '../../../types/globalType';
 import ApiFetcher from '../../../util/util';

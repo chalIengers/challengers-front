@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Banner,
   ClubComponent,
@@ -10,29 +11,42 @@ import {
 import { Clubs } from '../../json/club-controller';
 import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList, NavigateMore, DivisionLine, LoadingContainer } from './component';
-import { useGetVideosQuery } from '../../store/projectApi';
-import { ProjectBoxProps } from '../../types/globalType';
+import { useGetVideosQuery } from '../../store/projectController';
+import { ClubLogoProps, ProjectBoxProps } from '../../types/globalType';
 import ApiFetcher from '../../util/util';
+import { useGetLogosQuery } from '../../store/clubController';
 
 const Index = () => {
-  const queryResult = useGetVideosQuery({});
+  const videoResult = useGetVideosQuery({});
+  const logoResult = useGetLogosQuery({});
 
   return (
     <Inner>
       <Banner large />
 
-      <Section gap="3.2">
-        <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
-        <ClubList>
-          {Clubs.map((club) => (
-            <ClubComponent
-              key={club.id}
-              name={club.name}
-              clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
-            />
-          ))}
-        </ClubList>
-      </Section>
+      <ApiFetcher
+        query={logoResult}
+        loading={
+          <ClubList>
+            {Clubs.map((club) => (
+              <ClubComponent
+                key={club.id}
+                name={club.name}
+                clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
+              />
+            ))}
+          </ClubList>
+        }
+      >
+        <Section gap="3.2">
+          <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
+          <ClubList>
+            {logoResult.data?.map((club: ClubLogoProps) => (
+              <ClubComponent key={uuidv4()} clubImg={club.logoUrl} />
+            ))}
+          </ClubList>
+        </Section>
+      </ApiFetcher>
 
       <DivisionLine />
 
@@ -42,9 +56,9 @@ const Index = () => {
           <NavigateMore sort="popular" />
         </TextBox>
 
-        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
+        <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
           <FlexWrapContainer>
-            {queryResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+            {videoResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
               <ProjectBox key={project.id} projectData={project} />
             ))}
           </FlexWrapContainer>
@@ -57,9 +71,9 @@ const Index = () => {
           <NavigateMore sort="recent" />
         </TextBox>
 
-        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
+        <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
           <FlexWrapContainer>
-            {queryResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+            {videoResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
               <ProjectBox key={project.id} projectData={project} />
             ))}
           </FlexWrapContainer>

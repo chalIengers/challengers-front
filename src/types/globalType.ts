@@ -97,7 +97,7 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  name: string;
+  name?: string;
   clubImg: string;
 }
 
@@ -148,4 +148,8 @@ export interface TagListType extends ContainerType {
 
 export interface DescribeBoxType {
   text: string;
+}
+
+export interface ClubLogoProps {
+  logoUrl: string;
 }

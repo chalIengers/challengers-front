@@ -333,11 +333,11 @@ export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
       <img
         css={css`
           max-width: 16rem;
-          max-height: 4rem;
+          height: auto;
           object-fit: cover;
         `}
         src={clubImg}
-        alt={name}
+        alt={name || clubImg}
       />
     </div>
   );
