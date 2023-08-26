@@ -38,6 +38,11 @@ export const ClubLogoPreView = () => {
         `}
       >
         <ClubImage />
+        <input
+          css={css`
+            display: none;
+          `}
+        />
         <Body2>
           클럽에서 사용되는 로고를 등록해주세요
           <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요
