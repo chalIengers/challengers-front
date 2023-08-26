@@ -1,12 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
 import { Header2, Body2, Header1, Section } from '../../emotion/GlobalStyle';
+import { useChangeInput } from './hook';
 
-const ClubImage = () => (
-  <div
+const ClubImage = ({ onClick }: { onClick: () => void }) => (
+  <button
+    type="button"
+    onClick={onClick}
     css={css`
       width: 16rem;
       height: 16rem;
@@ -15,18 +18,42 @@ const ClubImage = () => (
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     `}
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
       <path
-        d="M10 40L21.4645 28.5355C23.4171 26.5829 26.5829 26.5829 28.5355 28.5355L40 40M35 35L38.9645 31.0355C40.9171 29.0829 44.0829 29.0829 46.0355 31.0355L50 35M35 20H35.025M15 50H45C47.7614 50 50 47.7614 50 45V15C50 12.2386 47.7614 10 45 10H15C12.2386 10 10 12.2386 10 15V45C10 47.7614 12.2386 50 15 50Z"
+        d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
         stroke="#8F8E8E"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
-  </div>
+  </button>
 );
 
 export const ClubLogoPreView = () => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleDivClick = () => {
+    if (selectedFile) {
+      console.log('파일 있음');
+    } else {
+      console.log('파일 없음');
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <Section gap="1.6">
       <div
@@ -37,8 +64,11 @@ export const ClubLogoPreView = () => {
           color: ${theme.palette.gray[400]};
         `}
       >
-        <ClubImage />
+        <ClubImage onClick={handleDivClick} />
         <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
           css={css`
             display: none;
           `}
