@@ -1,9 +1,11 @@
-// import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-// const useImageUploader = () => {
-//   const [selectedFile, setSelectedFile] = useState(null);
+export const useChangeInput = () => {
+  const [value, setValue] = useState('');
 
-//   const handleFileChange = (e) => {
-//     setSelectedFile(e.target.files[0]); //
-//   };
-// };
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  return { value, setValue, handleOnChange };
+};

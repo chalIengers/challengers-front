@@ -52,6 +52,64 @@ export const ClubLogoPreView = () => {
   );
 };
 
+export const InputDiv = ({ text }: { text: string }) => {
+  const [clubTypes, setClubTypes] = useState<string[]>([]);
+  const { value, setValue, handleOnChange } = useChangeInput();
+
+  const createDiv = (item: string, index: number) => {
+    const removeDiv = () => {
+      const filterClub = clubTypes.filter((type) => type !== item);
+      setClubTypes(filterClub);
+    };
+    return (
+      <div
+        css={css`
+          display: flex;
+          flex-direction: row;
+        `}
+        key={index}
+      >
+        {item}
+        <button
+          css={css`
+            cursor: pointer;
+            margin-left: 0.8rem;
+          `}
+          type="button"
+          onClick={removeDiv}
+        >
+          X
+        </button>
+      </div>
+    );
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && value.trim() !== '') {
+      setClubTypes([value, ...clubTypes]);
+      setValue('');
+    }
+  };
+
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: row;
+        gap: 1.6rem;
+      `}
+    >
+      {clubTypes.map((item, index) => createDiv(item, index))}
+      <TextInputBox
+        type="body1"
+        text={text}
+        onKeyDown={handleKeyDown}
+        onChange={handleOnChange}
+        value={value}
+      />
+    </div>
+  );
+};
+
 /**
  * 클럽 신청서 컴포넌트
  */
@@ -64,7 +122,7 @@ export const ClubInfoInput = () => {
         <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
 
         <Header2>클럽 형태</Header2>
-        <TextInputBox type="body1" text="클럽 형태를 선택해주세요" />
+        <InputDiv text="클럽 형태를 선택해주세요" />
 
         <Header2>클럽 소개</Header2>
         <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />

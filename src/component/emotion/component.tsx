@@ -313,7 +313,16 @@ export const GridBox = ({ children }: ContainerType) => {
   );
 };
 
-export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxType) => {
+export const TextInputBox = ({
+  type,
+  text,
+  size,
+  max,
+  inputType,
+  onKeyDown,
+  onChange,
+  value,
+}: TextInputBoxType) => {
   const style = {
     header1: css`
       ${theme.typography.header1}
@@ -344,6 +353,9 @@ export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxT
       size={size}
       maxLength={max}
       type={inputType}
+      onKeyDown={onKeyDown}
+      onChange={onChange}
+      value={value}
     />
   );
 };
