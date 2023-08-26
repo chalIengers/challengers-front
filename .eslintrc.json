@@ -22,6 +22,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
+    "no-unused-vars": "off",
     "import/prefer-default-export": "off",
     "linebreak-style": 0, // 운영체제마다 개행차이로 생기는 오류
     "arrow-body-style": "off", // array function 규칙 오프
