@@ -29,6 +29,22 @@ const ProjectPublish = () => {
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
   const links = useSelector(selectLinks);
+  const [teamInfoBoxes, setTeamInfoBoxes] = useState([{ id: 1, addInfo: false }]);
+
+  const handleAddInfoBox = (box: any) => {
+    setTeamInfoBoxes((prevBoxes) => {
+      const updatedBoxes = prevBoxes.map((prevBox) => {
+        if (prevBox === box) {
+          return { ...prevBox, addInfo: false };
+        }
+        return prevBox;
+      });
+      return updatedBoxes;
+    });
+    const newId = teamInfoBoxes.length + 1;
+    const newInfoBox = { id: newId, addInfo: true };
+    setTeamInfoBoxes([...teamInfoBoxes, newInfoBox]);
+  };
 
   const Fileupload = (file: any) => {
     Image(file)
@@ -202,11 +218,13 @@ const ProjectPublish = () => {
           <Header1>팀원구성</Header1>
 
           <FlexWrapContainer>
-            <TeamInfoInputBox />
-            <TeamInfoInputBox />
-            <TeamInfoInputBox />
-            <TeamInfoInputBox />
-            <TeamInfoInputBox addInfo />
+            {teamInfoBoxes.map((box) => (
+              <TeamInfoInputBox
+                key={box.id}
+                addInfo={box.addInfo}
+                onClick={() => handleAddInfoBox(box)}
+              />
+            ))}
           </FlexWrapContainer>
         </ContainerComponent>
 
