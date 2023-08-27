@@ -1,34 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import {
-  InfoContainer,
-  InfoDownContainer,
-  InfoUpperContainer,
-  LinkImg,
-} from '../emotion/component';
+import { InfoDownContainer, LinkImg } from '../emotion/component';
 import { Body2, Header2, Section } from '../../emotion/GlobalStyle';
 import theme from '../../../styles/theme';
 import { DescribeBoxType, ProjectCrew, ProjectLink, imgBoxType } from '../../../types/globalType';
 
-export const TeamInfoBox = ({ teamInfo }: { teamInfo: [string, ProjectCrew[]] }) => {
+export const TeamInfoBox = ({ teamInfo }: { teamInfo: ProjectCrew[] }) => {
   return (
-    <InfoContainer>
-      <InfoUpperContainer>
-        <Header2>{teamInfo[0]}</Header2>
-      </InfoUpperContainer>
-
-      <InfoDownContainer fixHeight>
-        {teamInfo[1].map((crew) => {
-          return (
-            <Section gap="0.8" key={crew.id}>
-              <Header2>{crew.name}</Header2>
-              <Body2>{crew.role}</Body2>
-            </Section>
-          );
-        })}
-      </InfoDownContainer>
-    </InfoContainer>
+    <InfoDownContainer fixHeight>
+      {teamInfo.map((crew: ProjectCrew) => (
+        <Section gap="0.8" key={crew.id}>
+          <Header2>{crew.name}</Header2>
+          <Body2>{crew.role}</Body2>
+        </Section>
+      ))}
+    </InfoDownContainer>
   );
 };
 
