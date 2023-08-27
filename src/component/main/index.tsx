@@ -13,7 +13,7 @@ import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import { ClubList, NavigateMore, DivisionLine, LoadingContainer } from './component';
 import { useGetVideosQuery } from '../../store/projectController';
 import { ClubLogoProps, ProjectBoxProps } from '../../types/globalType';
-import ApiFetcher from '../../util/util';
+import { ApiFetcher } from '../../util/util';
 import { useGetLogosQuery } from '../../store/clubController';
 
 const Index = () => {
@@ -38,14 +38,16 @@ const Index = () => {
           </ClubList>
         }
       >
-        <Section gap="3.2">
-          <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
-          <ClubList>
-            {logoResult.data?.map((club: ClubLogoProps) => (
-              <ClubComponent key={uuidv4()} clubImg={club.logoUrl} />
-            ))}
-          </ClubList>
-        </Section>
+        {(data) => (
+          <Section gap="3.2">
+            <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
+            <ClubList>
+              {data.map((club: ClubLogoProps) => (
+                <ClubComponent key={uuidv4()} clubImg={club.logoUrl} />
+              ))}
+            </ClubList>
+          </Section>
+        )}
       </ApiFetcher>
 
       <DivisionLine />
@@ -57,11 +59,13 @@ const Index = () => {
         </TextBox>
 
         <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
-          <FlexWrapContainer>
-            {videoResult.data?.content.map((project: ProjectBoxProps) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
-          </FlexWrapContainer>
+          {(data) => (
+            <FlexWrapContainer>
+              {data.content.map((project: ProjectBoxProps) => (
+                <ProjectBox key={project.id} projectData={project} />
+              ))}
+            </FlexWrapContainer>
+          )}
         </ApiFetcher>
       </Section>
 
@@ -72,11 +76,13 @@ const Index = () => {
         </TextBox>
 
         <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
-          <FlexWrapContainer>
-            {videoResult.data?.content.map((project: ProjectBoxProps) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
-          </FlexWrapContainer>
+          {(data) => (
+            <FlexWrapContainer>
+              {data.content.map((project: ProjectBoxProps) => (
+                <ProjectBox key={project.id} projectData={project} />
+              ))}
+            </FlexWrapContainer>
+          )}
         </ApiFetcher>
       </Section>
     </Inner>

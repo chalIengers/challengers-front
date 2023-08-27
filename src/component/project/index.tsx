@@ -12,7 +12,7 @@ import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
 import { useGetVideosQuery } from '../../store/projectController';
 import { ProjectBoxProps } from '../../types/globalType';
-import ApiFetcher from '../../util/util';
+import { ApiFetcher } from '../../util/util';
 import { LoadingContainer } from './component';
 
 const Index = () => {
@@ -51,11 +51,13 @@ const Index = () => {
         </TagList>
 
         <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
-          <FlexWrapContainer>
-            {queryResult.data?.content.map((project: ProjectBoxProps) => (
-              <ProjectBox key={project.id} projectData={project} />
-            ))}
-          </FlexWrapContainer>
+          {(data) => (
+            <FlexWrapContainer>
+              {data.content.map((project: ProjectBoxProps) => (
+                <ProjectBox key={project.id} projectData={project} />
+              ))}
+            </FlexWrapContainer>
+          )}
         </ApiFetcher>
       </Section>
     </Inner>

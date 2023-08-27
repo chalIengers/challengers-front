@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Body1 } from '../component/emotion/GlobalStyle';
 
@@ -21,19 +21,20 @@ export const PreventAutoScroll = () => {
     };
   }, []);
 };
-
 interface FetcherProps {
   query: {
     isLoading: boolean;
     isError: boolean;
     error?: any;
+    data?: any;
   };
-  children: ReactNode;
-  loading: ReactNode;
+  // eslint-disable-next-line no-unused-vars
+  children: (data: any) => React.ReactNode;
+  loading: React.ReactNode;
 }
 
-const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
-  const { isLoading, isError, error } = query;
+export const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
+  const { isLoading, isError, error, data } = query;
 
   if (isLoading) return loading;
   if (isError) {
@@ -41,7 +42,6 @@ const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
     return <Body1>Api 통신 에러!</Body1>;
   }
 
-  return children;
+  // 호출 시 data 값을 children으로 전달
+  return children(data);
 };
-
-export default ApiFetcher;
