@@ -183,7 +183,6 @@ export const PublishImg = (props: {
   onImageDrop?: (image: File) => void;
 }) => {
   const { htmlFor, imageSrc, onImageDrop } = props;
-  // const [image, setImage] = useState(imageSrc);
 
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
@@ -197,7 +196,6 @@ export const PublishImg = (props: {
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
-    console.log('드롭');
     e.preventDefault();
   };
   return (

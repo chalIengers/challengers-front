@@ -23,14 +23,26 @@ import { initialProjectData } from '../../../types/globalType';
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
   const [newProjectData, setNewProjectData] = useState(initialProjectData);
-  const Image = useFileUploadMutation();
+  const [Image] = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
+
+  const Fileupload = (file: any) => {
+    Image(file)
+      .unwrap()
+      .then((resultData) => {
+        const updatedData = { ...newProjectData, imageUrl: resultData.msg };
+        setNewProjectData(updatedData);
+      })
+      .catch((error) => {
+        console.error('파일 업로드 실패', error);
+      });
+  };
 
   const onChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
-      Image[0](file);
+      Fileupload(file);
       uploadImage(file);
     }
   };
@@ -53,6 +65,7 @@ const ProjectPublish = () => {
     }
   };
   const handleImageDrop = (imageFile: File) => {
+    Fileupload(imageFile);
     uploadImage(imageFile);
   };
 

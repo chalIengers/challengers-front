@@ -9,11 +9,11 @@ export const publishApi = createApi({
       query: (fileData) => {
         const formData = new FormData();
         formData.append('file', fileData);
-
         return {
           url: 'file/upload',
           method: 'POST',
           body: formData,
+          headers: {},
         };
       },
     }),
