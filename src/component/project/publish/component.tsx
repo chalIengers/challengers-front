@@ -10,7 +10,8 @@ import {
   InfoUpperContainer,
   LinkImg,
 } from '../emotion/component';
-import { TeamMember } from '../../../types/globalType';
+import { TeamMember, initialLink } from '../../../types/globalType';
+import { extractSubstring } from './hook';
 
 export const Overlay = ({ addInfo }: { addInfo: boolean | undefined }) => {
   return (
@@ -110,6 +111,8 @@ TeamInfoInputBox.defaultProps = { addInfo: false };
 
 // project link을 넣어주는 inputBox
 export const LinkInputBox = () => {
+  const [link, setlink] = useState(initialLink);
+
   const regex = /^(http|https):\/\//;
 
   const [textColor, setTextColor] = useState('black');
@@ -117,6 +120,9 @@ export const LinkInputBox = () => {
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     if (regex.test(inputValue)) {
+      const extractedName = extractSubstring(inputValue) || '';
+      const updatedData = { ...link, linkUrl: inputValue, name: extractedName };
+      setlink(updatedData);
       setTextColor('black');
     } else {
       setTextColor('red');

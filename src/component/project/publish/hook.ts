@@ -32,3 +32,15 @@ export const useFormFields = (State: any) => {
 };
 
 export default useFormFields;
+
+export const extractSubstring = (input: string) => {
+  const startIndex = input.indexOf('//');
+  const endIndex = input.indexOf('.');
+
+  if (startIndex !== -1 && endIndex !== -1) {
+    return input.slice(startIndex + 2, endIndex);
+  }
+
+  console.log('Substring not found');
+  return null;
+};

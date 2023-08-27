@@ -33,6 +33,7 @@ const ProjectPublish = () => {
       .then((resultData) => {
         const updatedData = { ...newProjectData, imageUrl: resultData.msg };
         setNewProjectData(updatedData);
+        console.log('파일 업로드 성공', resultData.msg);
       })
       .catch((error) => {
         console.error('파일 업로드 실패', error);
@@ -45,6 +46,10 @@ const ProjectPublish = () => {
       Fileupload(file);
       uploadImage(file);
     }
+  };
+  const handleImageDrop = (imageFile: File) => {
+    Fileupload(imageFile);
+    uploadImage(imageFile);
   };
 
   const handlePublish = async () => {
@@ -63,10 +68,6 @@ const ProjectPublish = () => {
       await mutation[0](updatedData);
       console.log(updatedData);
     }
-  };
-  const handleImageDrop = (imageFile: File) => {
-    Fileupload(imageFile);
-    uploadImage(imageFile);
   };
 
   return (

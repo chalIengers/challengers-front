@@ -112,7 +112,7 @@ interface Crew {
   name: string;
   role: string;
 }
-interface Link {
+export interface Link {
   name: string;
   linkUrl: string;
 }
@@ -130,6 +130,10 @@ export interface ProjectInfo {
   projectCrew: Crew[];
   projectLink: Link[];
 }
+export const initialLink: Link = {
+  name: '',
+  linkUrl: '',
+};
 export const initialProjectData: ProjectInfo = {
   imageUrl: '',
   projectName: '',
