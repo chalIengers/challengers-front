@@ -58,7 +58,7 @@ const Index = () => {
 
         <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
           <FlexWrapContainer>
-            {videoResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+            {videoResult.data?.content.map((project: ProjectBoxProps) => (
               <ProjectBox key={project.id} projectData={project} />
             ))}
           </FlexWrapContainer>
@@ -73,7 +73,7 @@ const Index = () => {
 
         <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
           <FlexWrapContainer>
-            {videoResult.data?.slice(0, 6).map((project: ProjectBoxProps) => (
+            {videoResult.data?.content.map((project: ProjectBoxProps) => (
               <ProjectBox key={project.id} projectData={project} />
             ))}
           </FlexWrapContainer>

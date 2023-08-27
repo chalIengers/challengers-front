@@ -6,8 +6,8 @@ export const projectController = createApi({
 
   endpoints: (builder) => ({
     getVideos: builder.query({
-      query: () => {
-        return { url: 'get/all' };
+      query: ({ size }) => {
+        return { url: 'get/all', params: { size } };
       },
     }),
     getVideo: builder.query({
