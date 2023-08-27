@@ -54,7 +54,7 @@ export const TeamInfoInputBox = ({
   onClick,
 }: {
   addInfo?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   const [infoData, setInfoData] = useState<TeamMember[]>([{ id: 1, name: '', role: '' }]);
 

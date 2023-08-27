@@ -31,18 +31,9 @@ const ProjectPublish = () => {
   const links = useSelector(selectLinks);
   const [teamInfoBoxes, setTeamInfoBoxes] = useState([{ id: 1, addInfo: false }]);
 
-  const handleAddInfoBox = (box: any) => {
-    setTeamInfoBoxes((prevBoxes) => {
-      const updatedBoxes = prevBoxes.map((prevBox) => {
-        if (prevBox === box) {
-          return { ...prevBox, addInfo: false };
-        }
-        return prevBox;
-      });
-      return updatedBoxes;
-    });
+  const handleAddInfoBox = () => {
     const newId = teamInfoBoxes.length + 1;
-    const newInfoBox = { id: newId, addInfo: true };
+    const newInfoBox = { id: newId, addInfo: false };
     setTeamInfoBoxes([...teamInfoBoxes, newInfoBox]);
   };
 
@@ -219,12 +210,9 @@ const ProjectPublish = () => {
 
           <FlexWrapContainer>
             {teamInfoBoxes.map((box) => (
-              <TeamInfoInputBox
-                key={box.id}
-                addInfo={box.addInfo}
-                onClick={() => handleAddInfoBox(box)}
-              />
+              <TeamInfoInputBox key={box.id} addInfo={box.addInfo} />
             ))}
+            <TeamInfoInputBox onClick={handleAddInfoBox} addInfo />
           </FlexWrapContainer>
         </ContainerComponent>
 
