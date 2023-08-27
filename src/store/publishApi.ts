@@ -13,7 +13,9 @@ export const publishApi = createApi({
           url: 'file/upload',
           method: 'POST',
           body: formData,
-          headers: {},
+          headers: {
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6W10sImlhdCI6MTY5MzEzMDY5NywiZXhwIjoxNjk0MzQwMjk3fQ.qEnTRaMu5_YIxyjvSuCWiMf_5xj_rvfW5PsOFm_An7w`,
+          },
         };
       },
     }),

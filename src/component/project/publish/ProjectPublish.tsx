@@ -4,6 +4,7 @@
 import React, { useState, useRef } from 'react';
 import { css } from '@emotion/react';
 import { Editor } from 'editor_likelion';
+import { useSelector } from 'react-redux';
 import {
   Tag,
   Banner,
@@ -19,6 +20,7 @@ import { LinkInputBox, TeamInfoInputBox, Labels, PublishImg } from './component'
 import { useImageUpload } from './hook';
 import { useCreatePublishMutation, useFileUploadMutation } from '../../../store/publishApi';
 import { initialProjectData } from '../../../types/globalType';
+import { selectLinks } from '../../../store/linkSlice';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
@@ -26,6 +28,7 @@ const ProjectPublish = () => {
   const [Image] = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
+  const links = useSelector(selectLinks);
 
   const Fileupload = (file: any) => {
     Image(file)
@@ -64,6 +67,7 @@ const ProjectPublish = () => {
       const updatedData = {
         ...newProjectData,
         projectDetail: test,
+        projectLink: links,
       };
       await mutation[0](updatedData);
       console.log(updatedData);

@@ -40,7 +40,5 @@ export const extractSubstring = (input: string) => {
   if (startIndex !== -1 && endIndex !== -1) {
     return input.slice(startIndex + 2, endIndex);
   }
-
-  console.log('Substring not found');
   return null;
 };

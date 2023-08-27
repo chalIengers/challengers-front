@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import theme from '../../../styles/theme';
 import { Body5, Header1, Section } from '../../emotion/GlobalStyle';
 import {
@@ -12,6 +13,7 @@ import {
 } from '../emotion/component';
 import { TeamMember, initialLink } from '../../../types/globalType';
 import { extractSubstring } from './hook';
+import { addLink } from '../../../store/linkSlice';
 
 export const Overlay = ({ addInfo }: { addInfo: boolean | undefined }) => {
   return (
@@ -111,6 +113,7 @@ TeamInfoInputBox.defaultProps = { addInfo: false };
 
 // project link을 넣어주는 inputBox
 export const LinkInputBox = () => {
+  const dispatch = useDispatch();
   const [link, setlink] = useState(initialLink);
 
   const regex = /^(http|https):\/\//;
@@ -122,11 +125,15 @@ export const LinkInputBox = () => {
     if (regex.test(inputValue)) {
       const extractedName = extractSubstring(inputValue) || '';
       const updatedData = { ...link, linkUrl: inputValue, name: extractedName };
+
       setlink(updatedData);
       setTextColor('black');
     } else {
       setTextColor('red');
     }
+  };
+  const handleInputBlur = () => {
+    dispatch(addLink(link)); // onBlur 이벤트에서 데이터 저장
   };
   return (
     <div
@@ -146,6 +153,7 @@ export const LinkInputBox = () => {
         type="text"
         placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
         onChange={handleInputChange}
+        onBlur={handleInputBlur}
         css={css`
           color: ${textColor};
           ${theme.typography.body1}
