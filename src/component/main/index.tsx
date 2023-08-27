@@ -17,15 +17,12 @@ import { ApiFetcher } from '../../util/util';
 import { useGetLogosQuery } from '../../store/clubController';
 
 const Index = () => {
-  const videoResult = useGetVideosQuery({});
-  const logoResult = useGetLogosQuery({});
-
   return (
     <Inner>
       <Banner large />
 
       <ApiFetcher
-        query={logoResult}
+        query={useGetLogosQuery({})}
         loading={
           <ClubList>
             {Clubs.map((club) => (
@@ -58,7 +55,7 @@ const Index = () => {
           <NavigateMore sort="popular" />
         </TextBox>
 
-        <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
+        <ApiFetcher query={useGetVideosQuery({})} loading={<LoadingContainer />}>
           {(data) => (
             <FlexWrapContainer>
               {data.content.map((project: ProjectBoxProps) => (
@@ -75,7 +72,7 @@ const Index = () => {
           <NavigateMore sort="recent" />
         </TextBox>
 
-        <ApiFetcher query={videoResult} loading={<LoadingContainer />}>
+        <ApiFetcher query={useGetVideosQuery({})} loading={<LoadingContainer />}>
           {(data) => (
             <FlexWrapContainer>
               {data.content.map((project: ProjectBoxProps) => (

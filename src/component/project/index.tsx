@@ -17,7 +17,6 @@ import { LoadingContainer } from './component';
 
 const Index = () => {
   const { sort } = useParams();
-  const queryResult = useGetVideosQuery({ size: 10 });
 
   const { sortType, optionType, handleSelectChange } = useSelectBoxes(
     sort === 'popular' ? '인기도 순' : '최신 등록순',
@@ -50,7 +49,7 @@ const Index = () => {
           />
         </TagList>
 
-        <ApiFetcher query={queryResult} loading={<LoadingContainer />}>
+        <ApiFetcher query={useGetVideosQuery({ size: 12 })} loading={<LoadingContainer />}>
           {(data) => (
             <FlexWrapContainer>
               {data.content.map((project: ProjectBoxProps) => (
