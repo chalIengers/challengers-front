@@ -10,7 +10,6 @@ export const ClubList = ({ children }: ContainerType) => (
   <div
     css={css`
       height: 13.6rem;
-      overflow: hidden;
     `}
   >
     <div

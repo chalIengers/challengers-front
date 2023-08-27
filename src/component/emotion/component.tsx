@@ -401,7 +401,7 @@ export const TextInputBox = ({ type, text, size, max, inputType }: TextInputBoxT
 export const TextBox = ({ children, margin }: TextBoxProps) => (
   <div
     css={css`
-      width: 100%;
+      width: 120rem;
       display: flex;
       justify-content: space-between;
       margin-bottom: ${margin}rem;
