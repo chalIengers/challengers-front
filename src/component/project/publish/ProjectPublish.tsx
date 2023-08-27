@@ -15,7 +15,7 @@ import {
   FlexWrapContainer,
 } from '../../emotion/component';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
-import { LinkInputBox, TeamInfoInputBox, Labels } from './component';
+import { LinkInputBox, TeamInfoInputBox, Labels, PublishImg } from './component';
 import { useImageUpload } from './hook';
 import { useCreatePublishMutation, useFileUploadMutation } from '../../../store/publishApi';
 import { initialProjectData } from '../../../types/globalType';
@@ -26,6 +26,7 @@ const ProjectPublish = () => {
   const Image = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
+
   const onChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -51,36 +52,25 @@ const ProjectPublish = () => {
       console.log(updatedData);
     }
   };
+  const handleImageDrop = (imageFile: File) => {
+    uploadImage(imageFile);
+  };
 
   return (
     <Inner>
       <Banner />
       <Section gap="4">
         <Header1>프로젝트 발행페이지</Header1>
-
         <ContainerComponent>
-          {imageSrc ? (
-            <img
-              css={css`
-                width: 104rem;
-                height: 48rem;
-                background-color: #404040;
-                border-radius: 1.2rem;
-              `}
-              src={imageSrc}
-              alt="프로젝트 이미지"
-            />
-          ) : (
-            <div
-              css={css`
-                width: 104rem;
-                height: 48rem;
-                background-color: #404040;
-                border-radius: 1.2rem;
-              `}
-            />
-          )}
-
+          <PublishImg htmlFor="fileInput" imageSrc={imageSrc} onImageDrop={handleImageDrop} />
+          <input
+            type="file"
+            id="fileInput"
+            onChange={onChange}
+            css={css`
+              display: none;
+            `}
+          />
           <TagList>
             {newProjectData.projectCategory ? (
               <Tag>{newProjectData.projectCategory}</Tag>

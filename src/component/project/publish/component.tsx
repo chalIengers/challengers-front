@@ -176,3 +176,69 @@ export const Labels = (props: { htmlFor: string; children: React.ReactNode }) =>
     </label>
   );
 };
+export const PublishImg = (props: {
+  htmlFor: string;
+  imageSrc?: string | null;
+  // eslint-disable-next-line no-unused-vars, react/require-default-props
+  onImageDrop?: (image: File) => void;
+}) => {
+  const { htmlFor, imageSrc, onImageDrop } = props;
+  // const [image, setImage] = useState(imageSrc);
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+
+    const { files } = e.dataTransfer;
+
+    if (files.length > 0) {
+      const imageFile = files[0];
+      onImageDrop?.(imageFile);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    console.log('드롭');
+    e.preventDefault();
+  };
+  return (
+    <label
+      css={css`
+        width: 104rem;
+        height: 48rem;
+        background-color: #404040;
+        border-radius: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        gap: 1.6rem;
+      `}
+      htmlFor={htmlFor}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
+      {imageSrc ? (
+        <img
+          css={css`
+            width: 104rem;
+            height: 48rem;
+            border-radius: 1.2rem;
+          `}
+          src={imageSrc}
+          alt="프로젝트 이미지"
+        />
+      ) : (
+        <>
+          <img src="/img/upload.png" alt="업로드 이미지" />
+          <p>
+            클릭하여 업로드 하거나 <br />
+            이미지를 드래그 앤 드롭하세요.
+          </p>
+        </>
+      )}
+    </label>
+  );
+};
