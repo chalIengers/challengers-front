@@ -56,24 +56,36 @@ export const TeamInfoInputBox = ({
   addInfo?: boolean;
   onClick?: () => void;
 }) => {
-  const [infoData, setInfoData] = useState<TeamMember[]>([{ id: 1, name: '', role: '' }]);
-
+  const [infoData, setInfoData] = useState<TeamMember[]>([{ name: '', position: '', role: '' }]);
+  const [position, setPosition] = useState('');
   const handleAddInfo = () => {
-    const newMember: TeamMember = { id: infoData.length + 1, name: '', role: '' };
+    const newMember: TeamMember = { name: '', position: '', role: '' };
     setInfoData([...infoData, newMember]);
   };
-
+  const check = () => {
+    console.log(infoData);
+  };
   return (
     <button onClick={onClick} type="button">
       <InfoContainer>
         <InfoUpperContainer>
-          <InfoInput placeholder="역할을 선택해주세요" large />
+          <InfoInput
+            placeholder="역할을 선택해주세요"
+            large
+            value={position}
+            onChange={(e) => {
+              setPosition(e.target.value);
+            }}
+          />
         </InfoUpperContainer>
 
         <InfoDownContainer>
+          <button type="button" onClick={check}>
+            테스트
+          </button>
           <Section gap="0.8">
             {infoData.map((item, index) => (
-              <Section key={item.id} gap="0.8">
+              <Section key={uuidv4()} gap="0.8">
                 <InfoInput
                   placeholder="이름을 입력해주세요"
                   large
@@ -81,6 +93,7 @@ export const TeamInfoInputBox = ({
                   onChange={(e) => {
                     const updatedData = [...infoData];
                     updatedData[index].name = e.target.value;
+                    updatedData[index].position = position;
                     setInfoData(updatedData);
                   }}
                 />
@@ -144,7 +157,7 @@ export const LinkInputBox = () => {
     }
   };
   const handleInputBlur = () => {
-    dispatch(addLink(link)); // onBlur 이벤트에서 데이터 저장
+    dispatch(addLink(link));
   };
   return (
     <div
