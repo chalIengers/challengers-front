@@ -82,64 +82,6 @@ export const ClubLogoPreView = () => {
   );
 };
 
-export const InputDiv = ({ text }: { text: string }) => {
-  const [clubTypes, setClubTypes] = useState<string[]>([]);
-  const { value, setValue, handleOnChange } = useChangeInput();
-
-  const createDiv = (item: string, index: number) => {
-    const removeDiv = () => {
-      const filterClub = clubTypes.filter((type) => type !== item);
-      setClubTypes(filterClub);
-    };
-    return (
-      <div
-        css={css`
-          display: flex;
-          flex-direction: row;
-        `}
-        key={index}
-      >
-        {item}
-        <button
-          css={css`
-            cursor: pointer;
-            margin-left: 0.8rem;
-          `}
-          type="button"
-          onClick={removeDiv}
-        >
-          X
-        </button>
-      </div>
-    );
-  };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && value.trim() !== '') {
-      setClubTypes([value, ...clubTypes]);
-      setValue('');
-    }
-  };
-
-  return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: row;
-        gap: 1.6rem;
-      `}
-    >
-      {clubTypes.map((item, index) => createDiv(item, index))}
-      <TextInputBox
-        type="body1"
-        text={text}
-        onKeyDown={handleKeyDown}
-        onChange={handleOnChange}
-        value={value}
-      />
-    </div>
-  );
-};
-
 export const ClubTypeBox = ({ text }: { text: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubTypes, setClubTypes] = useState<string[]>([]);
@@ -172,6 +114,7 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
     }
   };
   const handleCancelClick = () => {
+    setClubTypesTemp(clubTypes);
     setIsOpen(false);
   };
 
@@ -181,7 +124,6 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
   };
 
   const toggleDropdown = () => {
-    console.log(clubTypesTemp.length);
     setIsOpen(!isOpen);
   };
 
