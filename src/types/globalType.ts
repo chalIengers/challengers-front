@@ -37,7 +37,7 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small';
+  type: 'large' | 'small' | 'modal' | 'very_small' | 'auto';
   cancel?: boolean;
   onClick?: () => void;
 }

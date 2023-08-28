@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
-import { ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
+import { ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
 import { Header2, Body2, Header1, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
 
@@ -140,6 +140,168 @@ export const InputDiv = ({ text }: { text: string }) => {
   );
 };
 
+export const ClubTypeBox = ({ text }: { text: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [clubTypes, setClubTypes] = useState<string[]>([]);
+  const [clubTypesTemp, setClubTypesTemp] = useState<string[]>([]);
+  const { value, setValue, handleOnChange } = useChangeInput();
+
+  const createDiv = (item: string, index: number) => {
+    const removeDiv = () => {
+      const filterClub = clubTypesTemp.filter((type) => type !== item);
+      setClubTypesTemp(filterClub);
+    };
+    return (
+      <button
+        css={css`
+          display: flex;
+          flex-direction: row;
+        `}
+        type="button"
+        onClick={removeDiv}
+        key={index}
+      >
+        {item}
+      </button>
+    );
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && value.trim() !== '') {
+      setClubTypesTemp([value, ...clubTypesTemp]);
+      setValue('');
+    }
+  };
+  const handleCancelClick = () => {
+    setIsOpen(false);
+  };
+
+  const handleSubmitClick = () => {
+    setClubTypes(clubTypesTemp);
+    setIsOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    console.log(clubTypesTemp.length);
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div
+      css={css`
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        gap: 1.6rem;
+      `}
+    >
+      <button
+        type="button"
+        onClick={toggleDropdown}
+        css={css`
+          display: flex;
+          justify-content: flex-start;
+          gap: 0.8rem;
+        `}
+      >
+        <div
+          css={css`
+            color: ${theme.palette.semantic.placeholder[500]};
+            ${theme.typography.body1};
+          `}
+        >
+          {clubTypes.length
+            ? clubTypes.map((item, index) => {
+                if (clubTypes.length === index + 1) {
+                  return `${item}`;
+                }
+                return `${item}, `;
+              })
+            : text}
+        </div>
+        <div
+          css={css`
+            transition: 0.3s;
+            animation: none;
+            transform: rotate(${isOpen ? 0 : 180}deg);
+          `}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="9"
+            viewBox="0 0 14 9"
+            fill="none"
+          >
+            <path
+              d="M1 1L7 8L13 1"
+              stroke={theme.palette.semantic.placeholder[500]}
+              strokeWidth="1.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </button>
+      {isOpen && (
+        <div
+          css={css`
+            position: absolute;
+            top: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            width: 38rem;
+            height: 40rem;
+            border-radius: 1.2rem;
+            background: ${theme.palette.gray.white};
+            padding: 2.4rem;
+            color: ${theme.palette.gray.black};
+          `}
+        >
+          <input
+            css={css`
+              width: 100%;
+              padding: 0 0.8rem;
+            `}
+            placeholder={`${text} (예 : 웹 서비스)`}
+            onKeyDown={handleKeyDown}
+            onChange={handleOnChange}
+            value={value}
+          />
+
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 1.6rem;
+              border-top: 1px solid ${theme.palette.semantic.placeholder[500]};
+              border-bottom: 1px solid ${theme.palette.semantic.placeholder[500]};
+              padding: 1.6rem 0.8rem;
+              height: 26rem;
+              ${theme.typography.body2}
+              overflow-y: auto;
+            `}
+          >
+            {clubTypesTemp.map((item, index) => createDiv(item, index))}
+          </div>
+          <div
+            css={css`
+              display: flex;
+              gap: 3.2rem;
+              flex: 1 0 auto;
+            `}
+          >
+            <ButtonBox type="auto" text="취소할게요" cancel onClick={handleCancelClick} />
+            <ButtonBox type="auto" text="등록할게요" onClick={handleSubmitClick} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 /**
  * 클럽 신청서 컴포넌트
  */
@@ -152,7 +314,7 @@ export const ClubInfoInput = () => {
         <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
 
         <Header2>클럽 형태</Header2>
-        <InputDiv text="클럽 형태를 선택해주세요" />
+        <ClubTypeBox text="클럽 형태를 입력해주세요" />
 
         <Header2>클럽 소개</Header2>
         <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />

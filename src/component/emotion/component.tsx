@@ -177,7 +177,7 @@ export const FlexWrapContainer = ({ children }: ContainerType) => {
 /**
  * 버튼 컴포넌트
  * @param text 버튼 안의 text 내용
- * @param type 버튼의 형태(large, small, modal, modal_cancel)
+ * @param type 버튼의 형태
  */
 export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
   const buttonStyles = {
@@ -202,6 +202,11 @@ export const ButtonBox = ({ text, type, onClick, cancel }: ButtonBoxProps) => {
       width: 9.6rem;
       height: 5.6rem;
       ${theme.typography.body1Bold};
+    `,
+    auto: css`
+      flex: 1 0 auto;
+      color: ${cancel && theme.palette.gray.black};
+      background-color: ${cancel && theme.palette.gray[300]};
     `,
   };
 
