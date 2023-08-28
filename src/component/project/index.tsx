@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Banner,
@@ -8,19 +8,39 @@ import {
   TextBox,
   TagList,
 } from '../emotion/component';
-import { Header2, Inner, Section } from '../emotion/GlobalStyle';
+import { Body1, Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
-import { useGetVideosQuery } from '../../store/projectController';
 import { ProjectBoxProps } from '../../types/globalType';
-import { ApiFetcher } from '../../util/util';
+import { useGetVideosInfinityQuery } from '../../store/projectController';
 import { LoadingContainer } from './component';
 
 const Index = () => {
   const { sort } = useParams();
+  const [pageNumber, setPageNumber] = useState(0);
 
+  const { data, isFetching } = useGetVideosInfinityQuery({ size: 6, page: pageNumber });
   const { sortType, optionType, handleSelectChange } = useSelectBoxes(
     sort === 'popular' ? '인기도 순' : '최신 등록순',
   );
+
+  const handleScroll = () => {
+    // 스크롤이 아래로 내려갔을 때의 처리
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !isFetching &&
+      data.totalPages !== pageNumber
+    ) {
+      setPageNumber(pageNumber + 1);
+      console.log('도달!');
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isFetching]);
 
   return (
     <Inner>
@@ -35,7 +55,6 @@ const Index = () => {
             background="#000"
           />
         </TextBox>
-
         <TagList>
           <SelectBox
             options={optionType.service}
@@ -49,15 +68,14 @@ const Index = () => {
           />
         </TagList>
 
-        <ApiFetcher query={useGetVideosQuery({ size: 12 })} loading={<LoadingContainer />}>
-          {(data) => (
-            <FlexWrapContainer>
-              {data.content.map((project: ProjectBoxProps) => (
-                <ProjectBox key={project.id} projectData={project} />
-              ))}
-            </FlexWrapContainer>
-          )}
-        </ApiFetcher>
+        <FlexWrapContainer>
+          {data?.content.map((project: ProjectBoxProps) => (
+            <ProjectBox key={project.id} projectData={project} />
+          ))}
+        </FlexWrapContainer>
+
+        {isFetching && <LoadingContainer />}
+        {data.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>}
       </Section>
     </Inner>
   );

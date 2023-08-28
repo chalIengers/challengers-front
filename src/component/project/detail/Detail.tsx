@@ -97,15 +97,15 @@ const Detail = () => {
           <ApiFetcher query={useGetCrewQuery({ id })} loading={<LoadingComponent />}>
             {(data) => (
               <FlexWrapContainer>
-                {Object.keys(data.grouped).map((key) => {
-                  // return <TeamInfoBox teamInfo={data.grouped[key]} key={key} />;
+                {Object.keys(data).map((key) => {
+                  // return <TeamInfoBox teamInfo={data[key]} key={key} />;
                   return (
                     <InfoContainer key={key}>
                       <InfoUpperContainer>
                         <Header2>{key}</Header2>
                       </InfoUpperContainer>
 
-                      <TeamInfoBox teamInfo={data.grouped[key]} />
+                      <TeamInfoBox teamInfo={data[key]} />
                     </InfoContainer>
                   );
                 })}

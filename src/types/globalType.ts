@@ -131,7 +131,7 @@ export interface Project {
 }
 
 export interface ProjectsState {
-  projects: Project[];
+  projects: ProjectBoxProps[];
 }
 
 export interface TextInputBoxType {
