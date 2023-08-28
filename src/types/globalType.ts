@@ -103,6 +103,7 @@ export interface TagListType extends ContainerType {
   small?: boolean;
 }
 export interface TeamMember {
+  id: number;
   name: string;
   position: string;
   role: string;
@@ -110,6 +111,7 @@ export interface TeamMember {
 
 interface Crew {
   name: string;
+  position: string;
   role: string;
 }
 export interface Link {

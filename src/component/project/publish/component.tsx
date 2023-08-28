@@ -14,6 +14,7 @@ import {
 import { TeamMember, initialLink } from '../../../types/globalType';
 import { extractSubstring } from './hook';
 import { addLink } from '../../../store/linkSlice';
+import { addCrew } from '../../../store/crewSlice';
 
 export const Overlay = ({ addInfo }: { addInfo: boolean | undefined }) => {
   if (!addInfo) {
@@ -35,6 +36,7 @@ export const Overlay = ({ addInfo }: { addInfo: boolean | undefined }) => {
         border-radius: 1.4rem;
         background: rgba(73, 73, 73, 0.6);
         text-decoration: underline;
+        cursor: pointer;
       `}
     >
       <Header1>포지션 추가</Header1>
@@ -56,17 +58,32 @@ export const TeamInfoInputBox = ({
   addInfo?: boolean;
   onClick?: () => void;
 }) => {
-  const [infoData, setInfoData] = useState<TeamMember[]>([{ name: '', position: '', role: '' }]);
+  const [infoData, setInfoData] = useState<TeamMember[]>([
+    { id: 1, name: '', position: '', role: '' },
+  ]);
   const [position, setPosition] = useState('');
+  const dispatch = useDispatch();
+
   const handleAddInfo = () => {
-    const newMember: TeamMember = { name: '', position: '', role: '' };
+    const newMember: TeamMember = { id: infoData.length + 1, name: '', position: '', role: '' };
     setInfoData([...infoData, newMember]);
   };
-  const check = () => {
-    console.log(infoData);
+  const handleConfirm = () => {
+    const newData = infoData.map(({ id, ...rest }) => rest);
+    console.log(newData);
+    dispatch(addCrew(newData));
   };
   return (
-    <button onClick={onClick} type="button">
+    <div
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onClick?.();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       <InfoContainer>
         <InfoUpperContainer>
           <InfoInput
@@ -80,12 +97,9 @@ export const TeamInfoInputBox = ({
         </InfoUpperContainer>
 
         <InfoDownContainer>
-          <button type="button" onClick={check}>
-            테스트
-          </button>
           <Section gap="0.8">
             {infoData.map((item, index) => (
-              <Section key={uuidv4()} gap="0.8">
+              <Section key={item.id} gap="0.8">
                 <InfoInput
                   placeholder="이름을 입력해주세요"
                   large
@@ -124,12 +138,15 @@ export const TeamInfoInputBox = ({
                 해당 포지션에 팀원을 더 추가하고 싶어요
               </Body5>
             )}
+            <button onClick={handleConfirm} type="button">
+              확인
+            </button>
           </Section>
         </InfoDownContainer>
 
         <Overlay addInfo={addInfo} />
       </InfoContainer>
-    </button>
+    </div>
   );
 };
 

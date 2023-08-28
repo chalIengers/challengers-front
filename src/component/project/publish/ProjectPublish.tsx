@@ -21,6 +21,7 @@ import { useImageUpload } from './hook';
 import { useCreatePublishMutation, useFileUploadMutation } from '../../../store/publishApi';
 import { initialProjectData } from '../../../types/globalType';
 import { selectLinks } from '../../../store/linkSlice';
+import { selectCrews } from '../../../store/crewSlice';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
@@ -29,6 +30,7 @@ const ProjectPublish = () => {
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
   const links = useSelector(selectLinks);
+  const crews = useSelector(selectCrews);
   const [teamInfoBoxes, setTeamInfoBoxes] = useState([{ id: 1, addInfo: false }]);
 
   const handleAddInfoBox = () => {
@@ -78,6 +80,8 @@ const ProjectPublish = () => {
       };
       await mutation[0](updatedData);
       console.log(updatedData);
+      console.log(crews);
+      console.log(links);
     }
   };
 
