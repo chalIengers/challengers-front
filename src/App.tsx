@@ -10,16 +10,20 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
+import { PreventAutoScroll, ScrollToTop } from './util/util';
 
 function App() {
+  PreventAutoScroll();
+
   return (
     <div className="App">
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/project" element={<Project />} />
-          <Route path="/project/detail" element={<Detail />} />
+          <Route path="/project/:sort?" element={<Project />} />
+          <Route path="/project/detail/:id" element={<Detail />} />
           <Route path="/project/publish" element={<ProjectPublish />} />
           <Route path="/club" element={<Club />} />
           <Route path="/club/signUp" element={<SignUp />} />
