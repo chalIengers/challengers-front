@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
@@ -85,7 +85,7 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small';
+  type: 'large' | 'small' | 'modal' | 'very_small' | 'auto';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;
@@ -102,6 +102,13 @@ export interface TextBoxProps extends ContainerType {
 export interface ClubComponentProps {
   name?: string;
   clubImg: string;
+}
+
+export interface ClubBoxProps extends ClubComponentProps {
+  text: string;
+  key: number;
+  showToast?: boolean;
+  onClick(): void;
 }
 
 export interface SectionType extends ContainerType {
@@ -148,7 +155,9 @@ export interface TextInputBoxType {
   size?: number;
   max?: number;
   inputType?: string;
+  value?: string;
   // eslint-disable-next-line no-unused-vars
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   register?: UseFormRegisterReturn;
 }
@@ -156,7 +165,16 @@ export interface TextInputBoxType {
 export interface TagListType extends ContainerType {
   small?: boolean;
 }
-export interface TeamMember {
+
+export interface LinkToProps extends ContainerType {
+  to: string;
+}
+
+export interface ClubImageProps {
+  onClick: () => void;
+  imgFileSrc?: string;
+}
+  export interface TeamMember {
   id: number;
   name: string;
   position: string;

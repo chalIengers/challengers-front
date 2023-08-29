@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalSlice from './modalSlice';
 import projectSlice from './projectSlice';
+import clubPublishApi from './clubPublishApi';
 import publishApi from './publishApi';
 import linkReducer from './linkSlice';
 import crewReducer from './crewSlice';
@@ -15,6 +16,7 @@ const store = configureStore({
   reducer: {
     modal: modalSlice,
     project: projectSlice,
+    [clubPublishApi.reducerPath]: clubPublishApi.reducer,
     links: linkReducer,
     crews: crewReducer,
     [publishApi.reducerPath]: publishApi.reducer,
@@ -27,7 +29,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(projectController.middleware, clubController.middleware, crewController.middleware, signUpApi.middleware, clubApi.middleware, publishApi.middleware)
+      .concat(projectController.middleware, clubController.middleware, crewController.middleware, signUpApi.middleware, clubApi.middleware, publishApi.middleware, clubPublishApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

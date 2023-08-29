@@ -5,12 +5,23 @@ import { Banner, ButtonBox } from '../../emotion/component';
 import { Inner, Body1, Header1, Section } from '../../emotion/GlobalStyle';
 import { ClubInfoInput, ClubLogoPreView } from './component';
 import { openModal } from '../../../store/modalSlice';
+// import { useCreateClubMutation } from '../../../store/clubPublishApi';
 
 const Publish = () => {
   const dispatch = useDispatch();
+  // const [createPost, { isLoading }] = useCreateClubMutation(); // todo. Fetcher
   const handleClick = () => {
     dispatch(openModal({ modalType: 'CreateClubModal' }));
   };
+  // const handleSubmit = async () => {
+  //   // const newPost = { title, content };
+  //   // try {
+  //   //   const result = await createPost(newPost);
+  //   //   console.log('Post created:', result.data);
+  //   // } catch (error) {
+  //   //   console.error('Error creating post:', error);
+  //   // }
+  // };
 
   return (
     <Inner>

@@ -10,6 +10,7 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
+import GlobalModal from './component/modal/GlobalModal';
 import { PreventAutoScroll, ScrollToTop } from './util/util';
 
 function App() {
@@ -17,20 +18,18 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <ScrollToTop />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/project/:sort?" element={<Project />} />
-          <Route path="/project/detail/:id" element={<Detail />} />
-          <Route path="/project/publish" element={<ProjectPublish />} />
-          <Route path="/club" element={<Club />} />
-          <Route path="/club/signUp" element={<SignUp />} />
-          <Route path="/club/publish" element={<ClubPublish />} />        
-          <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
-        </Routes>
-      </BrowserRouter>
+      <ScrollToTop />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/project/:sort?" element={<Project />} />
+        <Route path="/project/detail/:id" element={<Detail />} />
+        <Route path="/project/publish" element={<ProjectPublish />} />
+        <Route path="/club" element={<Club />} />
+        <Route path="/club/signUp" element={<SignUp />} />
+        <Route path="/club/publish" element={<ClubPublish />} />        
+        <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
+      </Routes>
     </div>
   );
 }

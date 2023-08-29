@@ -82,6 +82,7 @@ declare module '@emotion/react' {
         white: '#ffffff';
       };
       semantic: {
+        placeholder: { 500: '#cbcbcb' };
         success: { 500: string };
         info: { 500: string };
         warning: { 500: string };

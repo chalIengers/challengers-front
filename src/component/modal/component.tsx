@@ -239,6 +239,16 @@ export const RegisterModal = () => {
 };
 
 export const CreateClubModal = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const CancelButton = () => {
+    dispatch(closeModal());
+  };
+  const RegisterButton = () => {
+    navigate('/');
+    dispatch(closeModal());
+  };
   return (
     <div css={ModalBackGround}>
       <Section gap="3.6">
@@ -273,8 +283,8 @@ export const CreateClubModal = () => {
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소할게요" type="modal" cancel />
-          <ButtonBox text="등록할게요" type="modal" />
+          <ButtonBox text="취소할게요" type="modal" onClick={CancelButton} cancel />
+          <ButtonBox text="등록할게요" type="modal" onClick={RegisterButton} />
         </div>
       </Section>
     </div>
