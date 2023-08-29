@@ -28,7 +28,7 @@ const Index = () => {
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight &&
       !isFetching &&
-      data.totalPages !== pageNumber
+      data?.totalPages !== pageNumber
     ) {
       setPageNumber(pageNumber + 1);
       console.log('도달!');
@@ -75,7 +75,7 @@ const Index = () => {
         </FlexWrapContainer>
 
         {isFetching && <LoadingContainer />}
-        {data.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>}
+        {data?.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>}
       </Section>
     </Inner>
   );
