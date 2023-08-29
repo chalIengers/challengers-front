@@ -1,5 +1,6 @@
 import { SerializedStyles } from '@emotion/react';
 import { ReactNode } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
   children: ReactNode;
@@ -86,6 +87,7 @@ export interface ButtonBoxProps {
   type: 'large' | 'small' | 'modal' | 'very_small';
   cancel?: boolean;
   onClick?: () => void;
+  submit?: boolean;
 }
 
 export interface BannerProps {
@@ -134,12 +136,18 @@ export interface ProjectsState {
   projects: ProjectBoxProps[];
 }
 
+export interface SignUpState {
+  email: string;
+  password: string;
+  userName: string;
+}
 export interface TextInputBoxType {
   type: 'header1' | 'body2' | 'body1' | 'border';
   text?: string;
   size?: number;
   max?: number;
   inputType?: string;
+  register?: UseFormRegisterReturn;
 }
 
 export interface TagListType extends ContainerType {
