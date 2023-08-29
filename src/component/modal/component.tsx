@@ -1,13 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
 import { Body1, Body2, Header1, Section } from '../emotion/GlobalStyle';
 import { closeModal, openModal } from '../../store/modalSlice';
+import { signData } from '../../store/signUpSlice';
+import { useCreateUserMutation, useRequestUserMutation } from '../../store/signUpApi';
+import { ErrorDescription } from '../club/signUp/component';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -57,7 +60,11 @@ const ModalBackGround = css`
 /**
  * modal 안에서 사용되는 input 컴포넌트
  */
-const ModalInput = () => {
+const ModalInput = ({ code, onChange }: { code: string; onChange: any }) => {
+  const handleChange = (newCode: string) => {
+    onChange(newCode);
+  };
+  // dispatch(setInputNumber(code));
   return (
     <div
       css={css`
@@ -75,6 +82,9 @@ const ModalInput = () => {
             color: ${theme.palette.gray[300]};
           }
         `}
+        value={code}
+        maxLength={6}
+        onChange={(e) => handleChange(e.target.value)}
         placeholder="발송된 인증번호를 입력해주세요"
       />
     </div>
@@ -82,6 +92,17 @@ const ModalInput = () => {
 };
 
 export const RegisterSuccessModal = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // 3초뒤 메인화면으로 이동
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(closeModal());
+      navigate('/');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <div css={ModalBackGround}>
       <Section gap="2.4">
@@ -98,7 +119,7 @@ export const RegisterSuccessModal = () => {
             text-align: center;
           `}
         >
-          <img alt="registerSuccess_img" src={`${process.env.PUBLIC_URL}/img/image 21.png`} />
+          <img alt="registerSuccess_img" src={`${process.env.PUBLIC_URL}/img/emoticon.png`} />
         </div>
         <Body2
           style={css`
@@ -116,8 +137,53 @@ export const RegisterSuccessModal = () => {
 
 export const RegisterModal = () => {
   const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(openModal({ modalType: 'RegisterSuccessModal' }));
+  const data = useSelector(signData);
+  const [createUser] = useCreateUserMutation();
+  const [requestUser] = useRequestUserMutation();
+  const [res, setRes] = useState({ data: { code: 1, msg: '' } }); // sign-up 응답 데이터
+  const [inputCode, setInputCode] = useState('');
+  // 인증코드 상태저장
+  const handleChangeInputCode = (newCode: string) => {
+    setInputCode(newCode); // 입력값이 변경될 때 상태 업데이트
+  };
+  // 인증번호 포함 회원가입 post
+  const handleClick = async () => {
+    try {
+      const signUpData = {
+        email: data.email,
+        password: data.password,
+        userName: data.userName,
+        inputNumber: inputCode,
+      };
+      console.log(signUpData);
+      const response = await createUser(signUpData); // API 요청을 보내고 응답 데이터를 받음
+      console.log('API response:', response);
+      setRes(response);
+      if (response.data.code === 1) {
+        dispatch(openModal({ modalType: 'RegisterSuccessModal' }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 인증번호 재전송
+  const handleEmailClick = async () => {
+    try {
+      const retryData = {
+        email: data.email,
+        password: data.password,
+        userName: data.userName,
+      };
+      console.log(retryData);
+      const response = await requestUser(retryData);
+      console.log('retryEmail : ', response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 취소 버튼 클릭시 closeModal
+  const handleCancleClick = () => {
+    dispatch(closeModal());
   };
   return (
     <div css={ModalBackGround}>
@@ -140,14 +206,31 @@ export const RegisterModal = () => {
           <br />
           앗, 이메일이 안왔다면 이메일을 확인하거나 다시 등록 버튼을 눌러주세요
         </Body1>
-        <ModalInput />
+        <ModalInput code={inputCode} onChange={handleChangeInputCode} />
         <div
           css={css`
             display: flex;
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소" type="modal" cancel />
+          {res.data.code ? <div></div> : <ErrorDescription>{res.data.msg}</ErrorDescription>}
+          <button
+            css={css`
+              color: ${theme.palette.gray[500]};
+            `}
+            type="button"
+            onClick={handleEmailClick}
+          >
+            이메일 인증번호를 다시 받고싶어요
+          </button>
+        </div>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <ButtonBox text="취소" type="modal" cancel onClick={handleCancleClick} />
           <ButtonBox text="회원가입" type="modal" onClick={handleClick} />
         </div>
       </Section>
