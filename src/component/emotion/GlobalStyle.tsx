@@ -11,6 +11,7 @@ import { ContainerType, SectionType, StyleContainerType } from '../../types/glob
 export const Inner = ({ children }: ContainerType) => (
   <section
     css={css`
+      position: relative;
       width: 120rem;
       margin: 0 auto;
       display: flex;
@@ -117,6 +118,7 @@ export const Section = ({ children, gap }: SectionType) => (
       display: flex;
       flex-direction: column;
       gap: ${gap}rem;
+      width: 100%;
     `}
   >
     {children}

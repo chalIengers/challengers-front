@@ -1,84 +1,81 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
+import { v4 as uuidv4 } from 'uuid';
+import { Banner, FlexWrapContainer, ProjectBox, TextBox } from '../emotion/component';
+import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import {
-  Banner,
-  ClubComponent,
-  FlexWrapContainer,
-  ProjectBox,
-  TextBox,
-} from '../emotion/component';
-import data from '../../json/data.json';
-import data2 from '../../json/data2.json';
-import { Body1, Header1, Inner, Section } from '../emotion/GlobalStyle';
-import { ClubList } from './component';
+  ClubList,
+  NavigateMore,
+  DivisionLine,
+  LoadingContainer,
+  ClubArrayContainer,
+} from './component';
+import { useGetVideosQuery } from '../../store/projectController';
+import { ProjectBoxProps } from '../../types/globalType';
+import { ApiFetcher } from '../../util/util';
+import { useGetLogosQuery } from '../../store/clubController';
 
-const index = () => {
+const Index = () => {
   return (
     <Inner>
       <Banner large />
 
       <Section gap="3.2">
         <Header1>현재 다양한 클럽이 챌린저스에서 활동하고 있어요</Header1>
-        <ClubList>
-          {data2 &&
-            data2.Clubs.map((club) => (
-              <ClubComponent
-                key={club.id}
-                name={club.name}
-                clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
-              />
-            ))}
-        </ClubList>
+        <ApiFetcher query={useGetLogosQuery({})} loading={<div>로딩중...</div>}>
+          {(data) => {
+            const chunkedData = [];
+            for (let i = 0; i < data.length; i += 7) {
+              chunkedData.push(data.slice(i, i + 7));
+            }
+            return (
+              <ClubList>
+                {chunkedData.map((clubArray, index) => (
+                  <ClubArrayContainer key={uuidv4()} clubArray={clubArray} index={index} />
+                ))}
+              </ClubList>
+            );
+          }}
+        </ApiFetcher>
       </Section>
 
-      <hr
-        css={css`
-          width: 72rem;
-          border: 1px solid #fff;
-          margin: auto;
-        `}
-      />
+      <DivisionLine />
 
       <Section>
         <TextBox>
           <Header1>붐하고 뜨고 있는 프로젝트</Header1>
-          <Body1>더 보러가기 &gt;</Body1>
+          <NavigateMore sort="popular" />
         </TextBox>
 
-        <FlexWrapContainer>
-          {data &&
-            data.Project.map((project) => (
-              <ProjectBox
-                key={project.id}
-                title={project.title}
-                content={project.content}
-                tags={project.tags}
-              />
-            ))}
-        </FlexWrapContainer>
+        <ApiFetcher query={useGetVideosQuery({})} loading={<LoadingContainer />}>
+          {(data) => (
+            <FlexWrapContainer>
+              {data.content.map((project: ProjectBoxProps) => (
+                <ProjectBox key={project.id} projectData={project} />
+              ))}
+            </FlexWrapContainer>
+          )}
+        </ApiFetcher>
       </Section>
 
       <Section>
         <TextBox>
           <Header1>최근 등록된 프로젝트</Header1>
-          <Body1>더 보러가기 &gt;</Body1>
+          <NavigateMore sort="recent" />
         </TextBox>
 
-        <FlexWrapContainer>
-          {data &&
-            data.Project.map((project) => (
-              <ProjectBox
-                key={project.id}
-                title={project.title}
-                content={project.content}
-                tags={project.tags}
-              />
-            ))}
-        </FlexWrapContainer>
+        <ApiFetcher query={useGetVideosQuery({})} loading={<LoadingContainer />}>
+          {(data) => (
+            <FlexWrapContainer>
+              {data.content.map((project: ProjectBoxProps) => (
+                <ProjectBox key={project.id} projectData={project} />
+              ))}
+            </FlexWrapContainer>
+          )}
+        </ApiFetcher>
       </Section>
     </Inner>
   );
 };
 
-export default index;
+export default Index;

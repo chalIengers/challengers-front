@@ -4,6 +4,9 @@ import projectSlice from './projectSlice';
 import signUpSlice from './signUpSlice';
 import signUpApi from './signUpApi';
 import clubApi from './clubApi';
+import projectController from './projectController';
+import clubController from './clubController';
+import crewController from './crewController';
 
 const store = configureStore({
   reducer: {
@@ -12,9 +15,13 @@ const store = configureStore({
     singup: signUpSlice,
     [signUpApi.reducerPath]: signUpApi.reducer,
     [clubApi.reducerPath]: clubApi.reducer,
+    [projectController.reducerPath]: projectController.reducer,
+    [clubController.reducerPath]: clubController.reducer,
+    [crewController.reducerPath]: crewController.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(signUpApi.middleware, clubApi.middleware),
+    getDefaultMiddleware()
+      .concat(projectController.middleware, clubController.middleware, crewController.middleware, signUpApi.middleware, clubApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;
