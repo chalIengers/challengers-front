@@ -174,18 +174,13 @@ export interface ClubImageProps {
   onClick: () => void;
   imgFileSrc?: string;
 }
-  export interface TeamMember {
+export interface TeamMember {
   id: number;
   name: string;
   position: string;
   role: string;
 }
 
-interface Crew {
-  name: string;
-  position: string;
-  role: string;
-}
 export interface Link {
   name: string;
   linkUrl: string;

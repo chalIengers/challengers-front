@@ -140,9 +140,9 @@ export const Header = () => {
         </Link>
         <NavList>
           <NavItem to="/">챌린저스란?</NavItem>
-          <NavItem to="/">클럽 등록</NavItem>
+          <NavItem to="/club">클럽 등록</NavItem>
           <NavItem to="/project">프로젝트</NavItem>
-          <NavItem to="/">회원가입</NavItem>
+          <NavItem to="/signUp">회원가입</NavItem>
         </NavList>
       </div>
     </Nav>

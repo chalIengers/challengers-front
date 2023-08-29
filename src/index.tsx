@@ -9,6 +9,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
+import GlobalModal from './component/modal/GlobalModal';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

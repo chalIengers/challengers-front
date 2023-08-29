@@ -18,10 +18,11 @@ import {
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { LinkInputBox, TeamInfoInputBox, Labels, PublishImg } from './component';
 import { useImageUpload } from './hook';
-import { useCreatePublishMutation, useFileUploadMutation } from '../../../store/publishApi';
+import { useFileUploadMutation } from '../../../store/commonApi';
 import { initialProjectData } from '../../../types/globalType';
 import { selectLinks } from '../../../store/linkSlice';
 import { selectCrews } from '../../../store/crewSlice';
+import { useCreatePublishMutation } from '../../../store/projectController';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();

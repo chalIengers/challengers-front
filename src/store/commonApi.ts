@@ -19,16 +19,9 @@ export const publishApi = createApi({
         };
       },
     }),
-    createPublish: builder.mutation({
-      query: (newProjectData) => ({
-        url: 'project/create',
-        method: 'POST',
-        body: newProjectData,
-      }),
-    }),
   }),
 });
 
-export const { useFileUploadMutation, useCreatePublishMutation } = publishApi;
+export const { useFileUploadMutation } = publishApi;
 
 export default publishApi;

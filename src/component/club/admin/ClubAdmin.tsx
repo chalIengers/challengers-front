@@ -5,14 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Banner, TextBox } from '../../emotion/component';
 import { Inner, Header2, Section } from '../../emotion/GlobalStyle';
 import { ChallengersLogo, ClubAcceptBox, LeftArrow } from './component';
-import { useGetPendingUsersQuery } from '../../../store/clubApi';
 import theme from '../../../styles/theme';
+import { useGetPendingUsersQuery } from '../../../store/clubController';
 
 const Index = () => {
-  const params = useParams();
+  const { clubId } = useParams();
   const navigate = useNavigate();
-  const sibar: string | undefined = params.clubId;
-  const { data, isLoading } = useGetPendingUsersQuery(params.clubId);
+  const { data, isLoading } = useGetPendingUsersQuery(clubId);
   const handleGoBackClick = () => {
     navigate(-1);
   };
@@ -47,7 +46,7 @@ const Index = () => {
         ) : (
           <>
             {data.map((user: any) => (
-              <ClubAcceptBox email={user.email} key={user.id} name={user.name} id={sibar} />
+              <ClubAcceptBox email={user.email} key={user.id} name={user.name} id={clubId} />
             ))}
           </>
         )}

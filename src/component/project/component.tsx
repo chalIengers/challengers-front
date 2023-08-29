@@ -10,8 +10,5 @@ export const LoadingContainer = () => (
     <LoadingBox />
     <LoadingBox />
     <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
   </FlexWrapContainer>
 );

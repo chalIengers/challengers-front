@@ -34,17 +34,22 @@ export const projectController = createApi({
         return { url: 'get', params: { id } };
       },
     }),
-    // postChat: builder.mutation({
-    //   query: (question) => ({
-    //     url: 'chat/askChatGPT',
-    //     method: 'POST',
-    //     body: question,
-    //   }),
-    // }),
+    createPublish: builder.mutation({
+      query: (newProjectData) => ({
+        url: 'create',
+        method: 'POST',
+        body: newProjectData,
+      }),
+    }),
   }),
 });
 
 // 자동으로 생성되는 훅을 사용하기 위해서 export 합니다.
-export const { useGetVideosQuery, useGetVideosInfinityQuery, useGetVideoQuery } = projectController;
+export const {
+  useGetVideosQuery,
+  useGetVideosInfinityQuery,
+  useGetVideoQuery,
+  useCreatePublishMutation,
+} = projectController;
 
 export default projectController;

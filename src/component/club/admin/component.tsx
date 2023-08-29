@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { ButtonBox } from '../../emotion/component';
 import { Body1 } from '../../emotion/GlobalStyle';
 import { ClubContainer } from '../emotion/component';
-import { useAcceptCrewMutation, useRejectCrewMutation } from '../../../store/clubApi';
+import { useAcceptCrewMutation, useRejectCrewMutation } from '../../../store/clubController';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트
