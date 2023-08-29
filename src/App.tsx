@@ -23,7 +23,7 @@ function App() {
         <Route path="/club" element={<Club />} />
         <Route path="/club/signUp" element={<SignUp />} />
         <Route path="/club/publish" element={<ClubPublish />} />
-        <Route path="/club/admin" element={<ClubAdmin />} />
+        <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
       </Routes>
     </div>
   );

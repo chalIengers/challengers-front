@@ -90,6 +90,11 @@ export interface ProjectsState {
   projects: Project[];
 }
 
+export interface SignUpState {
+  email: string;
+  password: string;
+  userName: string;
+}
 export interface TextInputBoxType {
   type: 'header1' | 'body2' | 'body1' | 'border';
   text?: string;

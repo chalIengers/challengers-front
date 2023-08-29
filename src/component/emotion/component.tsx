@@ -239,7 +239,7 @@ export const Banner = ({ large }: BannerProps) => {
     >
       <img
         alt="banner_img"
-        src={`${process.env.PUBLIC_URL}/img/3d-construction-made-of-glass-abstract-geometrical-composition 1.png`}
+        src={`${process.env.PUBLIC_URL}/img/banner.png`}
         css={css`
           width: ${large ? 29.4 : 10.5}rem;
         `}

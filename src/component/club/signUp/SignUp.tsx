@@ -3,6 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import {
   Banner,
   ButtonBox,
@@ -13,12 +14,31 @@ import {
 import { Inner, Body1, Header2, Section, Header1 } from '../../emotion/GlobalStyle';
 import { openModal } from '../../../store/modalSlice';
 import { CollectDescription, ErrorDescription } from './component';
+import { setEmail, setPassword, setUserName } from '../../../store/signUpSlice';
+import { useRequestUserMutation } from '../../../store/signUpApi';
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const handleSubmitData = (data: any) => {
-    console.log(data);
-    dispatch(openModal({ modalType: 'RegisterModal' }));
+  const [requestUser, { isLoading }] = useRequestUserMutation();
+  const handleSubmitData = async (data: any) => {
+    try {
+      const signUpData = {
+        email: data.email,
+        password: data.pw,
+        userName: data.name,
+      };
+      dispatch(setEmail(data.email));
+      dispatch(setUserName(data.name));
+      dispatch(setPassword(data.pw));
+      console.log(signUpData);
+      // request-sign-up post 요청
+      const response = await requestUser(signUpData);
+      console.log('request-sign-up response:', response);
+      // 이메일 인증코드 모달창
+      dispatch(openModal({ modalType: 'RegisterModal' }));
+    } catch (err) {
+      console.log(err);
+    }
   };
   const {
     register,
@@ -87,6 +107,23 @@ const Signup = () => {
                     pattern: {
                       value: /[a-z0-9]/,
                       message: '올바른 형식의 이메일 아이디를 입력해주세요',
+                    },
+                    validate: {
+                      check: async (value) => {
+                        try {
+                          const response = await axios.get(
+                            `/api/v1/verify/account?account=${value}`,
+                          );
+                          if (response.data.success === false) {
+                            return response.data.msg;
+                          }
+                          return undefined;
+                        } catch (error) {
+                          // 오류 처리 로직을 여기에 추가하세요
+                          console.error('오류 발생:', error);
+                          return undefined;
+                        }
+                      },
                     },
                   })}
                 />
@@ -161,8 +198,11 @@ const Signup = () => {
             </div>
           </GridBox>
         </ContainerComponent>
-
-        <ButtonBox submit text="회원가입을 하고싶어요" type="large" />
+        {isLoading ? (
+          <ButtonBox submit text="잠시만 기다려주세요!" type="large" />
+        ) : (
+          <ButtonBox submit text="회원가입을 하고싶어요" type="large" />
+        )}
       </Inner>
     </form>
   );
