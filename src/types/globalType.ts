@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
@@ -13,6 +13,7 @@ export interface StyleType {
 export interface StyleContainerType {
   children: ReactNode;
   style?: SerializedStyles;
+  onClick?: () => void;
 }
 
 export interface SelectBoxProps {
@@ -147,12 +148,62 @@ export interface TextInputBoxType {
   size?: number;
   max?: number;
   inputType?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   register?: UseFormRegisterReturn;
 }
 
 export interface TagListType extends ContainerType {
   small?: boolean;
 }
+export interface TeamMember {
+  id: number;
+  name: string;
+  position: string;
+  role: string;
+}
+
+interface Crew {
+  name: string;
+  position: string;
+  role: string;
+}
+export interface Link {
+  name: string;
+  linkUrl: string;
+}
+export interface ProjectInfo {
+  imageUrl: string;
+  projectName: string;
+  projectDescription: string;
+  projectCategory: string;
+  belonedClubId: string;
+  projectStatus: string;
+  projectPeriod: string;
+  projectTechStack: string;
+  projectDetail: string;
+  belonedCrewName: string;
+  projectCrew: Crew[];
+  projectLink: Link[];
+}
+export const initialLink: Link = {
+  name: '',
+  linkUrl: '',
+};
+export const initialProjectData: ProjectInfo = {
+  imageUrl: '',
+  projectName: '',
+  projectDescription: '',
+  projectCategory: '',
+  belonedCrewName: '',
+  belonedClubId: '',
+  projectStatus: '',
+  projectPeriod: '',
+  projectTechStack: '',
+  projectDetail: '',
+  projectCrew: [],
+  projectLink: [],
+};
 
 export interface DescribeBoxType {
   text: string;

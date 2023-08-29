@@ -128,3 +128,17 @@ export const Section = ({ children, gap }: SectionType) => (
 Section.defaultProps = {
   gap: 0,
 };
+export const Body5 = ({ children, style, onClick }: StyleContainerType) => (
+  <div
+    css={css`
+      ${theme.typography.body1}
+      ${style}
+    `}
+    onClick={onClick}
+    onKeyDown={onClick}
+    role="button"
+    tabIndex={0}
+  >
+    {children}
+  </div>
+);

@@ -365,7 +365,7 @@ export const GridBox = ({ children }: ContainerType) => {
   );
 };
 
-export const TextInputBox = ({ type, text, size, max, inputType, register }: TextInputBoxType) => {
+export const TextInputBox = ({ type, text, size, max, inputType, onChange, register }: TextInputBoxType) => {
   const style = {
     header1: css`
       ${theme.typography.header1}
@@ -396,6 +396,7 @@ export const TextInputBox = ({ type, text, size, max, inputType, register }: Tex
       size={size}
       maxLength={max}
       type={inputType}
+      onChange={onChange}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...register}
     />
