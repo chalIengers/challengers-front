@@ -5,8 +5,9 @@ import theme from '../../../styles/theme';
 import { ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
 import { Header2, Body2, Header1, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
+import { ClubImageProps } from '../../../types/globalType';
 
-const ClubImage = ({ onClick }: { onClick: () => void }) => (
+const ClubImage = ({ onClick, imgFileSrc }: ClubImageProps) => (
   <button
     type="button"
     onClick={onClick}
@@ -21,34 +22,54 @@ const ClubImage = ({ onClick }: { onClick: () => void }) => (
       cursor: pointer;
     `}
   >
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-      <path
-        d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
-        stroke="#8F8E8E"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    {imgFileSrc ? (
+      <img
+        src={imgFileSrc}
+        alt={imgFileSrc}
+        css={css`
+          max-width: 100%;
+          max-height: 100%;
+        `}
       />
-    </svg>
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="60"
+        height="60"
+        viewBox="0 0 60 60"
+        fill="none"
+      >
+        <path
+          d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
+          stroke="#8F8E8E"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )}
   </button>
 );
 
 export const ClubLogoPreView = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0]);
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const src = event.target?.result as string;
+        setImgFileSrc(src);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleDivClick = () => {
-    if (selectedFile) {
-      console.log('파일 있음');
-    } else {
-      console.log('파일 없음');
-    }
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -64,11 +85,11 @@ export const ClubLogoPreView = () => {
           color: ${theme.palette.gray[400]};
         `}
       >
-        <ClubImage onClick={handleDivClick} />
+        <ClubImage onClick={handleDivClick} imgFileSrc={imgFileSrc} />
         <input
           type="file"
           ref={fileInputRef}
-          onChange={handleFileChange}
+          onChange={handleFileSelect}
           css={css`
             display: none;
           `}

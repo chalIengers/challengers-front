@@ -113,3 +113,8 @@ export interface TagListType extends ContainerType {
 export interface LinkToProps extends ContainerType {
   to: string;
 }
+
+export interface ClubImageProps {
+  onClick: () => void;
+  imgFileSrc?: string;
+}
