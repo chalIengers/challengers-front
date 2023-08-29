@@ -1,27 +1,22 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ContainerType } from '../../types/globalType';
+import { v4 as uuidv4 } from 'uuid';
+import { ClubLogoProps, ContainerType } from '../../types/globalType';
 import { Body1 } from '../emotion/GlobalStyle';
-import { FlexWrapContainer, LoadingBox } from '../emotion/component';
+import { ClubComponent, FlexWrapContainer, LoadingBox } from '../emotion/component';
 
 export const ClubList = ({ children }: ContainerType) => (
   <div
     css={css`
-      height: 13.6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 2.4rem;
+      overflow: hidden;
     `}
   >
-    <div
-      css={css`
-        width: 100%;
-        display: flex;
-        gap: 4.4rem;
-        flex-wrap: wrap;
-      `}
-    >
-      {children}
-    </div>
+    {children}
   </div>
 );
 
@@ -57,3 +52,43 @@ export const LoadingContainer = () => (
     <LoadingBox />
   </FlexWrapContainer>
 );
+
+export const ClubArrayContainer = ({
+  clubArray,
+  index,
+}: {
+  clubArray: ClubLogoProps[];
+  index: number;
+}) => {
+  const slideAnimation1 = keyframes`
+    0% {
+      transform: translateX(1200px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  `;
+  const slideAnimation2 = keyframes`
+    0% {
+      transform: translateX(-1200px);
+    }
+    100% {
+      transform: translateX(-2400px);
+    }
+  `;
+  return (
+    <div
+      css={css`
+        width: 120rem;
+        display: flex;
+        justify-content: space-around;
+        animation: ${index === 0 || index === 2 ? slideAnimation1 : slideAnimation2} 10s linear
+          infinite;
+      `}
+    >
+      {clubArray.map((club: ClubLogoProps) => (
+        <ClubComponent key={uuidv4()} clubImg={club.logoUrl} />
+      ))}
+    </div>
+  );
+};

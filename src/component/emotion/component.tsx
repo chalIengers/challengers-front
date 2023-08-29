@@ -14,7 +14,7 @@ import {
   TextBoxProps,
   TextInputBoxType,
 } from '../../types/globalType';
-import { Body2, Header1, Section } from './GlobalStyle';
+import { Body2, Header1 } from './GlobalStyle';
 
 export const TagList = ({ children, small }: TagListType) => (
   <div
@@ -288,7 +288,13 @@ export const Banner = ({ large }: BannerProps) => {
         `}
       />
 
-      <Section gap={large ? '2.4' : '1.2'}>
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: ${large ? '2.4' : '1.2'}rem;
+        `}
+      >
         <h1
           css={css`
             ${large ? theme.typography.title : theme.typography.header1}
@@ -311,7 +317,7 @@ export const Banner = ({ large }: BannerProps) => {
           내가 소속한 클럽을 등록하고 챌린저스 서비스에서
           <br /> 사이드 프로젝트를 기록과 소통해보세요
         </p>
-      </Section>
+      </div>
     </div>
   );
 };
@@ -332,9 +338,10 @@ export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
     >
       <img
         css={css`
-          max-width: 16rem;
-          height: auto;
+          max-width: 13.6rem;
+          max-height: 6.4rem;
           object-fit: cover;
+          filter: invert(0.1) brightness(10);
         `}
         src={clubImg}
         alt={name || clubImg}
