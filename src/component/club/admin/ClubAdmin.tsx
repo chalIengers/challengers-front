@@ -1,11 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Banner, TextBox } from '../../emotion/component';
-import { Inner, Body1Bold, Header2, Section } from '../../emotion/GlobalStyle';
+import { Inner, Header2, Section } from '../../emotion/GlobalStyle';
 import { ChallengersLogo, ClubAcceptBox, LeftArrow } from './component';
+import { useGetPendingUsersQuery } from '../../../store/clubApi';
+import theme from '../../../styles/theme';
 
-const index = () => {
+const Index = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+  const sibar: string | undefined = params.clubId;
+  const { data, isLoading } = useGetPendingUsersQuery(params.clubId);
+  const handleGoBackClick = () => {
+    navigate(-1);
+  };
   return (
     <Inner>
       <Banner />
@@ -19,19 +29,31 @@ const index = () => {
             `}
           >
             <LeftArrow />
-            <Body1Bold>뒤로가기</Body1Bold>
+            <button
+              type="button"
+              css={css`
+                ${theme.typography.body1Bold}
+              `}
+              onClick={handleGoBackClick}
+            >
+              뒤로가기
+            </button>
           </div>
         </TextBox>
 
         <ChallengersLogo />
-
-        <ClubAcceptBox />
-        <ClubAcceptBox />
-        <ClubAcceptBox />
-        <ClubAcceptBox />
+        {isLoading ? (
+          '로딩중'
+        ) : (
+          <>
+            {data.map((user: any) => (
+              <ClubAcceptBox email={user.email} key={user.id} name={user.name} id={sibar} />
+            ))}
+          </>
+        )}
       </Section>
     </Inner>
   );
 };
 
-export default index;
+export default Index;

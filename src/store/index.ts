@@ -4,6 +4,12 @@ import projectSlice from './projectSlice';
 import publishApi from './publishApi';
 import linkReducer from './linkSlice';
 import crewReducer from './crewSlice';
+import signUpSlice from './signUpSlice';
+import signUpApi from './signUpApi';
+import clubApi from './clubApi';
+import projectController from './projectController';
+import clubController from './clubController';
+import crewController from './crewController';
 
 const store = configureStore({
   reducer: {
@@ -12,8 +18,16 @@ const store = configureStore({
     links: linkReducer,
     crews: crewReducer,
     [publishApi.reducerPath]: publishApi.reducer,
+    singup: signUpSlice,
+    [signUpApi.reducerPath]: signUpApi.reducer,
+    [clubApi.reducerPath]: clubApi.reducer,
+    [projectController.reducerPath]: projectController.reducer,
+    [clubController.reducerPath]: clubController.reducer,
+    [crewController.reducerPath]: crewController.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(publishApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(projectController.middleware, clubController.middleware, crewController.middleware, signUpApi.middleware, clubApi.middleware, publishApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

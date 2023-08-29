@@ -1,5 +1,6 @@
 import { SerializedStyles } from '@emotion/react';
 import React, { ReactNode } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
   children: ReactNode;
@@ -23,9 +24,55 @@ export interface SelectBoxProps {
 }
 
 export interface ProjectBoxProps {
-  title: string;
-  content: string;
-  tags: string[];
+  id: number;
+  projectName: string;
+  projectDescription: string;
+  imageUrl: string;
+  projectCategory: string;
+  belongedClubName: string;
+}
+interface Crew {
+  name: string;
+  role: string;
+}
+export interface TeamInfoProps {
+  id: number;
+  position: string;
+  crew: Crew[];
+}
+export interface ProjectCrew {
+  id: number;
+  name: string;
+  position: string;
+  role: string;
+}
+export interface ProjectLink {
+  id: number;
+  url: string;
+  name: string;
+}
+export interface ProjectTechStack {
+  id: number;
+  name: string;
+}
+export interface ProjectDetailProps extends ProjectBoxProps {
+  id: number;
+  projectName: string;
+  projectDescription: string;
+  imageUrl: string;
+  projectCategory: string;
+  belongedClubName: string;
+
+  projectDetail: string;
+  projectStatus: 1;
+  projectTechStack: ProjectTechStack[];
+  projectLink: ProjectLink[];
+  projectCrew: ProjectCrew[];
+  createdAt: Date;
+  updatedAt: Date;
+  uploadedUserId: 1;
+  belongedClubId: null;
+  projectPeriod: string;
 }
 
 export interface NavItemProps extends ContainerType {
@@ -41,6 +88,7 @@ export interface ButtonBoxProps {
   type: 'large' | 'small' | 'modal' | 'very_small';
   cancel?: boolean;
   onClick?: () => void;
+  submit?: boolean;
 }
 
 export interface BannerProps {
@@ -52,7 +100,7 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  name: string;
+  name?: string;
   clubImg: string;
 }
 
@@ -71,7 +119,7 @@ export interface LinkImgList {
 
 export interface LinkImgProps {
   name: string;
-  type: 'large' | 'small';
+  large?: boolean;
 }
 
 export interface InfoDownContainerType extends ContainerType {
@@ -86,9 +134,14 @@ export interface Project {
 }
 
 export interface ProjectsState {
-  projects: Project[];
+  projects: ProjectBoxProps[];
 }
 
+export interface SignUpState {
+  email: string;
+  password: string;
+  userName: string;
+}
 export interface TextInputBoxType {
   type: 'header1' | 'body2' | 'body1' | 'border';
   text?: string;
@@ -97,6 +150,7 @@ export interface TextInputBoxType {
   inputType?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: UseFormRegisterReturn;
 }
 
 export interface TagListType extends ContainerType {
@@ -150,3 +204,11 @@ export const initialProjectData: ProjectInfo = {
   projectCrew: [],
   projectLink: [],
 };
+
+export interface DescribeBoxType {
+  text: string;
+}
+
+export interface ClubLogoProps {
+  logoUrl: string;
+}

@@ -1,17 +1,94 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import React from 'react';
-import { ContainerType } from '../../types/globalType';
+import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { ClubLogoProps, ContainerType } from '../../types/globalType';
+import { Body1 } from '../emotion/GlobalStyle';
+import { ClubComponent, FlexWrapContainer, LoadingBox } from '../emotion/component';
 
 export const ClubList = ({ children }: ContainerType) => (
   <div
     css={css`
-      width: 100%;
-      row-gap: 4rem;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 2.4rem;
+      overflow: hidden;
     `}
   >
     {children}
   </div>
 );
+
+export const NavigateMore = ({ sort }: { sort: string }) => (
+  <Link to={`project/${sort}`}>
+    <Body1
+      style={css`
+        cursor: pointer;
+      `}
+    >
+      더 보러가기 &gt;
+    </Body1>
+  </Link>
+);
+
+export const DivisionLine = () => (
+  <hr
+    css={css`
+      width: 72rem;
+      border: 1px solid #fff;
+      margin: auto;
+    `}
+  />
+);
+
+export const LoadingContainer = () => (
+  <FlexWrapContainer>
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+  </FlexWrapContainer>
+);
+
+export const ClubArrayContainer = ({
+  clubArray,
+  index,
+}: {
+  clubArray: ClubLogoProps[];
+  index: number;
+}) => {
+  const slideAnimation1 = keyframes`
+    0% {
+      transform: translateX(1200px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  `;
+  const slideAnimation2 = keyframes`
+    0% {
+      transform: translateX(-1200px);
+    }
+    100% {
+      transform: translateX(-2400px);
+    }
+  `;
+  return (
+    <div
+      css={css`
+        width: 120rem;
+        display: flex;
+        justify-content: space-around;
+        animation: ${index === 0 || index === 2 ? slideAnimation1 : slideAnimation2} 10s linear
+          infinite;
+      `}
+    >
+      {clubArray.map((club: ClubLogoProps) => (
+        <ClubComponent key={uuidv4()} clubImg={club.logoUrl} />
+      ))}
+    </div>
+  );
+};
