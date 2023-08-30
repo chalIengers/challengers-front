@@ -10,10 +10,12 @@ import SignUp from './component/club/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
-import { PreventAutoScroll, ScrollToTop } from './util/util';
+import { PreventAutoScroll, RefreshTokenUtil, ScrollToTop } from './util/util';
+import Login from './component/signUp/Login';
 
 function App() {
   PreventAutoScroll();
+  RefreshTokenUtil();
 
   return (
     <div className="App">
@@ -28,6 +30,7 @@ function App() {
         <Route path="/club/publish" element={<ClubPublish />} />
         <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
         <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );

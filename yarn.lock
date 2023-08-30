@@ -2090,6 +2090,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookie@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.5.1.tgz#b29aa1f91a59f35e29ff8f7cb24faf1a3a750554"
+  integrity sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
   resolved "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.4.tgz"
@@ -3518,7 +3523,7 @@ cookie-signature@1.0.6:
   resolved "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
-cookie@0.5.0:
+cookie@0.5.0, cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
@@ -7762,6 +7767,15 @@ react-color@^2.19.3:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
+react-cookie@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-cookie/-/react-cookie-6.1.0.tgz#1561b822d27e21ded17d1a24f9fd5257804a3ffb"
+  integrity sha512-j/q0kf4f8kK7zXyTdGEebtZ3IKhVCPZVL3pf6y9/KlfFThxRjb+xvgdKAvRB2VrdkXyu9Qbrb/VuiFUNK6/3+g==
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.1"
+    hoist-non-react-statics "^3.3.2"
+    universal-cookie "^6.0.0"
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-12.0.1.tgz"
@@ -9099,6 +9113,14 @@ unique-string@^2.0.0:
   integrity sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==
   dependencies:
     crypto-random-string "^2.0.0"
+
+universal-cookie@^6.0.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/universal-cookie/-/universal-cookie-6.1.0.tgz#9b631092f77a2b91d1ec153be5e16465ce95b177"
+  integrity sha512-QBpQWkFJyH9D6nP1ZjPuLDdrgYr3y9ti8OTWf6uWcZwtY06de5f10GPYv3v68LIYWU0a9J2ZF5xFR5gOdD5ZaQ==
+  dependencies:
+    "@types/cookie" "^0.5.1"
+    cookie "^0.5.0"
 
 universalify@^0.2.0:
   version "0.2.0"
