@@ -10,7 +10,7 @@ import {
   LoadingContainer,
   ClubArrayContainer,
 } from './component';
-import { useGetVideosQuery } from '../../store/projectController';
+import { useGetVideosByTopViewQuery, useGetVideosQuery } from '../../store/projectController';
 import { ProjectBoxProps } from '../../types/globalType';
 import { ApiFetcher } from '../../util/util';
 import { useGetLogosQuery } from '../../store/clubController';
@@ -47,7 +47,7 @@ const Index = () => {
           <NavigateMore sort="popular" />
         </TextBox>
 
-        <ApiFetcher query={useGetVideosQuery({})} loading={<LoadingContainer />}>
+        <ApiFetcher query={useGetVideosByTopViewQuery({})} loading={<LoadingContainer />}>
           {(data) => (
             <FlexWrapContainer>
               {data.content.map((project: ProjectBoxProps) => (

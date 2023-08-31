@@ -29,6 +29,43 @@ export const projectController = createApi({
         return currentArg !== previousArg;
       },
     }),
+    getVideosByTopView: builder.query({
+      query: ({ size, page }) => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 +1을 해줘야 실제 월 값이 나옴
+        return {
+          url: `get/all/top-viewed/${year}/${month}`,
+          params: { size, page },
+        };
+      },
+    }),
+    getVideosByTopViewInfinity: builder.query({
+      query: ({ size, page }) => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 +1을 해줘야 실제 월 값이 나옴
+        return {
+          url: `get/all/top-viewed/${year}/${month}`,
+          params: { size, page },
+        };
+      },
+      // Only have one cache entry because the arg always maps to one string
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        const existingIds = new Set(currentCache.content.map((item: any) => item.id));
+        const uniqueNewItems = newItems.content.filter((item: any) => !existingIds.has(item.id));
+        currentCache.content.push(...uniqueNewItems);
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+
     getVideo: builder.query({
       query: ({ id }: { id: string | undefined }) => {
         return { url: 'get', params: { id } };
@@ -48,6 +85,8 @@ export const projectController = createApi({
 export const {
   useGetVideosQuery,
   useGetVideosInfinityQuery,
+  useGetVideosByTopViewQuery,
+  useGetVideosByTopViewInfinityQuery,
   useGetVideoQuery,
   useCreatePublishMutation,
 } = projectController;

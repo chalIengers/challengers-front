@@ -14,11 +14,8 @@ import { ProjectBoxProps } from '../../types/globalType';
 import { LoadingContainer } from './component';
 
 const Index = () => {
-  const { sort } = useParams();
-
-  const { sortType, optionType, handleSelectChange, data, isFetching, pageNumber } = useSelectBoxes(
-    sort === 'popular' ? '인기도 순' : '최신 등록순',
-  );
+  const { sortType, optionType, handleSelectChange, data, isFetching, pageNumber } =
+    useSelectBoxes();
 
   return (
     <Inner>
