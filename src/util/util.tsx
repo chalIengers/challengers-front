@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Body1 } from '../component/emotion/GlobalStyle';
+import { FetcherProps } from '../types/globalType';
 
 // 경로에 변화가 생기거나 새로고침 시 페이지의 최상단으로 이동
 export const ScrollToTop = () => {
@@ -21,17 +22,6 @@ export const PreventAutoScroll = () => {
     };
   }, []);
 };
-interface FetcherProps {
-  query: {
-    isLoading: boolean;
-    isError: boolean;
-    error?: any;
-    data?: any;
-  };
-  // eslint-disable-next-line no-unused-vars
-  children: (data: any) => React.ReactNode;
-  loading: React.ReactNode;
-}
 
 export const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
   const { isLoading, isError, error, data } = query;

@@ -225,3 +225,19 @@ export interface DescribeBoxType {
 export interface ClubLogoProps {
   logoUrl: string;
 }
+
+export interface ClubArrayContainerProps {
+  clubArray: ClubLogoProps[];
+  index: number;
+}
+
+export interface FetcherProps {
+  query: {
+    isLoading: boolean;
+    isError: boolean;
+    error?: any;
+    data?: any;
+  };
+  children: (data: any) => React.ReactNode;
+  loading: React.ReactNode;
+}
