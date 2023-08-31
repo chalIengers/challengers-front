@@ -143,6 +143,14 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
         border-radius: 1.6rem;
         gap: 1.6rem;
         cursor: pointer;
+
+        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+
+        transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+        &:hover {
+          box-shadow: 0 6px 8px rgba(255, 255, 255, 0.15);
+          transform: scale(1.05);
+        }
       `}
     >
       <img
@@ -167,6 +175,22 @@ export const ProjectBox = ({ projectData }: { projectData: ProjectBoxProps }) =>
   );
 };
 
+const loadingAnimation = css`
+  background: linear-gradient(
+    -90deg,
+    ${theme.palette.gray[600]} 00%,
+    #575757 50%,
+    ${theme.palette.gray[600]} 100%
+  );
+  background-size: 400% 400%;
+  animation: pulse 1.7s ease-in-out infinite;
+  @keyframes pulse {
+    to {
+      background-position-x: -200%;
+    }
+  }
+`;
+
 export const LoadingBox = () => {
   return (
     <div
@@ -176,7 +200,7 @@ export const LoadingBox = () => {
         padding: 1.6rem 2rem;
         width: 38.4rem;
         height: 40rem;
-        background: ${theme.palette.gray[900]};
+        background-color: ${theme.palette.gray[900]};
         border-radius: 1.6rem;
         gap: 1.6rem;
         cursor: pointer;
@@ -185,10 +209,9 @@ export const LoadingBox = () => {
       <div
         css={css`
           height: 22.4rem;
-          width: 35.2rem;
           border-radius: 1.2rem;
           object-fit: cover;
-          background-color: ${theme.palette.gray[600]};
+          ${loadingAnimation}
         `}
       />
     </div>
