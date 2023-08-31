@@ -3,7 +3,7 @@ import { css, keyframes } from '@emotion/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { ClubLogoProps, ContainerType } from '../../types/globalType';
+import { ClubArrayContainerProps, ClubLogoProps, ContainerType } from '../../types/globalType';
 import { Body1 } from '../emotion/GlobalStyle';
 import { ClubComponent, FlexWrapContainer, LoadingBox } from '../emotion/component';
 
@@ -53,37 +53,37 @@ export const LoadingContainer = () => (
   </FlexWrapContainer>
 );
 
-export const ClubArrayContainer = ({
-  clubArray,
-  index,
-}: {
-  clubArray: ClubLogoProps[];
-  index: number;
-}) => {
-  const slideAnimation1 = keyframes`
-    0% {
-      transform: translateX(1200px);
-    }
-    100% {
+export const ClubArrayContainer = ({ clubArray, index }: ClubArrayContainerProps) => {
+  const animation = keyframes`
+  0% {
       transform: translateX(0);
-    }
+  }
+  50% {
+      transform: translateX(-100%);
+  }
+  50.01%{
+      transform: translateX(100%);
+  }
+  100%{
+      transform: translateX(0);
+  }
   `;
-  const slideAnimation2 = keyframes`
-    0% {
-      transform: translateX(-1200px);
-    }
-    100% {
-      transform: translateX(-2400px);
-    }
-  `;
+
+  const animationBack = keyframes`
+      from { 
+          transform: translateX(0); 
+      }
+      to { 
+          transform: translateX(-200%); 
+      }
+    `;
   return (
     <div
       css={css`
         width: 120rem;
         display: flex;
         justify-content: space-around;
-        animation: ${index === 0 || index === 2 ? slideAnimation1 : slideAnimation2} 10s linear
-          infinite;
+        animation: ${index === 0 || index === 2 ? animation : animationBack} 20s linear infinite;
       `}
     >
       {clubArray.map((club: ClubLogoProps) => (
