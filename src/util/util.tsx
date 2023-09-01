@@ -55,18 +55,6 @@ export const RefreshTokenUtil = () => {
   }, []);
 };
 
-interface FetcherProps {
-  query: {
-    isLoading: boolean;
-    isError: boolean;
-    error?: any;
-    data?: any;
-  };
-  // eslint-disable-next-line no-unused-vars
-  children: (data: any) => React.ReactNode;
-  loading: React.ReactNode;
-}
-
 export const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
   const { isLoading, isError, error, data } = query;
 
