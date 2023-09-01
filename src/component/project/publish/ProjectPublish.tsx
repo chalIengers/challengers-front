@@ -82,17 +82,6 @@ const ProjectPublish = () => {
     e.preventDefault();
   };
 
-  const addHashTag = (e: any) => {
-    if (e.code !== 'Enter') return;
-
-    if (isEmptyValue(e.target.value.trim())) {
-      return setInputHashTag('');
-    }
-
-    const newHashTag = e.target.value;
-    setHashTag(PREV);
-  };
-
   // 하위 컴포넌트에서 데이터 가져오기
   const [data, setData] = useState('test');
 
@@ -313,14 +302,14 @@ const ProjectPublish = () => {
             />
 
             <Header2>사용된 기술 스택</Header2>
-            <input
+            {/* <input
               type="text"
               value={hashtag}
               onChange={onChangeHashtag}
               onKeyUp={onKeyUp}
               onKeyDown={onkeydown}
               placeholder="해시태그 입력"
-            />
+            /> */}
             <TextInputBox type="body1" text="사용한 기술 스택들을 입력해주세요" inputType="text" />
           </GridBox>
         </ContainerComponent>
