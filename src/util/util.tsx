@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Body1 } from '../component/emotion/GlobalStyle';
+import { useRefreshUserMutation } from '../store/signUpApi';
+import { getCookie } from '../store/cookie';
+import { setUser } from '../store/userSlice';
 
 // 경로에 변화가 생기거나 새로고침 시 페이지의 최상단으로 이동
 export const ScrollToTop = () => {
@@ -21,6 +25,36 @@ export const PreventAutoScroll = () => {
     };
   }, []);
 };
+
+export const RefreshTokenUtil = () => {
+  const dispatch = useDispatch();
+  const [refreshApi] = useRefreshUserMutation();
+
+  useEffect(() => {
+    const refreshToken = getCookie('refreshToken');
+    if (refreshToken) {
+      const fetchData = async () => {
+        try {
+          const { accessToken } = await refreshApi({ refreshToken }).unwrap('data');
+          dispatch(setUser({ accessToken }));
+        } catch (error) {
+          console.error('Error refreshing token:', error);
+        }
+      };
+
+      // 최초 실행
+      fetchData();
+      // 29분마다 실행
+      const interval = setInterval(fetchData, 29 * 60 * 1000);
+      // 컴포넌트가 unmount될 때 interval을 정리
+      return () => {
+        clearInterval(interval);
+      };
+    }
+    return () => {}; // 값을 반환
+  }, []);
+};
+
 interface FetcherProps {
   query: {
     isLoading: boolean;

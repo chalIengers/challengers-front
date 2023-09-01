@@ -9,6 +9,7 @@ import signUpApi from './signUpApi';
 import projectController from './projectController';
 import clubController from './clubController';
 import crewController from './crewController';
+import userSlice from './userSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,8 +17,9 @@ const store = configureStore({
     project: projectSlice,
     links: linkReducer,
     crews: crewReducer,
-    [publishApi.reducerPath]: publishApi.reducer,
     singup: signUpSlice,
+    user: userSlice,
+    [publishApi.reducerPath]: publishApi.reducer,
     [signUpApi.reducerPath]: signUpApi.reducer,
     [projectController.reducerPath]: projectController.reducer,
     [clubController.reducerPath]: clubController.reducer,
