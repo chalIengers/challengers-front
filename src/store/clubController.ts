@@ -1,8 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { RootState } from '.';
+import { getCookie } from './cookie';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/club/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/api/v1/club/',
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).user.accessToken;
+
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    },
+  }),
 
   endpoints: (builder) => ({
     getLogos: builder.query({
@@ -16,6 +29,17 @@ export const clubController = createApi({
         method: 'POST',
         body: newClubData,
       }),
+    }),
+    getMyClub: builder.query({
+      query: () => ({
+        url: 'get/club/my',
+        // 헤더 넣는 법 알기
+      }),
+    }),
+    getClubList: builder.query({
+      query: () => {
+        return { url: 'list' };
+      },
     }),
     getPendingUsers: builder.query({
       query: (clubId: string | undefined) => `join-requests/pending/users/${clubId}`,
@@ -39,6 +63,8 @@ export const clubController = createApi({
 export const {
   useGetLogosQuery,
   useCreateClubMutation,
+  useGetMyClubQuery,
+  useGetClubListQuery,
   useAcceptCrewMutation,
   useGetPendingUsersQuery,
   useRejectCrewMutation,
