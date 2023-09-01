@@ -52,18 +52,14 @@ export const ClubContainer = ({ children }: ContainerType) => {
 /**
  * 클럽 페이지의 클럽로고 + 버튼 컴포넌트
  */
-export const ClubBox = ({ text, key, name, clubImg, onClick, showToast }: ClubBoxProps) => {
+export const ClubBox = ({ id, name, logo, text, onClick, showToast }: ClubBoxProps) => {
   return (
     <ClubContainer>
-      <ClubComponent key={key} name={name} clubImg={clubImg} />
+      <ClubComponent id={id} name={name} logo={logo} />
       <ButtonBox text={text} type="small" onClick={onClick} />
       {showToast !== undefined ? showToast && <Toast /> : null}
     </ClubContainer>
   );
-};
-
-ClubBox.defaultProps = {
-  text: '클럽 가입 신청',
 };
 
 export const LinkTo = ({ to, children }: LinkToProps) => {

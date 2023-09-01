@@ -332,7 +332,7 @@ export const Banner = ({ large }: BannerProps) => {
  * @param name 가져올 이미지의 클럽명
  * @param clubImg 클럽 로고 이미지의 url
  */
-export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
+export const ClubComponent = ({ name, logo }: ClubComponentProps) => {
   return (
     <div
       css={css`
@@ -348,8 +348,8 @@ export const ClubComponent = ({ name, clubImg }: ClubComponentProps) => {
           object-fit: cover;
           filter: invert(0.1) brightness(10);
         `}
-        src={clubImg}
-        alt={name || clubImg}
+        src={logo}
+        alt={name || logo}
       />
     </div>
   );
