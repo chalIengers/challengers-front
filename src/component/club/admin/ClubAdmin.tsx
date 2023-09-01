@@ -1,46 +1,30 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Banner, TextBox } from '../../emotion/component';
 import { Inner, Header2, Section } from '../../emotion/GlobalStyle';
-import { ChallengersLogo, ClubAcceptBox, LeftArrow } from './component';
-import theme from '../../../styles/theme';
-import { useGetPendingUsersQuery } from '../../../store/clubController';
+import { ChallengersLogo, ClubAcceptBox, NavigateButton } from './component';
+import { useGetClubDetailQuery, useGetPendingUsersQuery } from '../../../store/clubController';
 
 const Index = () => {
   const { clubId } = useParams();
-  const navigate = useNavigate();
   const { data, isLoading } = useGetPendingUsersQuery(clubId);
-  const handleGoBackClick = () => {
-    navigate(-1);
-  };
+  const clubData = useGetClubDetailQuery(clubId);
+  // 클럽 이름
+  const clubName = clubData?.data?.clubName;
+  // 클럽 로고
+  const clubLogo = clubData?.data?.logoUrl;
+  console.log(clubData?.data);
   return (
     <Inner>
       <Banner />
       <Section gap="3.2">
         <TextBox>
-          <Header2>클럽 : 챌린저스</Header2>
-
-          <div
-            css={css`
-              display: flex;
-            `}
-          >
-            <LeftArrow />
-            <button
-              type="button"
-              css={css`
-                ${theme.typography.body1Bold}
-              `}
-              onClick={handleGoBackClick}
-            >
-              뒤로가기
-            </button>
-          </div>
+          <Header2>클럽 : {clubName} </Header2>
+          <NavigateButton />
         </TextBox>
 
-        <ChallengersLogo />
+        <ChallengersLogo src={clubLogo} />
         {isLoading ? (
           '로딩중'
         ) : (

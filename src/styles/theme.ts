@@ -71,6 +71,7 @@ export const theme: DefaultTheme = {
       400: '#bdbdbd',
       300: '#e0e0e0',
       200: '#eeeeee',
+      150: '#f2f2f2',
       100: '#f5f5f5',
       50: '#fafafa',
       black: '#000000',

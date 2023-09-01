@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, selectModal } from '../../store/modalSlice';
 import {
+  CommentModal,
   CreateClubModal,
   ModalContainer,
   Overlay,
@@ -13,6 +14,7 @@ const MODAL_TYPES = {
   CreateClubModal: 'CreateClubModal',
   RegisterModal: 'RegisterModal',
   RegisterSuccessModal: 'RegisterSuccessModal',
+  CommentModal: 'CommentModal',
 };
 
 const MODAL_COMPONENTS = [
@@ -27,6 +29,10 @@ const MODAL_COMPONENTS = [
   {
     type: MODAL_TYPES.RegisterSuccessModal,
     component: <RegisterSuccessModal />,
+  },
+  {
+    type: MODAL_TYPES.CommentModal,
+    component: <CommentModal />,
   },
 ];
 

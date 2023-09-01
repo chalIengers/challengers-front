@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { ButtonBox } from '../../emotion/component';
 import { Body1 } from '../../emotion/GlobalStyle';
 import { ClubContainer } from '../emotion/component';
 import { useAcceptCrewMutation, useRejectCrewMutation } from '../../../store/clubController';
+import theme from '../../../styles/theme';
+import { openModal } from '../../../store/modalSlice';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트
@@ -18,17 +22,22 @@ export const ClubAcceptBox = ({
   name: string;
   id: string | undefined;
 }) => {
+  const dispatch = useDispatch();
   const [acceptCrew] = useAcceptCrewMutation();
   const [rejectCrew] = useRejectCrewMutation();
+  const handleCommentClick = () => {
+    dispatch(openModal({ modalType: 'CommentModal' }));
+  };
   const handleAcceptClick = async () => {
     try {
       const data = {
         clubId: id,
         email,
       };
-      const response = await acceptCrew(data);
+      const response: any = await acceptCrew(data);
       console.log(data);
       console.log(response);
+      alert(response.data?.msg);
     } catch (err) {
       console.log(err);
     }
@@ -39,9 +48,10 @@ export const ClubAcceptBox = ({
         clubId: id,
         email,
       };
-      const response = await rejectCrew(data);
+      const response: any = await rejectCrew(data);
       console.log(data);
       console.log(response);
+      alert(response.data.msg);
     } catch (err) {
       console.log(err);
     }
@@ -58,6 +68,7 @@ export const ClubAcceptBox = ({
           gap: 1.6rem;
         `}
       >
+        <ButtonBox text="등록된 가입 코멘트 보기" type="very_small" onClick={handleCommentClick} />
         <ButtonBox text="수락" type="very_small" onClick={handleAcceptClick} />
         <ButtonBox text="거절" type="very_small" onClick={handleRejectClick} />
       </div>
@@ -68,10 +79,10 @@ export const ClubAcceptBox = ({
 /**
  * 클럽 관리자 페이지 안에 있는 logo 컴포넌트
  */
-export const ChallengersLogo = () => (
+export const ChallengersLogo = ({ src }: { src: string }) => (
   <img
-    alt="챌린저스 로고"
-    src={`${process.env.PUBLIC_URL}/img/logo.png`}
+    alt="클럽 로고"
+    src={src}
     css={css`
       width: 24rem;
       margin: auto;
@@ -80,11 +91,39 @@ export const ChallengersLogo = () => (
   />
 );
 
-export const LeftArrow = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path
-      d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
-      fill="white"
-    />
-  </svg>
-);
+/* 뒤로가기 버튼 */
+export const NavigateButton = () => {
+  const navigate = useNavigate();
+  const handleGoBackClick = () => {
+    navigate('/club');
+  };
+  return (
+    <div
+      css={css`
+        display: flex;
+      `}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          d="M15.1001 2.76667L8.53343 9.33333L15.1001 15.9L13.3334 17.6667L5.0001 9.33333L13.3334 1L15.1001 2.76667Z"
+          fill="white"
+        />
+      </svg>
+      <button
+        type="button"
+        css={css`
+          ${theme.typography.body1Bold}
+        `}
+        onClick={handleGoBackClick}
+      >
+        뒤로가기
+      </button>
+    </div>
+  );
+};

@@ -11,6 +11,7 @@ import { closeModal, openModal } from '../../store/modalSlice';
 import { signData } from '../../store/signUpSlice';
 import { useCreateUserMutation, useRequestUserMutation } from '../../store/signUpApi';
 import { ErrorDescription } from '../club/signUp/component';
+import { useGetCommentQuery } from '../../store/clubController';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -29,6 +30,18 @@ export const ModalContainer = ({ children }: ContainerType) => {
 };
 
 export const Overlay = ({ onClick }: { onClick: React.MouseEventHandler<HTMLDivElement> }) => {
+  useEffect(() => {
+    document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
+
   return (
     <div
       role="presentation"
@@ -39,6 +52,7 @@ export const Overlay = ({ onClick }: { onClick: React.MouseEventHandler<HTMLDivE
         left: 0;
         width: 100%;
         height: 100%;
+        overflow: hidden;
       `}
       onClick={onClick}
     />
@@ -130,6 +144,54 @@ export const RegisterSuccessModal = () => {
           챌린저스의 일원이 되신 것을 감사드려요
           <br /> 3초 뒤에 메인 화면으로 이동합니다 =&#41;
         </Body2>
+      </Section>
+    </div>
+  );
+};
+
+const CommentTextArea = () => {
+  const data = useGetCommentQuery('34');
+  console.log(data);
+  return (
+    <textarea
+      css={css`
+        width: 100%;
+        height: 30rem;
+        resize: none;
+        padding: 2.4rem;
+        border-radius: 0.8rem;
+        background: ${theme.palette.gray[150]};
+        line-height: 2;
+        ${theme.typography.body2}
+      `}
+      readOnly
+    ></textarea>
+  );
+};
+export const CommentModal = () => {
+  const dispatch = useDispatch();
+  const handleCloseClick = () => {
+    dispatch(closeModal());
+  };
+  return (
+    <div css={ModalBackGround}>
+      <Section gap="2.4">
+        <Header1
+          style={css`
+            color: ${theme.palette.gray[900]};
+            text-align: center;
+          `}
+        >
+          김멋사님의 가입 코멘트
+        </Header1>
+        <CommentTextArea></CommentTextArea>
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
+          <ButtonBox text="확인했어요" type="large_modal" onClick={handleCloseClick} />
+        </div>
       </Section>
     </div>
   );

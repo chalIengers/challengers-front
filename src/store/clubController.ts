@@ -5,9 +5,30 @@ export const clubController = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/club/' }),
 
   endpoints: (builder) => ({
+    getComment: builder.query({
+      query: (requestId: string | undefined) => {
+        return {
+          url: `join-requests/commment/${requestId}`,
+          headers: {
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+          },
+        };
+      },
+    }),
     getLogos: builder.query({
       query: () => {
         return { url: 'get/logo/all' };
+      },
+    }),
+    getClubDetail: builder.query({
+      query: (clubId: string | undefined) => {
+        return {
+          url: 'get',
+          params: { id: clubId },
+          headers: {
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+          },
+        };
       },
     }),
     createClub: builder.mutation({
@@ -18,18 +39,31 @@ export const clubController = createApi({
       }),
     }),
     getPendingUsers: builder.query({
-      query: (clubId: string | undefined) => `join-requests/pending/users/${clubId}`,
+      query: (clubId: string | undefined) => ({
+        url: `join-requests/pending/users/${clubId}`,
+        headers: {
+          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+        },
+      }),
     }),
     acceptCrew: builder.mutation({
       query: (data) => ({
-        url: `accept/join-requests/${data.clubId}?addUserEmail=${data.email}`,
+        url: `join-requests/accept/${data.clubId}`,
         method: 'POST',
+        params: { addUserEmail: data.email },
+        headers: {
+          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+        },
       }),
     }),
     rejectCrew: builder.mutation({
       query: (data) => ({
-        url: `reject/join-requests/${data.clubId}?rejectUserEmail=${data.email}`,
+        url: `join-requests/reject/${data.clubId}`,
         method: 'DELETE',
+        params: { rejectUserEmail: data.email },
+        headers: {
+          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+        },
       }),
     }),
   }),
@@ -38,10 +72,12 @@ export const clubController = createApi({
 // 자동으로 생성되는 훅을 사용하기 위해서 export 합니다.
 export const {
   useGetLogosQuery,
+  useGetClubDetailQuery,
   useCreateClubMutation,
   useAcceptCrewMutation,
   useGetPendingUsersQuery,
   useRejectCrewMutation,
+  useGetCommentQuery,
 } = clubController;
 
 export default clubController;
