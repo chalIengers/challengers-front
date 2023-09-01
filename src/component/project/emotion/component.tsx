@@ -67,7 +67,22 @@ export const InfoUpperContainer = ({ children }: ContainerType) => {
     </div>
   );
 };
-
+export const InfoUpperContainer2 = ({ children }: ContainerType) => {
+  return (
+    <div
+      css={css`
+        padding: 1.8rem;
+        border-radius: 1.4rem 1.4rem 0 0;
+        background: ${theme.palette.primary[500]};
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
 export const InfoDownContainer = ({ children, fixHeight }: InfoDownContainerType) => {
   return (
     <div
@@ -96,18 +111,22 @@ export const InfoInput = ({
   placeholder,
   large,
   value,
+  color,
   onChange,
 }: {
   placeholder: string;
   large?: boolean;
   value?: string;
+  color?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => (
   <input
     css={css`
       background-color: transparent;
+      width: 24rem;
       ${large ? theme.typography.header2 : theme.typography.body2};
+      color: ${color};
       &::placeholder {
         color: #cbcbcb;
       }

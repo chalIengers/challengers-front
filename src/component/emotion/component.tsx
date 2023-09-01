@@ -369,7 +369,21 @@ export const GridBox = ({ children }: ContainerType) => {
     </div>
   );
 };
-
+export const GridBox2 = ({ children }: ContainerType) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        gap: 3.2rem;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
 export const TextInputBox = ({
   type,
   text,
