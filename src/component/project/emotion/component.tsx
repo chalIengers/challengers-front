@@ -2,6 +2,7 @@
 
 import { css } from '@emotion/react';
 import React from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import theme from '../../../styles/theme';
 import {
   ContainerType,
@@ -113,11 +114,13 @@ export const InfoInput = ({
   value,
   color,
   onChange,
+  register,
 }: {
   placeholder: string;
   large?: boolean;
   value?: string;
   color?: string;
+  register?: UseFormRegisterReturn;
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => (
@@ -132,8 +135,10 @@ export const InfoInput = ({
       }
     `}
     placeholder={placeholder}
-    value={value}
-    onChange={onChange}
+    // value={value}
+    // onChange={onChange}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...register}
   />
 );
 
