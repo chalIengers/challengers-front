@@ -10,10 +10,13 @@ import {
   LoadingContainer,
   ClubArrayContainer,
 } from './component';
-import { useGetVideosByTopViewQuery, useGetVideosQuery } from '../../store/projectController';
+import {
+  useGetVideosByTopViewQuery,
+  useGetVideosQuery,
+} from '../../store/controller/projectController';
 import { ProjectBoxProps } from '../../types/globalType';
 import { ApiFetcher } from '../../util/util';
-import { useGetLogosQuery } from '../../store/clubController';
+import { useGetLogosQuery } from '../../store/controller/clubController';
 
 const Index = () => {
   return (

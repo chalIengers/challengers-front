@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { SignUpState } from '../types/globalType'; // 실제 경로에 맞게 수정해야 합니다.
-import { RootState } from '.';
+import { SignUpState } from '../../types/globalType'; // 실제 경로에 맞게 수정해야 합니다.
+import { RootState } from '..';
 
 const initialState: SignUpState = {
   email: '',

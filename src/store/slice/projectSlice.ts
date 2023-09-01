@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProjectBoxProps, ProjectsState } from '../types/globalType';
-import { RootState } from '.';
+import { ProjectBoxProps, ProjectsState } from '../../types/globalType';
+import { RootState } from '..';
 
 const initialState: ProjectsState = {
   projects: [],

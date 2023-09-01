@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import modalSlice from './modalSlice';
-import projectSlice from './projectSlice';
-import publishApi from './commonApi';
-import linkReducer from './linkSlice';
-import crewReducer from './crewSlice';
-import signUpSlice from './signUpSlice';
-import signUpApi from './signUpApi';
-import projectController from './projectController';
-import clubController from './clubController';
-import crewController from './crewController';
-import userSlice from './userSlice';
+import modalSlice from './slice/modalSlice';
+import projectSlice from './slice/projectSlice';
+import publishApi from './controller/commonController';
+import linkReducer from './slice/linkSlice';
+import crewReducer from './slice/crewSlice';
+import signUpSlice from './slice/signUpSlice';
+import signUpApi from './controller/signUpController';
+import projectController from './controller/projectController';
+import clubController from './controller/clubController';
+import crewController from './controller/crewController';
+import userSlice from './slice/userSlice';
 
 const store = configureStore({
   reducer: {

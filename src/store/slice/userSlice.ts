@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '.';
-import { removeCookie } from './cookie';
+import { RootState } from '..';
+import { removeCookie } from '../cookie';
 
 type InitialState = {
   accessToken: string | null;

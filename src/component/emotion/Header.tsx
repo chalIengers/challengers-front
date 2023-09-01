@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ContainerType, NavItemProps, StyleContainerType } from '../../types/globalType';
 import theme from '../../styles/theme';
-import { logout, selectUser } from '../../store/userSlice';
+import { logout, selectUser } from '../../store/slice/userSlice';
 
 const Nav = ({ children, style }: StyleContainerType) => {
   return (

@@ -32,11 +32,11 @@ import {
   LinkInputBox2,
 } from './component';
 import { useImageUpload } from './hook';
-import { useFileUploadMutation } from '../../../store/commonApi';
+import { useFileUploadMutation } from '../../../store/controller/commonController';
 import { initialProjectData } from '../../../types/globalType';
-import { selectLinks } from '../../../store/linkSlice';
-import { selectCrews } from '../../../store/crewSlice';
-import { useCreatePublishMutation } from '../../../store/projectController';
+import { selectLinks } from '../../../store/slice/linkSlice';
+import { selectCrews } from '../../../store/slice/crewSlice';
+import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import {
   InfoContainer,
   InfoDownContainer,

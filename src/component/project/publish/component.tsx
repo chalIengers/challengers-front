@@ -16,8 +16,8 @@ import {
 } from '../emotion/component';
 import { TeamMember, TextInputBoxType, initialLink } from '../../../types/globalType';
 import { extractSubstring } from './hook';
-import { addLink } from '../../../store/linkSlice';
-import { addCrew } from '../../../store/crewSlice';
+import { addLink } from '../../../store/slice/linkSlice';
+import { addCrew } from '../../../store/slice/crewSlice';
 
 export const Overlay = ({ addInfo, onClick }: { addInfo: boolean | undefined; onClick?: any }) => {
   if (!addInfo) {

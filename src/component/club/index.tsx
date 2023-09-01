@@ -4,7 +4,7 @@ import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
 import { ClubBox, LinkTo } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
-import { useGetClubListQuery, useGetMyClubQuery } from '../../store/clubController';
+import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps } from '../../types/globalType';
 
 const Index = () => {

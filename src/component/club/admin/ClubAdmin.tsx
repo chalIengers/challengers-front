@@ -4,7 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Banner, TextBox } from '../../emotion/component';
 import { Inner, Header2, Section } from '../../emotion/GlobalStyle';
 import { ChallengersLogo, ClubAcceptBox, NavigateButton } from './component';
-import { useGetClubDetailQuery, useGetPendingUsersQuery } from '../../../store/clubController';
+import {
+  useGetClubDetailQuery,
+  useGetPendingUsersQuery,
+} from '../../../store/controller/clubController';
 
 const Index = () => {
   const { clubId } = useParams();

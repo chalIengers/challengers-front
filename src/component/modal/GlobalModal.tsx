@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal, selectModal } from '../../store/modalSlice';
+import { closeModal, selectModal } from '../../store/slice/modalSlice';
 import {
   CommentModal,
   CreateClubModal,

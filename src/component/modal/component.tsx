@@ -7,11 +7,14 @@ import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
 import { Body1, Body2, Header1, Section } from '../emotion/GlobalStyle';
-import { closeModal, openModal } from '../../store/modalSlice';
-import { signData } from '../../store/signUpSlice';
-import { useCreateUserMutation, useRequestUserMutation } from '../../store/signUpApi';
-import { ErrorDescription } from '../club/signUp/component';
-import { useGetCommentQuery } from '../../store/clubController';
+import { closeModal, openModal } from '../../store/slice/modalSlice';
+import { signData } from '../../store/slice/signUpSlice';
+import {
+  useCreateUserMutation,
+  useRequestUserMutation,
+} from '../../store/controller/signUpController';
+import { ErrorDescription } from '../signUp/component';
+import { useGetCommentQuery } from '../../store/controller/clubController';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (

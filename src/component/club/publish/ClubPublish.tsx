@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Banner, ButtonBox } from '../../emotion/component';
 import { Inner, Body1, Header1, Section } from '../../emotion/GlobalStyle';
 import { ClubInfoInput, ClubLogoPreView } from './component';
-import { openModal } from '../../../store/modalSlice';
+import { openModal } from '../../../store/slice/modalSlice';
 // import { useCreateClubMutation } from '../../../store/clubPublishApi';
 
 const Publish = () => {

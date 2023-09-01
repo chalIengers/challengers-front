@@ -4,7 +4,7 @@ import {
   useGetVideosByTopViewInfinityQuery,
   useGetVideosByTopViewQuery,
   useGetVideosInfinityQuery,
-} from '../../store/projectController';
+} from '../../store/controller/projectController';
 
 export function useSelectBoxes() {
   const { sort } = useParams();

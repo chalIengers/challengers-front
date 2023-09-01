@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useLoginUserMutation } from '../../store/signUpApi';
+import { useLoginUserMutation } from '../../store/controller/signUpController';
 import { setCookie } from '../../store/cookie';
-import { setUser } from '../../store/userSlice';
+import { setUser } from '../../store/slice/userSlice';
 
 const useLoginLogic = () => {
   const { register, handleSubmit } = useForm({ mode: 'onChange' });

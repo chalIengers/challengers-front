@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Body1 } from '../component/emotion/GlobalStyle';
 import { FetcherProps } from '../types/globalType';
-import { useRefreshUserMutation } from '../store/signUpApi';
+import { useRefreshUserMutation } from '../store/controller/signUpController';
 import { getCookie } from '../store/cookie';
-import { setUser } from '../store/userSlice';
+import { setUser } from '../store/slice/userSlice';
 
 // 경로에 변화가 생기거나 새로고침 시 페이지의 최상단으로 이동
 export const ScrollToTop = () => {

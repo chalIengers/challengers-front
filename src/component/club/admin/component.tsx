@@ -6,9 +6,12 @@ import { useDispatch } from 'react-redux';
 import { ButtonBox } from '../../emotion/component';
 import { Body1 } from '../../emotion/GlobalStyle';
 import { ClubContainer } from '../emotion/component';
-import { useAcceptCrewMutation, useRejectCrewMutation } from '../../../store/clubController';
+import {
+  useAcceptCrewMutation,
+  useRejectCrewMutation,
+} from '../../../store/controller/clubController';
 import theme from '../../../styles/theme';
-import { openModal } from '../../../store/modalSlice';
+import { openModal } from '../../../store/slice/modalSlice';
 
 /**
  * 클럽 회원신청를 수락/거절 할 수 있는 컴포넌트

@@ -4,18 +4,12 @@ import { css } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {
-  Banner,
-  ButtonBox,
-  ContainerComponent,
-  GridBox,
-  TextInputBox,
-} from '../../emotion/component';
-import { Inner, Body1, Header2, Section, Header1 } from '../../emotion/GlobalStyle';
-import { openModal } from '../../../store/modalSlice';
+import { Banner, ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../emotion/component';
+import { Inner, Body1, Header2, Section, Header1 } from '../emotion/GlobalStyle';
+import { openModal } from '../../store/slice/modalSlice';
 import { CollectDescription, ErrorDescription } from './component';
-import { setEmail, setPassword, setUserName } from '../../../store/signUpSlice';
-import { useRequestUserMutation } from '../../../store/signUpApi';
+import { setEmail, setPassword, setUserName } from '../../store/slice/signUpSlice';
+import { useRequestUserMutation } from '../../store/controller/signUpController';
 
 const Signup = () => {
   const dispatch = useDispatch();

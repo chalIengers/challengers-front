@@ -20,9 +20,9 @@ import {
   ProjectLinkButton,
   TeamInfoBox,
 } from './component';
-import { useGetCrewQuery } from '../../../store/crewController';
+import { useGetCrewQuery } from '../../../store/controller/crewController';
 import { InfoContainer, InfoUpperContainer } from '../emotion/component';
-import { useGetVideoQuery } from '../../../store/projectController';
+import { useGetVideoQuery } from '../../../store/controller/projectController';
 
 const Detail = () => {
   const { id } = useParams();

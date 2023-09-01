@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '.';
-import { getCookie } from './cookie';
+import { RootState } from '..';
+import { getCookie } from '../cookie';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
