@@ -100,15 +100,15 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  name?: string;
-  clubImg: string;
+  id: number | string;
+  name: string;
+  logo: string;
 }
 
 export interface ClubBoxProps extends ClubComponentProps {
   text: string;
-  key: number;
   showToast?: boolean;
-  onClick(): void;
+  onClick?: () => void;
 }
 
 export interface SectionType extends ContainerType {
