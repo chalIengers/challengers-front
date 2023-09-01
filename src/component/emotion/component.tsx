@@ -241,14 +241,18 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
       ${theme.typography.body1Bold}
     `,
     very_small: css`
-      width: 9.6rem;
-      height: 5.6rem;
+      padding: 1.7rem 3.4rem;
       ${theme.typography.body1Bold};
     `,
     auto: css`
       flex: 1 0 auto;
       color: ${cancel && theme.palette.gray.black};
       background-color: ${cancel && theme.palette.gray[300]};
+    `,
+    large_modal: css`
+      width: 100%;
+      padding: 2rem 22.4rem;
+      ${theme.typography.header2}
     `,
   };
 
