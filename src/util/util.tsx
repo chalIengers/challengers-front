@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Body1 } from '../component/emotion/GlobalStyle';
+import { FetcherProps } from '../types/globalType';
 import { useRefreshUserMutation } from '../store/signUpApi';
 import { getCookie } from '../store/cookie';
 import { setUser } from '../store/userSlice';
@@ -25,7 +26,6 @@ export const PreventAutoScroll = () => {
     };
   }, []);
 };
-
 export const RefreshTokenUtil = () => {
   const dispatch = useDispatch();
   const [refreshApi] = useRefreshUserMutation();
