@@ -18,7 +18,7 @@ import {
   TagList,
   FlexWrapContainer,
 } from '../../emotion/component';
-import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
+import { Body5, Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import {
   LinkInputBox,
   TeamInfoInputBox,
@@ -37,6 +37,14 @@ import { initialProjectData } from '../../../types/globalType';
 import { selectLinks } from '../../../store/linkSlice';
 import { selectCrews } from '../../../store/crewSlice';
 import { useCreatePublishMutation } from '../../../store/projectController';
+import {
+  InfoContainer,
+  InfoDownContainer,
+  InfoInput,
+  InfoUpperContainer,
+} from '../emotion/component';
+import { TeamInfoBox } from '../detail/component';
+import theme from '../../../styles/theme';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
@@ -78,6 +86,15 @@ const ProjectPublish = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'projectCrew',
+  });
+
+  const {
+    fields: crewInfoFields,
+    append: appendCrewInfo,
+    remove: removeCrewInfo,
+  } = useFieldArray({
+    control,
+    name: 'projectCrewInfo',
   });
 
   const {
@@ -316,27 +333,68 @@ const ProjectPublish = () => {
             ref={editorRef}
           />
         </ContainerComponent>
+
         <ContainerComponent>
           <Header1>팀원구성</Header1>
 
           <FlexWrapContainer>
             {fields.map((field, index) => (
-              <div key={field.id}>
-                <TeamInfoInputBox2
-                  control={control}
-                  indexs={index}
-                  onClick={() => {
-                    append({ name: '' });
-                  }}
-                  remove={() => remove(index)}
-                />
-              </div>
+              <InfoContainer key={field.id}>
+                <InfoUpperContainer>
+                  <InfoInput
+                    placeholder="역할을 선택해주세요"
+                    large
+                    color={`${theme.palette.gray.white}`}
+                    register={register(`projectCrew[${index}.position`, {
+                      required: true,
+                    })}
+                  />
+                </InfoUpperContainer>
+
+                <InfoDownContainer>
+                  {crewInfoFields.map((crew, crewIndex) => {
+                    return (
+                      <Section gap="0.8" key={crew.id}>
+                        <InfoInput
+                          placeholder="이름을 입력해주세요"
+                          large
+                          register={register(`projectCrewInfo[${index}][${crewIndex}].name`)}
+                        />
+                        <InfoInput
+                          placeholder="어떤 역할을 했나요?"
+                          register={register(`projectCrewInfo[${index}][${crewIndex}].role`)}
+                        />
+                      </Section>
+                    );
+                  })}
+
+                  <Body5
+                    style={css`
+                      ${theme.typography.body2};
+                      color: ${theme.palette.primary[500]};
+                      text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
+                      text-underline-offset: 0.5rem;
+                      :hover {
+                        cursor: pointer;
+                      }
+                    `}
+                    onClick={() => {
+                      appendCrewInfo({});
+                    }}
+                  >
+                    해당 포지션에 팀원을 더 추가하고 싶어요
+                  </Body5>
+                </InfoDownContainer>
+
+                {/* <Overlay addInfo={addInfo} onClick={onClick} /> */}
+
+                {/* <TeamInfoBox teamInfo={data[key]} /> */}
+              </InfoContainer>
             ))}
             <TeamInfoInputBox2
               addInfo
-              control={control}
               onClick={() => {
-                append({ name: '' });
+                append({ position: '' });
               }}
             />
           </FlexWrapContainer>

@@ -687,75 +687,24 @@ export const ChildComponent3 = ({ control }: { control: any }) => {
 export const TeamInfoInputBox2 = ({
   addInfo,
   onClick,
-  control,
-  indexs,
-  remove,
 }: {
   addInfo?: boolean;
   onClick?: () => void;
-  control?: any;
-  indexs?: any;
-  remove?: (index: number) => void;
 }) => {
   return (
     <InfoContainer>
       <InfoUpperContainer2>
-        <Controller
-          control={control}
-          name={`projectCrew[${indexs}].position`}
-          render={({ field: { onChange, value } }) => (
-            <InfoInput
-              placeholder="역할을 선택해주세요"
-              large
-              value={value}
-              color={`${theme.palette.gray.white}`}
-              onChange={(e) => {
-                onChange(e.target.value);
-              }}
-            />
-          )}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            if (remove) {
-              remove(indexs);
-            }
-          }}
-        >
+        <InfoInput placeholder="역할을 선택해주세요" large color={`${theme.palette.gray.white}`} />
+        <button type="button">
           <img src="/img/close.png" alt="Close Icon" />
         </button>
       </InfoUpperContainer2>
 
       <InfoDownContainer>
         <Section gap="0.8">
-          <Controller
-            control={control}
-            name={`projectCrew[${indexs}].name`}
-            render={({ field: { onChange, value } }) => (
-              <InfoInput
-                placeholder="이름을 입력해주세요"
-                large
-                value={value}
-                onChange={(e) => {
-                  onChange(e.target.value);
-                }}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name={`projectCrew[${indexs}].role`}
-            render={({ field: { onChange, value } }) => (
-              <InfoInput
-                placeholder="어떤 역할을 했나요?"
-                value={value}
-                onChange={(e) => {
-                  onChange(e.target.value);
-                }}
-              />
-            )}
-          />
+          <InfoInput placeholder="이름을 입력해주세요" large />
+          <InfoInput placeholder="어떤 역할을 했나요?" />
+
           {!addInfo && (
             <Body5
               style={css`
