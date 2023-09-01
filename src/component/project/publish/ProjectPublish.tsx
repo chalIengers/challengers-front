@@ -52,6 +52,9 @@ const ProjectPublish = () => {
     test: '',
   });
 
+  const [inputHashTag, setInputHashTag] = useState('');
+  const [hashTags, setHashTags] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -64,6 +67,22 @@ const ProjectPublish = () => {
   const onSubmit = (data: any) => {
     setFormData(data);
     console.log(data);
+  };
+
+  const onkeyDown = (e: any) => {
+    if (e.code !== 'Enter') return;
+    e.preventDefault();
+  };
+
+  const addHashTag = (e: any) => {
+    if (e.code !== 'Enter') return;
+
+    if (isEmptyValue(e.target.value.trim())) {
+      return setInputHashTag('');
+    }
+
+    const newHashTag = e.target.value;
+    setHashTag(PREV);
   };
 
   // 하위 컴포넌트에서 데이터 가져오기
@@ -267,7 +286,7 @@ const ProjectPublish = () => {
             <Header2>프로젝트 기간</Header2>
             <TextInputBox
               type="body1"
-              text="프로젝트 현재 상태를 입력해주세요"
+              text="프로젝트 제작 기간을 입력해주세요"
               size={40}
               max={20}
               inputType="text"
@@ -277,37 +296,19 @@ const ProjectPublish = () => {
             />
 
             <Header2>사용된 기술 스택</Header2>
-
-            {StackFields.map((field, index) => (
-              <div key={field.id}>
-                <div>
-                  <TextInputBox
-                    type="body1"
-                    text="사용된 기술 스택을 입력해주세요"
-                    size={25}
-                    max={25}
-                    register={register(`projectTechStack[${index}].name`, {
-                      required: true,
-                    })}
-                  />
-                </div>
-                {index > 0 && (
-                  <div style={{ display: 'flex' }}>
-                    <button type="button" onClick={() => removeStack(index)}>
-                      <img src="/img/close.png" alt="Close Icon" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-            <button type="button" onClick={() => appendStack({ name: '' })}>
-              <img src="/img/plus2.png" alt="Open Icon" style={{ width: '2rem' }} />
-            </button>
+            <input
+              type="text"
+              value={hashtag}
+              onChange={onChangeHashtag}
+              onKeyUp={onKeyUp}
+              onKeyDown={onkeydown}
+              placeholder="해시태그 입력"
+            />
+            <TextInputBox type="body1" text="사용한 기술 스택들을 입력해주세요" inputType="text" />
           </GridBox>
         </ContainerComponent>
         <ContainerComponent>
           <Header1>프로젝트 설명</Header1>
-
           <Editor
             environmentColor="dark"
             placeholder="프로젝트 설명을 입력해주세요"
