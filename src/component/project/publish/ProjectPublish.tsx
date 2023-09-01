@@ -61,7 +61,7 @@ const ProjectPublish = () => {
   });
 
   const [inputHashTag, setInputHashTag] = useState('');
-  const [hashTags, setHashTags] = useState([]);
+  const [StackTags, setHashTags] = useState([]);
 
   const {
     register,
