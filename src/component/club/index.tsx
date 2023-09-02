@@ -12,6 +12,7 @@ import { selectUser } from '../../store/slice/userSlice';
 const Index = () => {
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
+  const clubQuery = useGetMyClubQuery({ accessToken });
 
   const ShowToast = () => {
     setShowToast(true);
@@ -19,31 +20,28 @@ const Index = () => {
       setShowToast(false);
     }, 3000);
   };
-
-  let content = null;
+  let myClubContent = null;
 
   if (!accessToken) {
-    content = <div>로그인을 해주세요</div>;
+    myClubContent = <div>로그인을 해주세요</div>;
+  } else if (clubQuery.isLoading) {
+    myClubContent = <div>로딩중...</div>;
+  } else if (clubQuery.isError) {
+    myClubContent = <div>Api 통신 에러!</div>;
+  } else if (clubQuery.data) {
+    myClubContent = clubQuery.data.map((club: ClubComponentProps) => (
+      <ClubBox
+        key={club.id}
+        id={club.id}
+        name={club.name}
+        text="클럽 가입 신청"
+        logo={club.logo}
+        onClick={ShowToast}
+        showToast={showToast}
+      />
+    ));
   } else {
-    content = (
-      <ApiFetcher query={useGetMyClubQuery({ accessToken })} loading={<div>로딩중...</div>}>
-        {(data) => {
-          if (data) {
-            return data.map((club: ClubComponentProps) => (
-              <ClubBox
-                id={club.id}
-                name={club.name}
-                text="클럽 가입 신청"
-                logo={club.logo}
-                onClick={ShowToast}
-                showToast={showToast}
-              />
-            ));
-          }
-          return <div>소속된 클럽이 없습니다</div>;
-        }}
-      </ApiFetcher>
-    );
+    myClubContent = <div>소속된 클럽이 없습니다</div>;
   }
 
   const clubJoinButton = () => {};
@@ -52,7 +50,7 @@ const Index = () => {
       <Banner />
       <Section gap="4.8">
         <Header1>내가 소속된 클럽</Header1>
-        {content}
+        {myClubContent}
       </Section>
 
       <Section gap="3.2">
@@ -64,6 +62,7 @@ const Index = () => {
           {(data) =>
             data.map((club: ClubComponentProps) => (
               <ClubBox
+                key={club.id}
                 id={club.id}
                 name={club.name}
                 text="클럽 가입 신청"
