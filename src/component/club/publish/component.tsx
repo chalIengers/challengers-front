@@ -5,53 +5,8 @@ import theme from '../../../styles/theme';
 import { ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
 import { Header2, Body2, Header1, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
-import { ClubImageProps } from '../../../types/globalType';
 
-const ClubImage = ({ onClick, imgFileSrc }: ClubImageProps) => (
-  <button
-    type="button"
-    onClick={onClick}
-    css={css`
-      width: 16rem;
-      height: 16rem;
-      border-radius: 1.2rem;
-      background: ${theme.palette.gray[900]};
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    `}
-  >
-    {imgFileSrc ? (
-      <img
-        src={imgFileSrc}
-        alt={imgFileSrc}
-        css={css`
-          max-width: 100%;
-          max-height: 100%;
-        `}
-      />
-    ) : (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="60"
-        height="60"
-        viewBox="0 0 60 60"
-        fill="none"
-      >
-        <path
-          d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
-          stroke="#8F8E8E"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    )}
-  </button>
-);
-
-export const ClubLogoPreView = () => {
+const ImageUpload = () => {
   const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -69,12 +24,66 @@ export const ClubLogoPreView = () => {
     }
   };
 
-  const handleDivClick = () => {
+  const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      css={css`
+        width: 16rem;
+        height: 16rem;
+        border-radius: 1.2rem;
+        background: ${theme.palette.gray[900]};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      `}
+    >
+      {imgFileSrc ? (
+        <img
+          src={imgFileSrc}
+          alt={imgFileSrc}
+          css={css`
+            max-width: 100%;
+            max-height: 100%;
+          `}
+        />
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="60"
+          height="60"
+          viewBox="0 0 60 60"
+          fill="none"
+        >
+          <path
+            d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
+            stroke="#8F8E8E"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+      <input
+        type="file"
+        accept="image/git, image/jpeg, image/png"
+        ref={fileInputRef}
+        onChange={handleFileSelect}
+        css={css`
+          display: none;
+        `}
+      />
+    </button>
+  );
+};
 
+export const ClubLogoPreView = () => {
   return (
     <Section gap="1.6">
       <div
@@ -85,15 +94,7 @@ export const ClubLogoPreView = () => {
           color: ${theme.palette.gray[400]};
         `}
       >
-        <ClubImage onClick={handleDivClick} imgFileSrc={imgFileSrc} />
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileSelect}
-          css={css`
-            display: none;
-          `}
-        />
+        <ImageUpload />
         <Body2>
           클럽에서 사용되는 로고를 등록해주세요
           <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요

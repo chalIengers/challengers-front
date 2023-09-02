@@ -170,10 +170,6 @@ export interface LinkToProps extends ContainerType {
   to: string;
 }
 
-export interface ClubImageProps {
-  onClick: () => void;
-  imgFileSrc?: string;
-}
 export interface TeamMember {
   id: number;
   name: string;
