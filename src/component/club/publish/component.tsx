@@ -10,10 +10,15 @@ const ImageUpload = () => {
   const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
+      if (!file.type.includes('image/')) {
+        alert('이미지 파일 형식이 아닙니다.');
+        return;
+      }
       const reader = new FileReader();
 
       reader.onload = (event) => {
@@ -72,7 +77,7 @@ const ImageUpload = () => {
       )}
       <input
         type="file"
-        accept="image/git, image/jpeg, image/png"
+        accept="image/gif, image/jpeg, image/png, image/bmp"
         ref={fileInputRef}
         onChange={handleFileSelect}
         css={css`
