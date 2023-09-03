@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../../emotion/component';
 import { Inner, Header2, Section } from '../../emotion/GlobalStyle';
 import { ChallengersLogo, ClubAcceptBox, NavigateButton } from './component';
@@ -8,11 +9,13 @@ import {
   useGetClubDetailQuery,
   useGetPendingUsersQuery,
 } from '../../../store/controller/clubController';
+import { selectUser } from '../../../store/slice/userSlice';
 
 const Index = () => {
   const { clubId } = useParams();
-  const { data, isLoading } = useGetPendingUsersQuery(clubId);
-  const clubData = useGetClubDetailQuery(clubId);
+  const { accessToken } = useSelector(selectUser);
+  const { data, isLoading } = useGetPendingUsersQuery({ clubId, accessToken });
+  const clubData = useGetClubDetailQuery({ clubId, accessToken });
   // 클럽 이름
   const clubName = clubData?.data?.clubName;
   // 클럽 로고

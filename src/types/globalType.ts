@@ -104,6 +104,10 @@ export interface ClubComponentProps {
   name: string;
   logo: string;
 }
+export interface MyClubDataType extends ClubComponentProps {
+  managerEmail: string;
+  manager: boolean;
+}
 
 export interface ClubBoxProps extends ClubComponentProps {
   text: string;

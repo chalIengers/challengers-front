@@ -23,12 +23,12 @@ export const clubController = createApi({
       },
     }),
     getClubDetail: builder.query({
-      query: (clubId: string | undefined) => {
+      query: ({ clubId, accessToken }) => {
         return {
           url: 'get',
           params: { id: clubId },
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+            'X-AUTH-TOKEN': accessToken,
           },
         };
       },
@@ -43,7 +43,7 @@ export const clubController = createApi({
     getMyClub: builder.query({
       query: ({ accessToken }) => ({
         url: 'get/club/my',
-        header: {
+        headers: {
           'X-AUTH-TOKEN': accessToken,
         },
       }),
@@ -54,10 +54,10 @@ export const clubController = createApi({
       },
     }),
     getPendingUsers: builder.query({
-      query: (clubId: string | undefined) => ({
+      query: ({ clubId, accessToken }) => ({
         url: `join-requests/pending/users/${clubId}`,
         headers: {
-          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+          'X-AUTH-TOKEN': accessToken,
         },
       }),
     }),

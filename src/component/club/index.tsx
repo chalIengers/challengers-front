@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
 import { ClubBox, LinkTo } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
-import { ClubComponentProps } from '../../types/globalType';
+import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
 import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
   const clubQuery = useGetMyClubQuery({ accessToken });
@@ -20,8 +22,9 @@ const Index = () => {
       setShowToast(false);
     }, 3000);
   };
-  let myClubContent = null;
 
+  let myClubContent;
+  console.log(accessToken);
   if (!accessToken) {
     myClubContent = <div>로그인을 해주세요</div>;
   } else if (clubQuery.isLoading) {
@@ -29,14 +32,21 @@ const Index = () => {
   } else if (clubQuery.isError) {
     myClubContent = <div>Api 통신 에러!</div>;
   } else if (clubQuery.data) {
-    myClubContent = clubQuery.data.map((club: ClubComponentProps) => (
+    myClubContent = clubQuery.data.map((club: MyClubDataType) => (
       <ClubBox
         key={club.id}
         id={club.id}
         name={club.name}
-        text="클럽 가입 신청"
+        text={club.manager ? '클럽 관리 페이지' : '클럽 마스터 이메일 보기'}
         logo={club.logo}
-        onClick={ShowToast}
+        onClick={
+          club.manager
+            ? () => {
+                console.log(accessToken);
+                navigate(`/club/admin/${club.id}`);
+              }
+            : ShowToast
+        }
         showToast={showToast}
       />
     ));
