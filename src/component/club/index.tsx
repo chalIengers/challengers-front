@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, LinkTo } from './emotion/component';
+import { ClubBox, LinkTo, Toast } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
@@ -16,15 +16,14 @@ const Index = () => {
   const { accessToken } = useSelector(selectUser);
   const clubQuery = useGetMyClubQuery({ accessToken });
 
-  const ShowToast = () => {
+  const ShowToast = useCallback(() => {
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
-  };
+  }, []);
 
   let myClubContent;
-  console.log(accessToken);
   if (!accessToken) {
     myClubContent = <div>로그인을 해주세요</div>;
   } else if (clubQuery.isLoading) {
@@ -42,12 +41,13 @@ const Index = () => {
         onClick={
           club.manager
             ? () => {
-                console.log(accessToken);
                 navigate(`/club/admin/${club.id}`);
               }
-            : ShowToast
+            : () => {
+                navigator.clipboard.writeText(club.managerEmail);
+                ShowToast();
+              }
         }
-        showToast={showToast}
       />
     ));
   } else {
@@ -61,6 +61,9 @@ const Index = () => {
       <Section gap="4.8">
         <Header1>내가 소속된 클럽</Header1>
         {myClubContent}
+        {showToast !== undefined
+          ? showToast && <Toast text="해당 클럽 마스터의 이메일이 클립보드에 복사되었어요" />
+          : null}
       </Section>
 
       <Section gap="3.2">

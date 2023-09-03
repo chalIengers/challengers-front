@@ -111,8 +111,7 @@ export interface MyClubDataType extends ClubComponentProps {
 
 export interface ClubBoxProps extends ClubComponentProps {
   text: string;
-  showToast?: boolean;
-  onClick?: () => void;
+  onClick?: any;
 }
 
 export interface SectionType extends ContainerType {
