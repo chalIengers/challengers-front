@@ -435,7 +435,6 @@ export const TextInputBox = ({
     border: css`
       font-size: 2rem;
       letter-spacing: -0.6px;
-      border-bottom: 1px solid #cbcbcb;
     `,
   };
   return (

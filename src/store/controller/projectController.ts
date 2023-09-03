@@ -72,11 +72,51 @@ export const projectController = createApi({
       },
     }),
     createPublish: builder.mutation({
-      query: (newProjectData) => ({
-        url: 'create',
-        method: 'POST',
-        body: newProjectData,
-      }),
+      query: (newProjectData) => {
+        const example = {
+          belongedClubId: 6,
+          imageUrl: '',
+          projectCategory: '131',
+          projectCrew: [
+            {
+              name: '2',
+              position: '1',
+              role: '4',
+            },
+          ],
+          projectDescription: '12',
+          projectDetail: 'dasdasdasdas',
+          projectLink: [
+            {
+              linkUrl: 'http://naver.com',
+              name: 'naver',
+            },
+          ],
+          projectName: '1',
+          projectPeriod: '222',
+          projectStatus: 33,
+          projectTechStack: [
+            {
+              name: 'a',
+            },
+            {
+              name: 'sq',
+            },
+            {
+              name: 'wa',
+            },
+          ],
+        };
+        console.log(example);
+        return {
+          url: 'create',
+          method: 'POST',
+          body: example,
+          headers: {
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNzI5NTc0LCJleHAiOjE2OTM3MzMxNzR9.vySP2waeGJvWFJZzIFwk9TXMwWErVA4qWBWuRhxPkog`,
+          },
+        };
+      },
     }),
   }),
 });

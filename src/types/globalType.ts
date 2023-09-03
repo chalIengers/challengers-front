@@ -181,41 +181,57 @@ export interface TeamMember {
   role: string;
 }
 
-export interface Link {
+interface Link {
   name: string;
   linkUrl: string;
 }
-export interface ProjectInfo {
-  imageUrl: string;
-  projectName: string;
-  projectDescription: string;
-  projectCategory: string;
-  belonedClubId: string;
-  projectStatus: string;
-  projectPeriod: string;
-  projectTechStack: string;
-  projectDetail: string;
-  belonedCrewName: string;
-  projectCrew: Crew[];
-  projectLink: Link[];
+export interface Stack {
+  name: string;
 }
+export interface Crews {
+  name: string;
+  position: string;
+  role: string;
+}
+
+export interface ProjectInfo {
+  belongedClubId: number;
+  imageUrl: string;
+  projectCategory: string;
+  projectCrew: Crews[];
+  projectDescription: string;
+  projectDetail: string;
+  projectLink: Link[];
+  projectName: string;
+  projectPeriod: string;
+  projectStatus: number;
+  projectTechStack: Stack[];
+}
+export const initialCrews: Crews = {
+  name: '',
+  position: '',
+  role: '',
+};
+
+export const initialStack: Stack = {
+  name: '',
+};
 export const initialLink: Link = {
   name: '',
   linkUrl: '',
 };
 export const initialProjectData: ProjectInfo = {
+  belongedClubId: 0,
   imageUrl: '',
-  projectName: '',
-  projectDescription: '',
   projectCategory: '',
-  belonedCrewName: '',
-  belonedClubId: '',
-  projectStatus: '',
-  projectPeriod: '',
-  projectTechStack: '',
+  projectCrew: [{ ...initialCrews }],
+  projectDescription: '',
   projectDetail: '',
-  projectCrew: [],
-  projectLink: [],
+  projectLink: [{ ...initialLink }],
+  projectName: '',
+  projectPeriod: '',
+  projectStatus: 0,
+  projectTechStack: [{ ...initialStack }],
 };
 
 export interface DescribeBoxType {

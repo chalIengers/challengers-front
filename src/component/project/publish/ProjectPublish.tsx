@@ -5,8 +5,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useRef } from 'react';
 import { css } from '@emotion/react';
+import { v4 } from 'uuid';
 import { Editor } from 'editor_likelion';
-import { useSelector } from 'react-redux';
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import {
   Tag,
@@ -18,92 +18,162 @@ import {
   TagList,
   FlexWrapContainer,
 } from '../../emotion/component';
-import { Body5, Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
-import {
-  LinkInputBox,
-  TeamInfoInputBox,
-  Labels,
-  PublishImg,
-  SecretInput,
-  ChildComponent,
-  ChildComponent2,
-  ChildComponent3,
-  TeamInfoInputBox2,
-  LinkInputBox2,
-} from './component';
+import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
+import { Labels, PublishImg, LinkInputBox2, TeamInfoInputBox } from './component';
 import { useImageUpload } from './hook';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
-import { initialProjectData } from '../../../types/globalType';
-import { selectLinks } from '../../../store/slice/linkSlice';
-import { selectCrews } from '../../../store/slice/crewSlice';
-import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import {
-  InfoContainer,
-  InfoDownContainer,
-  InfoInput,
-  InfoUpperContainer,
-} from '../emotion/component';
-import { TeamInfoBox } from '../detail/component';
+  Crews,
+  ProjectInfo,
+  Stack,
+  TeamMember,
+  initialProjectData,
+} from '../../../types/globalType';
+import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import theme from '../../../styles/theme';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
-  const [newProjectData, setNewProjectData] = useState(initialProjectData);
+  const [Fileimage, setFileimage] = useState<File | null>(null);
+  const [newProjectData, setNewProjectData] = useState<ProjectInfo>(initialProjectData);
+
   const [Image] = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
   const editorRef = useRef(null);
-  const links = useSelector(selectLinks);
-  const crews = useSelector(selectCrews);
-  const [teamInfoBoxes, setTeamInfoBoxes] = useState([{ id: 1, addInfo: false }]);
-  const [formData, setFormData] = useState({
-    Data: '',
-    test: '',
-  });
 
-  const [inputHashTag, setInputHashTag] = useState('');
-  const [StackTags, setHashTags] = useState([]);
+  // 이미지 파일 업로드
+  const Fileupload = async (file: any) => {
+    try {
+      const resultData = await Image(file).unwrap();
+      const updatedData = { ...newProjectData, imageUrl: resultData.msg };
+      setNewProjectData((prevData) => ({
+        ...prevData,
+        imageUrl: resultData.msg,
+      }));
+    } catch (error) {
+      console.log('dfd');
+    }
+  };
+
+  const handleImageChange = (File: File | null) => {
+    if (File) {
+      uploadImage(File);
+      setFileimage(File);
+    }
+  };
+
+  // 팀원 구성
+  const [teamInfoBoxes, setTeamInfoBoxes] = useState([
+    { id: 1, addInfo: false, infoData: [{ id: 1, name: '', position: '', role: '' }] },
+  ]);
+  const [infoData, setinfoData] = useState<TeamMember[]>([
+    { id: 1, name: '', position: '', role: '' },
+  ]);
+
+  const handleInfoChange = (newData: any, boxId: any) => {
+    setTeamInfoBoxes((prevBoxes) => {
+      const updatedBoxes = prevBoxes.map((box) => {
+        if (box.id === boxId) {
+          return { ...box, infoData: newData };
+        }
+        return box;
+      });
+      return updatedBoxes;
+    });
+  };
+
+  const handleAddInfoBox = () => {
+    const newId = teamInfoBoxes.length + 1;
+    const newInfoBox = {
+      id: newId,
+      addInfo: false,
+      infoData: [{ id: 1, name: '', position: '', role: '' }],
+    };
+    setTeamInfoBoxes([...teamInfoBoxes, newInfoBox]);
+  };
+
+  const handleDeleteInfoBox = (boxId: number) => {
+    setTeamInfoBoxes((prevBoxes) => prevBoxes.filter((box) => box.id !== boxId));
+  };
+
+  const check = () => {
+    const nonEmptyBoxes = teamInfoBoxes.map((box) => {
+      const filteredInfoData = box.infoData.filter(
+        (member) => !(member.name === '' || member.position === '' || member.role === ''),
+      );
+
+      return { ...box, infoData: filteredInfoData };
+    });
+
+    // console.log(teamInfoBoxes);
+  };
 
   const {
     register,
     handleSubmit,
-    watch,
     control,
     setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    setFormData(data);
-    console.log(data);
+  const [inputStackTag, setInputStackTag] = useState('');
+  const [StackTags, setStackTags] = useState<string[]>([]);
+
+  const changeStackTagInput = (e: any) => {
+    setInputStackTag(e.target.value);
   };
 
   const onkeyDown = (e: any) => {
     if (e.code !== 'Enter') return;
     e.preventDefault();
+
+    const regExp = /^[a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ|0-9| \t|]+$/g;
+    if (!regExp.test(e.target.value)) {
+      setInputStackTag('');
+    }
   };
 
-  // 하위 컴포넌트에서 데이터 가져오기
-  const [data, setData] = useState('test');
-
-  const handleChildData = (data: any) => {
-    // 하위 컴포넌트로부터 데이터를 받음
-    setData(data);
-    console.log(data);
+  const isEmptyValue = (value: any) => {
+    if (!value.length) {
+      return true;
+    }
+    return false;
   };
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'projectCrew',
-  });
+  const addStackTag = (e: any) => {
+    if (StackTags.length < 10) {
+      const allowedCommand = ['Comma', 'Enter', 'Space'];
+      if (!allowedCommand.includes(e.code)) return;
 
-  const {
-    fields: crewInfoFields,
-    append: appendCrewInfo,
-    remove: removeCrewInfo,
-  } = useFieldArray({
-    control,
-    name: 'projectCrewInfo',
-  });
+      if (isEmptyValue(e.target.value.trim())) {
+        setInputStackTag('');
+        return;
+      }
+
+      let newStackTag = e.target.value.trim();
+      const regExp = /[{}[\]/?.;:|)*~`!^_+<>@#$%&\\=('"]/g;
+      if (regExp.test(newStackTag)) {
+        newStackTag = newStackTag.replace(regExp, '');
+      }
+      if (newStackTag.endsWith(',')) {
+        newStackTag = newStackTag.slice(0, newStackTag.length - 1);
+      }
+
+      if (isEmptyValue(newStackTag)) return;
+
+      setStackTags((prevStackTags) => {
+        return [...prevStackTags, newStackTag];
+      });
+
+      setInputStackTag('');
+    } else {
+      alert('10개 이상 불가능');
+    }
+  };
+
+  const removeStackTag = (tagToRemove: string) => {
+    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
+  };
 
   const {
     fields: linkFields,
@@ -114,29 +184,45 @@ const ProjectPublish = () => {
     name: 'projectLink',
   });
 
-  const {
-    fields: StackFields,
-    append: appendStack,
-    remove: removeStack,
-  } = useFieldArray({
-    control,
-    name: 'projectTechStack',
-  });
-  //
-  const [projectLinks, setProjectLinks] = useState(['']); // 주소를 저장하는 배열
+  const [extractedName, setExtractedName] = useState('하위 컴포넌트 데이터');
+  const handleExtractedNameChange = (newValue: any, index: number) => {
+    // extractedName 상태를 업데이트
+    setExtractedName(newValue);
 
-  const handleLinkChange = (index: any, newValue: any) => {
-    // 주소 변경 이벤트 핸들러
-    const updatedLinks = [...projectLinks];
-    updatedLinks[index] = newValue;
-    setProjectLinks(updatedLinks);
+    // setValue를 사용하여 레지스터에 데이터 설정
+    setValue(`projectLink[${index}].name`, newValue);
   };
-  const handleImageChange = (File: File | null) => {
-    if (File) {
-      uploadImage(File);
-    }
+
+  // 리액트 훅 폼 값 받아오기
+  const updateProjectData = (fieldNames: string[], data: ProjectInfo): ProjectInfo => {
+    return {
+      ...newProjectData,
+      ...data,
+    };
   };
+
+  // Crew 값 받아오기
+  // 함수 파라미터와 반환값의 타입 명시
+  const updateProjectCrew = (teamInfoBoxes: any[]): Crews[] => {
+    const updatedProjectCrew: Crews[] = [];
+
+    teamInfoBoxes.forEach((teamInfo) => {
+      const { infoData } = teamInfo;
+
+      infoData.forEach((memberInfo: Crews) => {
+        updatedProjectCrew.push({
+          name: memberInfo.name,
+          position: memberInfo.position,
+          role: memberInfo.role,
+        });
+      });
+    });
+
+    return updatedProjectCrew;
+  };
+
   const handlePublish = async () => {
+    Fileupload(Fileimage);
     if (editorRef.current) {
       const test = (editorRef.current as HTMLBodyElement).innerHTML;
 
@@ -144,28 +230,30 @@ const ProjectPublish = () => {
         ...prevData,
         projectDetail: test,
       }));
-
-      const updatedData = {
-        ...newProjectData,
-        projectDetail: test,
-        projectLink: links,
-      };
-      await mutation[0](updatedData);
-      console.log(updatedData);
-      console.log(crews);
-      console.log(links);
     }
   };
 
-  const [extractedName, setExtractedName] = useState('하위 컴포넌트 데이터');
-  const handleExtractedNameChange = (newValue: any, index: number) => {
-    // extractedName 상태를 업데이트
-    setExtractedName(newValue);
+  const onSubmit = (data: any) => {
+    const updatedData = updateProjectData(Object.keys(data), data);
+    setNewProjectData(updatedData);
 
-    // setValue를 사용하여 레지스터에 데이터 설정
-    setValue(`projectLink[${index}].role`, newValue);
+    const techStacks: Stack[] = StackTags.map((tag) => ({
+      name: tag,
+    }));
 
-    console.log(`출력되는 값은 ${newValue}`);
+    updatedData.projectTechStack = techStacks;
+
+    setNewProjectData(updatedData);
+
+    const newProjectCrew = updateProjectCrew(teamInfoBoxes);
+
+    // newProjectCrew를 newProjectData에 설정합니다.
+    setNewProjectData((prevData) => ({
+      ...prevData,
+      projectCrew: newProjectCrew,
+    }));
+
+    mutation[0](newProjectData);
   };
 
   return (
@@ -199,11 +287,8 @@ const ProjectPublish = () => {
             ) : (
               <Tag>서비스 형태가 들어가요</Tag>
             )}
-            {newProjectData.belonedCrewName ? (
-              <Tag>{newProjectData.belonedCrewName}</Tag>
-            ) : (
-              <Tag>소속 클럽 이름이 들어가요</Tag>
-            )}
+
+            <Tag>소속 클럽 이름이 들어가요</Tag>
             <Labels htmlFor="fileInput">
               프로젝트 이미지 선택
               <input
@@ -233,7 +318,7 @@ const ProjectPublish = () => {
               size={40}
               max={20}
               inputType="text"
-              register={register('Title', {
+              register={register('projectName', {
                 required: true,
               })}
             />
@@ -243,7 +328,7 @@ const ProjectPublish = () => {
               size={40}
               max={20}
               inputType="text"
-              register={register('Describe', {
+              register={register('projectDescription', {
                 required: true,
               })}
             />
@@ -259,9 +344,9 @@ const ProjectPublish = () => {
               size={40}
               max={20}
               inputType="text"
-              register={register('Crew', {
-                required: true,
-              })}
+              // register={register('Crew', {
+              //   required: true,
+              // })}
             />
 
             <Header2>서비스 형태</Header2>
@@ -271,7 +356,7 @@ const ProjectPublish = () => {
               size={40}
               max={20}
               inputType="text"
-              register={register('Service', {
+              register={register('projectCategory', {
                 required: true,
               })}
             />
@@ -283,8 +368,9 @@ const ProjectPublish = () => {
               text="프로젝트 현재 상태를 입력해주세요"
               size={40}
               max={20}
-              inputType="text"
-              register={register('State', {
+              inputType="number"
+              register={register('projectStatus', {
+                valueAsNumber: true,
                 required: true,
               })}
             />
@@ -296,21 +382,41 @@ const ProjectPublish = () => {
               size={40}
               max={20}
               inputType="text"
-              register={register('Date', {
+              register={register('projectPeriod', {
                 required: true,
               })}
             />
 
             <Header2>사용된 기술 스택</Header2>
-            {/* <input
-              type="text"
-              value={hashtag}
-              onChange={onChangeHashtag}
-              onKeyUp={onKeyUp}
-              onKeyDown={onkeydown}
-              placeholder="해시태그 입력"
-            /> */}
-            <TextInputBox type="body1" text="사용한 기술 스택들을 입력해주세요" inputType="text" />
+            <div style={{ display: 'flex', gap: '0.8rem' }}>
+              {StackTags.length > 0 &&
+                StackTags.map((StackTag) => {
+                  return (
+                    <button type="button" key={v4()} onClick={() => removeStackTag(StackTag)}>
+                      <Tag>{StackTag}</Tag>
+                    </button>
+                  );
+                })}
+
+              <input
+                value={inputStackTag}
+                onChange={changeStackTagInput}
+                onKeyUp={addStackTag}
+                onKeyDown={onkeyDown}
+                placeholder="스택을 입력해주세요 (최대 10개)"
+                className="hashTagInput"
+                css={css`
+                  background: none;
+                  color: #fff;
+                  font-size: 2rem;
+                  letter-spacing: -0.6px;
+                  ${theme.typography.body1}
+                  &::placeholder {
+                    color: #cbcbcb;
+                  }
+                `}
+              />
+            </div>
           </GridBox>
         </ContainerComponent>
         <ContainerComponent>
@@ -323,105 +429,24 @@ const ProjectPublish = () => {
             ref={editorRef}
           />
         </ContainerComponent>
-
         <ContainerComponent>
           <Header1>팀원구성</Header1>
 
           <FlexWrapContainer>
-            {fields.map((field, index) => (
-              <InfoContainer key={field.id}>
-                <InfoUpperContainer>
-                  <InfoInput
-                    placeholder="역할을 선택해주세요"
-                    large
-                    color={`${theme.palette.gray.white}`}
-                    register={register(`projectCrew[${index}.position`, {
-                      required: true,
-                    })}
-                  />
-                </InfoUpperContainer>
-
-                <InfoDownContainer>
-                  {crewInfoFields.map((crew, crewIndex) => {
-                    return (
-                      <Section gap="0.8" key={crew.id}>
-                        <InfoInput
-                          placeholder="이름을 입력해주세요"
-                          large
-                          register={register(`projectCrewInfo[${index}][${crewIndex}].name`)}
-                        />
-                        <InfoInput
-                          placeholder="어떤 역할을 했나요?"
-                          register={register(`projectCrewInfo[${index}][${crewIndex}].role`)}
-                        />
-                      </Section>
-                    );
-                  })}
-
-                  <Body5
-                    style={css`
-                      ${theme.typography.body2};
-                      color: ${theme.palette.primary[500]};
-                      text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
-                      text-underline-offset: 0.5rem;
-                      :hover {
-                        cursor: pointer;
-                      }
-                    `}
-                    onClick={() => {
-                      appendCrewInfo({});
-                    }}
-                  >
-                    해당 포지션에 팀원을 더 추가하고 싶어요
-                  </Body5>
-                </InfoDownContainer>
-
-                {/* <Overlay addInfo={addInfo} onClick={onClick} /> */}
-
-                {/* <TeamInfoBox teamInfo={data[key]} /> */}
-              </InfoContainer>
+            {teamInfoBoxes.map((box) => (
+              <TeamInfoInputBox
+                key={box.id}
+                addInfo={box.addInfo}
+                onRemove={() => handleDeleteInfoBox(box.id)}
+                onInfoChange={(newData) => handleInfoChange(newData, box.id)}
+                infoData={box.infoData}
+              />
             ))}
-            <TeamInfoInputBox2
-              addInfo
-              onClick={() => {
-                append({ position: '' });
-              }}
-            />
+            <TeamInfoInputBox onClick={handleAddInfoBox} addInfo infoData={infoData} />
           </FlexWrapContainer>
         </ContainerComponent>
         <ContainerComponent>
           <Header1>프로젝트 링크</Header1>
-          {/* <LinkInputBox />
-            <LinkInputBox /> */}
-          {/* {fields.map((field, index) => (
-              <div key={field.id}>
-                <input {...register(`projectLink.${index}.address`)} />
-                <button type="button" onClick={() => remove(index)}>
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={() => append({ address: '' })}>
-              Add Email
-            </button> */}
-          {/* {linkFields.map((field, index) => (
-            <div key={field.id}>
-              <LinkInputBox
-                link={projectLinks[index]}
-                onLinkChange={(newValue: any) => handleLinkChange(index, newValue)}
-                register={register(`projectLink[${index}.address]`, {
-                  required: true,
-                })}
-                index={index}
-              />
-              <button type="button" onClick={() => removeLink(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={() => appendLink('')}>
-            Add Link
-          </button> */}
           <LinkInputBox2
             control={control}
             indexs={0}
@@ -438,16 +463,15 @@ const ProjectPublish = () => {
                     remove={() => removeLink(index)}
                     onExtractedNameChange={(newValue) => handleExtractedNameChange(newValue, index)}
                   />
-                  <input type="hidden" {...register(`projectLink[${index}].role`)} />
+                  <input type="hidden" {...register(`projectLink[${index}].name`)} />
                 </div>
               ),
           )}
-          <button type="button" onClick={() => appendLink({ URL: '', role: extractedName })}>
+          <button type="button" onClick={() => appendLink({ linkUrl: '', name: extractedName })}>
             프로젝트 링크를 더 추가하고 싶어요
           </button>
         </ContainerComponent>
-        <ButtonBox text="프로젝트 발행하기" type="large" submit />
-        <input type="submit" />
+        <ButtonBox text="프로젝트 발행하기" type="large" submit onClick={handlePublish} />
       </Inner>
     </form>
   );
