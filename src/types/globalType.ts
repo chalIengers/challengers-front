@@ -100,7 +100,7 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  id: number | string;
+  id?: number | string;
   name: string;
   logo: string;
 }

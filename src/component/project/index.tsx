@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import {
   Banner,
   SelectBox,
@@ -8,13 +7,13 @@ import {
   TextBox,
   TagList,
 } from '../emotion/component';
-import { Body1, Header2, Inner, Section } from '../emotion/GlobalStyle';
+import { Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
 import { ProjectBoxProps } from '../../types/globalType';
 import { LoadingContainer } from './component';
 
 const Index = () => {
-  const { sortType, optionType, handleSelectChange, data, isFetching, pageNumber } =
+  const { sortType, optionType, handleSelectChange, projectDatas, isFetching, pageNumber } =
     useSelectBoxes();
 
   return (
@@ -44,13 +43,13 @@ const Index = () => {
         </TagList>
 
         <FlexWrapContainer>
-          {data?.content.map((project: ProjectBoxProps) => (
+          {projectDatas?.map((project: ProjectBoxProps) => (
             <ProjectBox key={project.id} projectData={project} />
           ))}
         </FlexWrapContainer>
 
         {isFetching && <LoadingContainer />}
-        {data?.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>}
+        {/* {projectDatas?.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>} */}
       </Section>
     </Inner>
   );

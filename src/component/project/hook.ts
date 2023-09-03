@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  useGetVideosByTopViewInfinityQuery,
   useGetVideosByTopViewQuery,
-  useGetVideosInfinityQuery,
+  useGetVideosQuery,
 } from '../../store/controller/projectController';
+import { addProject, resetProject, selectProjects } from '../../store/slice/projectSlice';
 
 export function useSelectBoxes() {
   const { sort } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [sortType, setSortType] = useState({
     service: '',
     stack: '',
@@ -15,17 +19,31 @@ export function useSelectBoxes() {
   });
   const [pageNumber, setPageNumber] = useState(0);
 
-  const { data: videosData, isFetching: videosFetching } = useGetVideosInfinityQuery({
+  const { data: videosData, isFetching: videosFetching } = useGetVideosQuery({
     size: 6,
     page: pageNumber,
   });
-  const { data: topViewData, isFetching: topViewFetching } = useGetVideosByTopViewInfinityQuery({
+  const { data: topViewData, isFetching: topViewFetching } = useGetVideosByTopViewQuery({
     size: 6,
     page: pageNumber,
   });
 
   const data = sort === 'popular' ? topViewData : videosData;
   const isFetching = sort === 'popular' ? topViewFetching : videosFetching;
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProject());
+      setPageNumber(0);
+    };
+  }, [sortType]);
+
+  useEffect(() => {
+    console.log(data);
+    console.log(pageNumber);
+    if (data) dispatch(addProject(data?.content));
+  }, [data]);
+  const projectDatas = useSelector(selectProjects);
 
   const optionType = {
     service: ['전체서비스', '웹 서비스', '소셜미디어', '안드로이드'],
@@ -34,6 +52,13 @@ export function useSelectBoxes() {
   };
 
   const handleSelectChange = (key: string) => (selectedValue: string) => {
+    if (selectedValue === '인기도 순' && sort !== 'popular') {
+      navigate('/project/popular');
+      window.location.reload();
+    } else if (selectedValue === '최신 등록순' && sort !== 'recent') {
+      navigate('/project/recent');
+      window.location.reload();
+    }
     setSortType((prevSortType) => ({ ...prevSortType, [key]: selectedValue }));
   };
 
@@ -44,7 +69,7 @@ export function useSelectBoxes() {
       !isFetching &&
       data?.totalPages !== pageNumber
     ) {
-      setPageNumber(pageNumber + 1);
+      setPageNumber((prevPageNumber) => prevPageNumber + 1);
       console.log('도달!');
     }
   };
@@ -57,7 +82,7 @@ export function useSelectBoxes() {
   }, [isFetching]);
 
   return {
-    data,
+    projectDatas,
     isFetching,
     sortType,
     optionType,
