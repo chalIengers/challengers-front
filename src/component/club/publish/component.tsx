@@ -2,8 +2,8 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
-import { ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../../emotion/component';
-import { Header2, Body2, Header1, Section } from '../../emotion/GlobalStyle';
+import { ButtonBox } from '../../emotion/component';
+import { Body2, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
 
 const ImageUpload = () => {
@@ -13,6 +13,28 @@ const ImageUpload = () => {
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log('클릭: ', typeof file);
+
+    if (file) {
+      if (!file.type.includes('image/')) {
+        alert('이미지 파일 형식이 아닙니다.');
+        return;
+      }
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const src = event.target?.result as string;
+        setImgFileSrc(src);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const { files } = e.dataTransfer;
+    console.log(files?.[0]);
+    const file = files?.[0];
 
     if (file) {
       if (!file.type.includes('image/')) {
@@ -29,62 +51,68 @@ const ImageUpload = () => {
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
   const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      css={css`
-        width: 16rem;
-        height: 16rem;
-        border-radius: 1.2rem;
-        background: ${theme.palette.gray[900]};
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-      `}
-    >
-      {imgFileSrc ? (
-        <img
-          src={imgFileSrc}
-          alt={imgFileSrc}
+    <div onDrop={(e) => handleDrop(e)} onDragOver={(e) => handleDragOver(e)}>
+      <button
+        type="button"
+        onClick={handleClick}
+        css={css`
+          width: 16rem;
+          height: 16rem;
+          border-radius: 1.2rem;
+          background: ${theme.palette.gray[900]};
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        `}
+      >
+        {imgFileSrc ? (
+          <img
+            src={imgFileSrc}
+            alt={imgFileSrc}
+            css={css`
+              max-width: 100%;
+              max-height: 100%;
+            `}
+          />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="60"
+            height="60"
+            viewBox="0 0 60 60"
+            fill="none"
+          >
+            <path
+              d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
+              stroke="#8F8E8E"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
+        <input
+          type="file"
+          accept="image/gif, image/jpeg, image/png, image/bmp"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
           css={css`
-            max-width: 100%;
-            max-height: 100%;
+            display: none;
           `}
         />
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="60"
-          height="60"
-          viewBox="0 0 60 60"
-          fill="none"
-        >
-          <path
-            d="M10 40L10 42.5C10 46.6421 13.3579 50 17.5 50L42.5 50C46.6421 50 50 46.6421 50 42.5L50 40M40 20L30 10M30 10L20 20M30 10L30 40"
-            stroke="#8F8E8E"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
-      <input
-        type="file"
-        accept="image/gif, image/jpeg, image/png, image/bmp"
-        ref={fileInputRef}
-        onChange={handleFileSelect}
-        css={css`
-          display: none;
-        `}
-      />
-    </button>
+      </button>
+    </div>
   );
 };
 
@@ -192,7 +220,7 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
           css={css`
             transition: 0.3s;
             animation: none;
-            transform: rotate(${isOpen ? 0 : 180}deg);
+            transform: rotate(${isOpen ? 180 : 0}deg);
           `}
         >
           <svg
@@ -268,26 +296,5 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
         </div>
       )}
     </div>
-  );
-};
-
-/**
- * 클럽 신청서 컴포넌트
- */
-export const ClubInfoInput = () => {
-  return (
-    <ContainerComponent>
-      <Header1>클럽신청서</Header1>
-      <GridBox>
-        <Header2>클럽 이름</Header2>
-        <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
-
-        <Header2>클럽 형태</Header2>
-        <ClubTypeBox text="클럽 형태를 입력해주세요" />
-
-        <Header2>클럽 소개</Header2>
-        <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />
-      </GridBox>
-    </ContainerComponent>
   );
 };

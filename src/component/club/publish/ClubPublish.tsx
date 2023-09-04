@@ -1,27 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Banner, ButtonBox } from '../../emotion/component';
-import { Inner, Body1, Header1, Section } from '../../emotion/GlobalStyle';
-import { ClubInfoInput, ClubLogoPreView } from './component';
+import {
+  Banner,
+  ButtonBox,
+  ContainerComponent,
+  GridBox,
+  TextInputBox,
+} from '../../emotion/component';
+import { Inner, Body1, Header1, Section, Header2 } from '../../emotion/GlobalStyle';
+import { ClubLogoPreView, ClubTypeBox } from './component';
 import { openModal } from '../../../store/slice/modalSlice';
-// import { useCreateClubMutation } from '../../../store/clubPublishApi';
 
 const Publish = () => {
   const dispatch = useDispatch();
-  // const [createPost, { isLoading }] = useCreateClubMutation(); // todo. Fetcher
   const handleClick = () => {
     dispatch(openModal({ modalType: 'CreateClubModal' }));
   };
-  // const handleSubmit = async () => {
-  //   // const newPost = { title, content };
-  //   // try {
-  //   //   const result = await createPost(newPost);
-  //   //   console.log('Post created:', result.data);
-  //   // } catch (error) {
-  //   //   console.error('Error creating post:', error);
-  //   // }
-  // };
 
   return (
     <Inner>
@@ -39,7 +34,19 @@ const Publish = () => {
         <ClubLogoPreView />
       </Section>
 
-      <ClubInfoInput />
+      <ContainerComponent>
+        <Header1>클럽신청서</Header1>
+        <GridBox>
+          <Header2>클럽 이름</Header2>
+          <TextInputBox type="body1" text="소속 클럽을 입력해주세요" />
+
+          <Header2>클럽 형태</Header2>
+          <ClubTypeBox text="클럽 형태를 입력해주세요" />
+
+          <Header2>클럽 소개</Header2>
+          <TextInputBox type="body1" text="클럽에 대한 간단한 소개 메세지를 입력해주세요" />
+        </GridBox>
+      </ContainerComponent>
 
       <ButtonBox text="클럽을 등록하고 싶어요" type="large" onClick={handleClick} />
     </Inner>
