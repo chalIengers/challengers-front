@@ -14,7 +14,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
-  const clubQuery = useGetMyClubQuery({ accessToken });
+  const { isLoading, isError, data } = useGetMyClubQuery({ accessToken });
 
   const ShowToast = useCallback(() => {
     setShowToast(true);
@@ -26,12 +26,12 @@ const Index = () => {
   let myClubContent;
   if (!accessToken) {
     myClubContent = <div>로그인을 해주세요</div>;
-  } else if (clubQuery.isLoading) {
+  } else if (isLoading) {
     myClubContent = <div>로딩중...</div>;
-  } else if (clubQuery.isError) {
+  } else if (isError) {
     myClubContent = <div>Api 통신 에러!</div>;
-  } else if (clubQuery.data) {
-    myClubContent = clubQuery.data.map((club: MyClubDataType) => (
+  } else if (data) {
+    myClubContent = data.map((club: MyClubDataType) => (
       <ClubBox
         key={club.id}
         id={club.id}
@@ -72,8 +72,8 @@ const Index = () => {
           <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo>
         </TextBox>
         <ApiFetcher query={useGetClubListQuery({})} loading={<div>로딩중...</div>}>
-          {(data) =>
-            data.map((club: ClubComponentProps) => (
+          {(ClubData) =>
+            ClubData.map((club: ClubComponentProps) => (
               <ClubBox
                 key={club.id}
                 id={club.id}
