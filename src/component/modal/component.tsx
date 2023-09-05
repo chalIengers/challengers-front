@@ -3,10 +3,10 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clubData } from '../../store/slice/CreateClubSlice';
 import { Editor } from 'editor_likelion';
+import { clubData } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
-import { ButtonBox, TagList,  ClubComponent } from '../emotion/component';
+import { ButtonBox, ClubComponent } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
 import { Body1, Body2, Body4, Body2Bold, Header1, Section } from '../emotion/GlobalStyle';
 import { closeModal, openModal } from '../../store/slice/modalSlice';
@@ -16,7 +16,7 @@ import {
   useRequestUserMutation,
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
-import { useGetCommentQuery, useRequestJoinClubMutation } from '../../store/controller/clubController';
+import { useRequestJoinClubMutation } from '../../store/controller/clubController';
 import { logout, selectUser } from '../../store/slice/userSlice';
 import {
   useChangePasswordMutation,
