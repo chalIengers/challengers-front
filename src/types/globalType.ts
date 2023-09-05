@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode, CSSProperties } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
@@ -21,6 +21,7 @@ export interface SelectBoxProps {
   value: string;
   onChange: any;
   background?: string;
+  customStyle?: any;
 }
 
 export interface ProjectBoxProps {
@@ -204,7 +205,7 @@ export interface ProjectInfo {
   projectLink: Link[];
   projectName: string;
   projectPeriod: string;
-  projectStatus: number;
+  status: String;
   projectTechStack: Stack[];
 }
 export const initialCrews: Crews = {
@@ -230,7 +231,7 @@ export const initialProjectData: ProjectInfo = {
   projectLink: [{ ...initialLink }],
   projectName: '',
   projectPeriod: '',
-  projectStatus: 0,
+  status: '',
   projectTechStack: [{ ...initialStack }],
 };
 

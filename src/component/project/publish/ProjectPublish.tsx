@@ -4,11 +4,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /** @jsxImportSource @emotion/react */
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { v4 } from 'uuid';
 import { Editor } from 'editor_likelion';
-import { Controller, FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import {
   Tag,
@@ -19,6 +19,7 @@ import {
   TextInputBox,
   TagList,
   FlexWrapContainer,
+  SelectBox,
 } from '../../emotion/component';
 import { selectUser } from '../../../store/slice/userSlice';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
@@ -26,7 +27,6 @@ import { Labels, PublishImg, LinkInputBox2, TeamInfoInputBox } from './component
 import { useImageUpload } from './hook';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
 import {
-  ClubComponentProps,
   Crews,
   ProjectInfo,
   Stack,
@@ -35,7 +35,6 @@ import {
 } from '../../../types/globalType';
 import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import theme from '../../../styles/theme';
-import { ApiFetcher } from '../../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../../store/controller/clubController';
 
 const ProjectPublish = () => {
@@ -48,19 +47,75 @@ const ProjectPublish = () => {
 
   const editorRef = useRef(null);
 
+  // 셀렉트 옵션 제작
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const options = [
+    { value: '웹서비스', label: '옵션 1' },
+    { value: '소셜미디어', label: '옵션 2' },
+    { value: '안드로이드', label: '옵션 2' },
+  ];
+  const options2 = [
+    { value: 'MAINTENANCE', label: '옵션 1' },
+    { value: 'ACTIVE', label: '옵션 2' },
+    { value: 'INACTIVE', label: '옵션 2' },
+  ];
+  const [options3, setOption3] = useState([{ value: 0, label: '없음' }]);
+
+  const handleSelectChange = (selectedValue: string) => {
+    setSelectedOption(selectedValue);
+  };
+
   const { accessToken } = useSelector(selectUser);
 
-  const back = useGetMyClubQuery({ accessToken });
+  const { data, error, isLoading } = useGetMyClubQuery({ accessToken });
+
   const test = () => {
     console.log(accessToken);
-    console.log(back.data);
+    console.log(data);
+
+    const updatedOptions3 = [
+      ...options3,
+      ...data.map((item: any) => ({
+        value: item.id.toString(),
+        label: item.name,
+      })),
+    ];
+    setOption3(updatedOptions3);
   };
+
+  const [datas, setDatas] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('URL_또는_API_ENDPOINT');
+        const datas = await response.json();
+
+        setDatas(datas);
+
+        const updatedOptions3 = [
+          ...options3,
+          ...datas.map((item: any) => ({
+            value: item.id.toString(),
+            label: item.name,
+          })),
+        ];
+        setOption3(updatedOptions3);
+      } catch (error) {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      }
+    };
+
+    // fetchData 함수 호출
+    fetchData();
+  }, []);
 
   // 이미지 파일 업로드
   const Fileupload = async (file: any) => {
     try {
       const resultData = await Image(file).unwrap();
-      const updatedData = { ...newProjectData, imageUrl: resultData.msg };
+      console.log(resultData);
       setNewProjectData((prevData) => ({
         ...prevData,
         imageUrl: resultData.msg,
@@ -273,7 +328,7 @@ const ProjectPublish = () => {
   const doAsyncWork = async (data: any) => {
     try {
       // // 비동기 작업 수행
-      // await mutation[0](data);
+      await mutation[0](data);
 
       console.log(data);
       // 작업이 완료된 후 실행할 코드
@@ -305,6 +360,7 @@ const ProjectPublish = () => {
         <button type="button" onClick={test}>
           dfsd
         </button>
+
         <Banner />
         <Header1>프로젝트 발행페이지</Header1>
         <ContainerComponent>
@@ -409,42 +465,52 @@ const ProjectPublish = () => {
             <Controller
               name="projectCategory"
               control={control}
-              defaultValue="" // 기본값 설정 (선택하세요 옵션을 표시하기 위해 빈 문자열로 설정)
-              rules={{ required: true }} // 필수 필드로 만들기 위해 유효성 검사 규칙 추가
+              defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <select {...field}>
-                  <option value="option1">웹 서비스</option>
-                  <option value="option2">앱 서비스</option>
-                  <option value="option3">옵션 3</option>
-                </select>
+                <SelectBox
+                  options={options.map((option) => option.value)}
+                  value={field.value}
+                  onChange={field.onChange}
+                  background="#333333"
+                  customStyle={{
+                    color: 'white',
+                    width: '20rem',
+                  }}
+                />
               )}
             />
             <Header2>프로젝트 상태</Header2>
-
-            <TextInputBox
+            <Controller
+              name="status"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectBox
+                  options={options2.map((option) => option.value)}
+                  value={field.value}
+                  onChange={field.onChange}
+                  background="#333333"
+                  customStyle={{
+                    color: 'white',
+                    width: '20rem',
+                  }}
+                />
+              )}
+            />
+            {/* <TextInputBox
               type="body1"
               text="프로젝트 현재 상태를 입력해주세요"
               size={40}
               max={20}
-              inputType="number"
+              inputType="text"
               register={register('projectStatus', {
                 valueAsNumber: true,
                 required: true,
               })}
-            />
-            {/* <Controller
-              name="projectStatus"
-              control={control}
-              defaultValue="" // 기본값 설정 (선택하세요 옵션을 표시하기 위해 빈 문자열로 설정)
-              rules={{ required: true }} // 필수 필드로 만들기 위해 유효성 검사 규칙 추가
-              render={({ field }) => (
-                <select {...field}>
-                  <option value="option1">서비스 중</option>
-                  <option value="option2">서비스 중단</option>
-                  <option value="option3">서비스 점검</option>
-                </select>
-              )}
             /> */}
+
             <Header2>프로젝트 기간</Header2>
             <TextInputBox
               type="body1"

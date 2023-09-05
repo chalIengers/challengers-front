@@ -73,48 +73,12 @@ export const projectController = createApi({
     }),
     createPublish: builder.mutation({
       query: (newProjectData) => {
-        const example = {
-          belongedClubId: 6,
-          imageUrl: '',
-          projectCategory: '131',
-          projectCrew: [
-            {
-              name: '2',
-              position: '1',
-              role: '4',
-            },
-          ],
-          projectDescription: '12',
-          projectDetail: 'dasdasdasdas',
-          projectLink: [
-            {
-              linkUrl: 'http://naver.com',
-              name: 'naver',
-            },
-          ],
-          projectName: '성공테스트',
-          projectPeriod: '222',
-          projectStatus: 33,
-          projectTechStack: [
-            {
-              name: 'a',
-            },
-            {
-              name: 'sq',
-            },
-            {
-              name: 'wa',
-            },
-          ],
-        };
-        console.log(example);
-        console.log(newProjectData);
         return {
           url: 'create',
           method: 'POST',
           body: newProjectData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODgyMDc1LCJleHAiOjE2OTM4ODU2NzV9.agNK1Ra_KkrH_A-W6ejBrjHqtAqMaXbGaV6c8Lww3XA`,
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODk4NzQ3LCJleHAiOjE2OTM5MDIzNDd9.TayRd0ls3a-CGntsJ9hxaXRvatauuY3XN_Zi163O8sg`,
           },
         };
       },

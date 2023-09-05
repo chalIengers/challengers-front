@@ -1,20 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '..';
-import { getCookie } from '../cookie';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/club/',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user.accessToken;
-
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-
-      return headers;
-    },
   }),
 
   endpoints: (builder) => ({
@@ -34,12 +24,12 @@ export const clubController = createApi({
       },
     }),
     getClubDetail: builder.query({
-      query: (clubId: string | undefined) => {
+      query: ({ clubId, accessToken }) => {
         return {
           url: 'get',
           params: { id: clubId },
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+            'X-AUTH-TOKEN': accessToken,
           },
         };
       },
@@ -54,7 +44,7 @@ export const clubController = createApi({
     getMyClub: builder.query({
       query: ({ accessToken }) => ({
         url: 'get/club/my',
-        header: {
+        headers: {
           'X-AUTH-TOKEN': accessToken,
         },
       }),

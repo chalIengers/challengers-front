@@ -14,7 +14,7 @@ export const publishApi = createApi({
           method: 'POST',
           body: formData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODgyMDc1LCJleHAiOjE2OTM4ODU2NzV9.agNK1Ra_KkrH_A-W6ejBrjHqtAqMaXbGaV6c8Lww3XA`,
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODk4NzQ3LCJleHAiOjE2OTM5MDIzNDd9.TayRd0ls3a-CGntsJ9hxaXRvatauuY3XN_Zi163O8sg`,
           },
         };
       },
