@@ -1,45 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '..';
 import { getCookie } from '../cookie';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/club/',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user.accessToken;
-
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-
-      return headers;
-    },
   }),
 
   endpoints: (builder) => ({
-    getComment: builder.query({
-      query: (requestId: string | undefined) => {
-        return {
-          url: `join-requests/commment/${requestId}`,
-          headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
-          },
-        };
-      },
-    }),
     getLogos: builder.query({
       query: () => {
         return { url: 'get/logo/all' };
       },
     }),
     getClubDetail: builder.query({
-      query: (clubId: string | undefined) => {
+      query: (data) => {
         return {
           url: 'get',
-          params: { id: clubId },
+          params: { id: data.clubId },
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+            'X-AUTH-TOKEN': data.token,
           },
         };
       },
@@ -51,6 +31,16 @@ export const clubController = createApi({
         body: newClubData,
       }),
     }),
+    requestJoinClub: builder.mutation({
+      query: (data) => ({
+        url: 'join-requests',
+        method: 'POST',
+        headers: {
+          'X-AUTH-TOKEN': data.token,
+        },
+        body: data.requestData,
+      }),
+    }),
     getMyClub: builder.query({
       query: () => ({
         url: 'get/club/my',
@@ -58,17 +48,19 @@ export const clubController = createApi({
       }),
     }),
     getClubList: builder.query({
-      query: () => {
-        return { url: 'list' };
+      query: (page) => {
+        return { url: 'list', params: { page, size: 11 } };
       },
     }),
     getPendingUsers: builder.query({
-      query: (clubId: string | undefined) => ({
-        url: `join-requests/pending/users/${clubId}`,
-        headers: {
-          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
-        },
-      }),
+      query: (data) => {
+        return {
+          url: `join-requests/pending/users/${data.clubId}`,
+          headers: {
+            'X-AUTH-TOKEN': data.token,
+          },
+        };
+      },
     }),
     acceptCrew: builder.mutation({
       query: (data) => ({
@@ -76,7 +68,7 @@ export const clubController = createApi({
         method: 'POST',
         params: { addUserEmail: data.email },
         headers: {
-          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+          'X-AUTH-TOKEN': data.token,
         },
       }),
     }),
@@ -86,7 +78,7 @@ export const clubController = createApi({
         method: 'DELETE',
         params: { rejectUserEmail: data.email },
         headers: {
-          'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWNoYW4yQGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNTY1NTA3LCJleHAiOjE2OTM1NjkxMDd9.c6uxrHUqT2JI77cdnYEh-yFamsvrgLkn2jq4SfAV1Gs`,
+          'X-AUTH-TOKEN': data.token,
         },
       }),
     }),
@@ -103,7 +95,7 @@ export const {
   useAcceptCrewMutation,
   useGetPendingUsersQuery,
   useRejectCrewMutation,
-  useGetCommentQuery,
+  useRequestJoinClubMutation,
 } = clubController;
 
 export default clubController;
