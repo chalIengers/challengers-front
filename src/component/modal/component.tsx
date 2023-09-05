@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Editor } from 'editor_likelion';
 import theme from '../../styles/theme';
-import { ButtonBox, TagList } from '../emotion/component';
+import { ButtonBox, TagList,  ClubComponent } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
-import { Body1, Body2, Body4, Header1, Section } from '../emotion/GlobalStyle';
+import { Body1, Body2, Body4, Body2Bold, Header1, Section } from '../emotion/GlobalStyle';
 import { closeModal, openModal } from '../../store/slice/modalSlice';
 import { signData } from '../../store/slice/signUpSlice';
 import {
@@ -14,13 +15,15 @@ import {
   useRequestUserMutation,
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
-import { useGetCommentQuery } from '../../store/controller/clubController';
+import { useGetCommentQuery, useRequestJoinClubMutation } from '../../store/controller/clubController';
 import { logout, selectUser } from '../../store/slice/userSlice';
 import {
   useChangePasswordMutation,
   useSendCodeMutation,
   useVerifyPasswordQuery,
 } from '../../store/controller/myPageController';
+import { commentData } from '../../store/slice/commentSlice';
+
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -68,18 +71,31 @@ export const Overlay = ({ onClick }: { onClick: React.MouseEventHandler<HTMLDivE
   );
 };
 
-const ModalBackGround = css`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${theme.palette.gray.white};
-  box-shadow: 6px 7px 9px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 2rem;
-  padding: 5.6rem 7.2rem;
-  min-width: 64rem;
-  color: black;
-`;
+const ModalBackGround = ({ children, isBlack }: { children: ReactNode; isBlack?: boolean }) => {
+  return (
+    <div
+      css={css`
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        ${isBlack
+          ? `background-color: ${theme.palette.gray[900]};`
+          : `background-color: ${theme.palette.gray.white};`}
+        box-shadow: 6px 7px 9px 5px rgba(0, 0, 0, 0.25);
+        border-radius: 2rem;
+        padding: 5.6rem 7.2rem;
+        min-width: 64rem;
+        color: black;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+ModalBackGround.defaultProps = {
+  isBlack: false,
+};
 
 /**
  * modal 안에서 사용되는 input 컴포넌트
@@ -142,7 +158,7 @@ export const RegisterSuccessModal = () => {
   }, [navigate]);
 
   return (
-    <div css={ModalBackGround}>
+    <ModalBackGround>
       <Section gap="2.4">
         <Header1
           style={css`
@@ -169,36 +185,107 @@ export const RegisterSuccessModal = () => {
           <br /> 3초 뒤에 메인 화면으로 이동합니다 =&#41;
         </Body2>
       </Section>
-    </div>
+    </ModalBackGround>
   );
 };
-
-const CommentTextArea = () => {
-  const data = useGetCommentQuery('34');
-  console.log(data);
+const CommentDiv = ({ comment }: { comment: string }) => {
   return (
-    <textarea
+    <div
+      dangerouslySetInnerHTML={{ __html: comment }}
       css={css`
         width: 100%;
         height: 30rem;
-        resize: none;
         padding: 2.4rem;
         border-radius: 0.8rem;
         background: ${theme.palette.gray[150]};
-        line-height: 2;
-        ${theme.typography.body2}
+        color: black;
+        ${theme.typography.body2};
       `}
-      readOnly
-    ></textarea>
+    ></div>
+  );
+};
+export const CommentBlackModal = () => {
+  const editorRef = useRef(null);
+  const [request] = useRequestJoinClubMutation();
+  const dispatch = useDispatch();
+  const data = useSelector(commentData);
+  const token = useSelector(selectUser).accessToken;
+  const handleCancleClick = () => {
+    dispatch(closeModal());
+  };
+  const handleResiterClick = () => {
+    // eslint-disable-next-line no-restricted-globals
+    const result = confirm('등록하시겠습니까?');
+    if (result) {
+      if (editorRef.current) {
+        const comment = (editorRef.current as HTMLBodyElement).innerHTML;
+        const postData = {
+          token,
+          requestData: { cludId: data.commentClubState.id, comment },
+        };
+        console.log(postData);
+        request(postData)
+          .then((res: any) => {
+            console.log(res);
+            console.log(res.data?.msg);
+            alert(res.data.msg);
+            if (res.data.success) dispatch(closeModal());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
+  return (
+    <ModalBackGround isBlack>
+      <Section gap="2.4">
+        <ClubComponent
+          id={data.commentClubState.id}
+          name={data.commentClubState.name}
+          logo={data.commentClubState.logo}
+        />
+        <Body2Bold
+          style={css`
+            text-align: center;
+          `}
+        >
+          {data.commentClubState.name} 클럽에 가입 신청서를 넣기 전, 관리자에게 자신에 대한 코멘트를
+          해주세요
+        </Body2Bold>
+        <Editor
+          environmentColor="dark"
+          placeholder="챌린저스 클럽에 가입 신청서를 넣기 전, 관리자에게 자신에 대한 코멘트를 해주세요
+
+          다음 내용이 들어가면 성사확률이 올라갈거에요!
+          
+          - 간단한 자기소개
+          - 클럽에 들어오고 싶은 이유"
+          defaultFontColor="white"
+          defaultFontSize="1.2rem"
+          ref={editorRef}
+        />
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <ButtonBox text="취소할게요" type="modal" cancel onClick={handleCancleClick} />
+          <ButtonBox text="등록할게요" type="modal" onClick={handleResiterClick} />
+        </div>
+      </Section>
+    </ModalBackGround>
   );
 };
 export const CommentModal = () => {
+  const data = useSelector(commentData);
   const dispatch = useDispatch();
   const handleCloseClick = () => {
     dispatch(closeModal());
   };
   return (
-    <div css={ModalBackGround}>
+    <ModalBackGround>
       <Section gap="2.4">
         <Header1
           style={css`
@@ -206,9 +293,9 @@ export const CommentModal = () => {
             text-align: center;
           `}
         >
-          김멋사님의 가입 코멘트
+          {data.commentState.name}님의 가입 코멘트
         </Header1>
-        <CommentTextArea></CommentTextArea>
+        <CommentDiv comment={data.commentState.comment}></CommentDiv>
         <div
           css={css`
             display: flex;
@@ -217,7 +304,7 @@ export const CommentModal = () => {
           <ButtonBox text="확인했어요" type="large_modal" onClick={handleCloseClick} />
         </div>
       </Section>
-    </div>
+    </ModalBackGround>
   );
 };
 
@@ -272,7 +359,7 @@ export const RegisterModal = () => {
     dispatch(closeModal());
   };
   return (
-    <div css={ModalBackGround}>
+    <ModalBackGround>
       <Section gap="2.4">
         <Header1
           style={css`
@@ -320,7 +407,7 @@ export const RegisterModal = () => {
           <ButtonBox text="회원가입" type="modal" onClick={handleClick} />
         </div>
       </Section>
-    </div>
+    </ModalBackGround>
   );
 };
 
@@ -336,7 +423,7 @@ export const CreateClubModal = () => {
     dispatch(closeModal());
   };
   return (
-    <div css={ModalBackGround}>
+    <ModalBackGround>
       <Section gap="3.6">
         <Header1
           style={css`
@@ -373,7 +460,7 @@ export const CreateClubModal = () => {
           <ButtonBox text="등록할게요" type="modal" onClick={RegisterButton} />
         </div>
       </Section>
-    </div>
+    </ModalBackGround>
   );
 };
 
@@ -457,7 +544,7 @@ export const ChangePassword = () => {
     }
   };
   return (
-    <div css={ModalBackGround}>
+    <ModalBackGround>
       <Section gap="4.8">
         <Header1>비밀번호를 변경할게요</Header1>
         <Section gap="2.4">
@@ -552,6 +639,6 @@ export const ChangePassword = () => {
           </div>
         </Section>
       </Section>
-    </div>
+    </ModalBackGround>
   );
 };

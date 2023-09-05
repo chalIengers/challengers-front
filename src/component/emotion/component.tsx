@@ -10,6 +10,7 @@ import {
   ContainerType,
   ProjectBoxProps,
   SelectBoxProps,
+  SelectBoxProps2,
   TagListType,
   TextBoxProps,
   TextInputBoxType,
@@ -55,7 +56,13 @@ export const ContainerComponent = ({ children }: ContainerType) => {
  * @StyledSelectBox
  */
 
-export const SelectBox = ({ options, value, onChange, background }: SelectBoxProps) => {
+export const SelectBox = ({
+  options,
+  value,
+  onChange,
+  background,
+  customStyle,
+}: SelectBoxProps) => {
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
@@ -80,6 +87,11 @@ export const SelectBox = ({ options, value, onChange, background }: SelectBoxPro
         background-repeat: no-repeat;
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+        & option {
+          border: 0px solid black;
+          border-radius: 0.8rem;
+        }
+        ${customStyle}
       `}
     >
       {options.map((option) => (
@@ -90,7 +102,53 @@ export const SelectBox = ({ options, value, onChange, background }: SelectBoxPro
     </select>
   );
 };
+export const SelectBox2 = ({
+  options,
+  value,
+  onChange,
+  background,
+  customStyle,
+}: SelectBoxProps2) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    onChange(selectedValue);
+  };
 
+  return (
+    <select
+      value={value}
+      onChange={handleChange}
+      css={css`
+        padding: 0.8rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        text-indent: 0.1rem;
+        background: ${background || `${theme.palette.primary[500]}`};
+        ${theme.typography.body3Bold}
+        color: ${theme.palette.gray.white};
+        padding-right: 2.4rem;
+        border-radius: 0.8rem;
+        background-size: 1.2rem;
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+        & option {
+          border: 0px solid black;
+          border-radius: 0.8rem;
+        }
+        ${customStyle}
+      `}
+    >
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+};
 /**
  * 라벨 컴포넌트
  * @param children 컴포넌트 안에 넣을 자식 요소
@@ -465,7 +523,6 @@ export const TextInputBox = ({
     border: css`
       font-size: 2rem;
       letter-spacing: -0.6px;
-      border-bottom: 1px solid #cbcbcb;
     `,
   };
   return (

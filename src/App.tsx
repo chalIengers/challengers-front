@@ -27,7 +27,7 @@ function App() {
         <Route path="/project/:sort?" element={<Project />} />
         <Route path="/project/detail/:id" element={<Detail />} />
         <Route path="/project/publish" element={<ProjectPublish />} />
-        <Route path="/club" element={<Club />} />
+        <Route path="/club/:page" element={<Club />} />
         <Route path="/club/publish" element={<ClubPublish />} />
         <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
         <Route path="/signUp" element={<SignUp />} />

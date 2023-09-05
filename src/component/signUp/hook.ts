@@ -22,6 +22,7 @@ const useLoginLogic = () => {
       }
       dispatch(setUser({ accessToken }));
       navigate('/');
+      console.log(accessToken);
     } catch (e) {
       alert('로그인 실패');
     }
