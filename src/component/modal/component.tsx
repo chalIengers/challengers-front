@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { clubData } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
 import { ButtonBox } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
@@ -15,6 +16,7 @@ import {
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
 import { useGetCommentQuery } from '../../store/controller/clubController';
+import { selectUser } from '../../store/slice/userSlice';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -306,13 +308,19 @@ export const RegisterModal = () => {
 export const CreateClubModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const clubDatas = useSelector(clubData);
+  const { accessToken } = useSelector(selectUser);
 
   const CancelButton = () => {
     dispatch(closeModal());
   };
   const RegisterButton = () => {
-    navigate('/');
-    dispatch(closeModal());
+    try {
+      navigate('/');
+      dispatch(closeModal());
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div css={ModalBackGround}>
