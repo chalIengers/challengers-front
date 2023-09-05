@@ -73,7 +73,7 @@ const Index = () => {
         </TextBox>
         <ApiFetcher query={useGetClubListQuery({})} loading={<div>로딩중...</div>}>
           {(ClubData) =>
-            ClubData.map((club: ClubComponentProps) => (
+            ClubData.content.map((club: ClubComponentProps) => (
               <ClubBox
                 key={club.id}
                 id={club.id}

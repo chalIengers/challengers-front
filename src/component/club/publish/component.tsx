@@ -1,14 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ButtonBox } from '../../emotion/component';
 import { Body2, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
+import { clubData, setClubField } from '../../../store/slice/CreateClubSlice';
 
 const ImageUpload = () => {
   const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useDispatch();
 
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +49,7 @@ const ImageUpload = () => {
       reader.onload = (event) => {
         const src = event.target?.result as string;
         setImgFileSrc(src);
+        dispatch(setClubField({ field: 'logoUrl', clubData: src }));
       };
       reader.readAsDataURL(file);
     }
@@ -138,11 +142,19 @@ export const ClubLogoPreView = () => {
 };
 
 export const ClubTypeBox = ({ text }: { text: string }) => {
+  const dispatch = useDispatch();
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [clubTypes, setClubTypes] = useState<string[]>([]);
   const [clubTypesTemp, setClubTypesTemp] = useState<string[]>([]);
+  const clubFormText = ref.current?.innerText;
   const { value, setValue, handleOnChange } = useChangeInput();
 
+  useEffect(() => {
+    if (clubFormText) {
+      dispatch(setClubField({ field: 'clubForm', clubData: clubFormText }));
+    }
+  }, [clubFormText, dispatch]);
   const createDiv = (item: string, index: number) => {
     const removeDiv = () => {
       const filterClub = clubTypesTemp.filter((type) => type !== item);
@@ -206,6 +218,7 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
             color: ${theme.palette.semantic.placeholder[500]};
             ${theme.typography.body1};
           `}
+          ref={ref}
         >
           {clubTypes.length
             ? clubTypes.map((item, index) => {

@@ -159,9 +159,11 @@ export interface TextInputBoxType {
   max?: number;
   inputType?: string;
   value?: string;
+  name?: string;
   // eslint-disable-next-line no-unused-vars
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   register?: UseFormRegisterReturn;
 }
 

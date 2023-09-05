@@ -34,10 +34,13 @@ export const clubController = createApi({
       },
     }),
     createClub: builder.mutation({
-      query: (newClubData) => ({
+      query: ({ accessToken, newClubData }) => ({
         url: 'create',
         method: 'POST',
         body: newClubData,
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
       }),
     }),
     getMyClub: builder.query({
