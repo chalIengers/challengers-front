@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, selectModal } from '../../store/slice/modalSlice';
 import {
+  ChangePassword,
   CommentModal,
   CreateClubModal,
   ModalContainer,
@@ -15,6 +16,7 @@ const MODAL_TYPES = {
   RegisterModal: 'RegisterModal',
   RegisterSuccessModal: 'RegisterSuccessModal',
   CommentModal: 'CommentModal',
+  ChangePassword: 'ChangePassword',
 };
 
 const MODAL_COMPONENTS = [
@@ -33,6 +35,10 @@ const MODAL_COMPONENTS = [
   {
     type: MODAL_TYPES.CommentModal,
     component: <CommentModal />,
+  },
+  {
+    type: MODAL_TYPES.ChangePassword,
+    component: <ChangePassword />,
   },
 ];
 

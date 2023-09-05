@@ -10,6 +10,7 @@ import projectController from './controller/projectController';
 import clubController from './controller/clubController';
 import crewController from './controller/crewController';
 import userSlice from './slice/userSlice';
+import myPageController from './controller/myPageController';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     [projectController.reducerPath]: projectController.reducer,
     [clubController.reducerPath]: clubController.reducer,
     [crewController.reducerPath]: crewController.reducer,
+    [myPageController.reducerPath]: myPageController.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -32,6 +34,7 @@ const store = configureStore({
       crewController.middleware,
       signUpApi.middleware,
       publishApi.middleware,
+      myPageController.middleware,
     ),
 });
 

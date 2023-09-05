@@ -243,7 +243,18 @@ export const FlexWrapContainer = ({ children }: ContainerType) => {
  * @param text 버튼 안의 text 내용
  * @param type 버튼의 형태
  */
-export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProps) => {
+export const ButtonBox = ({
+  text,
+  type,
+  onClick,
+  cancel,
+  submit,
+  width,
+  height,
+  color,
+  disabled,
+  backgroundColor,
+}: ButtonBoxProps) => {
   const buttonStyles = {
     large: css`
       width: 100%;
@@ -261,8 +272,14 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
       width: 14rem;
       height: 4rem;
       ${theme.typography.body3}
-      color: ${cancel ? theme.palette.gray.black : theme.palette.gray.white};
+      color: ${cancel && theme.palette.gray.black};
       background-color: ${cancel && theme.palette.gray[300]};
+    `,
+    custom: css`
+      width: 19.8rem;
+      height: 5.6rem;
+      background-color: ${backgroundColor || '#212121'};
+      ${theme.typography.body1Bold}
     `,
     small: css`
       width: 22.4rem;
@@ -288,7 +305,9 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
   const buttonStyle = css`
     border-radius: ${type === 'large' ? 1.2 : 0.8}rem;
     background-color: ${theme.palette.primary[500]};
-    ${buttonStyles[type]}
+    color: ${theme.palette.gray.white};
+    ${buttonStyles[type]};
+    background-color: ${disabled && '#88898A'};
 
     &:active {
       transform: scale(0.98);
@@ -297,7 +316,12 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
   `;
 
   return (
-    <button type={submit ? 'submit' : 'button'} css={buttonStyle} onClick={onClick}>
+    <button
+      type={submit ? 'submit' : 'button'}
+      css={buttonStyle}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
