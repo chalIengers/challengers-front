@@ -23,7 +23,15 @@ export interface SelectBoxProps {
   background?: string;
   customStyle?: any;
 }
+export type T = string | number;
 
+export interface SelectBoxProps2 {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
+}
 export interface ProjectBoxProps {
   id: number;
   projectName: string;

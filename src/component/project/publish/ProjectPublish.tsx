@@ -20,6 +20,7 @@ import {
   TagList,
   FlexWrapContainer,
   SelectBox,
+  SelectBox2,
 } from '../../emotion/component';
 import { selectUser } from '../../../store/slice/userSlice';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
@@ -48,32 +49,24 @@ const ProjectPublish = () => {
   const editorRef = useRef(null);
 
   // 셀렉트 옵션 제작
-  const [selectedOption, setSelectedOption] = useState('');
 
   const options = [
     { value: '웹서비스', label: '옵션 1' },
     { value: '소셜미디어', label: '옵션 2' },
-    { value: '안드로이드', label: '옵션 2' },
+    { value: '안드로이드', label: '옵션 3' },
   ];
   const options2 = [
-    { value: 'MAINTENANCE', label: '옵션 1' },
-    { value: 'ACTIVE', label: '옵션 2' },
-    { value: 'INACTIVE', label: '옵션 2' },
+    { value: 'MAINTENANCE', label: '서비스 점검' },
+    { value: 'ACTIVE', label: '서비스 진행 중' },
+    { value: 'INACTIVE', label: '서비스 종료' },
   ];
-  const [options3, setOption3] = useState([{ value: 0, label: '없음' }]);
-
-  const handleSelectChange = (selectedValue: string) => {
-    setSelectedOption(selectedValue);
-  };
+  const [options3, setOption3] = useState([{ value: 0, label: '소속 클럽 없음' }]);
 
   const { accessToken } = useSelector(selectUser);
 
   const { data, error, isLoading } = useGetMyClubQuery({ accessToken });
 
   const test = () => {
-    console.log(accessToken);
-    console.log(data);
-
     const updatedOptions3 = [
       ...options3,
       ...data.map((item: any) => ({
@@ -83,6 +76,12 @@ const ProjectPublish = () => {
     ];
     setOption3(updatedOptions3);
   };
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      test();
+    }
+  }, [isLoading, data]);
 
   const [datas, setDatas] = useState([]);
 
@@ -103,7 +102,7 @@ const ProjectPublish = () => {
         ];
         setOption3(updatedOptions3);
       } catch (error) {
-        console.error('데이터를 가져오는 중 오류 발생:', error);
+        console.log('');
       }
     };
 
@@ -116,6 +115,7 @@ const ProjectPublish = () => {
     try {
       const resultData = await Image(file).unwrap();
       console.log(resultData);
+      const updatedData = { ...newProjectData, imageUrl: resultData.msg };
       setNewProjectData((prevData) => ({
         ...prevData,
         imageUrl: resultData.msg,
@@ -164,18 +164,6 @@ const ProjectPublish = () => {
 
   const handleDeleteInfoBox = (boxId: number) => {
     setTeamInfoBoxes((prevBoxes) => prevBoxes.filter((box) => box.id !== boxId));
-  };
-
-  const check = () => {
-    const nonEmptyBoxes = teamInfoBoxes.map((box) => {
-      const filteredInfoData = box.infoData.filter(
-        (member) => !(member.name === '' || member.position === '' || member.role === ''),
-      );
-
-      return { ...box, infoData: filteredInfoData };
-    });
-
-    // console.log(teamInfoBoxes);
   };
 
   const {
@@ -313,7 +301,6 @@ const ProjectPublish = () => {
   };
 
   const handlePublish = async () => {
-    Fileupload(Fileimage);
     if (editorRef.current) {
       const test = (editorRef.current as HTMLBodyElement).innerHTML;
 
@@ -327,7 +314,7 @@ const ProjectPublish = () => {
   // 데이터를 전송하거나 다른 비동기 작업을 수행하는 함수
   const doAsyncWork = async (data: any) => {
     try {
-      // // 비동기 작업 수행
+      // // // 비동기 작업 수행
       await mutation[0](data);
 
       console.log(data);
@@ -339,6 +326,7 @@ const ProjectPublish = () => {
   };
 
   const onSubmit = (data: any) => {
+    Fileupload(Fileimage);
     const updatedData = updateProjectData(Object.keys(data), data);
     setNewProjectData(updatedData);
 
@@ -357,10 +345,6 @@ const ProjectPublish = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Inner>
-        <button type="button" onClick={test}>
-          dfsd
-        </button>
-
         <Banner />
         <Header1>프로젝트 발행페이지</Header1>
         <ContainerComponent>
@@ -440,17 +424,27 @@ const ProjectPublish = () => {
           <Header1>프로젝트 요약</Header1>
           <GridBox>
             <Header2>소속 클럽</Header2>
-            <TextInputBox
-              type="body1"
-              text="소속 클럽을 입력해주세요"
-              size={40}
-              max={20}
-              inputType="text"
-              // register={register('Crew', {
-              //   required: true,
-              // })}
+            <Controller
+              name="belongedClubId"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectBox2
+                  options={options3.map((option) => ({
+                    value: option.value,
+                    label: option.label,
+                  }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                  background="#333333"
+                  customStyle={{
+                    color: 'white',
+                    width: '20rem',
+                  }}
+                />
+              )}
             />
-
             <Header2>서비스 형태</Header2>
             {/* <TextInputBox
               type="body1"
@@ -487,8 +481,11 @@ const ProjectPublish = () => {
               defaultValue=""
               rules={{ required: true }}
               render={({ field }) => (
-                <SelectBox
-                  options={options2.map((option) => option.value)}
+                <SelectBox2
+                  options={options2.map((option) => ({
+                    value: option.value,
+                    label: option.label,
+                  }))}
                   value={field.value}
                   onChange={field.onChange}
                   background="#333333"
@@ -499,17 +496,6 @@ const ProjectPublish = () => {
                 />
               )}
             />
-            {/* <TextInputBox
-              type="body1"
-              text="프로젝트 현재 상태를 입력해주세요"
-              size={40}
-              max={20}
-              inputType="text"
-              register={register('projectStatus', {
-                valueAsNumber: true,
-                required: true,
-              })}
-            /> */}
 
             <Header2>프로젝트 기간</Header2>
             <TextInputBox

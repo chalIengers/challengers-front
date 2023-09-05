@@ -78,7 +78,7 @@ export const projectController = createApi({
           method: 'POST',
           body: newProjectData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODk4NzQ3LCJleHAiOjE2OTM5MDIzNDd9.TayRd0ls3a-CGntsJ9hxaXRvatauuY3XN_Zi163O8sg`,
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzOTA1MzY0LCJleHAiOjE2OTM5MDg5NjR9.FpteOSpZzB-_uzck5R8dWvQPOhg7fZbXStIWTTtzkE4`,
           },
         };
       },
