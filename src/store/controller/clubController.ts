@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getCookie } from '../cookie';
+import { RootState } from '..';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
@@ -42,9 +43,11 @@ export const clubController = createApi({
       }),
     }),
     getMyClub: builder.query({
-      query: () => ({
+      query: ({ accessToken }) => ({
         url: 'get/club/my',
-        // 헤더 넣는 법 알기
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
       }),
     }),
     getClubList: builder.query({

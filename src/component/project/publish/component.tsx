@@ -10,9 +10,11 @@ import {
   InfoContainer,
   InfoDownContainer,
   InfoInput,
+  InfoInput2,
   InfoUpperContainer,
   InfoUpperContainer2,
   LinkImg,
+  RowContainer,
 } from '../emotion/component';
 import { TeamMember, TextInputBoxType, initialLink } from '../../../types/globalType';
 import { extractSubstring } from './hook';
@@ -62,28 +64,55 @@ export const Overlay = ({ addInfo, onClick }: { addInfo: boolean | undefined; on
 // const addPositionOnClick = () => {
 //   ModalBoxComponent.current?.style.setProperty('display', 'none');
 // };
+export const Inputtext = () => {
+  const [position, setPosition] = useState('');
+  return (
+    <div>
+      <input
+        type="text"
+        onChange={(e) => {
+          setPosition(e.target.value);
+        }}
+      />
+    </div>
+  );
+};
+
 export const TeamInfoInputBox = ({
   addInfo,
   onClick,
+  onRemove,
+  onInfoChange,
+  infoData,
 }: {
   addInfo?: boolean;
   onClick?: () => void;
+  onRemove?: () => void;
+  onInfoChange?: (newData: TeamMember[]) => void;
+  infoData: TeamMember[];
 }) => {
-  const [infoData, setInfoData] = useState<TeamMember[]>([
-    { id: 1, name: '', position: '', role: '' },
-  ]);
   const [position, setPosition] = useState('');
-  const dispatch = useDispatch();
 
   const handleAddInfo = () => {
-    const newMember: TeamMember = { id: infoData.length + 1, name: '', position: '', role: '' };
-    setInfoData([...infoData, newMember]);
+    // 이름과 역할 모두 작성되지 않았을 때
+    if (infoData.some((member) => member.name === '' || member.role === '')) {
+      alert('이름과 역할을 모두 작성해주세요.');
+    } else {
+      const newMember: TeamMember = { id: infoData.length + 1, name: '', position: '', role: '' };
+      if (onInfoChange) {
+        onInfoChange([...infoData, newMember]);
+      }
+    }
   };
-  const handleConfirm = () => {
-    const newData = infoData.map(({ id, ...rest }) => rest);
-    console.log(newData);
-    dispatch(addCrew(newData));
+
+  const handleDeleteInfo = (index: number) => {
+    const updatedData = [...infoData];
+    updatedData.splice(index, 1);
+    if (onInfoChange) {
+      onInfoChange(updatedData);
+    }
   };
+
   return (
     <div
       onClick={onClick}
@@ -97,38 +126,54 @@ export const TeamInfoInputBox = ({
     >
       <InfoContainer>
         <InfoUpperContainer>
-          <InfoInput
-            placeholder="역할을 선택해주세요"
-            large
-            value={position}
-            onChange={(e) => {
-              setPosition(e.target.value);
-            }}
-          />
+          <RowContainer gap="3.2rem">
+            <InfoInput2
+              placeholder="역할을 선택해주세요"
+              large
+              value={position}
+              onChange={(e) => {
+                setPosition(e.target.value);
+              }}
+              color={`${theme.palette.gray.white}`}
+            />
+            <button type="button" onClick={onRemove}>
+              <img src="/img/close.png" alt="Close Icon" />
+            </button>
+          </RowContainer>
         </InfoUpperContainer>
 
         <InfoDownContainer>
           <Section gap="0.8">
             {infoData.map((item, index) => (
               <Section key={item.id} gap="0.8">
-                <InfoInput
-                  placeholder="이름을 입력해주세요"
-                  large
-                  value={item.name}
-                  onChange={(e) => {
-                    const updatedData = [...infoData];
-                    updatedData[index].name = e.target.value;
-                    updatedData[index].position = position;
-                    setInfoData(updatedData);
-                  }}
-                />
-                <InfoInput
+                <RowContainer gap="2.4rem">
+                  <InfoInput2
+                    placeholder="이름을 입력해주세요"
+                    large
+                    value={item.name}
+                    onChange={(e) => {
+                      const updatedData = [...infoData];
+                      updatedData[index].name = e.target.value;
+                      updatedData[index].position = position;
+                      if (onInfoChange) {
+                        onInfoChange(updatedData);
+                      }
+                    }}
+                  />
+                  <button type="button" onClick={() => handleDeleteInfo(index)}>
+                    <img src="/img/close.png" alt="Close Icon" />
+                  </button>
+                </RowContainer>
+
+                <InfoInput2
                   placeholder="어떤 역할을 했나요?"
                   value={item.role}
                   onChange={(e) => {
                     const updatedData = [...infoData];
                     updatedData[index].role = e.target.value;
-                    setInfoData(updatedData);
+                    if (onInfoChange) {
+                      onInfoChange(updatedData);
+                    }
                   }}
                 />
               </Section>
@@ -149,9 +194,6 @@ export const TeamInfoInputBox = ({
                 해당 포지션에 팀원을 더 추가하고 싶어요
               </Body5>
             )}
-            <button onClick={handleConfirm} type="button">
-              확인
-            </button>
           </Section>
         </InfoDownContainer>
 
@@ -286,6 +328,15 @@ export const PublishImg = (props: {
 }) => {
   const { htmlFor, imageSrc, onImageDrop } = props;
 
+  const isValidImageFile = (file: File) => {
+    const fileExtension = (file.name.split('.').pop() || '').toLowerCase();
+
+    // 유효한 확장자 목록
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    return allowedExtensions.includes(fileExtension);
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
 
@@ -293,10 +344,17 @@ export const PublishImg = (props: {
 
     if (files.length > 0) {
       const imageFile = files[0];
-      onImageDrop?.(imageFile);
+
+      // 이미지 파일 여부 확인 (예: 확장자 또는 MIME 유형 검사)
+      if (isValidImageFile(imageFile)) {
+        // 이미지 파일인 경우 처리
+        onImageDrop?.(imageFile);
+      } else {
+        // 이미지 파일이 아닌 경우 alert
+        alert('이미지 파일 형식이 아닙니다.');
+      }
     }
   };
-
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
@@ -406,7 +464,6 @@ export const ChildComponent = ({
   const { register, handleSubmit } = useFormContext();
 
   const onSubmit = (data: any) => {
-    // 부모 컴포넌트에서 받은 formData와 하위 컴포넌트의 데이터를 합칩니다.
     const combinedData = {
       ...formData,
       ...data,
@@ -417,7 +474,7 @@ export const ChildComponent = ({
 
   const sendDataToParent = () => {
     const data = 'This is data from the child component';
-    onDataUpdate(data); // 콜백 함수를 호출하여 데이터 전달
+    onDataUpdate(data);
   };
 
   return (
@@ -759,7 +816,7 @@ export const LinkInputBox2 = ({
   };
   const onChangeForRole = (newValue: any) => {
     // projectCrew[${indexs}].role 필드의 값을 newValue로 업데이트
-    setValue(`projectCrew[${indexs}].role`, newValue);
+    setValue(`projectCrew[${indexs}].name`, newValue);
     onExtractedNameChange(newValue);
   };
   return (
@@ -778,7 +835,7 @@ export const LinkInputBox2 = ({
     >
       <Controller
         control={control}
-        name={`projectLink[${indexs}].URL`}
+        name={`projectLink[${indexs}].linkUrl`}
         defaultValue=""
         render={({ field: { onChange, value } }) => (
           <input
@@ -817,4 +874,50 @@ export const LinkInputBox2 = ({
       )}
     </div>
   );
+};
+
+export const StackInput = () => {
+  const [inputHashTag, setInputHashTag] = useState('');
+  const [hashTags, setHashTags] = useState<string[]>([]);
+
+  const changeHashTagInput = (e: any) => {
+    setInputHashTag(e.target.value);
+    console.log(inputHashTag);
+  };
+
+  const onkeyDown = (e: any) => {
+    if (e.code !== 'Enter') return;
+    e.preventDefault();
+    console.log('테스트');
+  };
+
+  const isEmptyValue = (value: any) => {
+    if (!value.length) {
+      return true;
+    }
+    return false;
+  };
+
+  const addHashTag = (e: any) => {
+    const allowedCommand = ['Comma', 'Enter', 'Space'];
+    if (!allowedCommand.includes(e.code)) return;
+
+    if (isEmptyValue(e.target.value.trim())) {
+      setInputHashTag('');
+      return;
+    }
+
+    let newHashTag = e.target.value.trim();
+    if (newHashTag.endsWith(',')) {
+      newHashTag = newHashTag.slice(0, newHashTag.length - 1);
+    }
+
+    setHashTags((prevHashTags) => {
+      return [...prevHashTags, newHashTag]; // 배열로 유지
+    });
+
+    setInputHashTag('');
+  };
+
+  return <div></div>;
 };
