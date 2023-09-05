@@ -85,43 +85,22 @@ const ProjectPublish = () => {
 
   const [datas, setDatas] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('URL_또는_API_ENDPOINT');
-        const datas = await response.json();
-
-        setDatas(datas);
-
-        const updatedOptions3 = [
-          ...options3,
-          ...datas.map((item: any) => ({
-            value: item.id.toString(),
-            label: item.name,
-          })),
-        ];
-        setOption3(updatedOptions3);
-      } catch (error) {
-        console.log('');
-      }
-    };
-
-    // fetchData 함수 호출
-    fetchData();
-  }, []);
-
-  // 이미지 파일 업로드
   const Fileupload = async (file: any) => {
     try {
       const resultData = await Image(file).unwrap();
       console.log(resultData);
-      const updatedData = { ...newProjectData, imageUrl: resultData.msg };
+
       setNewProjectData((prevData) => ({
         ...prevData,
         imageUrl: resultData.msg,
       }));
     } catch (error) {
-      console.log('dfd');
+      console.log('이미지 업로드 실패:', error);
+
+      setNewProjectData((prevData) => ({
+        ...prevData,
+        imageUrl: '',
+      }));
     }
   };
 
@@ -301,6 +280,7 @@ const ProjectPublish = () => {
   };
 
   const handlePublish = async () => {
+    Fileupload(Fileimage);
     if (editorRef.current) {
       const test = (editorRef.current as HTMLBodyElement).innerHTML;
 
@@ -314,32 +294,31 @@ const ProjectPublish = () => {
   // 데이터를 전송하거나 다른 비동기 작업을 수행하는 함수
   const doAsyncWork = async (data: any) => {
     try {
-      // // // 비동기 작업 수행
       await mutation[0](data);
 
       console.log(data);
-      // 작업이 완료된 후 실행할 코드
       console.log('데이터가 성공적으로 전송되었습니다.');
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
     }
   };
 
-  const onSubmit = (data: any) => {
-    Fileupload(Fileimage);
-    const updatedData = updateProjectData(Object.keys(data), data);
-    setNewProjectData(updatedData);
+  const onSubmit = async (data: any) => {
+    const otherData = updateProjectData(Object.keys(data), data);
+    setNewProjectData(otherData);
 
-    const newProjectCrew = updateProjectCrew(teamInfoBoxes, updatedData);
+    const crewData = updateProjectCrew(teamInfoBoxes, otherData);
     const techStacks: Stack[] = StackTags.map((tag) => ({
       name: tag,
     }));
 
-    updatedData.projectTechStack = techStacks;
+    otherData.projectTechStack = techStacks;
+    otherData.projectCrew = crewData;
 
-    updatedData.projectCrew = newProjectCrew;
-
-    doAsyncWork(updatedData);
+    // 이미지 업로드를 기다리기 위해 Fileupload를 async 함수로 변경
+    await Fileupload(Fileimage);
+    // 이미지 업로드가 완료된 후에 doAsyncWork 호출
+    doAsyncWork(otherData);
   };
 
   return (
