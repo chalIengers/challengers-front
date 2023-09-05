@@ -53,6 +53,11 @@ export const projectController = createApi({
         body: newProjectData,
       }),
     }),
+    getTechStacks: builder.query({
+      query: () => {
+        return { url: 'tech-stacks' };
+      },
+    }),
   }),
 });
 
@@ -62,6 +67,7 @@ export const {
   useGetVideosByTopViewQuery,
   useGetVideoQuery,
   useCreatePublishMutation,
+  useGetTechStacksQuery,
 } = projectController;
 
 export default projectController;

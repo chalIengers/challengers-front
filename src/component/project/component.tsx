@@ -5,6 +5,7 @@ import { ButtonBox, FlexWrapContainer, LoadingBox } from '../emotion/component';
 import theme from '../../styles/theme';
 import { SelectBoxDropBoxProps, SelectedBoxProps } from '../../types/globalType';
 import { Body3Bold, Body4, Section } from '../emotion/GlobalStyle';
+import { useGetTechStacksQuery } from '../../store/controller/projectController';
 
 export const LoadingContainer = () => (
   <FlexWrapContainer>
@@ -50,7 +51,7 @@ const SelectedBox = ({ children, setShowOptions, showOptions, value }: SelectedB
       css={css`
         width: 11.4rem;
         position: relative;
-        padding: 0.8rem;
+        padding: 0.8rem 1.2rem;
         background: ${value === 'sort' ? 'black' : theme.palette.primary[500]};
         ${theme.typography.body3Bold}
         border-radius: 0.8rem;
@@ -136,7 +137,20 @@ export const SelectBoxDropBox = ({
 export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBoxProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [teckStacks, setTeckStacks] = useState(sortType.stack);
+  const [techStacks, setTechStacks] = useState(sortType.stack);
+
+  const { data } = useGetTechStacksQuery({});
+  // const filteredData = data.filter(item => item.name.includes(inputValue));
+
+  // 중복된 value 값을 제거하기 위해 Set을 사용
+  const uniqueValuesArray: string[] = Array.from(
+    new Set(data?.map((item: { name: string }) => item.name)),
+  );
+
+  // 필터링
+  const filteredItems = uniqueValuesArray.filter((item: string) =>
+    item.toLowerCase().includes(inputValue.toLowerCase()),
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -144,18 +158,19 @@ export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBo
 
   const handleClickStack = (e: any) => {
     const { innerText } = e.target;
-    setTeckStacks((prev) => [...prev, innerText]);
+    if (techStacks.length < 5 && !techStacks.includes(innerText))
+      setTechStacks((prev) => [...prev, innerText]);
     setInputValue('');
   };
 
   const handleDeleteStack = (e: any) => {
     const { innerText } = e.target;
-    const updatedTechStacks = teckStacks.filter((stack) => stack !== innerText);
-    setTeckStacks(updatedTechStacks);
+    const updatedTechStacks = techStacks.filter((stack) => stack !== innerText);
+    setTechStacks(updatedTechStacks);
   };
 
   const handleSubmit = () => {
-    setSortType((prev) => ({ ...prev, [value]: [...teckStacks] }));
+    setSortType((prev) => ({ ...prev, [value]: [...techStacks] }));
     setShowOptions((prev) => !prev);
   };
 
@@ -221,7 +236,7 @@ export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBo
               css={css`
                 position: absolute;
                 display: ${inputValue ? 'block' : 'none'};
-                top: 4rem;
+                top: 4.4rem;
                 left: 0;
                 width: 100%;
                 height: 16rem;
@@ -230,11 +245,37 @@ export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBo
                 border-radius: 1rem;
                 border: 1px solid #f4f4f4;
                 box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                overflow: scroll;
+                scrollbar-width: none; /* Firefox에서는 무시됨 */
+                -ms-overflow-style: none; /* IE에서는 무시됨 */
+                ::-webkit-scrollbar {
+                  display: none;
+                }
               `}
             >
-              <p role="presentation" onClick={handleClickStack}>
-                {inputValue}
-              </p>
+              {filteredItems.length !== 0 ? (
+                filteredItems.map((stack) => {
+                  return (
+                    <p
+                      key={stack}
+                      role="presentation"
+                      onClick={handleClickStack}
+                      css={css`
+                        cursor: pointer;
+                        padding: 1.2rem;
+                        border-radius: 1.6rem;
+                        :hover {
+                          background-color: #eee;
+                        }
+                      `}
+                    >
+                      {stack}
+                    </p>
+                  );
+                })
+              ) : (
+                <p>기술스택이 존재하지 않습니다.</p>
+              )}
             </div>
           </div>
           <div
@@ -260,7 +301,7 @@ export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBo
               ${theme.typography.body3}
             `}
           >
-            {teckStacks.map((stack) => {
+            {techStacks.map((stack) => {
               return (
                 <div
                   key={stack}
@@ -268,9 +309,13 @@ export const SelectBoxModal = ({ value, sortType, setSortType }: SelectBoxDropBo
                     background-color: #d9d9d9;
                     padding: 1.2rem;
                     border-radius: 1.6rem;
+                    cursor: pointer;
                     &::after {
                       content: '✕';
                       margin-left: 0.6rem;
+                    }
+                    :hover {
+                      background-color: #c4c4c4;
                     }
                   `}
                   role="presentation"
