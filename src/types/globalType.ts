@@ -25,6 +25,23 @@ export interface SelectBoxProps {
 }
 export type T = string | number;
 
+
+export interface SortType {
+  service: string;
+  stack: string[];
+  sort: string;
+}
+export interface SelectBoxDropBoxProps {
+  options?: string[];
+  value: 'service' | 'sort' | 'stack';
+  sortType: SortType;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+}
+export interface SelectedBoxProps extends ContainerType {
+  value: 'service' | 'sort' | 'stack';
+  setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  showOptions: boolean;
+}
 export interface SelectBoxProps2 {
   options: { value: T; label: string }[];
   value: T;
@@ -94,10 +111,23 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small' | 'auto' | 'large_modal';
+  type:
+    | 'large'
+    | 'small'
+    | 'modal'
+    | 'modalSmall'
+    | 'very_small'
+    | 'auto'
+    | 'large_modal'
+    | 'custom';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;
+  width?: string;
+  height?: string;
+  color?: string;
+  backgroundColor?: string;
+  disabled?: boolean;
 }
 
 export interface BannerProps {
@@ -109,7 +139,7 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  id: number | string;
+  id?: number | string;
   name: string;
   logo: string;
 }

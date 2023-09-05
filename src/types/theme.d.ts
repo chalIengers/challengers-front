@@ -31,7 +31,7 @@ declare module '@emotion/react' {
         fontSize: '2.0rem';
       };
       body1: {
-        fontWeight: 'Medium';
+        fontWeight: '500';
         fontSize: '1.8rem';
       };
       body1Bold: {
@@ -39,7 +39,7 @@ declare module '@emotion/react' {
         fontSize: '1.8rem';
       };
       body2: {
-        fontWeight: 'Medium';
+        fontWeight: '500';
         fontSize: '1.6rem';
       };
       body2Bold: {
@@ -50,8 +50,12 @@ declare module '@emotion/react' {
         fontWeight: 'Bold';
         fontSize: '1.4rem';
       };
+      body3: {
+        fontWeight: '500';
+        fontSize: '1.4rem';
+      };
       body4: {
-        fontWeight: 'Medium';
+        fontWeight: '500';
         fontSize: '1.2rem';
       };
     };

@@ -11,10 +11,14 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     addProject: (state, action: PayloadAction<ProjectBoxProps[]>) => {
+      console.log(action.payload);
       return {
         ...state,
         projects: [...state.projects, ...action.payload],
       };
+    },
+    resetProject: (state) => {
+      return { projects: [] };
     },
     // removeProject: (state, action: PayloadAction<number>) => {
     //   const tempProject = state.projects.filter((project) => project.id !== action.payload);
@@ -23,7 +27,7 @@ const projectSlice = createSlice({
   },
 });
 
-export const { addProject } = projectSlice.actions;
+export const { addProject, resetProject } = projectSlice.actions;
 
 // // Thunk action to fetch projects from an API
 // export const fetchProjects = (): AppThunk => async (dispatch) => {

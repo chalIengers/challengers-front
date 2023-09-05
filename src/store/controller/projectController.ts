@@ -6,29 +6,29 @@ export const projectController = createApi({
 
   endpoints: (builder) => ({
     getVideos: builder.query({
-      query: ({ size, page }) => {
-        return { url: 'get/all', params: { size, page } };
+      query: ({ size, page, categories, sort }) => {
+        return { url: 'get/all', params: { size, page, categories, sort } };
       },
     }),
-    getVideosInfinity: builder.query({
-      query: ({ size, page }) => {
-        return { url: 'get/all', params: { size, page } };
-      },
-      // Only have one cache entry because the arg always maps to one string
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      // Always merge incoming data to the cache entry
-      merge: (currentCache, newItems) => {
-        const existingIds = new Set(currentCache.content.map((item: any) => item.id));
-        const uniqueNewItems = newItems.content.filter((item: any) => !existingIds.has(item.id));
-        currentCache.content.push(...uniqueNewItems);
-      },
-      // Refetch when the page arg changes
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
-    }),
+    // getVideosInfinity: builder.query({
+    //   query: ({ size, page }) => {
+    //     return { url: 'get/all', params: { size, page } };
+    //   },
+    //   // Only have one cache entry because the arg always maps to one string
+    //   serializeQueryArgs: ({ endpointName }) => {
+    //     return endpointName;
+    //   },
+    //   // Always merge incoming data to the cache entry
+    //   merge: (currentCache, newItems) => {
+    //     const existingIds = new Set(currentCache.content.map((item: any) => item.id));
+    //     const uniqueNewItems = newItems.content.filter((item: any) => !existingIds.has(item.id));
+    //     currentCache.content.push(...uniqueNewItems);
+    //   },
+    //   // Refetch when the page arg changes
+    //   forceRefetch({ currentArg, previousArg }) {
+    //     return currentArg !== previousArg;
+    //   },
+    // }),
     getVideosByTopView: builder.query({
       query: ({ size, page }) => {
         const currentDate = new Date();
@@ -38,31 +38,6 @@ export const projectController = createApi({
           url: `get/all/top-viewed/${year}/${month}`,
           params: { size, page },
         };
-      },
-    }),
-    getVideosByTopViewInfinity: builder.query({
-      query: ({ size, page }) => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 +1을 해줘야 실제 월 값이 나옴
-        return {
-          url: `get/all/top-viewed/${year}/${month}`,
-          params: { size, page },
-        };
-      },
-      // Only have one cache entry because the arg always maps to one string
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      // Always merge incoming data to the cache entry
-      merge: (currentCache, newItems) => {
-        const existingIds = new Set(currentCache.content.map((item: any) => item.id));
-        const uniqueNewItems = newItems.content.filter((item: any) => !existingIds.has(item.id));
-        currentCache.content.push(...uniqueNewItems);
-      },
-      // Refetch when the page arg changes
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
       },
     }),
 
@@ -83,17 +58,21 @@ export const projectController = createApi({
         };
       },
     }),
+    getTechStacks: builder.query({
+      query: () => {
+        return { url: 'tech-stacks' };
+      },
+    }),
   }),
 });
 
 // 자동으로 생성되는 훅을 사용하기 위해서 export 합니다.
 export const {
   useGetVideosQuery,
-  useGetVideosInfinityQuery,
   useGetVideosByTopViewQuery,
-  useGetVideosByTopViewInfinityQuery,
   useGetVideoQuery,
   useCreatePublishMutation,
+  useGetTechStacksQuery,
 } = projectController;
 
 export default projectController;
