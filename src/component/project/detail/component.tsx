@@ -68,22 +68,25 @@ ImageBox.defaultProps = {
   imgSrc: 'thumbnail.png',
 };
 
-export const DescribeBox = ({ text }: DescribeBoxType) => (
-  <div
-    // eslint-disable-next-line react/no-danger
-    dangerouslySetInnerHTML={{ __html: text }}
-    css={css`
-      display: flex;
-      flex-direction: column;
-      gap: 2.4rem;
-      ${theme.typography.body1}
-      line-height: 30px; /* 150% */
-      h1 {
-        ${theme.typography.body1Bold}
-      }
-    `}
-  />
-);
+export const DescribeBox = ({ text }: DescribeBoxType) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+        ${theme.typography.body1}
+        line-height: 30px; /* 150% */
+        h1 {
+          ${theme.typography.body1Bold}
+        }
+      `}
+    >
+      {/* eslint-disable-next-line react/no-danger */}
+      <p dangerouslySetInnerHTML={{ __html: text }}></p>
+    </div>
+  );
+};
 
 export const LoadingComponent = () => {
   return (
