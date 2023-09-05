@@ -1,46 +1,37 @@
 import React from 'react';
-import {
-  Banner,
-  SelectBox,
-  ProjectBox,
-  FlexWrapContainer,
-  TextBox,
-  TagList,
-} from '../emotion/component';
-import { Header2, Inner, Section } from '../emotion/GlobalStyle';
+import { Banner, ProjectBox, FlexWrapContainer, TextBox, TagList } from '../emotion/component';
+import { Body1, Header2, Inner, Section } from '../emotion/GlobalStyle';
 import { useSelectBoxes } from './hook';
 import { ProjectBoxProps } from '../../types/globalType';
-import { LoadingContainer } from './component';
+import { LoadingContainer, SelectBoxDropBox, SelectBoxModal } from './component';
 
 const Index = () => {
-  const { sortType, optionType, handleSelectChange, projectDatas, isFetching, pageNumber } =
-    useSelectBoxes();
+  const { sortType, optionType, projectDatas, isFetching, setSortType, data } = useSelectBoxes();
 
   return (
     <Inner>
       <Banner />
       <Section gap="5.6">
-        <TextBox margin="1.6">
-          <Header2>챌린저스에 등록된 프로젝트</Header2>
-          <SelectBox
-            options={optionType.sort}
-            value={sortType.sort}
-            onChange={handleSelectChange('sort')}
-            background="#000"
-          />
-        </TextBox>
-        <TagList>
-          <SelectBox
-            options={optionType.service}
-            value={sortType.service}
-            onChange={handleSelectChange('service')}
-          />
-          <SelectBox
-            options={optionType.stack}
-            value={sortType.stack}
-            onChange={handleSelectChange('stack')}
-          />
-        </TagList>
+        <Section>
+          <TextBox margin="1.6">
+            <Header2>챌린저스에 등록된 프로젝트</Header2>
+            <SelectBoxDropBox
+              options={optionType.sort}
+              value="sort"
+              sortType={sortType}
+              setSortType={setSortType}
+            />
+          </TextBox>
+          <TagList>
+            <SelectBoxDropBox
+              options={optionType.service}
+              value="service"
+              sortType={sortType}
+              setSortType={setSortType}
+            />
+            <SelectBoxModal value="stack" sortType={sortType} setSortType={setSortType} />
+          </TagList>
+        </Section>
 
         <FlexWrapContainer>
           {projectDatas?.map((project: ProjectBoxProps) => (
@@ -49,7 +40,7 @@ const Index = () => {
         </FlexWrapContainer>
 
         {isFetching && <LoadingContainer />}
-        {/* {projectDatas?.totalPages === pageNumber && <Body1>마지막 페이지입니다.</Body1>} */}
+        {data?.last && <Body1>마지막 페이지입니다.</Body1>}
       </Section>
     </Inner>
   );

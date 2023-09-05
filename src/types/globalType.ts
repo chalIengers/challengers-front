@@ -23,6 +23,24 @@ export interface SelectBoxProps {
   background?: string;
 }
 
+export interface SortType {
+  service: string;
+  stack: string[];
+  sort: string;
+}
+export interface SelectBoxDropBoxProps {
+  options?: string[];
+  value: 'service' | 'sort' | 'stack';
+  sortType: SortType;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+}
+
+export interface SelectedBoxProps extends ContainerType {
+  value: 'service' | 'sort' | 'stack';
+  setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  showOptions: boolean;
+}
+
 export interface ProjectBoxProps {
   id: number;
   projectName: string;
@@ -85,7 +103,7 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small' | 'auto' | 'large_modal';
+  type: 'large' | 'small' | 'modal' | 'modalSmall' | 'very_small' | 'auto' | 'large_modal';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;

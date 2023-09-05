@@ -6,8 +6,8 @@ export const projectController = createApi({
 
   endpoints: (builder) => ({
     getVideos: builder.query({
-      query: ({ size, page }) => {
-        return { url: 'get/all', params: { size, page } };
+      query: ({ size, page, categories, sort }) => {
+        return { url: 'get/all', params: { size, page, categories, sort } };
       },
     }),
     // getVideosInfinity: builder.query({
@@ -59,9 +59,7 @@ export const projectController = createApi({
 // 자동으로 생성되는 훅을 사용하기 위해서 export 합니다.
 export const {
   useGetVideosQuery,
-  // useGetVideosInfinityQuery,
   useGetVideosByTopViewQuery,
-  // useGetVideosByTopViewInfinityQuery,
   useGetVideoQuery,
   useCreatePublishMutation,
 } = projectController;

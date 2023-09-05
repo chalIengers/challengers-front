@@ -71,7 +71,6 @@ export const SelectBox = ({ options, value, onChange, background }: SelectBoxPro
         outline: none;
         cursor: pointer;
         appearance: none;
-        text-indent: 0.1rem;
         background: ${background || `${theme.palette.primary[500]}`};
         ${theme.typography.body3Bold}
         color: ${theme.palette.gray.white};
@@ -256,6 +255,13 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
       height: 6.4rem;
       ${theme.typography.header2}
       color: ${cancel && theme.palette.gray.black};
+      background-color: ${cancel && theme.palette.gray[300]};
+    `,
+    modalSmall: css`
+      width: 14rem;
+      height: 4rem;
+      ${theme.typography.body3}
+      color: ${cancel ? theme.palette.gray.black : theme.palette.gray.white};
       background-color: ${cancel && theme.palette.gray[300]};
     `,
     small: css`

@@ -1,37 +1,41 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useGetVideosByTopViewQuery,
-  useGetVideosQuery,
-} from '../../store/controller/projectController';
+import { useGetVideosQuery } from '../../store/controller/projectController';
 import { addProject, resetProject, selectProjects } from '../../store/slice/projectSlice';
+import { SortType } from '../../types/globalType';
 
 export function useSelectBoxes() {
   const { sort } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [sortType, setSortType] = useState({
-    service: '',
-    stack: '',
-    sort: sort === 'popular' ? '인기도 순' : '최신 등록순',
+  const [sortType, setSortType] = useState<SortType>({
+    service: '전체 서비스',
+    stack: [],
+    sort: sort === 'popular' ? '인기순' : '최신 등록순',
   });
+
+  const mapping: { [key: string]: string } = {
+    '전체 서비스': 'ALL',
+    '웹 서비스': 'WEB',
+    '앱 서비스': 'APP',
+    '기타 서비스': 'ETC',
+    '최신 등록순': 'NEW',
+    인기순: 'POPULAR',
+    추천순: '',
+  };
+
   const [pageNumber, setPageNumber] = useState(0);
 
-  const { data: videosData, isFetching: videosFetching } = useGetVideosQuery({
+  const { data, isFetching } = useGetVideosQuery({
     size: 6,
     page: pageNumber,
+    categories: mapping[sortType.service],
+    sort: mapping[sortType.sort],
   });
-  const { data: topViewData, isFetching: topViewFetching } = useGetVideosByTopViewQuery({
-    size: 6,
-    page: pageNumber,
-  });
-
-  const data = sort === 'popular' ? topViewData : videosData;
-  const isFetching = sort === 'popular' ? topViewFetching : videosFetching;
 
   useEffect(() => {
+    console.log(sortType);
     return () => {
       dispatch(resetProject());
       setPageNumber(0);
@@ -43,23 +47,12 @@ export function useSelectBoxes() {
     console.log(pageNumber);
     if (data) dispatch(addProject(data?.content));
   }, [data]);
+
   const projectDatas = useSelector(selectProjects);
 
   const optionType = {
-    service: ['전체서비스', '웹 서비스', '소셜미디어', '안드로이드'],
-    stack: ['기술스택', 'React', 'JavaScript', 'Node.js', 'Spring', 'Java'],
-    sort: ['최신 등록순', '인기도 순'],
-  };
-
-  const handleSelectChange = (key: string) => (selectedValue: string) => {
-    if (selectedValue === '인기도 순' && sort !== 'popular') {
-      navigate('/project/popular');
-      window.location.reload();
-    } else if (selectedValue === '최신 등록순' && sort !== 'recent') {
-      navigate('/project/recent');
-      window.location.reload();
-    }
-    setSortType((prevSortType) => ({ ...prevSortType, [key]: selectedValue }));
+    service: ['전체 서비스', '웹 서비스', '앱 서비스', '기타 서비스'],
+    sort: ['최신 등록순', '인기순', '추천순'],
   };
 
   const handleScroll = () => {
@@ -70,7 +63,6 @@ export function useSelectBoxes() {
       data?.totalPages !== pageNumber
     ) {
       setPageNumber((prevPageNumber) => prevPageNumber + 1);
-      console.log('도달!');
     }
   };
 
@@ -82,11 +74,12 @@ export function useSelectBoxes() {
   }, [isFetching]);
 
   return {
+    data,
     projectDatas,
     isFetching,
     sortType,
     optionType,
-    handleSelectChange,
     pageNumber,
+    setSortType,
   };
 }
