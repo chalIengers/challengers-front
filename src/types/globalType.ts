@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode, CSSProperties } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
@@ -21,8 +21,34 @@ export interface SelectBoxProps {
   value: string;
   onChange: any;
   background?: string;
+  customStyle?: any;
 }
+export type T = string | number;
 
+
+export interface SortType {
+  service: string;
+  stack: string[];
+  sort: string;
+}
+export interface SelectBoxDropBoxProps {
+  options?: string[];
+  value: 'service' | 'sort' | 'stack';
+  sortType: SortType;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+}
+export interface SelectedBoxProps extends ContainerType {
+  value: 'service' | 'sort' | 'stack';
+  setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  showOptions: boolean;
+}
+export interface SelectBoxProps2 {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
+}
 export interface ProjectBoxProps {
   id: number;
   projectName: string;
@@ -85,10 +111,23 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type: 'large' | 'small' | 'modal' | 'very_small' | 'auto' | 'large_modal';
+  type:
+    | 'large'
+    | 'small'
+    | 'modal'
+    | 'modalSmall'
+    | 'very_small'
+    | 'auto'
+    | 'large_modal'
+    | 'custom';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;
+  width?: string;
+  height?: string;
+  color?: string;
+  backgroundColor?: string;
+  disabled?: boolean;
 }
 
 export interface BannerProps {
@@ -100,7 +139,7 @@ export interface TextBoxProps extends ContainerType {
 }
 
 export interface ClubComponentProps {
-  id: number | string;
+  id?: number | string;
   name: string;
   logo: string;
 }
@@ -182,41 +221,57 @@ export interface TeamMember {
   role: string;
 }
 
-export interface Link {
+interface Link {
   name: string;
   linkUrl: string;
 }
-export interface ProjectInfo {
-  imageUrl: string;
-  projectName: string;
-  projectDescription: string;
-  projectCategory: string;
-  belonedClubId: string;
-  projectStatus: string;
-  projectPeriod: string;
-  projectTechStack: string;
-  projectDetail: string;
-  belonedCrewName: string;
-  projectCrew: Crew[];
-  projectLink: Link[];
+export interface Stack {
+  name: string;
 }
+export interface Crews {
+  name: string;
+  position: string;
+  role: string;
+}
+
+export interface ProjectInfo {
+  belongedClubId: number;
+  imageUrl: string;
+  projectCategory: string;
+  projectCrew: Crews[];
+  projectDescription: string;
+  projectDetail: string;
+  projectLink: Link[];
+  projectName: string;
+  projectPeriod: string;
+  status: String;
+  projectTechStack: Stack[];
+}
+export const initialCrews: Crews = {
+  name: '',
+  position: '',
+  role: '',
+};
+
+export const initialStack: Stack = {
+  name: '',
+};
 export const initialLink: Link = {
   name: '',
   linkUrl: '',
 };
 export const initialProjectData: ProjectInfo = {
+  belongedClubId: 1,
   imageUrl: '',
-  projectName: '',
-  projectDescription: '',
   projectCategory: '',
-  belonedCrewName: '',
-  belonedClubId: '',
-  projectStatus: '',
-  projectPeriod: '',
-  projectTechStack: '',
+  projectCrew: [{ ...initialCrews }],
+  projectDescription: '',
   projectDetail: '',
-  projectCrew: [],
-  projectLink: [],
+  projectLink: [{ ...initialLink }],
+  projectName: '',
+  projectPeriod: '',
+  status: '',
+  projectTechStack: [{ ...initialStack }],
 };
 
 export interface DescribeBoxType {

@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
+
 import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, LinkTo, Toast } from './emotion/component';
+import { ClubBox, LinkTo, Toast, ClubPagNation } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
@@ -12,6 +13,7 @@ import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { page } = useParams();
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
   const { isLoading, isError, data } = useGetMyClubQuery({ accessToken });
@@ -71,19 +73,15 @@ const Index = () => {
           <Header1>챌린저스에 등록된 클럽</Header1>
           <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo>
         </TextBox>
-        <ApiFetcher query={useGetClubListQuery({})} loading={<div>로딩중...</div>}>
-          {(ClubData) =>
-            ClubData.content.map((club: ClubComponentProps) => (
-              <ClubBox
-                key={club.id}
-                id={club.id}
-                name={club.name}
-                text="클럽 가입 신청"
-                logo={club.logo}
-                onClick={() => {}}
-              />
-            ))
-          }
+        <ApiFetcher query={useGetClubListQuery(page)} loading={<div>로딩중...</div>}>
+          {(data) => (
+            <>
+              {data.content.map((club: ClubComponentProps) => (
+                <ClubBox id={club.id} name={club.name} text="클럽 가입 신청" logo={club.logo} />
+              ))}
+              <ClubPagNation totalPage={data.totalPages} />
+            </>
+          )}
         </ApiFetcher>
       </Section>
     </Inner>

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import theme from '../../../styles/theme';
 import {
@@ -147,3 +147,51 @@ InfoInput.defaultProps = {
   value: '',
   onChange: () => {},
 };
+
+export const InfoInput2 = ({
+  placeholder,
+  large,
+  value,
+  color,
+  onChange,
+}: {
+  placeholder: string;
+  large?: boolean;
+  value?: string;
+  color?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
+  <input
+    css={css`
+      background-color: transparent;
+      width: 24rem;
+      ${large ? theme.typography.header2 : theme.typography.body2};
+      color: ${color};
+      &::placeholder {
+        color: #cbcbcb;
+      }
+    `}
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+  />
+);
+
+InfoInput.defaultProps = {
+  large: false,
+  value: '',
+  onChange: () => {},
+};
+
+export const RowContainer = ({ gap, children }: { gap?: string; children: ReactNode }) => (
+  <div
+    css={css`
+      display: flex;
+      flexdirection: row;
+      gap: ${gap};
+    `}
+  >
+    {children}
+  </div>
+);

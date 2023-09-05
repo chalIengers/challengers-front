@@ -12,6 +12,7 @@ import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
 import { PreventAutoScroll, RefreshTokenUtil, ScrollToTop } from './util/util';
 import Login from './component/signUp/Login';
+import MyPage from './component/signUp/MyPage';
 
 function App() {
   PreventAutoScroll();
@@ -26,11 +27,12 @@ function App() {
         <Route path="/project/:sort?" element={<Project />} />
         <Route path="/project/detail/:id" element={<Detail />} />
         <Route path="/project/publish" element={<ProjectPublish />} />
-        <Route path="/club" element={<Club />} />
+        <Route path="/club/:page" element={<Club />} />
         <Route path="/club/publish" element={<ClubPublish />} />
         <Route path="/club/admin/:clubId" element={<ClubAdmin />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/myPage" element={<MyPage />} />
       </Routes>
     </div>
   );

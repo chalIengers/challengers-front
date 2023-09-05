@@ -10,6 +10,7 @@ import {
   ContainerType,
   ProjectBoxProps,
   SelectBoxProps,
+  SelectBoxProps2,
   TagListType,
   TextBoxProps,
   TextInputBoxType,
@@ -55,7 +56,59 @@ export const ContainerComponent = ({ children }: ContainerType) => {
  * @StyledSelectBox
  */
 
-export const SelectBox = ({ options, value, onChange, background }: SelectBoxProps) => {
+export const SelectBox = ({
+  options,
+  value,
+  onChange,
+  background,
+  customStyle,
+}: SelectBoxProps) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    onChange(selectedValue);
+  };
+
+  return (
+    <select
+      value={value}
+      onChange={handleChange}
+      css={css`
+        padding: 0.8rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        background: ${background || `${theme.palette.primary[500]}`};
+        ${theme.typography.body3Bold}
+        color: ${theme.palette.gray.white};
+        padding-right: 2.4rem;
+        border-radius: 0.8rem;
+        background-size: 1.2rem;
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+        & option {
+          border: 0px solid black;
+          border-radius: 0.8rem;
+        }
+        ${customStyle}
+      `}
+    >
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
+};
+export const SelectBox2 = ({
+  options,
+  value,
+  onChange,
+  background,
+  customStyle,
+}: SelectBoxProps2) => {
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
@@ -81,17 +134,21 @@ export const SelectBox = ({ options, value, onChange, background }: SelectBoxPro
         background-repeat: no-repeat;
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
+        & option {
+          border: 0px solid black;
+          border-radius: 0.8rem;
+        }
+        ${customStyle}
       `}
     >
       {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
+        <option key={option.value} value={option.value}>
+          {option.label}
         </option>
       ))}
     </select>
   );
 };
-
 /**
  * 라벨 컴포넌트
  * @param children 컴포넌트 안에 넣을 자식 요소
@@ -244,7 +301,18 @@ export const FlexWrapContainer = ({ children }: ContainerType) => {
  * @param text 버튼 안의 text 내용
  * @param type 버튼의 형태
  */
-export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProps) => {
+export const ButtonBox = ({
+  text,
+  type,
+  onClick,
+  cancel,
+  submit,
+  width,
+  height,
+  color,
+  disabled,
+  backgroundColor,
+}: ButtonBoxProps) => {
   const buttonStyles = {
     large: css`
       width: 100%;
@@ -257,6 +325,19 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
       ${theme.typography.header2}
       color: ${cancel && theme.palette.gray.black};
       background-color: ${cancel && theme.palette.gray[300]};
+    `,
+    modalSmall: css`
+      width: 14rem;
+      height: 4rem;
+      ${theme.typography.body3}
+      color: ${cancel && theme.palette.gray.black};
+      background-color: ${cancel && theme.palette.gray[300]};
+    `,
+    custom: css`
+      width: 19.8rem;
+      height: 5.6rem;
+      background-color: ${backgroundColor || '#212121'};
+      ${theme.typography.body1Bold}
     `,
     small: css`
       width: 22.4rem;
@@ -282,7 +363,9 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
   const buttonStyle = css`
     border-radius: ${type === 'large' ? 1.2 : 0.8}rem;
     background-color: ${theme.palette.primary[500]};
-    ${buttonStyles[type]}
+    color: ${theme.palette.gray.white};
+    ${buttonStyles[type]};
+    background-color: ${disabled && '#88898A'};
 
     &:active {
       transform: scale(0.98);
@@ -291,7 +374,12 @@ export const ButtonBox = ({ text, type, onClick, cancel, submit }: ButtonBoxProp
   `;
 
   return (
-    <button type={submit ? 'submit' : 'button'} css={buttonStyle} onClick={onClick}>
+    <button
+      type={submit ? 'submit' : 'button'}
+      css={buttonStyle}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
@@ -437,7 +525,6 @@ export const TextInputBox = ({
     border: css`
       font-size: 2rem;
       letter-spacing: -0.6px;
-      border-bottom: 1px solid #cbcbcb;
     `,
   };
   return (

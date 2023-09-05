@@ -87,7 +87,7 @@ export const ClubArrayContainer = ({ clubArray, index }: ClubArrayContainerProps
       `}
     >
       {clubArray.map((club: ClubLogoProps) => (
-        <ClubComponent id={uuidv4()} logo={club.logoUrl} name={club.logoUrl} />
+        <ClubComponent key={uuidv4()} logo={club.logoUrl} name={club.logoUrl} />
       ))}
     </div>
   );

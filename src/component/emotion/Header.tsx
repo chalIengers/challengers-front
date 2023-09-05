@@ -3,10 +3,10 @@
 import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ContainerType, NavItemProps, StyleContainerType } from '../../types/globalType';
 import theme from '../../styles/theme';
-import { logout, selectUser } from '../../store/slice/userSlice';
+import { selectUser } from '../../store/slice/userSlice';
 
 const Nav = ({ children, style }: StyleContainerType) => {
   return (
@@ -68,7 +68,6 @@ const NavItem = ({ children, to }: NavItemProps) => {
 export const Header = () => {
   const [scrollState, setScrollState] = useState<boolean>(false);
   const { accessToken } = useSelector(selectUser);
-  const dispatch = useDispatch();
 
   const handleScroll = () => {
     if (window.scrollY || document.documentElement.scrollTop > 0) {
@@ -76,10 +75,6 @@ export const Header = () => {
     } else {
       setScrollState(false);
     }
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
   };
 
   useEffect(() => {
@@ -148,13 +143,11 @@ export const Header = () => {
         </Link>
         <NavList>
           <NavItem to="/">챌린저스란?</NavItem>
-          <NavItem to="/club">클럽 등록</NavItem>
+          <NavItem to="/club/0">클럽 등록</NavItem>
           <NavItem to="/project">프로젝트</NavItem>
           <NavItem to="/signUp">회원가입</NavItem>
           {accessToken ? (
-            <div role="presentation" onClick={handleLogout}>
-              <NavItem to="/">로그아웃</NavItem>
-            </div>
+            <NavItem to="/myPage">마이페이지</NavItem>
           ) : (
             <NavItem to="/login">로그인</NavItem>
           )}
