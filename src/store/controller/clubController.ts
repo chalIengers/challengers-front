@@ -52,9 +52,11 @@ export const clubController = createApi({
       }),
     }),
     getMyClub: builder.query({
-      query: () => ({
+      query: ({ accessToken }) => ({
         url: 'get/club/my',
-        // 헤더 넣는 법 알기
+        header: {
+          'X-AUTH-TOKEN': accessToken,
+        },
       }),
     }),
     getClubList: builder.query({

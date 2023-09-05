@@ -92,7 +92,7 @@ export const projectController = createApi({
               name: 'naver',
             },
           ],
-          projectName: '1',
+          projectName: '성공테스트',
           projectPeriod: '222',
           projectStatus: 33,
           projectTechStack: [
@@ -108,12 +108,13 @@ export const projectController = createApi({
           ],
         };
         console.log(example);
+        console.log(newProjectData);
         return {
           url: 'create',
           method: 'POST',
-          body: example,
+          body: newProjectData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNzI5NTc0LCJleHAiOjE2OTM3MzMxNzR9.vySP2waeGJvWFJZzIFwk9TXMwWErVA4qWBWuRhxPkog`,
+            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzODgyMDc1LCJleHAiOjE2OTM4ODU2NzV9.agNK1Ra_KkrH_A-W6ejBrjHqtAqMaXbGaV6c8Lww3XA`,
           },
         };
       },

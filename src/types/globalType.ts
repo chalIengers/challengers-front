@@ -221,7 +221,7 @@ export const initialLink: Link = {
   linkUrl: '',
 };
 export const initialProjectData: ProjectInfo = {
-  belongedClubId: 0,
+  belongedClubId: 1,
   imageUrl: '',
   projectCategory: '',
   projectCrew: [{ ...initialCrews }],

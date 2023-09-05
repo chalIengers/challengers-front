@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -7,7 +8,8 @@ import React, { useState, useRef } from 'react';
 import { css } from '@emotion/react';
 import { v4 } from 'uuid';
 import { Editor } from 'editor_likelion';
-import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import {
   Tag,
   Banner,
@@ -18,11 +20,13 @@ import {
   TagList,
   FlexWrapContainer,
 } from '../../emotion/component';
+import { selectUser } from '../../../store/slice/userSlice';
 import { Header1, Header2, Inner, Section } from '../../emotion/GlobalStyle';
 import { Labels, PublishImg, LinkInputBox2, TeamInfoInputBox } from './component';
 import { useImageUpload } from './hook';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
 import {
+  ClubComponentProps,
   Crews,
   ProjectInfo,
   Stack,
@@ -31,6 +35,8 @@ import {
 } from '../../../types/globalType';
 import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import theme from '../../../styles/theme';
+import { ApiFetcher } from '../../../util/util';
+import { useGetClubListQuery, useGetMyClubQuery } from '../../../store/controller/clubController';
 
 const ProjectPublish = () => {
   const { imageSrc, uploadImage } = useImageUpload();
@@ -39,7 +45,16 @@ const ProjectPublish = () => {
 
   const [Image] = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
+
   const editorRef = useRef(null);
+
+  const { accessToken } = useSelector(selectUser);
+
+  const back = useGetMyClubQuery({ accessToken });
+  const test = () => {
+    console.log(accessToken);
+    console.log(back.data);
+  };
 
   // 이미지 파일 업로드
   const Fileupload = async (file: any) => {
@@ -143,7 +158,9 @@ const ProjectPublish = () => {
   const addStackTag = (e: any) => {
     if (StackTags.length < 10) {
       const allowedCommand = ['Comma', 'Enter', 'Space'];
-      if (!allowedCommand.includes(e.code)) return;
+      if (!allowedCommand.includes(e.code)) {
+        return;
+      }
 
       if (isEmptyValue(e.target.value.trim())) {
         setInputStackTag('');
@@ -175,6 +192,25 @@ const ProjectPublish = () => {
     setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
   };
 
+  const handleInputBlur = () => {
+    if (inputStackTag.trim() !== '') {
+      console.log(inputStackTag);
+
+      setStackTags((prevStackTags) => {
+        if (prevStackTags.length < 10) {
+          const newStackTag = inputStackTag.trim();
+          if (newStackTag) {
+            return [...prevStackTags, newStackTag];
+          }
+        }
+        return prevStackTags;
+      });
+
+      setInputStackTag('');
+      console.log(StackTags);
+    }
+  };
+
   const {
     fields: linkFields,
     append: appendLink,
@@ -203,7 +239,7 @@ const ProjectPublish = () => {
 
   // Crew 값 받아오기
   // 함수 파라미터와 반환값의 타입 명시
-  const updateProjectCrew = (teamInfoBoxes: any[]): Crews[] => {
+  const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
     const updatedProjectCrew: Crews[] = [];
 
     teamInfoBoxes.forEach((teamInfo) => {
@@ -233,32 +269,42 @@ const ProjectPublish = () => {
     }
   };
 
+  // 데이터를 전송하거나 다른 비동기 작업을 수행하는 함수
+  const doAsyncWork = async (data: any) => {
+    try {
+      // // 비동기 작업 수행
+      // await mutation[0](data);
+
+      console.log(data);
+      // 작업이 완료된 후 실행할 코드
+      console.log('데이터가 성공적으로 전송되었습니다.');
+    } catch (error) {
+      console.error('데이터 전송 중 오류 발생:', error);
+    }
+  };
+
   const onSubmit = (data: any) => {
     const updatedData = updateProjectData(Object.keys(data), data);
     setNewProjectData(updatedData);
 
+    const newProjectCrew = updateProjectCrew(teamInfoBoxes, updatedData);
     const techStacks: Stack[] = StackTags.map((tag) => ({
       name: tag,
     }));
 
     updatedData.projectTechStack = techStacks;
 
-    setNewProjectData(updatedData);
+    updatedData.projectCrew = newProjectCrew;
 
-    const newProjectCrew = updateProjectCrew(teamInfoBoxes);
-
-    // newProjectCrew를 newProjectData에 설정합니다.
-    setNewProjectData((prevData) => ({
-      ...prevData,
-      projectCrew: newProjectCrew,
-    }));
-
-    mutation[0](newProjectData);
+    doAsyncWork(updatedData);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Inner>
+        <button type="button" onClick={test}>
+          dfsd
+        </button>
         <Banner />
         <Header1>프로젝트 발행페이지</Header1>
         <ContainerComponent>
@@ -350,7 +396,7 @@ const ProjectPublish = () => {
             />
 
             <Header2>서비스 형태</Header2>
-            <TextInputBox
+            {/* <TextInputBox
               type="body1"
               text="서비스 형태를 입력해주세요"
               size={40}
@@ -359,8 +405,20 @@ const ProjectPublish = () => {
               register={register('projectCategory', {
                 required: true,
               })}
+            /> */}
+            <Controller
+              name="projectCategory"
+              control={control}
+              defaultValue="" // 기본값 설정 (선택하세요 옵션을 표시하기 위해 빈 문자열로 설정)
+              rules={{ required: true }} // 필수 필드로 만들기 위해 유효성 검사 규칙 추가
+              render={({ field }) => (
+                <select {...field}>
+                  <option value="option1">웹 서비스</option>
+                  <option value="option2">앱 서비스</option>
+                  <option value="option3">옵션 3</option>
+                </select>
+              )}
             />
-
             <Header2>프로젝트 상태</Header2>
 
             <TextInputBox
@@ -374,7 +432,19 @@ const ProjectPublish = () => {
                 required: true,
               })}
             />
-
+            {/* <Controller
+              name="projectStatus"
+              control={control}
+              defaultValue="" // 기본값 설정 (선택하세요 옵션을 표시하기 위해 빈 문자열로 설정)
+              rules={{ required: true }} // 필수 필드로 만들기 위해 유효성 검사 규칙 추가
+              render={({ field }) => (
+                <select {...field}>
+                  <option value="option1">서비스 중</option>
+                  <option value="option2">서비스 중단</option>
+                  <option value="option3">서비스 점검</option>
+                </select>
+              )}
+            /> */}
             <Header2>프로젝트 기간</Header2>
             <TextInputBox
               type="body1"
@@ -403,6 +473,7 @@ const ProjectPublish = () => {
                 onChange={changeStackTagInput}
                 onKeyUp={addStackTag}
                 onKeyDown={onkeyDown}
+                onBlur={handleInputBlur}
                 placeholder="스택을 입력해주세요 (최대 10개)"
                 className="hashTagInput"
                 css={css`
