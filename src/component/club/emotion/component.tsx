@@ -13,7 +13,7 @@ import { setCommentClubData } from '../../../store/slice/commentSlice';
 /**
  * '클럽 마스터 이메일 보기' 버튼을 눌렀을 때 뜨게 되는 컴포넌트
  */
-export const Toast = () => {
+export const Toast = ({ text }: { text: string }) => {
   return (
     <div
       css={css`
@@ -29,7 +29,7 @@ export const Toast = () => {
         /* box-shadow: 0.6rem 0.8rem 0.8rem 0.4rem rgba(0, 0, 0, 0.25); */
       `}
     >
-      <Body1>해당 클럽 마스터의 이메일이 클립보드에 복사되었어요</Body1>
+      <Body1>{text}</Body1>
     </div>
   );
 };
@@ -55,7 +55,7 @@ export const ClubContainer = ({ children }: ContainerType) => {
 /**
  * 클럽 페이지의 클럽로고 + 버튼 컴포넌트
  */
-export const ClubBox = ({ id, name, logo, onClick, text, showToast }: ClubBoxProps) => {
+export const ClubBox = ({ id, name, logo, text, onClick }: ClubBoxProps) => {
   const dispatch = useDispatch();
   const handleButtonClick = () => {
     if (onClick) {
@@ -68,8 +68,7 @@ export const ClubBox = ({ id, name, logo, onClick, text, showToast }: ClubBoxPro
   return (
     <ClubContainer>
       <ClubComponent id={id} name={name} logo={logo} />
-      <ButtonBox text={text} type="small" onClick={handleButtonClick} />
-      {showToast !== undefined ? showToast && <Toast /> : null}
+      <ButtonBox text={text} type="small" onClick={onClick} />
     </ClubContainer>
   );
 };

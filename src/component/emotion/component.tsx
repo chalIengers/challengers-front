@@ -508,7 +508,9 @@ export const TextInputBox = ({
   onChange,
   register,
   onKeyDown,
+  onBlur,
   value,
+  name,
 }: TextInputBoxType) => {
   const style = {
     header1: css`
@@ -542,6 +544,8 @@ export const TextInputBox = ({
       onKeyDown={onKeyDown}
       onChange={onChange}
       value={value}
+      onBlur={onBlur}
+      name={name}
       // onChange={onChange}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...register}

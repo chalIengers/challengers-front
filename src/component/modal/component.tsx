@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { clubData } from '../../store/slice/CreateClubSlice';
 import { Editor } from 'editor_likelion';
 import theme from '../../styles/theme';
 import { ButtonBox, TagList,  ClubComponent } from '../emotion/component';
@@ -23,7 +24,6 @@ import {
   useVerifyPasswordQuery,
 } from '../../store/controller/myPageController';
 import { commentData } from '../../store/slice/commentSlice';
-
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -414,13 +414,19 @@ export const RegisterModal = () => {
 export const CreateClubModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const clubDatas = useSelector(clubData);
+  const { accessToken } = useSelector(selectUser);
 
   const CancelButton = () => {
     dispatch(closeModal());
   };
   const RegisterButton = () => {
-    navigate('/');
-    dispatch(closeModal());
+    try {
+      navigate('/');
+      dispatch(closeModal());
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <ModalBackGround>

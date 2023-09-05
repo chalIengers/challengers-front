@@ -1,25 +1,60 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+
+import React, { useState, useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, ClubPagNation, LinkTo } from './emotion/component';
+import { ClubBox, LinkTo, Toast, ClubPagNation } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
-import { ClubComponentProps } from '../../types/globalType';
+import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
+import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
+  const navigate = useNavigate();
   const { page } = useParams();
   const [showToast, setShowToast] = useState(false);
-  const accessToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGR3aGRtczk5QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzNDAzNzE0LCJleHAiOjE2OTM0MDczMTR9.yrfR5S1_EQS3wSreyh0cR2oSNGgSf-gyGnleFKli0To';
+  const { accessToken } = useSelector(selectUser);
+  const { isLoading, isError, data } = useGetMyClubQuery({ accessToken });
 
-  const ShowToast = () => {
+  const ShowToast = useCallback(() => {
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
-  };
+  }, []);
+
+  let myClubContent;
+  if (!accessToken) {
+    myClubContent = <div>로그인을 해주세요</div>;
+  } else if (isLoading) {
+    myClubContent = <div>로딩중...</div>;
+  } else if (isError) {
+    myClubContent = <div>Api 통신 에러!</div>;
+  } else if (data) {
+    myClubContent = data.map((club: MyClubDataType) => (
+      <ClubBox
+        key={club.id}
+        id={club.id}
+        name={club.name}
+        text={club.manager ? '클럽 관리 페이지' : '클럽 마스터 이메일 보기'}
+        logo={club.logo}
+        onClick={
+          club.manager
+            ? () => {
+                navigate(`/club/admin/${club.id}`);
+              }
+            : () => {
+                navigator.clipboard.writeText(club.managerEmail);
+                ShowToast();
+              }
+        }
+      />
+    ));
+  } else {
+    myClubContent = <div>소속된 클럽이 없습니다</div>;
+  }
 
   const clubJoinButton = () => {};
   return (
@@ -27,28 +62,10 @@ const Index = () => {
       <Banner />
       <Section gap="4.8">
         <Header1>내가 소속된 클럽</Header1>
-        <ApiFetcher query={useGetMyClubQuery({})} loading={<div>로딩중...</div>}>
-          {(data) =>
-            data && (
-              <ClubBox
-                id={data ? data.id : 1}
-                onClick={ShowToast}
-                showToast={showToast}
-                text="클럽 마스터의 이메일 보기"
-                name={data ? data.name : 'test'}
-                logo={data ? data.logo : 'logo'}
-              />
-            )
-          }
-        </ApiFetcher>
-        {/* <ClubBox
-          key={1}
-          onClick={ShowToast}
-          showToast={showToast}
-          text="클럽 마스터의 이메일 보기"
-          name="챌린저스"
-          clubImg="aaa.png"
-        /> */}
+        {myClubContent}
+        {showToast !== undefined
+          ? showToast && <Toast text="해당 클럽 마스터의 이메일이 클립보드에 복사되었어요" />
+          : null}
       </Section>
 
       <Section gap="3.2">
@@ -66,14 +83,6 @@ const Index = () => {
             </>
           )}
         </ApiFetcher>
-        {/* {Clubs.map((club) => (
-          <ClubBox
-            key={club.id}
-            name={club.name}
-            clubImg={`${process.env.PUBLIC_URL}/img/${club.clubImg}`}
-            onClick={clubJoinButton}
-          />
-        ))} */}
       </Section>
     </Inner>
   );

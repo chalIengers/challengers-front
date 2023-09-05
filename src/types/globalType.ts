@@ -143,11 +143,14 @@ export interface ClubComponentProps {
   name: string;
   logo: string;
 }
+export interface MyClubDataType extends ClubComponentProps {
+  managerEmail: string;
+  manager: boolean;
+}
 
 export interface ClubBoxProps extends ClubComponentProps {
   text: string;
-  showToast?: boolean;
-  onClick?: () => void;
+  onClick?: any;
 }
 
 export interface SectionType extends ContainerType {
@@ -195,9 +198,11 @@ export interface TextInputBoxType {
   max?: number;
   inputType?: string;
   value?: string;
+  name?: string;
   // eslint-disable-next-line no-unused-vars
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   register?: UseFormRegisterReturn;
 }
 
@@ -209,10 +214,6 @@ export interface LinkToProps extends ContainerType {
   to: string;
 }
 
-export interface ClubImageProps {
-  onClick: () => void;
-  imgFileSrc?: string;
-}
 export interface TeamMember {
   id: number;
   name: string;

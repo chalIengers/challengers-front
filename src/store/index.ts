@@ -10,6 +10,7 @@ import projectController from './controller/projectController';
 import clubController from './controller/clubController';
 import crewController from './controller/crewController';
 import userSlice from './slice/userSlice';
+import CreateClubSlice from './slice/CreateClubSlice';
 import myPageController from './controller/myPageController';
 import commentSlice from './slice/commentSlice';
 
@@ -21,6 +22,7 @@ const store = configureStore({
     crews: crewReducer,
     singup: signUpSlice,
     user: userSlice,
+    createClub: CreateClubSlice,
     comment: commentSlice,
     [publishApi.reducerPath]: publishApi.reducer,
     [signUpApi.reducerPath]: signUpApi.reducer,
