@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ClubArrayContainerProps, ClubLogoProps, ContainerType } from '../../types/globalType';
 import { Body1 } from '../emotion/GlobalStyle';
 import { ClubComponent, FlexWrapContainer, LoadingBox } from '../emotion/component';
+import { logoAnimation, logoAnimationBack } from '../../json/data';
 
 export const ClubList = ({ children }: ContainerType) => (
   <div
@@ -54,36 +55,14 @@ export const LoadingContainer = () => (
 );
 
 export const ClubArrayContainer = ({ clubArray, index }: ClubArrayContainerProps) => {
-  const animation = keyframes`
-  0% {
-      transform: translateX(0);
-  }
-  50% {
-      transform: translateX(-100%);
-  }
-  50.01%{
-      transform: translateX(100%);
-  }
-  100%{
-      transform: translateX(0);
-  }
-  `;
-
-  const animationBack = keyframes`
-      from { 
-          transform: translateX(0); 
-      }
-      to { 
-          transform: translateX(-200%); 
-      }
-    `;
   return (
     <div
       css={css`
         width: 120rem;
         display: flex;
         justify-content: space-around;
-        animation: ${index === 0 || index === 2 ? animation : animationBack} 20s linear infinite;
+        animation: ${index === 0 || index === 2 ? logoAnimation : logoAnimationBack} 20s linear
+          infinite;
       `}
     >
       {clubArray.map((club: ClubLogoProps) => (
