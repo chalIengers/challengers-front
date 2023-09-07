@@ -107,6 +107,17 @@ export interface NavItemProps extends ContainerType {
 
 // MyPage
 
+// Modal
+export interface RegisterModalInputProps {
+  register: UseFormRegisterReturn;
+  type?: string;
+  placeHolder?: string;
+}
+
+export interface TimerBlockProps {
+  remainingTime: number;
+  handleReSend: () => void;
+}
 //
 export interface SelectBoxProps {
   options: string[];

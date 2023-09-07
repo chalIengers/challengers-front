@@ -10,7 +10,13 @@ import {
   SelectBoxDropBoxProps,
   SelectedBoxProps,
 } from '../../types/globalType';
-import { Body3Bold, Body4, Section, overFlowScroll } from '../emotion/GlobalStyle';
+import {
+  Body3Bold,
+  Body4,
+  FlexSpaceBetweenContainer,
+  Section,
+  overFlowScroll,
+} from '../emotion/GlobalStyle';
 import { useTeckStackModalHook } from './hook';
 
 /**
@@ -224,17 +230,6 @@ const SearchResult = ({ stack, onClick }: ReturnStackProps) => (
   </div>
 );
 
-const RowFlexContainer = ({ children }: ContainerType) => (
-  <div
-    css={css`
-      display: flex;
-      justify-content: space-between;
-    `}
-  >
-    {children}
-  </div>
-);
-
 const SelectedStackContainer = ({ children }: ContainerType) => (
   <div
     css={css`
@@ -314,7 +309,7 @@ export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) =>
             </SearchResultContainer>
           </InputContainer>
 
-          <RowFlexContainer>
+          <FlexSpaceBetweenContainer>
             <Body3Bold>검색할 기술 스택</Body3Bold>
             <Body4
               style={css`
@@ -323,7 +318,7 @@ export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) =>
             >
               * 최대 5개까지 추가할 수 있어요
             </Body4>
-          </RowFlexContainer>
+          </FlexSpaceBetweenContainer>
 
           <SelectedStackContainer>
             {techStacks.map((stack) => {
@@ -332,7 +327,7 @@ export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) =>
           </SelectedStackContainer>
         </Section>
 
-        <RowFlexContainer>
+        <FlexSpaceBetweenContainer>
           <ButtonBox
             text="취소할게요"
             type="modalSmall"
@@ -342,7 +337,7 @@ export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) =>
             }}
           />
           <ButtonBox text="등록할게요" type="modalSmall" onClick={handleSubmit} />
-        </RowFlexContainer>
+        </FlexSpaceBetweenContainer>
       </ModalContainer>
     </SelectedBox>
   );

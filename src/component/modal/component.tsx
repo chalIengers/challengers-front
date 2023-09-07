@@ -4,11 +4,20 @@ import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from 'editor_likelion';
+import { useForm } from 'react-hook-form';
 import { clubData } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
 import { ButtonBox, ClubComponent } from '../emotion/component';
-import { ContainerType } from '../../types/globalType';
-import { Body1, Body2, Body4, Body2Bold, Header1, Section } from '../emotion/GlobalStyle';
+import { ContainerType, RegisterModalInputProps, TimerBlockProps } from '../../types/globalType';
+import {
+  Body1,
+  Body2,
+  Body4,
+  Body2Bold,
+  Header1,
+  Section,
+  FlexSpaceBetweenContainer,
+} from '../emotion/GlobalStyle';
 import { closeModal, openModal } from '../../store/slice/modalSlice';
 import { signData } from '../../store/slice/signUpSlice';
 import {
@@ -17,13 +26,9 @@ import {
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
 import { useRequestJoinClubMutation } from '../../store/controller/clubController';
-import { logout, selectUser } from '../../store/slice/userSlice';
-import {
-  useChangePasswordMutation,
-  useSendCodeMutation,
-  useVerifyPasswordQuery,
-} from '../../store/controller/myPageController';
+import { selectUser } from '../../store/slice/userSlice';
 import { commentData } from '../../store/slice/commentSlice';
+import { usePasswordChangeHook } from './hooks';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -100,19 +105,7 @@ ModalBackGround.defaultProps = {
 /**
  * modal 안에서 사용되는 input 컴포넌트
  */
-const ModalInput = ({
-  code,
-  onChange,
-  placeHolder,
-  maxLength,
-  type,
-}: {
-  code: string;
-  onChange: any;
-  placeHolder?: string;
-  maxLength?: number;
-  type?: string;
-}) => {
+const ModalInput = ({ code, onChange }: { code: string; onChange: any }) => {
   const handleChange = (newCode: string) => {
     onChange(newCode);
   };
@@ -135,11 +128,10 @@ const ModalInput = ({
             color: #cbcbcb;
           }
         `}
-        type={type || 'text'}
+        type="text"
         value={code}
-        maxLength={maxLength || 6}
         onChange={(e) => handleChange(e.target.value)}
-        placeholder={placeHolder || '발송된 인증번호를 입력해주세요'}
+        placeholder="발송된 인증번호를 입력해주세요"
       />
     </div>
   );
@@ -470,180 +462,150 @@ export const CreateClubModal = () => {
   );
 };
 
+const RegisterModalInput = ({ register, type, placeHolder }: RegisterModalInputProps) => {
+  return (
+    <div
+      css={css`
+        flex: 1;
+        border-radius: 0.8rem;
+        background: ${theme.palette.gray[100]};
+        padding: 1.6rem 2.5rem;
+      `}
+    >
+      <input
+        css={css`
+          background-color: transparent;
+          ${theme.typography.body1};
+          width: 100%;
+          ::placeholder {
+            color: #cbcbcb;
+          }
+        `}
+        placeholder={placeHolder || '발송된 인증번호를 입력해주세요'}
+        type={type || 'text'}
+        name={register.name}
+        ref={register.ref}
+        onChange={register.onChange}
+      />
+    </div>
+  );
+};
+
+const TimerBlock = ({ remainingTime, handleReSend }: TimerBlockProps) => (
+  <>
+    <div
+      css={css`
+        width: 19.8rem;
+        height: 5.6rem;
+        background-color: #212121;
+        color: white;
+        ${theme.typography.header2}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.8rem;
+      `}
+    >
+      {`${String(Math.floor(remainingTime / 60)).padStart(2, '0')} : ${String(
+        remainingTime % 60,
+      ).padStart(2, '0')}`}
+    </div>
+
+    <Body4
+      style={css`
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        color: #9a9a9a;
+        cursor: pointer;
+      `}
+    >
+      <p onClick={handleReSend} role="presentation">
+        이메일 인증번호를 다시 받고싶어요
+      </p>
+    </Body4>
+  </>
+);
+
 export const ChangePassword = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm({ mode: 'onChange' });
 
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [code, setCode] = useState('');
-  const [isSent, setIsSent] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(180);
+  const { isSent, remainingTime, isLoading, handleSentEmail, handleReSend, handleChange } =
+    usePasswordChangeHook({ watch });
 
-  const { accessToken } = useSelector(selectUser);
-
-  const { data: verifyPassword } = useVerifyPasswordQuery({ password, accessToken });
-  const [sendCode, { isLoading }] = useSendCodeMutation();
-  const [changePassword] = useChangePasswordMutation();
-
-  // remainingTime이 변경될 때마다 호출되는 효과
-  useEffect(() => {
-    // 0초가 되면 isSent를 다시 false로 설정
-    if (remainingTime === 0) {
-      setIsSent(false);
-    }
-  }, [remainingTime]);
-  let timer: any;
-  // 3분 타이머 시작 함수
-  const startTimer = () => {
-    timer = setInterval(() => {
-      // 1초마다 remainingTime 감소
-      setRemainingTime((prevTime) => prevTime - 1);
-    }, 1000);
-
-    // 3분(180초)이 지나면 타이머 종료
-    setTimeout(() => {
-      clearInterval(timer);
-    }, 1000 * 60 * 3);
-  };
-
-  const handleSentEmail = async () => {
-    if (verifyPassword) {
-      try {
-        await sendCode({ accessToken, password, newPassword });
-        setIsSent(true);
-
-        // 3분 타이머 시작
-        startTimer();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleReSend = () => {
-    console.log('resend');
-    if (remainingTime > 60 * 2.5) {
-      alert('중복된 요청으로 인해 잠시 후에 다시 시도해주세요');
-    } else {
-      clearInterval(timer);
-      handleSentEmail();
-    }
-  };
-
-  const handleChange = async () => {
-    if (verifyPassword) {
-      try {
-        const { data } = await changePassword({ accessToken, password, newPassword, code });
-        if (!data.success) {
-          alert(data.msg);
-        }
-        if (data.success) {
-          alert(data.msg);
-          dispatch(closeModal());
-          dispatch(logout());
-          navigate('/');
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
   return (
     <ModalBackGround>
       <Section gap="4.8">
         <Header1>비밀번호를 변경할게요</Header1>
-        <Section gap="2.4">
-          <Body1>
-            현재 비밀번호와, 변경할 비밀번호를 입력하고 인증번호 발송을 눌러주세요 인증번호는
-            챌린저스 서비스에 가입된 이메일 함을 확인해주세요
-          </Body1>
-          <ModalInput
-            code={password}
-            onChange={setPassword}
-            maxLength={20}
-            type="password"
-            placeHolder="현재 비밀번호를 입력해주세요"
-          />
-          <ModalInput
-            code={newPassword}
-            onChange={setNewPassword}
-            maxLength={20}
-            type="password"
-            placeHolder="변경할 비밀번호를 입력해주세요"
-          />
-          <div
-            css={css`
-              position: relative;
-              display: flex;
-              padding-bottom: 2rem;
-              gap: 1.6rem;
-            `}
-          >
-            <ModalInput code={code} onChange={setCode} />
-            {isSent ? (
-              <div
-                css={css`
-                  width: 19.8rem;
-                  height: 5.6rem;
-                  background-color: #212121;
-                  color: white;
-                  ${theme.typography.header2}
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  border-radius: 0.8rem;
-                `}
-              >
-                {Math.floor(remainingTime / 60)} : {remainingTime % 60}
-              </div>
-            ) : (
+
+        <form onSubmit={handleSubmit(handleChange)}>
+          <Section gap="2.4">
+            <Body1>
+              현재 비밀번호와, 변경할 비밀번호를 입력하고 인증번호 발송을 눌러주세요
+              <br /> 인증번호는 챌린저스 서비스에 가입된 이메일 함을 확인해주세요
+            </Body1>
+
+            <RegisterModalInput
+              register={register('password', { required: true, minLength: 8 })}
+              type="password"
+              placeHolder="현재 비밀번호를 입력해주세요"
+            />
+
+            <RegisterModalInput
+              register={register('newPassword', { required: true, minLength: 8 })}
+              type="password"
+              placeHolder="변경할 비밀번호를 입력해주세요"
+            />
+
+            <div
+              css={css`
+                position: relative;
+                display: flex;
+                padding-bottom: 2rem;
+                gap: 1.6rem;
+              `}
+            >
+              <RegisterModalInput register={register('emailCode', { required: true })} />
+
+              {isSent ? (
+                <TimerBlock remainingTime={remainingTime} handleReSend={handleReSend} />
+              ) : (
+                <ButtonBox
+                  text={isLoading ? '전송 중' : '인증번호 발송'}
+                  type="custom"
+                  backgroundColor={theme.palette.primary[500]}
+                  disabled={
+                    isLoading ||
+                    errors.password ||
+                    errors.newPassword ||
+                    !getValues('password') ||
+                    !getValues('newPassword')
+                  }
+                  onClick={handleSentEmail}
+                />
+              )}
+            </div>
+
+            <FlexSpaceBetweenContainer>
               <ButtonBox
-                text={isLoading ? '전송 중' : '인증번호 발송'}
-                type="custom"
-                backgroundColor={theme.palette.primary[500]}
-                disabled={newPassword.length < 8 || password.length < 8 || isLoading}
-                onClick={handleSentEmail}
+                text="취소"
+                type="modal"
+                cancel
+                onClick={() => {
+                  dispatch(closeModal());
+                }}
               />
-            )}
-            {isSent && (
-              <Body4
-                style={css`
-                  position: absolute;
-                  right: 0;
-                  bottom: 0;
-                  color: #9a9a9a;
-                  cursor: pointer;
-                `}
-              >
-                <p onClick={handleReSend} role="presentation">
-                  이메일 인증번호를 다시 받고싶어요
-                </p>
-              </Body4>
-            )}
-          </div>
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
-            `}
-          >
-            <ButtonBox
-              text="취소"
-              type="modal"
-              cancel
-              onClick={() => {
-                dispatch(closeModal());
-              }}
-            />
-            <ButtonBox
-              text="변경하기"
-              type="modal"
-              disabled={code.length !== 6 || !isSent}
-              onClick={handleChange}
-            />
-          </div>
-        </Section>
+              <ButtonBox text="변경하기" type="modal" disabled={!isSent} submit />
+            </FlexSpaceBetweenContainer>
+          </Section>
+        </form>
       </Section>
     </ModalBackGround>
   );

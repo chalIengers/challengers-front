@@ -143,6 +143,17 @@ export const Body5 = ({ children, style, onClick }: StyleContainerType) => (
   </div>
 );
 
+export const FlexSpaceBetweenContainer = ({ children }: ContainerType) => (
+  <div
+    css={css`
+      display: flex;
+      justify-content: space-between;
+    `}
+  >
+    {children}
+  </div>
+);
+
 export const overFlowScroll = css`
   overflow: scroll;
   scrollbar-width: none; /* Firefox에서는 무시됨 */
