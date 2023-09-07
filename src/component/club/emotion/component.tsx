@@ -68,7 +68,7 @@ export const ClubBox = ({ id, name, logo, text, onClick }: ClubBoxProps) => {
   return (
     <ClubContainer>
       <ClubComponent id={id} name={name} logo={logo} />
-      <ButtonBox text={text} type="small" onClick={handleButtonClick} />
+      <ButtonBox text={text} type="small" onClick={onClick} />
     </ClubContainer>
   );
 };
