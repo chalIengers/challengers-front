@@ -55,7 +55,7 @@ const ProjectPublish = () => {
     { value: '소셜미디어', label: '옵션 2' },
     { value: '안드로이드', label: '옵션 3' },
   ];
-  
+
   const options2 = [
     { value: 'MAINTENANCE', label: '서비스 점검' },
     { value: 'ACTIVE', label: '서비스 진행 중' },
@@ -89,7 +89,7 @@ const ProjectPublish = () => {
 
   const Fileupload = async (file: any): Promise<string> => {
     try {
-      const resultData = await Image(file).unwrap();
+      const resultData = await Image({ accessToken, fileData: file }).unwrap();
       console.log(resultData);
 
       // 이미지 업로드가 성공한 경우에만 이미지 URL 반환
@@ -99,7 +99,6 @@ const ProjectPublish = () => {
       return ''; // 실패한 경우 빈 문자열 반환 또는 다른 오류 처리 방식을 선택할 수 있습니다.
     }
   };
-
 
   const handleImageChange = (File: File | null) => {
     if (File) {
@@ -299,32 +298,30 @@ const ProjectPublish = () => {
       console.error('데이터 전송 중 오류 발생:', error);
     }
   };
-const onSubmit = async (data: any) => {
-  // 데이터 업데이트
-  const otherData = updateProjectData(Object.keys(data), data);
-  const crewData = updateProjectCrew(teamInfoBoxes, otherData);
-  const techStacks: Stack[] = StackTags.map((tag) => ({
-    name: tag,
-  }));
+  const onSubmit = async (data: any) => {
+    const otherData = updateProjectData(Object.keys(data), data);
+    const crewData = updateProjectCrew(teamInfoBoxes, otherData);
+    const techStacks: Stack[] = StackTags.map((tag) => ({
+      name: tag,
+    }));
 
-  // 모든 데이터를 업데이트
-  otherData.projectTechStack = techStacks;
-  otherData.projectCrew = crewData;
+    // 모든 데이터를 업데이트
+    otherData.projectTechStack = techStacks;
+    otherData.projectCrew = crewData;
 
-  try {
+    try {
+      // 이미지 업로드를 기다리기 위해 Fileupload를 async 함수로 변경
+      const imageUrl = await Fileupload(Fileimage);
 
+      // 이미지 URL을 데이터에 추가
+      otherData.imageUrl = imageUrl;
 
-    // 이미지 URL을 데이터에 추가
-    otherData.imageUrl = 'https://challengers.kr.object.ncloudstorage.com/bay.png';
-
-
-    // 모든 데이터를 포함하여 doAsyncWork 호출
-    await doAsyncWork(otherData);
-  } catch (error) {
-    console.error('데이터 전송 중 오류 발생:', error);
-  }
-};
-
+      // 모든 데이터를 포함하여 doAsyncWork 호출
+      await doAsyncWork(otherData);
+    } catch (error) {
+      console.error('데이터 전송 중 오류 발생:', error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

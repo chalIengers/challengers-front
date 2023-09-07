@@ -111,14 +111,14 @@ export interface imgBoxType {
 export interface ButtonBoxProps {
   text: string | undefined;
   type:
-    | 'large'
-    | 'small'
-    | 'modal'
-    | 'modalSmall'
-    | 'very_small'
-    | 'auto'
-    | 'large_modal'
-    | 'custom';
+  | 'large'
+  | 'small'
+  | 'modal'
+  | 'modalSmall'
+  | 'very_small'
+  | 'auto'
+  | 'large_modal'
+  | 'custom';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;
