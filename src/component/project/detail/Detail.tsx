@@ -98,7 +98,6 @@ const Detail = () => {
             {(data) => (
               <FlexWrapContainer>
                 {Object.keys(data).map((key) => {
-                  // return <TeamInfoBox teamInfo={data[key]} key={key} />;
                   return (
                     <InfoContainer key={key}>
                       <InfoUpperContainer>

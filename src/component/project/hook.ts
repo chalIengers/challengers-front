@@ -83,7 +83,7 @@ export const useTeckStackModalHook = ({ value, setSortType }: TechStacksModalPro
     setInputValue(e.target.value);
   };
 
-  const handleClickStack = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleClickStack = (e: React.MouseEvent<HTMLDivElement>) => {
     const { innerText } = e.currentTarget;
     if (techStacks.length < 5 && !techStacks.includes(innerText)) {
       setTechStacks((prev) => [...prev, innerText]);

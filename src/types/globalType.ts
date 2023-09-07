@@ -48,7 +48,7 @@ export interface SelectBoxContainerProps {
 }
 export interface ReturnStackProps {
   stack: string;
-  onClick: (e: any) => void;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 export interface TechStacksModalProps {
   value: string;
@@ -56,26 +56,6 @@ export interface TechStacksModalProps {
 }
 
 // Detail Page
-
-// MyPage
-
-//
-export interface SelectBoxProps {
-  options: string[];
-  value: string;
-  onChange: any;
-  background?: string;
-  customStyle?: any;
-}
-export type T = string | number;
-
-export interface SelectBoxProps2 {
-  options: { value: T; label: string }[];
-  value: T;
-  onChange: any;
-  background?: string;
-  customStyle?: any;
-}
 
 interface Crew {
   name: string;
@@ -123,6 +103,26 @@ export interface ProjectDetailProps extends ProjectBoxProps {
 
 export interface NavItemProps extends ContainerType {
   to: string;
+}
+
+// MyPage
+
+//
+export interface SelectBoxProps {
+  options: string[];
+  value: string;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
+}
+export type T = string | number;
+
+export interface SelectBoxProps2 {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
 }
 
 export interface imgBoxType {

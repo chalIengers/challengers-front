@@ -208,7 +208,7 @@ const SearchResultContainer = ({ children, showOptions }: SelectBoxContainerProp
 );
 
 const SearchResult = ({ stack, onClick }: ReturnStackProps) => (
-  <p
+  <div
     role="presentation"
     onClick={onClick}
     css={css`
@@ -221,7 +221,7 @@ const SearchResult = ({ stack, onClick }: ReturnStackProps) => (
     `}
   >
     {stack}
-  </p>
+  </div>
 );
 
 const RowFlexContainer = ({ children }: ContainerType) => (
@@ -249,7 +249,7 @@ const SelectedStackContainer = ({ children }: ContainerType) => (
 );
 
 const SelectedStack = ({ stack, onClick }: ReturnStackProps) => (
-  <div
+  <p
     css={css`
       background-color: #d9d9d9;
       padding: 1.2rem;
@@ -267,7 +267,7 @@ const SelectedStack = ({ stack, onClick }: ReturnStackProps) => (
     onClick={onClick}
   >
     {stack}
-  </div>
+  </p>
 );
 
 export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) => {
