@@ -55,11 +55,13 @@ const ProjectPublish = () => {
     { value: '소셜미디어', label: '옵션 2' },
     { value: '안드로이드', label: '옵션 3' },
   ];
+  
   const options2 = [
     { value: 'MAINTENANCE', label: '서비스 점검' },
     { value: 'ACTIVE', label: '서비스 진행 중' },
     { value: 'INACTIVE', label: '서비스 종료' },
   ];
+
   const [options3, setOption3] = useState([{ value: 0, label: '소속 클럽 없음' }]);
 
   const { accessToken } = useSelector(selectUser);
@@ -85,24 +87,19 @@ const ProjectPublish = () => {
 
   const [datas, setDatas] = useState([]);
 
-  const Fileupload = async (file: any) => {
+  const Fileupload = async (file: any): Promise<string> => {
     try {
       const resultData = await Image(file).unwrap();
       console.log(resultData);
 
-      setNewProjectData((prevData) => ({
-        ...prevData,
-        imageUrl: resultData.msg,
-      }));
+      // 이미지 업로드가 성공한 경우에만 이미지 URL 반환
+      return resultData.msg;
     } catch (error) {
       console.log('이미지 업로드 실패:', error);
-
-      setNewProjectData((prevData) => ({
-        ...prevData,
-        imageUrl: '',
-      }));
+      return ''; // 실패한 경우 빈 문자열 반환 또는 다른 오류 처리 방식을 선택할 수 있습니다.
     }
   };
+
 
   const handleImageChange = (File: File | null) => {
     if (File) {
@@ -302,24 +299,32 @@ const ProjectPublish = () => {
       console.error('데이터 전송 중 오류 발생:', error);
     }
   };
+const onSubmit = async (data: any) => {
+  // 데이터 업데이트
+  const otherData = updateProjectData(Object.keys(data), data);
+  const crewData = updateProjectCrew(teamInfoBoxes, otherData);
+  const techStacks: Stack[] = StackTags.map((tag) => ({
+    name: tag,
+  }));
 
-  const onSubmit = async (data: any) => {
-    const otherData = updateProjectData(Object.keys(data), data);
-    setNewProjectData(otherData);
+  // 모든 데이터를 업데이트
+  otherData.projectTechStack = techStacks;
+  otherData.projectCrew = crewData;
 
-    const crewData = updateProjectCrew(teamInfoBoxes, otherData);
-    const techStacks: Stack[] = StackTags.map((tag) => ({
-      name: tag,
-    }));
+  try {
 
-    otherData.projectTechStack = techStacks;
-    otherData.projectCrew = crewData;
 
-    // 이미지 업로드를 기다리기 위해 Fileupload를 async 함수로 변경
-    await Fileupload(Fileimage);
-    // 이미지 업로드가 완료된 후에 doAsyncWork 호출
-    doAsyncWork(otherData);
-  };
+    // 이미지 URL을 데이터에 추가
+    otherData.imageUrl = 'https://challengers.kr.object.ncloudstorage.com/bay.png';
+
+
+    // 모든 데이터를 포함하여 doAsyncWork 호출
+    await doAsyncWork(otherData);
+  } catch (error) {
+    console.error('데이터 전송 중 오류 발생:', error);
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -331,7 +336,7 @@ const ProjectPublish = () => {
           <input
             type="file"
             id="fileInput"
-            accept="image/png, image/jpeg, image/jpg"
+            accept="image/png, image/jpeg, image/jpg, image/bmp"
             onChange={(e) => {
               const file = e.target.files?.[0] || null;
 
