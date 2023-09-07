@@ -12,6 +12,7 @@ const MyPage = () => {
   const { accessToken } = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   return (
     <Inner>
       <Banner />

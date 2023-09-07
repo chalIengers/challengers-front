@@ -1,30 +1,31 @@
 import { SerializedStyles } from '@emotion/react';
-import React, { ChangeEvent, ReactNode, CSSProperties } from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
+// Global Style
 export interface ContainerType {
   children: ReactNode;
 }
-
 export interface StyleType {
   style: SerializedStyles;
 }
-
 export interface StyleContainerType {
   children: ReactNode;
   style?: SerializedStyles;
   onClick?: () => void;
 }
 
-export interface SelectBoxProps {
-  options: string[];
-  value: string;
-  onChange: any;
-  background?: string;
-  customStyle?: any;
-}
-export type T = string | number;
+// Main Page
 
+// Project Page
+export interface ProjectBoxProps {
+  id: number;
+  projectName: string;
+  projectDescription: string;
+  imageUrl: string;
+  projectCategory: string;
+  belongedClubName: string;
+}
 export interface SortType {
   service: string;
   stack: string[];
@@ -41,6 +42,33 @@ export interface SelectedBoxProps extends ContainerType {
   setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
   showOptions: boolean;
 }
+export interface SelectBoxContainerProps {
+  children: React.ReactNode;
+  showOptions: boolean;
+}
+export interface ReturnStackProps {
+  stack: string;
+  onClick: (e: any) => void;
+}
+export interface TechStacksModalProps {
+  value: string;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+}
+
+// Detail Page
+
+// MyPage
+
+//
+export interface SelectBoxProps {
+  options: string[];
+  value: string;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
+}
+export type T = string | number;
+
 export interface SelectBoxProps2 {
   options: { value: T; label: string }[];
   value: T;
@@ -48,14 +76,7 @@ export interface SelectBoxProps2 {
   background?: string;
   customStyle?: any;
 }
-export interface ProjectBoxProps {
-  id: number;
-  projectName: string;
-  projectDescription: string;
-  imageUrl: string;
-  projectCategory: string;
-  belongedClubName: string;
-}
+
 interface Crew {
   name: string;
   role: string;

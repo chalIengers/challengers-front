@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { css, keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ClubArrayContainerProps, ClubLogoProps, ContainerType } from '../../types/globalType';
 import { Body1 } from '../emotion/GlobalStyle';
-import { ClubComponent, FlexWrapContainer, LoadingBox } from '../emotion/component';
+import { ClubComponent } from '../emotion/component';
 import { logoAnimation, logoAnimationBack } from '../../json/data';
 
 export const ClubList = ({ children }: ContainerType) => (
@@ -41,17 +41,6 @@ export const DivisionLine = () => (
       margin: auto;
     `}
   />
-);
-
-export const LoadingContainer = () => (
-  <FlexWrapContainer>
-    <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
-    <LoadingBox />
-  </FlexWrapContainer>
 );
 
 export const ClubArrayContainer = ({ clubArray, index }: ClubArrayContainerProps) => {

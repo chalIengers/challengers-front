@@ -248,32 +248,30 @@ const loadingAnimation = css`
   }
 `;
 
-export const LoadingBox = () => {
-  return (
+const LoadingBox = () => (
+  <div
+    css={css`
+      display: flex;
+      flex-direction: column;
+      padding: 1.6rem 2rem;
+      width: 38.4rem;
+      height: 40rem;
+      background-color: ${theme.palette.gray[900]};
+      border-radius: 1.6rem;
+      gap: 1.6rem;
+      cursor: pointer;
+    `}
+  >
     <div
       css={css`
-        display: flex;
-        flex-direction: column;
-        padding: 1.6rem 2rem;
-        width: 38.4rem;
-        height: 40rem;
-        background-color: ${theme.palette.gray[900]};
-        border-radius: 1.6rem;
-        gap: 1.6rem;
-        cursor: pointer;
+        height: 22.4rem;
+        border-radius: 1.2rem;
+        object-fit: cover;
+        ${loadingAnimation}
       `}
-    >
-      <div
-        css={css`
-          height: 22.4rem;
-          border-radius: 1.2rem;
-          object-fit: cover;
-          ${loadingAnimation}
-        `}
-      />
-    </div>
-  );
-};
+    />
+  </div>
+);
 
 /**
  * FlexContainer 컴포넌트
@@ -281,20 +279,29 @@ export const LoadingBox = () => {
  * @param children - FlexContainer 내부의 자식 요소
  */
 
-export const FlexWrapContainer = ({ children }: ContainerType) => {
-  return (
-    <div
-      css={css`
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        width: 100%;
-        gap: 2.4rem;
-      `}
-    >
-      {children}
-    </div>
-  );
-};
+export const FlexWrapContainer = ({ children }: ContainerType) => (
+  <div
+    css={css`
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: 100%;
+      gap: 2.4rem;
+    `}
+  >
+    {children}
+  </div>
+);
+
+export const LoadingContainer = () => (
+  <FlexWrapContainer>
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+    <LoadingBox />
+  </FlexWrapContainer>
+);
 
 /**
  * 버튼 컴포넌트

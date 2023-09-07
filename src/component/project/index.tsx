@@ -1,22 +1,34 @@
 import React from 'react';
-import { Banner, ProjectBox, FlexWrapContainer, TextBox, TagList } from '../emotion/component';
+import { useSelector } from 'react-redux';
+import {
+  Banner,
+  ProjectBox,
+  FlexWrapContainer,
+  TextBox,
+  TagList,
+  LoadingContainer,
+} from '../emotion/component';
 import { Body1, Header2, Inner, Section } from '../emotion/GlobalStyle';
-import { useSelectBoxes } from './hook';
+import { useGetProjectsBoxHook } from './hook';
 import { ProjectBoxProps } from '../../types/globalType';
-import { LoadingContainer, SelectBoxDropBox, SelectBoxModal } from './component';
+import { SelectBoxDropBox, SelectBoxModal } from './component';
+import { projectOptionType } from '../../json/data';
+import { selectProjects } from '../../store/slice/projectSlice';
 
 const Index = () => {
-  const { sortType, optionType, projectDatas, isFetching, setSortType, data } = useSelectBoxes();
+  const { sortType, isFetching, setSortType, data } = useGetProjectsBoxHook();
+  const projectDatas = useSelector(selectProjects);
 
   return (
     <Inner>
       <Banner />
+
       <Section gap="5.6">
         <Section>
           <TextBox margin="1.6">
             <Header2>챌린저스에 등록된 프로젝트</Header2>
             <SelectBoxDropBox
-              options={optionType.sort}
+              options={projectOptionType.sort}
               value="sort"
               sortType={sortType}
               setSortType={setSortType}
@@ -24,7 +36,7 @@ const Index = () => {
           </TextBox>
           <TagList>
             <SelectBoxDropBox
-              options={optionType.service}
+              options={projectOptionType.service}
               value="service"
               sortType={sortType}
               setSortType={setSortType}
@@ -38,7 +50,6 @@ const Index = () => {
             <ProjectBox key={project.id} projectData={project} />
           ))}
         </FlexWrapContainer>
-
         {isFetching && <LoadingContainer />}
         {data?.last && <Body1>마지막 페이지입니다.</Body1>}
       </Section>

@@ -516,7 +516,7 @@ export const ChangePassword = () => {
         // 3분 타이머 시작
         startTimer();
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
