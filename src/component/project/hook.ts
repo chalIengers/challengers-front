@@ -6,8 +6,6 @@ import { addProject, resetProject } from '../../store/slice/projectSlice';
 import { SortType, TechStacksModalProps } from '../../types/globalType';
 import { projectMappingApi } from '../../json/data';
 
-// useTechStacks.js
-
 // 초기 데이터
 const initialSortType: SortType = {
   service: '전체 서비스',
@@ -36,31 +34,28 @@ export function useGetProjectsBoxHook() {
       dispatch(resetProject());
       setPageNumber(0);
     };
-  }, [sortType]);
+  }, [sortType, dispatch]);
 
   // 데이터 업데이트 시 프로젝트 추가
   useEffect(() => {
     if (data) dispatch(addProject(data?.content));
-  }, [data]);
+  }, [data, dispatch]);
 
-  // 스크롤 이벤트 핸들러
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      !isFetching &&
-      data?.totalPages !== pageNumber
-    ) {
-      setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    }
-  };
-
-  // 스크롤 이벤트 리스너 추가 및 제거
   useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        !isFetching &&
+        data?.totalPages !== pageNumber
+      ) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isFetching]);
+  }, [isFetching, data?.totalPages, pageNumber]);
 
   return {
     data,

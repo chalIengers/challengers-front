@@ -21,16 +21,16 @@ import { useTeckStackModalHook } from './hook';
 const SelectedBox = ({ children, setShowOptions, showOptions, value }: SelectedBoxProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleOutsideClick = (event: any) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) setShowOptions(false);
-  };
   useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) setShowOptions(false);
+    };
     // 모달이 열려있고, 모달 외부를 클릭할 때 모달을 닫습니다.
     if (showOptions) window.addEventListener('click', handleOutsideClick);
     return () => {
       window.removeEventListener('click', handleOutsideClick);
     };
-  }, [showOptions]);
+  }, [showOptions, setShowOptions]);
 
   return (
     <div
