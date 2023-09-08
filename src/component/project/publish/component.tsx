@@ -417,7 +417,7 @@ export const OptionData = ({ data }: { data: any }) => {
   return options;
 };
 
-// 날짜 정의
+// 날짜 정의 컴포넌트
 export const DateSelector = ({
   onDateRangeChange,
 }: {
@@ -466,6 +466,7 @@ export const DateSelector = ({
   );
 };
 
+// 기술 스택 컴포넌트
 export function StackInput({ onAddStackTag }: StackInputProps) {
   const [inputStackTag, setInputStackTag] = useState<string>('');
 
