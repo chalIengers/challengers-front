@@ -322,10 +322,9 @@ export interface FetcherProps {
   loading: React.ReactNode;
 }
 
-
 export interface setImgFormDataType {
   setImgFormData: React.Dispatch<React.SetStateAction<File | undefined>>;
-
+}
 export interface StackTagInputProps {
   onAddStackTag: (tag: string) => void;
   stackTags: string[];

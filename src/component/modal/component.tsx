@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from 'editor_likelion';
 import { useForm } from 'react-hook-form';
-import { clubData, setClubField } from '../../store/slice/CreateClubSlice';
+import { clubData } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
-import { ButtonBox, TagList, ClubComponent } from '../emotion/component';
+import { ButtonBox, ClubComponent } from '../emotion/component';
 import { ContainerType, RegisterModalInputProps, TimerBlockProps } from '../../types/globalType';
 import {
   Body1,
@@ -19,28 +19,16 @@ import {
   FlexSpaceBetweenContainer,
 } from '../emotion/GlobalStyle';
 
-import { closeModal, openModal } from '../../store/slice/modalSlice';
-import { signData } from '../../store/slice/signUpSlice';
-import {
-  useCreateUserMutation,
-  useRequestUserMutation,
-} from '../../store/controller/signUpController';
-import { ErrorDescription } from '../signUp/component';
+import { closeModal } from '../../store/slice/modalSlice';
+import {} from '../../store/controller/signUpController';
 import { usePasswordChangeHook } from './hooks';
 import {
   useCreateClubMutation,
   useRequestJoinClubMutation,
-    useGetCommentQuery,
 } from '../../store/controller/clubController';
-import { logout, selectUser } from '../../store/slice/userSlice';
-import {
-  useChangePasswordMutation,
-  useSendCodeMutation,
-  useUnRegisterMutation,
-  useVerifyPasswordQuery,
-} from '../../store/controller/myPageController';
+import { selectUser } from '../../store/slice/userSlice';
+import { useUnRegisterMutation } from '../../store/controller/myPageController';
 import { commentData } from '../../store/slice/commentSlice';
-import { useFileUploadMutation } from '../../store/controller/commonController';
 import useRegisterHook from './hook';
 
 export const ModalContainer = ({ children }: ContainerType) => {
@@ -118,7 +106,19 @@ ModalBackGround.defaultProps = {
 /**
  * modal 안에서 사용되는 input 컴포넌트
  */
-const ModalInput = ({ code, onChange }: { code: string; onChange: any }) => {
+const ModalInput = ({
+  code,
+  onChange,
+  placeHolder,
+  maxLength,
+  type,
+}: {
+  code: string;
+  onChange: any;
+  placeHolder?: string;
+  maxLength?: number;
+  type?: string;
+}) => {
   const handleChange = (newCode: string) => {
     onChange(newCode);
   };
@@ -141,10 +141,11 @@ const ModalInput = ({ code, onChange }: { code: string; onChange: any }) => {
             color: #cbcbcb;
           }
         `}
-        type="text"
+        type={type || 'text'}
         value={code}
+        maxLength={maxLength || 6}
         onChange={(e) => handleChange(e.target.value)}
-        placeholder="발송된 인증번호를 입력해주세요"
+        placeholder={placeHolder || '발송된 인증번호를 입력해주세요'}
       />
     </div>
   );

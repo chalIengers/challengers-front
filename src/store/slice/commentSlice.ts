@@ -8,7 +8,7 @@ interface CommentState {
 }
 
 interface CommentClubState {
-  id: number | string;
+  id: number | string | undefined;
   name: string;
   logo: string;
 }
