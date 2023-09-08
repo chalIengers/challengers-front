@@ -22,6 +22,20 @@ import {
 import { StackInputProps, StackTagInputProps, TeamMember } from '../../../types/globalType';
 import { extractSubstring } from './hook';
 
+// 셀렉트 옵션 정의
+export const Categoryoptions = [
+  { value: '전체 서비스', label: '옵션 1' },
+  { value: '웹 서비스', label: '옵션 2' },
+  { value: '앱 서비스', label: '옵션 3' },
+  { value: '기타 서비스', label: '옵션 3' },
+];
+
+export const Stackoptions = [
+  { value: 'MAINTENANCE', label: '서비스 점검' },
+  { value: 'ACTIVE', label: '서비스 진행 중' },
+  { value: 'INACTIVE', label: '서비스 종료' },
+];
+
 export const Overlay = ({ addInfo, onClick }: { addInfo: boolean | undefined; onClick?: any }) => {
   if (!addInfo) {
     return null;
@@ -355,6 +369,20 @@ export const LinkInputBox2 = ({
         control={control}
         name={`projectLink[${indexs}].linkUrl`}
         defaultValue=""
+        rules={{
+          required: true,
+          // validate: (value) => {
+          //   if (!value.startsWith('http://') && !value.startsWith('https://')) {
+          //     alert('URL은 http:// 또는 https://로 시작해야 합니다.');
+          //     return 'URL은 http:// 또는 https://로 시작해야 합니다.';
+          //   }
+          //   if (!value.endsWith('.com')) {
+          //     alert('URL은 .com으로 끝나야 합니다.');
+          //     return 'URL은 .com으로 끝나야 합니다.';
+          //   }
+          //   return true;
+          // },
+        }}
         render={({ field: { onChange, value } }) => (
           <input
             type="text"
@@ -398,7 +426,7 @@ export const DateSelector = ({
   const handleDateChange = (update: [Date | null, Date | null]) => {
     if (!update[0]) {
       setDateRange([null, null]);
-      onDateRangeChange(''); // 날짜가 선택되지 않은 경우 빈 문자열 전달
+      onDateRangeChange('');
     } else {
       setDateRange(update);
       onDateRangeChange(
@@ -506,20 +534,6 @@ export function StackInput({ onAddStackTag }: StackInputProps) {
     </div>
   );
 }
-
-// 셀렉트 옵션 정의
-export const Categoryoptions = [
-  { value: '전체 서비스', label: '옵션 1' },
-  { value: '웹 서비스', label: '옵션 2' },
-  { value: '앱 서비스', label: '옵션 3' },
-  { value: '기타 서비스', label: '옵션 3' },
-];
-
-export const Stackoptions = [
-  { value: 'MAINTENANCE', label: '서비스 점검' },
-  { value: 'ACTIVE', label: '서비스 진행 중' },
-  { value: 'INACTIVE', label: '서비스 종료' },
-];
 
 export const OptionData = ({ data }: { data: any }) => {
   const [options, setOptions] = useState([{ value: 0, label: '소속 클럽 없음' }]);

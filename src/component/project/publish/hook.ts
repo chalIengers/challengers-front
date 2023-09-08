@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
-import { TeamMember } from '../../../types/globalType';
+import { Crews, TeamMember } from '../../../types/globalType';
 import { selectUser } from '../../../store/slice/userSlice';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
 
@@ -143,4 +143,20 @@ export const useDateRange = (initialDateRange: string = '') => {
   };
 
   return { DateRange, DateRangeChange };
+};
+export const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
+  const updatedProjectCrew: Crews[] = [];
+  teamInfoBoxes.forEach((teamInfo) => {
+    const { infoData } = teamInfo;
+
+    infoData.forEach((memberInfo: Crews) => {
+      updatedProjectCrew.push({
+        name: memberInfo.name,
+        position: memberInfo.position,
+        role: memberInfo.role,
+      });
+    });
+  });
+
+  return updatedProjectCrew;
 };

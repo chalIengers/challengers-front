@@ -36,6 +36,7 @@ import {
   StackInput,
 } from './component';
 import {
+  updateProjectCrew,
   useDateRange,
   useFileImageUpload,
   useImageUpload,
@@ -53,7 +54,7 @@ const ProjectPublish = () => {
 
   const { accessToken } = useSelector(selectUser);
 
-  const { data, error, isLoading } = useGetMyClubQuery({ accessToken });
+  const { data } = useGetMyClubQuery({ accessToken });
   const [Image] = useFileUploadMutation();
   const mutation = useCreatePublishMutation();
 
@@ -89,24 +90,6 @@ const ProjectPublish = () => {
       ...newProjectData,
       ...data,
     };
-  };
-
-  const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
-    const updatedProjectCrew: Crews[] = [];
-
-    teamInfoBoxes.forEach((teamInfo) => {
-      const { infoData } = teamInfo;
-
-      infoData.forEach((memberInfo: Crews) => {
-        updatedProjectCrew.push({
-          name: memberInfo.name,
-          position: memberInfo.position,
-          role: memberInfo.role,
-        });
-      });
-    });
-
-    return updatedProjectCrew;
   };
 
   const editorRef = useRef(null);
