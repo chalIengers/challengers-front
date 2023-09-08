@@ -19,15 +19,17 @@ const Publish = () => {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log('name: ', name, ' value: ', value);
     if (value) {
       dispatch(setClubField({ field: name, clubData: value }));
     }
   };
 
   const handleClick = () => {
+    if (Object.values(clubDatas).some((value) => !value)) {
+      alert('모든 항목을 채워주세요');
+      return;
+    }
     dispatch(openModal({ modalType: 'CreateClubModal' }));
-    console.log(clubDatas);
   };
 
   return (
@@ -59,7 +61,7 @@ const Publish = () => {
           />
 
           <Header2>클럽 형태</Header2>
-          <ClubTypeBox text="클럽 형태를 입력해주세요" />
+          <ClubTypeBox text="클럽 형태를 선택해주세요" />
 
           <Header2>클럽 소개</Header2>
           <TextInputBox
