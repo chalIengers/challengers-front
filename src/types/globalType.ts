@@ -297,3 +297,12 @@ export interface FetcherProps {
   children: (data: any) => React.ReactNode;
   loading: React.ReactNode;
 }
+
+export interface StackTagInputProps {
+  onAddStackTag: (tag: string) => void;
+  stackTags: string[];
+}
+
+export interface StackInputProps {
+  onAddStackTag: (tag: string) => void;
+}
