@@ -7,36 +7,31 @@ import { ButtonBox } from '../../emotion/component';
 import { Body2, Section } from '../../emotion/GlobalStyle';
 import { useChangeInput } from './hook';
 import { clubData, setClubField } from '../../../store/slice/CreateClubSlice';
+import { useImageUpload } from '../../project/publish/hook';
 
 const ImageUpload = () => {
-  const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
+  const { imageSrc, uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log('클릭: ', typeof file);
 
     if (file) {
       if (!file.type.includes('image/')) {
         alert('이미지 파일 형식이 아닙니다.');
         return;
       }
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const src = event.target?.result as string;
-        setImgFileSrc(src);
-      };
-      reader.readAsDataURL(file);
+      uploadImage(file);
+      dispatch(setClubField({ field: 'logoUrl', clubData: file }));
     }
   };
+  // 드롭 함수
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     const { files } = e.dataTransfer;
-    console.log(files?.[0]);
     const file = files?.[0];
 
     if (file) {
@@ -44,14 +39,8 @@ const ImageUpload = () => {
         alert('이미지 파일 형식이 아닙니다.');
         return;
       }
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const src = event.target?.result as string;
-        setImgFileSrc(src);
-        dispatch(setClubField({ field: 'logoUrl', clubData: src }));
-      };
-      reader.readAsDataURL(file);
+      uploadImage(file);
+      dispatch(setClubField({ field: 'logoUrl', clubData: file }));
     }
   };
 
@@ -80,10 +69,10 @@ const ImageUpload = () => {
           cursor: pointer;
         `}
       >
-        {imgFileSrc ? (
+        {imageSrc ? (
           <img
-            src={imgFileSrc}
-            alt={imgFileSrc}
+            src={imageSrc}
+            alt={imageSrc}
             css={css`
               max-width: 100%;
               max-height: 100%;
