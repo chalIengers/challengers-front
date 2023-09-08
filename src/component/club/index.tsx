@@ -77,7 +77,13 @@ const Index = () => {
           {(ListData) => (
             <>
               {ListData.content.map((club: ClubComponentProps) => (
-                <ClubBox id={club.id} name={club.name} text="클럽 가입 신청" logo={club.logo} />
+                <ClubBox
+                  key={club.id}
+                  id={club.id}
+                  name={club.name}
+                  text="클럽 가입 신청"
+                  logo={club.logo}
+                />
               ))}
               <ClubPagNation totalPage={ListData.totalPages} />
             </>

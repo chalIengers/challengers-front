@@ -5,21 +5,21 @@ interface CreateClub {
   clubDescription: string;
   clubForm: string;
   clubName: string;
-  logoUrl: string;
+  logoUrl: File | undefined;
 }
 
 const initialState: CreateClub = {
   clubDescription: '',
   clubForm: '',
   clubName: '',
-  logoUrl: '',
+  logoUrl: undefined,
 };
 
 const CreateClubSlice = createSlice({
   name: 'createClub',
   initialState,
   reducers: {
-    setClubField: (state, action: PayloadAction<{ field: string; clubData: string }>) => {
+    setClubField: (state, action: PayloadAction<{ field: string; clubData: string | File }>) => {
       const { field, clubData } = action.payload;
 
       return {

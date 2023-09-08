@@ -6,7 +6,7 @@ export const publishApi = createApi({
 
   endpoints: (builder) => ({
     fileUpload: builder.mutation({
-      query: (fileData) => {
+      query: ({ accessToken, fileData }) => {
         const formData = new FormData();
         formData.append('file', fileData);
         return {
@@ -14,7 +14,7 @@ export const publishApi = createApi({
           method: 'POST',
           body: formData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzOTA5MTQ4LCJleHAiOjE2OTM5MTI3NDh9.BGckwEATZhkkprF2fcXIU3PcShpKsdORZtFAQMhlQy8`,
+            'X-AUTH-TOKEN': accessToken,
           },
         };
       },
