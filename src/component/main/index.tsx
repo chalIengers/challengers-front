@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Banner, FlexWrapContainer, ProjectBox, TextBox } from '../emotion/component';
-import { Header1, Inner, Section } from '../emotion/GlobalStyle';
 import {
-  ClubList,
-  NavigateMore,
-  DivisionLine,
+  Banner,
+  FlexWrapContainer,
   LoadingContainer,
-  ClubArrayContainer,
-} from './component';
+  ProjectBox,
+  TextBox,
+} from '../emotion/component';
+import { Header1, Inner, Section } from '../emotion/GlobalStyle';
+import { ClubList, NavigateMore, DivisionLine, ClubArrayContainer } from './component';
 import {
   useGetVideosByTopViewQuery,
   useGetVideosQuery,

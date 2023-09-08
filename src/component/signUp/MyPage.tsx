@@ -15,6 +15,7 @@ const MyPage = () => {
   const { accessToken } = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const validate = useValidateUnRegisterQuery({ accessToken });
   const handleUnRegistClick = async () => {
     try {

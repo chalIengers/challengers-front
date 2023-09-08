@@ -94,6 +94,6 @@ export const LoadingComponent = () => {
       css={css`
         height: 40rem;
       `}
-    ></div>
+    />
   );
 };

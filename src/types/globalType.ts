@@ -1,30 +1,31 @@
 import { SerializedStyles } from '@emotion/react';
-import React, { ChangeEvent, ReactNode, CSSProperties } from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
+// Global Style
 export interface ContainerType {
   children: ReactNode;
 }
-
 export interface StyleType {
   style: SerializedStyles;
 }
-
 export interface StyleContainerType {
   children: ReactNode;
   style?: SerializedStyles;
   onClick?: () => void;
 }
 
-export interface SelectBoxProps {
-  options: string[];
-  value: string;
-  onChange: any;
-  background?: string;
-  customStyle?: any;
-}
-export type T = string | number;
+// Main Page
 
+// Project Page
+export interface ProjectBoxProps {
+  id: number;
+  projectName: string;
+  projectDescription: string;
+  imageUrl: string;
+  projectCategory: string;
+  belongedClubName: string;
+}
 
 export interface SortType {
   service: string;
@@ -42,21 +43,21 @@ export interface SelectedBoxProps extends ContainerType {
   setShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
   showOptions: boolean;
 }
-export interface SelectBoxProps2 {
-  options: { value: T; label: string }[];
-  value: T;
-  onChange: any;
-  background?: string;
-  customStyle?: any;
+export interface SelectBoxContainerProps {
+  children: React.ReactNode;
+  showOptions: boolean;
 }
-export interface ProjectBoxProps {
-  id: number;
-  projectName: string;
-  projectDescription: string;
-  imageUrl: string;
-  projectCategory: string;
-  belongedClubName: string;
+export interface ReturnStackProps {
+  stack: string;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
+export interface TechStacksModalProps {
+  value: string;
+  setSortType: React.Dispatch<React.SetStateAction<SortType>>;
+}
+
+// Detail Page
+
 interface Crew {
   name: string;
   role: string;
@@ -103,6 +104,37 @@ export interface ProjectDetailProps extends ProjectBoxProps {
 
 export interface NavItemProps extends ContainerType {
   to: string;
+}
+
+// MyPage
+
+// Modal
+export interface RegisterModalInputProps {
+  register: UseFormRegisterReturn;
+  type?: string;
+  placeHolder?: string;
+}
+
+export interface TimerBlockProps {
+  remainingTime: number;
+  handleReSend: () => void;
+}
+//
+export interface SelectBoxProps {
+  options: string[];
+  value: string;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
+}
+export type T = string | number;
+
+export interface SelectBoxProps2 {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: any;
+  background?: string;
+  customStyle?: any;
 }
 
 export interface imgBoxType {

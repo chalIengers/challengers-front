@@ -6,29 +6,11 @@ export const projectController = createApi({
 
   endpoints: (builder) => ({
     getVideos: builder.query({
-      query: ({ size, page, categories, sort }) => {
-        return { url: 'get/all', params: { size, page, categories, sort } };
+      query: ({ size, page, categories, sort, techStack }) => {
+        return { url: 'get/all', params: { size, page, categories, sort, techStack } };
       },
     }),
-    // getVideosInfinity: builder.query({
-    //   query: ({ size, page }) => {
-    //     return { url: 'get/all', params: { size, page } };
-    //   },
-    //   // Only have one cache entry because the arg always maps to one string
-    //   serializeQueryArgs: ({ endpointName }) => {
-    //     return endpointName;
-    //   },
-    //   // Always merge incoming data to the cache entry
-    //   merge: (currentCache, newItems) => {
-    //     const existingIds = new Set(currentCache.content.map((item: any) => item.id));
-    //     const uniqueNewItems = newItems.content.filter((item: any) => !existingIds.has(item.id));
-    //     currentCache.content.push(...uniqueNewItems);
-    //   },
-    //   // Refetch when the page arg changes
-    //   forceRefetch({ currentArg, previousArg }) {
-    //     return currentArg !== previousArg;
-    //   },
-    // }),
+
     getVideosByTopView: builder.query({
       query: ({ size, page }) => {
         const currentDate = new Date();

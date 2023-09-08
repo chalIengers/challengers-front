@@ -11,7 +11,6 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     addProject: (state, action: PayloadAction<ProjectBoxProps[]>) => {
-      console.log(action.payload);
       return {
         ...state,
         projects: [...state.projects, ...action.payload],
