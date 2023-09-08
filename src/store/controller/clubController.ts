@@ -33,6 +33,16 @@ export const clubController = createApi({
         },
       }),
     }),
+    verifyClub: builder.mutation({
+      query: ({ accessToken, clubData }) => ({
+        url: 'verify-club',
+        method: 'POST',
+        body: clubData,
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      }),
+    }),
     requestJoinClub: builder.mutation({
       query: (data) => ({
         url: 'join-requests',
@@ -94,6 +104,7 @@ export const {
   useGetLogosQuery,
   useGetClubDetailQuery,
   useCreateClubMutation,
+  useVerifyClubMutation,
   useGetMyClubQuery,
   useGetClubListQuery,
   useAcceptCrewMutation,

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Banner,
@@ -12,10 +12,17 @@ import { Inner, Body1, Header1, Section, Header2 } from '../../emotion/GlobalSty
 import { ClubLogoPreView, ClubTypeBox } from './component';
 import { openModal } from '../../../store/slice/modalSlice';
 import { clubData, setClubField } from '../../../store/slice/CreateClubSlice';
+import { selectUser } from '../../../store/slice/userSlice';
+import { useFileUploadMutation } from '../../../store/controller/commonController';
+import { useVerifyClubMutation } from '../../../store/controller/clubController';
 
 const Publish = () => {
   const dispatch = useDispatch();
-  const clubDatas = useSelector(clubData);
+  const { accessToken } = useSelector(selectUser);
+  const [serverImgUpload] = useFileUploadMutation();
+  const [verifyClub] = useVerifyClubMutation();
+  const [imgFormData, setImgFormData] = useState<File | undefined>(undefined);
+  const club = useSelector(clubData);
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,12 +31,51 @@ const Publish = () => {
     }
   };
 
-  const handleClick = () => {
-    if (Object.values(clubDatas).some((value) => !value)) {
-      alert('모든 항목을 채워주세요');
+  const handleClick = async () => {
+    if (!imgFormData) {
+      alert('클럽 로고 이미지를 업로드해주세요');
       return;
     }
-    dispatch(openModal({ modalType: 'CreateClubModal' }));
+    // 이미지 서버에 업로드 및 상태 업데이트
+    try {
+      let sendClubData;
+      try {
+        const imgResponse = await serverImgUpload({
+          accessToken,
+          fileData: imgFormData,
+        }).unwrap();
+        console.log('imgResponse: ', imgResponse);
+        sendClubData = {
+          clubDescription: club.clubData.clubDescription,
+          clubForm: club.clubData.clubForm,
+          clubName: club.clubData.clubName,
+          logoUrl: imgResponse.msg,
+        };
+        dispatch(setClubField({ field: 'logoUrl', clubData: imgResponse.msg }));
+        if (Object.values(sendClubData).some((value) => !value)) {
+          alert('모든 항목을 채워주세요');
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
+      const dataResponse = await verifyClub({ accessToken, clubData: sendClubData }).unwrap();
+
+      console.log('sendClubData: ', sendClubData);
+      console.log('accessToken: ', accessToken);
+      console.log('response: ', dataResponse);
+      console.log('response.msg: ', dataResponse.msg);
+      console.log('response.success: ', dataResponse.success);
+      if (dataResponse.success) {
+        dispatch(setClubField({ field: 'userName', clubData: dataResponse.msg }));
+        dispatch(openModal({ modalType: 'CreateClubModal' }));
+      } else {
+        alert(dataResponse.msg);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -46,7 +92,7 @@ const Publish = () => {
       </Section>
 
       <Section>
-        <ClubLogoPreView />
+        <ClubLogoPreView setImgFormData={setImgFormData} />
       </Section>
 
       <ContainerComponent>

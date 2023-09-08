@@ -8,11 +8,19 @@ interface CreateClub {
   logoUrl: File | undefined;
 }
 
-const initialState: CreateClub = {
-  clubDescription: '',
-  clubForm: '',
-  clubName: '',
-  logoUrl: undefined,
+interface ClubData {
+  userName: string;
+  clubData: CreateClub;
+}
+
+const initialState: ClubData = {
+  userName: '',
+  clubData: {
+    clubDescription: '',
+    clubForm: '',
+    clubName: '',
+    logoUrl: undefined,
+  },
 };
 
 const CreateClubSlice = createSlice({
@@ -25,6 +33,10 @@ const CreateClubSlice = createSlice({
       return {
         ...state,
         [field]: clubData,
+        clubData: {
+          ...state.clubData,
+          [field]: clubData,
+        },
       };
     },
   },

@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React, { ChangeEvent, useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ButtonBox } from '../../emotion/component';
 import { Body2, Section } from '../../emotion/GlobalStyle';
-import { useChangeInput } from './hook';
-import { clubData, setClubField } from '../../../store/slice/CreateClubSlice';
+import { setClubField } from '../../../store/slice/CreateClubSlice';
 import { useImageUpload } from '../../project/publish/hook';
+import { setImgFormDataType } from '../../../types/globalType';
 
-const ImageUpload = () => {
+const ImageUpload = ({ setImgFormData }: setImgFormDataType) => {
   const { imageSrc, uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const ImageUpload = () => {
         return;
       }
       uploadImage(file);
-      dispatch(setClubField({ field: 'logoUrl', clubData: file }));
+      setImgFormData(file);
     }
   };
   // 드롭 함수
@@ -40,7 +40,7 @@ const ImageUpload = () => {
         return;
       }
       uploadImage(file);
-      dispatch(setClubField({ field: 'logoUrl', clubData: file }));
+      setImgFormData(file);
     }
   };
 
@@ -109,7 +109,7 @@ const ImageUpload = () => {
   );
 };
 
-export const ClubLogoPreView = () => {
+export const ClubLogoPreView = ({ setImgFormData }: setImgFormDataType) => {
   return (
     <Section gap="1.6">
       <div
@@ -120,7 +120,7 @@ export const ClubLogoPreView = () => {
           color: ${theme.palette.gray[400]};
         `}
       >
-        <ImageUpload />
+        <ImageUpload setImgFormData={setImgFormData} />
         <Body2>
           클럽에서 사용되는 로고를 등록해주세요
           <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요
@@ -139,9 +139,7 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
   const [clubTypes, setClubTypes] = useState<string[]>([]);
   const [isToggleTemp, setIsToggleTemp] = useState<boolean[]>(Array(4).fill(false));
   const [isToggle, setToggle] = useState<boolean[]>(Array(4).fill(false));
-  const [clubTypesTemp, setClubTypesTemp] = useState<string[]>([]);
   const clubFormText = ref.current?.innerText;
-  const { value, setValue, handleOnChange } = useChangeInput();
 
   useEffect(() => {
     if (clubFormText) {

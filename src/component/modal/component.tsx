@@ -434,13 +434,13 @@ export const CreateClubModal = () => {
       try {
         const imgResponse = await serverImgUpload({
           accessToken,
-          fileData: club.logoUrl,
+          fileData: club.clubData.logoUrl,
         }).unwrap();
         console.log('imgResponse: ', imgResponse);
         sendClubData = {
-          clubDescription: club.clubDescription,
-          clubForm: club.clubForm,
-          clubName: club.clubName,
+          clubDescription: club.clubData.clubDescription,
+          clubForm: club.clubData.clubForm,
+          clubName: club.clubData.clubName,
           logoUrl: imgResponse.msg,
         };
       } catch (err) {
@@ -468,7 +468,7 @@ export const CreateClubModal = () => {
             text-align: center;
           `}
         >
-          000님의 {club.clubName}
+          {club.userName}님의 {club.clubData.clubName}
         </Header1>
         <Body1
           style={css`
