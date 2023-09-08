@@ -300,7 +300,7 @@ export const SelectBoxModal = ({ value, setSortType }: SelectBoxDropBoxProps) =>
 
             <SearchResultContainer showOptions={!!inputValue}>
               {filteredItems.length !== 0 ? (
-                filteredItems.map((stack) => {
+                filteredItems.map((stack: string) => {
                   return <SearchResult stack={stack} onClick={handleClickStack} key={stack} />;
                 })
               ) : (

@@ -7,7 +7,7 @@ export const projectMappingApi: { [key: string]: string } = {
   '기타 서비스': 'ETC',
   '최신 등록순': 'NEW',
   인기순: 'POPULAR',
-  추천순: '',
+  추천순: 'RECOMMEND',
 };
 
 export const projectOptionType = {
