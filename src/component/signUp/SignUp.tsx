@@ -1,50 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Banner, ButtonBox, ContainerComponent, GridBox, TextInputBox } from '../emotion/component';
 import { Inner, Body1, Header2, Section, Header1 } from '../emotion/GlobalStyle';
-import { openModal } from '../../store/slice/modalSlice';
 import { CollectDescription, ErrorDescription } from './component';
-import { setEmail, setPassword, setUserName } from '../../store/slice/signUpSlice';
-import { useRequestUserMutation } from '../../store/controller/signUpController';
+import { useSignUpLogic } from './hook';
 
 const Signup = () => {
-  const dispatch = useDispatch();
-  const [requestUser, { isLoading }] = useRequestUserMutation();
-  const handleSubmitData = async (data: any) => {
-    try {
-      const signUpData = {
-        email: data.email,
-        password: data.pw,
-        userName: data.name,
-      };
-      dispatch(setEmail(data.email));
-      dispatch(setUserName(data.name));
-      dispatch(setPassword(data.pw));
-      console.log(signUpData);
-      // request-sign-up post 요청
-      const response = await requestUser(signUpData);
-      console.log('request-sign-up response:', response);
-      // 이메일 인증코드 모달창
-      dispatch(openModal({ modalType: 'RegisterModal' }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const {
     register,
     handleSubmit,
     getValues,
-    // setValue,
-    // clearErrors,
-    // watch,
+    watch,
     formState: { errors },
   } = useForm({ mode: 'onChange' });
+  const { handleSubmitData, isLoading } = useSignUpLogic({ watch });
   return (
-    <form onSubmit={handleSubmit((data) => handleSubmitData(data))}>
+    <form onSubmit={handleSubmit(handleSubmitData)}>
       <Inner>
         <Banner />
 
