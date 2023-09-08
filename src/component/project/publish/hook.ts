@@ -89,9 +89,9 @@ export const useTeamInfoBoxes = () => {
 };
 
 interface FileImageUploadProps {
-  Image: (params: { accessToken: string; fileData: File }) => any; // Image 함수의 타입을 명시
+  Image: (params: { accessToken: string; fileData: File }) => any;
 
-  uploadImage: (file: File) => void; // uploadImage 함수의 타입을 명시
+  uploadImage: (file: File) => void;
 }
 
 export const useFileImageUpload = ({ Image, uploadImage }: FileImageUploadProps) => {
@@ -119,4 +119,28 @@ export const useFileImageUpload = ({ Image, uploadImage }: FileImageUploadProps)
   };
 
   return { Fileimage, Fileupload, handleImageChange };
+};
+
+export const useStackTags = () => {
+  const [StackTags, setStackTags] = useState<string[]>([]);
+
+  const AddStackTag = (newStackTag: string) => {
+    setStackTags((prevStackTags) => [...prevStackTags, newStackTag]);
+  };
+
+  const removeStackTag = (tagToRemove: string) => {
+    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
+  };
+
+  return { StackTags, AddStackTag, removeStackTag };
+};
+
+export const useDateRange = (initialDateRange: string = '') => {
+  const [DateRange, setDateRange] = useState<string>(initialDateRange);
+
+  const DateRangeChange = (newDateRange: string) => {
+    setDateRange(newDateRange);
+  };
+
+  return { DateRange, DateRangeChange };
 };

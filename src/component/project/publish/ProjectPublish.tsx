@@ -10,6 +10,7 @@ import { v4 } from 'uuid';
 import { Editor } from 'editor_likelion';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import {
   Tag,
   Banner,
@@ -34,13 +35,20 @@ import {
   OptionData,
   StackInput,
 } from './component';
-import { useFileImageUpload, useImageUpload, useTeamInfoBoxes } from './hook';
+import {
+  useDateRange,
+  useFileImageUpload,
+  useImageUpload,
+  useStackTags,
+  useTeamInfoBoxes,
+} from './hook';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
 import { Crews, ProjectInfo, initialProjectData } from '../../../types/globalType';
 import { useCreatePublishMutation } from '../../../store/controller/projectController';
-import { useGetClubListQuery, useGetMyClubQuery } from '../../../store/controller/clubController';
+import { useGetMyClubQuery } from '../../../store/controller/clubController';
 
 const ProjectPublish = () => {
+  const navigate = useNavigate();
   const [newProjectData, setNewProjectData] = useState<ProjectInfo>(initialProjectData);
 
   const { accessToken } = useSelector(selectUser);
@@ -50,32 +58,17 @@ const ProjectPublish = () => {
   const mutation = useCreatePublishMutation();
 
   const { imageSrc, uploadImage } = useImageUpload();
-
   const { Fileimage, Fileupload, handleImageChange } = useFileImageUpload({
     Image,
     uploadImage,
   });
 
-  const [DateRange, setDateRange] = useState<string>('');
-
-  const DateRangeChange = (dateRange: string) => {
-    setDateRange(dateRange);
-  };
-
+  const { DateRange, DateRangeChange } = useDateRange('');
+  const { StackTags, AddStackTag, removeStackTag } = useStackTags();
   const { teamInfoBoxes, handleInfoChange, handleAddInfoBox, handleDeleteInfoBox } =
     useTeamInfoBoxes();
 
   const { register, handleSubmit, control, setValue } = useForm();
-
-  const [StackTags, setStackTags] = useState<string[]>([]);
-
-  const AddStackTag = (newStackTag: any) => {
-    setStackTags((prevStackTags) => [...prevStackTags, newStackTag]);
-  };
-
-  const removeStackTag = (tagToRemove: string) => {
-    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
-  };
 
   const {
     fields: linkFields,
@@ -85,7 +78,6 @@ const ProjectPublish = () => {
     control,
     name: 'projectLink',
   });
-
   const [Name, setName] = useState('http://notion.com');
   const NameChange = (newValue: any, index: number) => {
     setName(newValue);
@@ -132,9 +124,11 @@ const ProjectPublish = () => {
   const doAsyncWork = async (data: any) => {
     try {
       await mutation[0]({ accessToken, newProjectData: data });
-      console.log(data);
+      // console.log(data);
+      navigate('/project');
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
+      navigate('/project/publish');
     }
   };
 

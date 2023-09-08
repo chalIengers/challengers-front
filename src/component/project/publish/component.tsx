@@ -385,38 +385,6 @@ export const LinkInputBox2 = ({
   );
 };
 
-// 셀렉트 옵션 정의
-export const Categoryoptions = [
-  { value: '웹서비스', label: '옵션 1' },
-  { value: '소셜미디어', label: '옵션 2' },
-  { value: '안드로이드', label: '옵션 3' },
-];
-
-export const Stackoptions = [
-  { value: 'MAINTENANCE', label: '서비스 점검' },
-  { value: 'ACTIVE', label: '서비스 진행 중' },
-  { value: 'INACTIVE', label: '서비스 종료' },
-];
-
-export const OptionData = ({ data }: { data: any }) => {
-  const [options, setOptions] = useState([{ value: 0, label: '소속 클럽 없음' }]);
-
-  useEffect(() => {
-    if (data && Array.isArray(data)) {
-      const updatedOptions = [
-        ...options,
-        ...data.map((item: any) => ({
-          value: item.id.toString(),
-          label: item.name,
-        })),
-      ];
-      setOptions(updatedOptions);
-    }
-  }, [data]);
-
-  return options;
-};
-
 // 날짜 정의 컴포넌트
 export const DateSelector = ({
   onDateRangeChange,
@@ -538,3 +506,36 @@ export function StackInput({ onAddStackTag }: StackInputProps) {
     </div>
   );
 }
+
+// 셀렉트 옵션 정의
+export const Categoryoptions = [
+  { value: '전체 서비스', label: '옵션 1' },
+  { value: '웹 서비스', label: '옵션 2' },
+  { value: '앱 서비스', label: '옵션 3' },
+  { value: '기타 서비스', label: '옵션 3' },
+];
+
+export const Stackoptions = [
+  { value: 'MAINTENANCE', label: '서비스 점검' },
+  { value: 'ACTIVE', label: '서비스 진행 중' },
+  { value: 'INACTIVE', label: '서비스 종료' },
+];
+
+export const OptionData = ({ data }: { data: any }) => {
+  const [options, setOptions] = useState([{ value: 0, label: '소속 클럽 없음' }]);
+
+  useEffect(() => {
+    if (data && Array.isArray(data)) {
+      const updatedOptions = [
+        ...options,
+        ...data.map((item: any) => ({
+          value: item.id.toString(),
+          label: item.name,
+        })),
+      ];
+      setOptions(updatedOptions);
+    }
+  }, [data]);
+
+  return options;
+};
