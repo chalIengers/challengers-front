@@ -421,7 +421,6 @@ export const CreateClubModal = () => {
   const club = useSelector(clubData);
   const { accessToken } = useSelector(selectUser);
   const [createClub] = useCreateClubMutation();
-  const [serverImgUpload] = useFileUploadMutation();
 
   const CancelButton = () => {
     dispatch(closeModal());
@@ -430,31 +429,12 @@ export const CreateClubModal = () => {
   const RegisterButton = async () => {
     // 이미지 서버에 업로드 및 상태 업데이트
     try {
-      let sendClubData;
-      try {
-        const imgResponse = await serverImgUpload({
-          accessToken,
-          fileData: club.clubData.logoUrl,
-        }).unwrap();
-        console.log('imgResponse: ', imgResponse);
-        sendClubData = {
-          clubDescription: club.clubData.clubDescription,
-          clubForm: club.clubData.clubForm,
-          clubName: club.clubData.clubName,
-          logoUrl: imgResponse.msg,
-        };
-      } catch (err) {
-        console.log(err);
-      }
-
-      const DataResponse = await createClub({ accessToken, newClubData: sendClubData });
-      if (DataResponse) {
+      const dataResponse = await createClub({ accessToken, newClubData: club }).unwrap();
+      if (dataResponse) {
+        alert(dataResponse.msg);
         navigate('/');
         dispatch(closeModal());
       }
-      console.log('sendClubData: ', sendClubData);
-      console.log('accessToken: ', accessToken);
-      console.log('response: ', DataResponse);
     } catch (err) {
       console.log(err);
     }

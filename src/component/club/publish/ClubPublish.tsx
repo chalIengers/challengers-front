@@ -44,7 +44,6 @@ const Publish = () => {
           accessToken,
           fileData: imgFormData,
         }).unwrap();
-        console.log('imgResponse: ', imgResponse);
         sendClubData = {
           clubDescription: club.clubData.clubDescription,
           clubForm: club.clubData.clubForm,
@@ -62,11 +61,6 @@ const Publish = () => {
 
       const dataResponse = await verifyClub({ accessToken, clubData: sendClubData }).unwrap();
 
-      console.log('sendClubData: ', sendClubData);
-      console.log('accessToken: ', accessToken);
-      console.log('response: ', dataResponse);
-      console.log('response.msg: ', dataResponse.msg);
-      console.log('response.success: ', dataResponse.success);
       if (dataResponse.success) {
         dispatch(setClubField({ field: 'userName', clubData: dataResponse.msg }));
         dispatch(openModal({ modalType: 'CreateClubModal' }));

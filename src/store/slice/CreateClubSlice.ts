@@ -5,7 +5,7 @@ interface CreateClub {
   clubDescription: string;
   clubForm: string;
   clubName: string;
-  logoUrl: File | undefined;
+  logoUrl: string;
 }
 
 interface ClubData {
@@ -19,7 +19,7 @@ const initialState: ClubData = {
     clubDescription: '',
     clubForm: '',
     clubName: '',
-    logoUrl: undefined,
+    logoUrl: '',
   },
 };
 
