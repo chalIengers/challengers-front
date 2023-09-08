@@ -26,6 +26,7 @@ export interface ProjectBoxProps {
   projectCategory: string;
   belongedClubName: string;
 }
+
 export interface SortType {
   service: string;
   stack: string[];
@@ -142,15 +143,7 @@ export interface imgBoxType {
 
 export interface ButtonBoxProps {
   text: string | undefined;
-  type:
-    | 'large'
-    | 'small'
-    | 'modal'
-    | 'modalSmall'
-    | 'very_small'
-    | 'auto'
-    | 'large_modal'
-    | 'custom';
+  type: 'large' | 'small' | 'modal' | 'modalSmall' | 'very_small' | 'large_modal' | 'custom';
   cancel?: boolean;
   onClick?: () => void;
   submit?: boolean;
@@ -327,4 +320,17 @@ export interface FetcherProps {
   };
   children: (data: any) => React.ReactNode;
   loading: React.ReactNode;
+}
+
+
+export interface setImgFormDataType {
+  setImgFormData: React.Dispatch<React.SetStateAction<File | undefined>>;
+
+export interface StackTagInputProps {
+  onAddStackTag: (tag: string) => void;
+  stackTags: string[];
+}
+
+export interface StackInputProps {
+  onAddStackTag: (tag: string) => void;
 }

@@ -101,9 +101,9 @@ export const ClubAcceptBox = ({
 /**
  * 클럽 관리자 페이지 안에 있는 logo 컴포넌트
  */
-export const ChallengersLogo = ({ src }: { src: string }) => (
+export const ChallengersLogo = ({ src, alt }: { src: string; alt: string }) => (
   <img
-    alt="클럽 로고"
+    alt={alt}
     src={src}
     css={css`
       width: 24rem;

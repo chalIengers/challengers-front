@@ -1,6 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookie } from '../cookie';
-import { RootState } from '..';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
@@ -35,6 +33,16 @@ export const clubController = createApi({
         },
       }),
     }),
+    verifyClub: builder.mutation({
+      query: ({ accessToken, clubData }) => ({
+        url: 'verify-club',
+        method: 'POST',
+        body: clubData,
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      }),
+    }),
     requestJoinClub: builder.mutation({
       query: (data) => ({
         url: 'join-requests',
@@ -63,7 +71,7 @@ export const clubController = createApi({
         return {
           url: `join-requests/pending/users/${data.clubId}`,
           headers: {
-            'X-AUTH-TOKEN': data.token,
+            'X-AUTH-TOKEN': data.accessToken,
           },
         };
       },
@@ -96,6 +104,7 @@ export const {
   useGetLogosQuery,
   useGetClubDetailQuery,
   useCreateClubMutation,
+  useVerifyClubMutation,
   useGetMyClubQuery,
   useGetClubListQuery,
   useAcceptCrewMutation,

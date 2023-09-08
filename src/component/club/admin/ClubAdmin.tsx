@@ -10,45 +10,46 @@ import {
   useGetPendingUsersQuery,
 } from '../../../store/controller/clubController';
 import { selectUser } from '../../../store/slice/userSlice';
+import { ApiFetcher } from '../../../util/util';
 
 const Index = () => {
   const { clubId } = useParams();
-  const token = useSelector(selectUser).accessToken;
-  const apiData = { clubId, token };
-  const { data, isLoading, isError } = useGetPendingUsersQuery(apiData);
-  console.log(data);
-  const clubData = useGetClubDetailQuery(apiData);
-  console.log(clubData);
-  // 클럽 이름
-  const clubName = clubData?.data?.clubName;
-  // 클럽 로고
-  const clubLogo = clubData?.data?.logoUrl;
-  console.log(clubData?.data);
+  const { accessToken } = useSelector(selectUser);
 
-  if (isError) {
-    return '클럽 매니저 권한이 없습니다';
-  }
-  if (!token && isError) {
-    return '로그인 해주세요';
-  }
-  if (isError) {
-    return '클럽 매니저 권한이 없습니다';
-  }
+  // if (isError) {
+  //   return '클럽 매니저 권한이 없습니다';
+  // }
+  // if (!accessToken && isError) {
+  //   return '로그인 해주세요';
+  // }
+  // if (isError) {
+  //   return '클럽 매니저 권한이 없습니다';
+  // }
   return (
     <Inner>
       <Banner />
       <Section gap="3.2">
-        <TextBox>
-          <Header2>클럽 : {clubName} </Header2>
-          <NavigateButton />
-        </TextBox>
+        <ApiFetcher
+          query={useGetClubDetailQuery({ clubId, accessToken })}
+          loading={<div>로딩중</div>}
+        >
+          {(data) => (
+            <>
+              <TextBox>
+                <Header2>클럽 : {data.clubName} </Header2>
+                <NavigateButton />
+              </TextBox>
 
-        <ChallengersLogo src={clubLogo} />
-        {isLoading ? (
-          '로딩중'
-        ) : (
-          <>
-            {data.map((user: any) => (
+              <ChallengersLogo src={data.clubLogo} alt={data.clubName} />
+            </>
+          )}
+        </ApiFetcher>
+        <ApiFetcher
+          query={useGetPendingUsersQuery({ clubId, accessToken })}
+          loading={<div>로딩중</div>}
+        >
+          {(data) =>
+            data.map((user: any) => (
               <ClubAcceptBox
                 email={user.email}
                 key={user.id}
@@ -56,9 +57,9 @@ const Index = () => {
                 id={clubId}
                 comment={user.comment}
               />
-            ))}
-          </>
-        )}
+            ))
+          }
+        </ApiFetcher>
       </Section>
     </Inner>
   );

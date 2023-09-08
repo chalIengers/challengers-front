@@ -8,23 +8,35 @@ interface CreateClub {
   logoUrl: string;
 }
 
-const initialState: CreateClub = {
-  clubDescription: '',
-  clubForm: '',
-  clubName: '',
-  logoUrl: '',
+interface ClubData {
+  userName: string;
+  clubData: CreateClub;
+}
+
+const initialState: ClubData = {
+  userName: '',
+  clubData: {
+    clubDescription: '',
+    clubForm: '',
+    clubName: '',
+    logoUrl: '',
+  },
 };
 
 const CreateClubSlice = createSlice({
   name: 'createClub',
   initialState,
   reducers: {
-    setClubField: (state, action: PayloadAction<{ field: string; clubData: string }>) => {
+    setClubField: (state, action: PayloadAction<{ field: string; clubData: string | File }>) => {
       const { field, clubData } = action.payload;
 
       return {
         ...state,
         [field]: clubData,
+        clubData: {
+          ...state.clubData,
+          [field]: clubData,
+        },
       };
     },
   },

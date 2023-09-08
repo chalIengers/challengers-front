@@ -74,12 +74,18 @@ const Index = () => {
           <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo>
         </TextBox>
         <ApiFetcher query={useGetClubListQuery(page)} loading={<div>로딩중...</div>}>
-          {(ListData) => (
+          {(data) => (
             <>
               {ListData.content.map((club: ClubComponentProps) => (
-                <ClubBox id={club.id} name={club.name} text="클럽 가입 신청" logo={club.logo} />
+                <ClubBox
+                  key={club.id}
+                  id={club.id}
+                  name={club.name}
+                  text="클럽 가입 신청"
+                  logo={club.logo}
+                />
               ))}
-              <ClubPagNation totalPage={ListData.totalPages} />
+              <ClubPagNation totalPage={data.totalPages} />
             </>
           )}
         </ApiFetcher>

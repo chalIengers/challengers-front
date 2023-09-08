@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from 'editor_likelion';
 import { useForm } from 'react-hook-form';
-import { clubData } from '../../store/slice/CreateClubSlice';
+import { clubData, setClubField } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
-import { ButtonBox, ClubComponent } from '../emotion/component';
+import { ButtonBox, TagList, ClubComponent } from '../emotion/component';
 import { ContainerType, RegisterModalInputProps, TimerBlockProps } from '../../types/globalType';
 import {
   Body1,
@@ -18,6 +18,7 @@ import {
   Section,
   FlexSpaceBetweenContainer,
 } from '../emotion/GlobalStyle';
+
 import { closeModal, openModal } from '../../store/slice/modalSlice';
 import { signData } from '../../store/slice/signUpSlice';
 import {
@@ -25,10 +26,22 @@ import {
   useRequestUserMutation,
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
-import { useRequestJoinClubMutation } from '../../store/controller/clubController';
-import { selectUser } from '../../store/slice/userSlice';
-import { commentData } from '../../store/slice/commentSlice';
 import { usePasswordChangeHook } from './hooks';
+import {
+  useCreateClubMutation,
+  useRequestJoinClubMutation,
+    useGetCommentQuery,
+} from '../../store/controller/clubController';
+import { logout, selectUser } from '../../store/slice/userSlice';
+import {
+  useChangePasswordMutation,
+  useSendCodeMutation,
+  useUnRegisterMutation,
+  useVerifyPasswordQuery,
+} from '../../store/controller/myPageController';
+import { commentData } from '../../store/slice/commentSlice';
+import { useFileUploadMutation } from '../../store/controller/commonController';
+import useRegisterHook from './hook';
 
 export const ModalContainer = ({ children }: ContainerType) => {
   return (
@@ -91,7 +104,7 @@ const ModalBackGround = ({ children, isBlack }: { children: ReactNode; isBlack?:
         border-radius: 2rem;
         padding: 5.6rem 7.2rem;
         min-width: 64rem;
-        color: black;
+        color: ${isBlack ? 'white' : 'black'};
       `}
     >
       {children}
@@ -223,7 +236,7 @@ export const CommentBlackModal = () => {
             alert(res.data.msg);
             if (res.data.success) dispatch(closeModal());
           })
-          .catch((err) => {
+          .catch((err: any) => {
             console.log(err);
           });
       }
@@ -273,9 +286,6 @@ export const CommentBlackModal = () => {
 export const CommentModal = () => {
   const data = useSelector(commentData);
   const dispatch = useDispatch();
-  const handleCloseClick = () => {
-    dispatch(closeModal());
-  };
   return (
     <ModalBackGround>
       <Section gap="2.4">
@@ -293,63 +303,126 @@ export const CommentModal = () => {
             display: flex;
           `}
         >
-          <ButtonBox text="확인했어요" type="large_modal" onClick={handleCloseClick} />
+          <ButtonBox
+            text="확인했어요"
+            type="large_modal"
+            onClick={() => {
+              dispatch(closeModal());
+            }}
+          />
         </div>
       </Section>
     </ModalBackGround>
   );
 };
-
-export const RegisterModal = () => {
+export const UnRegisterModal = () => {
+  const { accessToken } = useSelector(selectUser);
+  const [unregister] = useUnRegisterMutation();
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const data = useSelector(signData);
-  const [createUser] = useCreateUserMutation();
-  const [requestUser] = useRequestUserMutation();
-  const [res, setRes] = useState({ data: { code: 1, msg: '' } }); // sign-up 응답 데이터
-  const [inputCode, setInputCode] = useState('');
-  // 인증코드 상태저장
-  const handleChangeInputCode = (newCode: string) => {
-    setInputCode(newCode); // 입력값이 변경될 때 상태 업데이트
-  };
-  // 인증번호 포함 회원가입 post
-  const handleClick = async () => {
+  const handleUnRegistClick = async () => {
     try {
-      const signUpData = {
-        email: data.email,
-        password: data.password,
-        userName: data.userName,
-        inputNumber: inputCode,
+      const data = {
+        accessToken,
+        password,
       };
-      console.log(signUpData);
-      const response = await createUser(signUpData); // API 요청을 보내고 응답 데이터를 받음
-      console.log('API response:', response);
-      setRes(response);
-      if (response.data.code === 1) {
-        dispatch(openModal({ modalType: 'RegisterSuccessModal' }));
+      const resp = await unregister(data);
+      console.log(resp.data);
+      if (resp.data.success) {
+        alert('탈퇴되었습니다');
+        dispatch(closeModal());
+        window.location.reload();
+        window.location.href = '/';
+      } else if (resp.data.matchPassword === false) {
+        alert('비밀번호가 틀렸습니다');
+      } else {
+        alert('회원탈퇴 유효성 검사에 실패했습니다');
       }
     } catch (err) {
       console.log(err);
     }
   };
-  // 인증번호 재전송
-  const handleEmailClick = async () => {
-    try {
-      const retryData = {
-        email: data.email,
-        password: data.password,
-        userName: data.userName,
-      };
-      console.log(retryData);
-      const response = await requestUser(retryData);
-      console.log('retryEmail : ', response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // 취소 버튼 클릭시 closeModal
   const handleCancleClick = () => {
     dispatch(closeModal());
   };
+  return (
+    <ModalBackGround>
+      <Section gap="4.4">
+        <Header1
+          style={css`
+            color: ${theme.palette.gray[900]};
+            text-align: center;
+          `}
+        >
+          정말 챌린저스 서비스를 탈퇴하시겠어요?
+        </Header1>
+        <Body2>
+          지금 탈퇴하면 앞으로 챌린저스 서비스를 이용하는데 불편을 겪을 수 있어요 <br />
+          충분히 생각 후에 아래 `탈퇴하기` 버튼을 누르시는 것을 추천해요
+        </Body2>
+        <ModalInput
+          code={password}
+          onChange={setPassword}
+          maxLength={20}
+          type="password"
+          placeHolder="현재 비밀번호를 입력해주세요"
+        />
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <ButtonBox text="취소" type="modal" cancel onClick={handleCancleClick} />
+          <ButtonBox
+            text="탈퇴하기"
+            type="modal"
+            backgroundColor="#88898A"
+            color="#ED4545"
+            onClick={handleUnRegistClick}
+          />
+        </div>
+      </Section>
+    </ModalBackGround>
+  );
+};
+export const UnRegisterWarningModal = () => {
+  const dispatch = useDispatch();
+  const handleCloseClick = () => {
+    dispatch(closeModal());
+  };
+  return (
+    <ModalBackGround>
+      <Section gap="4.4">
+        <Header1
+          style={css`
+            color: ${theme.palette.gray[900]};
+            text-align: center;
+          `}
+        >
+          웁스, 현재 관리중인 클럽이 있어요
+        </Header1>
+        <Body2
+          style={css`
+            text-align: center;
+          `}
+        >
+          현재 관리중인 클럽에 회원이 존재해 회원탈퇴가 불가해요, <br />
+          클럽 회원을 모두 정리 후에 서비스를 탈퇴할 수 있어요
+        </Body2>
+        <ButtonBox text="해당 내용을 확인했어요" type="large_modal" onClick={handleCloseClick} />
+      </Section>
+    </ModalBackGround>
+  );
+};
+export const RegisterModal = () => {
+  const dispatch = useDispatch();
+  const [inputCode, setInputCode] = useState('');
+  // 인증코드 상태저장
+  const handleChangeInputCode = (newCode: string) => {
+    setInputCode(newCode); // 입력값이 변경될 때 상태 업데이트
+  };
+  const { handleEmailClick, handleClick } = useRegisterHook(inputCode);
   return (
     <ModalBackGround>
       <Section gap="2.4">
@@ -375,10 +448,9 @@ export const RegisterModal = () => {
         <div
           css={css`
             display: flex;
-            justify-content: space-between;
+            justify-content: end;
           `}
         >
-          {res.data.code ? <div></div> : <ErrorDescription>{res.data.msg}</ErrorDescription>}
           <button
             css={css`
               color: ${theme.palette.gray[500]};
@@ -395,7 +467,14 @@ export const RegisterModal = () => {
             justify-content: space-between;
           `}
         >
-          <ButtonBox text="취소" type="modal" cancel onClick={handleCancleClick} />
+          <ButtonBox
+            text="취소"
+            type="modal"
+            cancel
+            onClick={() => {
+              dispatch(closeModal());
+            }}
+          />
           <ButtonBox text="회원가입" type="modal" onClick={handleClick} />
         </div>
       </Section>
@@ -406,16 +485,23 @@ export const RegisterModal = () => {
 export const CreateClubModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clubDatas = useSelector(clubData);
+  const club = useSelector(clubData);
   const { accessToken } = useSelector(selectUser);
+  const [createClub] = useCreateClubMutation();
 
   const CancelButton = () => {
     dispatch(closeModal());
   };
-  const RegisterButton = () => {
+
+  const RegisterButton = async () => {
+    // 이미지 서버에 업로드 및 상태 업데이트
     try {
-      navigate('/');
-      dispatch(closeModal());
+      const dataResponse = await createClub({ accessToken, newClubData: club }).unwrap();
+      if (dataResponse) {
+        alert(dataResponse.msg);
+        navigate('/');
+        dispatch(closeModal());
+      }
     } catch (err) {
       console.log(err);
     }
@@ -429,7 +515,7 @@ export const CreateClubModal = () => {
             text-align: center;
           `}
         >
-          000님의 000 클럽
+          {club.userName}님의 {club.clubData.clubName}
         </Header1>
         <Body1
           style={css`
