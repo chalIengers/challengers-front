@@ -76,8 +76,14 @@ const Index = () => {
         <ApiFetcher query={useGetClubListQuery(page)} loading={<div>로딩중...</div>}>
           {(data) => (
             <>
-              {data.content.map((club: ClubComponentProps) => (
-                <ClubBox id={club.id} name={club.name} text="클럽 가입 신청" logo={club.logo} />
+              {ListData.content.map((club: ClubComponentProps) => (
+                <ClubBox
+                  key={club.id}
+                  id={club.id}
+                  name={club.name}
+                  text="클럽 가입 신청"
+                  logo={club.logo}
+                />
               ))}
               <ClubPagNation totalPage={data.totalPages} />
             </>

@@ -32,7 +32,9 @@ const store = configureStore({
     [myPageController.reducerPath]: myPageController.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({
+      serializableCheck: false, // 직렬화 검사 비활성화
+    }).concat(
       projectController.middleware,
       clubController.middleware,
       crewController.middleware,
@@ -40,6 +42,7 @@ const store = configureStore({
       publishApi.middleware,
       myPageController.middleware,
     ),
+  devTools: process.env.NODE_ENV !== 'production', // 개발 모드에서만 DevTools 활성화
 });
 
 export type RootState = ReturnType<typeof store.getState>;

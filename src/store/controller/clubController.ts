@@ -1,6 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookie } from '../cookie';
-import { RootState } from '..';
 
 export const clubController = createApi({
   reducerPath: 'clubController',
@@ -30,6 +28,16 @@ export const clubController = createApi({
         url: 'create',
         method: 'POST',
         body: newClubData,
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      }),
+    }),
+    verifyClub: builder.mutation({
+      query: ({ accessToken, clubData }) => ({
+        url: 'verify-club',
+        method: 'POST',
+        body: clubData,
         headers: {
           'X-AUTH-TOKEN': accessToken,
         },
@@ -96,6 +104,7 @@ export const {
   useGetLogosQuery,
   useGetClubDetailQuery,
   useCreateClubMutation,
+  useVerifyClubMutation,
   useGetMyClubQuery,
   useGetClubListQuery,
   useAcceptCrewMutation,

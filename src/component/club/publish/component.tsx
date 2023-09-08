@@ -1,42 +1,37 @@
 /** @jsxImportSource @emotion/react */
 import React, { ChangeEvent, useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { css } from '@emotion/react';
 import theme from '../../../styles/theme';
 import { ButtonBox } from '../../emotion/component';
 import { Body2, Section } from '../../emotion/GlobalStyle';
-import { useChangeInput } from './hook';
-import { clubData, setClubField } from '../../../store/slice/CreateClubSlice';
+import { setClubField } from '../../../store/slice/CreateClubSlice';
+import { useImageUpload } from '../../project/publish/hook';
+import { setImgFormDataType } from '../../../types/globalType';
 
-const ImageUpload = () => {
-  const [imgFileSrc, setImgFileSrc] = useState<string | undefined>(undefined);
+const ImageUpload = ({ setImgFormData }: setImgFormDataType) => {
+  const { imageSrc, uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log('클릭: ', typeof file);
 
     if (file) {
       if (!file.type.includes('image/')) {
         alert('이미지 파일 형식이 아닙니다.');
         return;
       }
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const src = event.target?.result as string;
-        setImgFileSrc(src);
-      };
-      reader.readAsDataURL(file);
+      uploadImage(file);
+      setImgFormData(file);
     }
   };
+  // 드롭 함수
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     const { files } = e.dataTransfer;
-    console.log(files?.[0]);
     const file = files?.[0];
 
     if (file) {
@@ -44,14 +39,8 @@ const ImageUpload = () => {
         alert('이미지 파일 형식이 아닙니다.');
         return;
       }
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const src = event.target?.result as string;
-        setImgFileSrc(src);
-        dispatch(setClubField({ field: 'logoUrl', clubData: src }));
-      };
-      reader.readAsDataURL(file);
+      uploadImage(file);
+      setImgFormData(file);
     }
   };
 
@@ -80,10 +69,10 @@ const ImageUpload = () => {
           cursor: pointer;
         `}
       >
-        {imgFileSrc ? (
+        {imageSrc ? (
           <img
-            src={imgFileSrc}
-            alt={imgFileSrc}
+            src={imageSrc}
+            alt={imageSrc}
             css={css`
               max-width: 100%;
               max-height: 100%;
@@ -120,7 +109,7 @@ const ImageUpload = () => {
   );
 };
 
-export const ClubLogoPreView = () => {
+export const ClubLogoPreView = ({ setImgFormData }: setImgFormDataType) => {
   return (
     <Section gap="1.6">
       <div
@@ -131,7 +120,7 @@ export const ClubLogoPreView = () => {
           color: ${theme.palette.gray[400]};
         `}
       >
-        <ImageUpload />
+        <ImageUpload setImgFormData={setImgFormData} />
         <Body2>
           클럽에서 사용되는 로고를 등록해주세요
           <br /> 로고는 흰색 PNG 파일을 추천드리고 있어요
@@ -143,50 +132,55 @@ export const ClubLogoPreView = () => {
 
 export const ClubTypeBox = ({ text }: { text: string }) => {
   const dispatch = useDispatch();
+  const clubFormList = ['웹 서비스', '앱 서비스', 'AI 서비스', '기타 서비스 제공 클럽'];
+
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [clubTypes, setClubTypes] = useState<string[]>([]);
-  const [clubTypesTemp, setClubTypesTemp] = useState<string[]>([]);
+  const [isToggleTemp, setIsToggleTemp] = useState<boolean[]>(Array(4).fill(false));
+  const [isToggle, setToggle] = useState<boolean[]>(Array(4).fill(false));
   const clubFormText = ref.current?.innerText;
-  const { value, setValue, handleOnChange } = useChangeInput();
 
   useEffect(() => {
     if (clubFormText) {
       dispatch(setClubField({ field: 'clubForm', clubData: clubFormText }));
     }
   }, [clubFormText, dispatch]);
+
   const createDiv = (item: string, index: number) => {
-    const removeDiv = () => {
-      const filterClub = clubTypesTemp.filter((type) => type !== item);
-      setClubTypesTemp(filterClub);
+    const toggleDiv = () => {
+      setIsToggleTemp((prevDiv) =>
+        prevDiv.map((prevState, i) => (i === index ? !prevState : prevState)),
+      );
     };
     return (
       <button
         css={css`
-          display: flex;
-          flex-direction: row;
+          padding: 0.8rem 1.6rem;
+          border-radius: 1.85rem;
+          background: ${isToggleTemp[index] ? theme.palette.primary[500] : theme.palette.gray[300]};
+          ${theme.typography.body2};
+          color: ${isToggleTemp[index] ? theme.palette.gray.white : theme.palette.gray.black};
         `}
         type="button"
-        onClick={removeDiv}
+        onClick={toggleDiv}
         key={index}
       >
         {item}
       </button>
     );
   };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && value.trim() !== '') {
-      setClubTypesTemp([value, ...clubTypesTemp]);
-      setValue('');
-    }
-  };
   const handleCancelClick = () => {
-    setClubTypesTemp(clubTypes);
+    setIsToggleTemp(isToggle);
     setIsOpen(false);
   };
 
   const handleSubmitClick = () => {
-    setClubTypes(clubTypesTemp);
+    const selectStates = clubFormList.filter((item, index) => {
+      return isToggleTemp[index];
+    });
+    setClubTypes(selectStates);
+    setToggle(isToggleTemp);
     setIsOpen(false);
   };
 
@@ -260,51 +254,49 @@ export const ClubTypeBox = ({ text }: { text: string }) => {
             top: 100%;
             display: flex;
             flex-direction: column;
+            flex-wrap: wrap;
             gap: 1.6rem;
-            width: 38rem;
-            height: 40rem;
+            width: 36rem;
+            height: 38rem;
             border-radius: 1.2rem;
             background: ${theme.palette.gray.white};
             padding: 2.4rem;
             color: ${theme.palette.gray.black};
+            justify-content: space-between;
           `}
         >
-          <input
-            css={css`
-              width: 100%;
-              padding: 0 0.8rem;
-            `}
-            placeholder={`${text} (예 : 웹 서비스)`}
-            onKeyDown={handleKeyDown}
-            onChange={handleOnChange}
-            value={value}
-          />
-
+          <Section gap="0.8">
+            <div
+              css={css`
+                width: 100%;
+                padding: 0 0.8rem;
+              `}
+            >
+              클럽 형태를 하단에서 선택해주세요
+            </div>
+            <div
+              css={css`
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding: 1.6rem 0;
+                row-gap: 1.6rem;
+              `}
+            >
+              {clubFormList.map((item, index) => createDiv(item, index))}
+            </div>
+          </Section>
           <div
             css={css`
               display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 1.6rem;
-              border-top: 1px solid ${theme.palette.semantic.placeholder[500]};
-              border-bottom: 1px solid ${theme.palette.semantic.placeholder[500]};
-              padding: 1.6rem 0.8rem;
-              height: 26rem;
-              ${theme.typography.body2}
-              overflow-y: auto;
+              justify-items: flex-end;
+              justify-content: space-between;
             `}
           >
-            {clubTypesTemp.map((item, index) => createDiv(item, index))}
-          </div>
-          <div
-            css={css`
-              display: flex;
-              gap: 3.2rem;
-              flex: 1 0 auto;
-            `}
-          >
-            <ButtonBox type="auto" text="취소할게요" cancel onClick={handleCancelClick} />
-            <ButtonBox type="auto" text="등록할게요" onClick={handleSubmitClick} />
+            <ButtonBox type="modalSmall" text="취소할게요" cancel onClick={handleCancelClick} />
+            <ButtonBox type="modalSmall" text="등록할게요" onClick={handleSubmitClick} />
           </div>
         </div>
       )}

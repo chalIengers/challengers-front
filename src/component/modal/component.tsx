@@ -3,8 +3,8 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clubData } from '../../store/slice/CreateClubSlice';
 import { Editor } from 'editor_likelion';
+import { clubData, setClubField } from '../../store/slice/CreateClubSlice';
 import theme from '../../styles/theme';
 import { ButtonBox, TagList,  ClubComponent } from '../emotion/component';
 import { ContainerType } from '../../types/globalType';
@@ -16,7 +16,11 @@ import {
   useRequestUserMutation,
 } from '../../store/controller/signUpController';
 import { ErrorDescription } from '../signUp/component';
-import { useGetCommentQuery, useRequestJoinClubMutation } from '../../store/controller/clubController';
+import {
+  useCreateClubMutation,
+  useRequestJoinClubMutation,
+    useGetCommentQuery,
+} from '../../store/controller/clubController';
 import { logout, selectUser } from '../../store/slice/userSlice';
 import {
   useChangePasswordMutation,
@@ -25,6 +29,7 @@ import {
   useVerifyPasswordQuery,
 } from '../../store/controller/myPageController';
 import { commentData } from '../../store/slice/commentSlice';
+import { useFileUploadMutation } from '../../store/controller/commonController';
 import useRegisterHook from './hook';
 
 export const ModalContainer = ({ children }: ContainerType) => {
@@ -482,16 +487,23 @@ export const RegisterModal = () => {
 export const CreateClubModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clubDatas = useSelector(clubData);
+  const club = useSelector(clubData);
   const { accessToken } = useSelector(selectUser);
+  const [createClub] = useCreateClubMutation();
 
   const CancelButton = () => {
     dispatch(closeModal());
   };
-  const RegisterButton = () => {
+
+  const RegisterButton = async () => {
+    // 이미지 서버에 업로드 및 상태 업데이트
     try {
-      navigate('/');
-      dispatch(closeModal());
+      const dataResponse = await createClub({ accessToken, newClubData: club }).unwrap();
+      if (dataResponse) {
+        alert(dataResponse.msg);
+        navigate('/');
+        dispatch(closeModal());
+      }
     } catch (err) {
       console.log(err);
     }
@@ -505,7 +517,7 @@ export const CreateClubModal = () => {
             text-align: center;
           `}
         >
-          000님의 000 클럽
+          {club.userName}님의 {club.clubData.clubName}
         </Header1>
         <Body1
           style={css`
