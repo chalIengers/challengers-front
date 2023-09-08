@@ -88,8 +88,7 @@ export const SelectBox = ({
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
         & option {
-          border: 0px solid black;
-          border-radius: 0.8rem;
+          ${theme.typography.body3Bold}
         }
         ${customStyle}
       `}
@@ -135,8 +134,7 @@ export const SelectBox2 = ({
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
         & option {
-          border: 0px solid black;
-          border-radius: 0.8rem;
+          ${theme.typography.body3Bold}
         }
         ${customStyle}
       `}
@@ -325,6 +323,10 @@ export const ButtonBox = ({
       ${theme.typography.header2}
       color: ${cancel && theme.palette.gray.black};
       background-color: ${cancel && theme.palette.gray[300]};
+      background-color: ${backgroundColor};
+      &:hover {
+        background-color: ${color};
+      }
     `,
     modalSmall: css`
       width: 14rem;
@@ -350,8 +352,9 @@ export const ButtonBox = ({
     `,
     large_modal: css`
       width: 100%;
-      padding: 2rem 22.4rem;
-      ${theme.typography.header2}
+      padding: 2rem;
+      background-color: ${backgroundColor};
+      ${theme.typography.header2};
     `,
   };
 

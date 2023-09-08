@@ -71,7 +71,7 @@ export const clubController = createApi({
         return {
           url: `join-requests/pending/users/${data.clubId}`,
           headers: {
-            'X-AUTH-TOKEN': data.token,
+            'X-AUTH-TOKEN': data.accessToken,
           },
         };
       },

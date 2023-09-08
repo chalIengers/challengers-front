@@ -47,13 +47,13 @@ export const projectController = createApi({
       },
     }),
     createPublish: builder.mutation({
-      query: (newProjectData) => {
+      query: ({ accessToken, newProjectData }) => {
         return {
           url: 'create',
           method: 'POST',
           body: newProjectData,
           headers: {
-            'X-AUTH-TOKEN': `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJreXIxMTg1QGthbmduYW0uYWMua3IiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjkzOTA5MTQ4LCJleHAiOjE2OTM5MTI3NDh9.BGckwEATZhkkprF2fcXIU3PcShpKsdORZtFAQMhlQy8`,
+            'X-AUTH-TOKEN': accessToken,
           },
         };
       },

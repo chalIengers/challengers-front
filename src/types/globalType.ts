@@ -25,6 +25,7 @@ export interface SelectBoxProps {
 }
 export type T = string | number;
 
+
 export interface SortType {
   service: string;
   stack: string[];
@@ -289,6 +290,15 @@ export interface FetcherProps {
   loading: React.ReactNode;
 }
 
+
 export interface setImgFormDataType {
   setImgFormData: React.Dispatch<React.SetStateAction<File | undefined>>;
+
+export interface StackTagInputProps {
+  onAddStackTag: (tag: string) => void;
+  stackTags: string[];
+}
+
+export interface StackInputProps {
+  onAddStackTag: (tag: string) => void;
 }
