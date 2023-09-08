@@ -21,12 +21,23 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
+//??
   "rules": {
+    "no-unused-vars": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": false,
+        "optionalDependencies": false,
+        "peerDependencies": true
+      }
+    ], // 모듈이 package.json의 dependencies 또는 devDependencies에 명시되어 있지 않을 때 발생
+//??
     "import/prefer-default-export": "off",
     "linebreak-style": 0, // 운영체제마다 개행차이로 생기는 오류
     "arrow-body-style": "off", // array function 규칙 오프
     "react/self-closing-comp": "off", // 셀프 클로징 오프
-    "prettier/prettier": "error", // eslint-config-prettier에서 제공하는 설정을 활성화해서, Prettier와 충돌하는 몇가지 ESlint 규칙을 무시
+    "prettier/prettier": ["error", { "endOfLine": "auto", "useTabs": false }], // eslint-config-prettier에서 제공하는 설정을 활성화해서, Prettier와 충돌하는 몇가지 ESlint 규칙을 무시
     "prefer-arrow-callback": "off", // eslint-plugin-prettier과 충돌이 일어나는 ESLint core 의 규칙을 비활성화한다.
     "react/function-component-definition": [
       2,
@@ -37,6 +48,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/require-default-props": "warn",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -52,7 +64,8 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["node_modules", "src"]
       }
     }
   }
