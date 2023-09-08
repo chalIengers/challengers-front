@@ -1,25 +1,26 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Controller, useForm, useFormContext } from 'react-hook-form';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { ko } from 'date-fns/esm/locale';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import theme from '../../../styles/theme';
 import { Body5, Header1, Section } from '../../emotion/GlobalStyle';
 import {
   InfoContainer,
   InfoDownContainer,
-  InfoInput,
   InfoInput2,
   InfoUpperContainer,
-  InfoUpperContainer2,
   LinkImg,
   RowContainer,
+  imageNames,
 } from '../emotion/component';
-import { TeamMember, TextInputBoxType, initialLink } from '../../../types/globalType';
+import { StackInputProps, StackTagInputProps, TeamMember } from '../../../types/globalType';
 import { extractSubstring } from './hook';
-import { addLink } from '../../../store/slice/linkSlice';
-import { addCrew } from '../../../store/slice/crewSlice';
 
 export const Overlay = ({ addInfo, onClick }: { addInfo: boolean | undefined; onClick?: any }) => {
   if (!addInfo) {
@@ -60,24 +61,6 @@ export const Overlay = ({ addInfo, onClick }: { addInfo: boolean | undefined; on
 /**
  * 팀원 infobox
  */
-// 모달 추가
-// const addPositionOnClick = () => {
-//   ModalBoxComponent.current?.style.setProperty('display', 'none');
-// };
-export const Inputtext = () => {
-  const [position, setPosition] = useState('');
-  return (
-    <div>
-      <input
-        type="text"
-        onChange={(e) => {
-          setPosition(e.target.value);
-        }}
-      />
-    </div>
-  );
-};
-
 export const TeamInfoInputBox = ({
   addInfo,
   onClick,
@@ -205,75 +188,6 @@ export const TeamInfoInputBox = ({
 
 TeamInfoInputBox.defaultProps = { addInfo: false };
 
-// project link을 넣어주는 inputBox
-export const LinkInputBox = ({
-  link,
-  onLinkChange,
-  register,
-  index,
-}: {
-  link: any;
-  onLinkChange: any;
-  register: any;
-  index: number;
-}) => {
-  const dispatch = useDispatch();
-  const [links, setlink] = useState(initialLink);
-
-  const regex = /^(http|https):\/\//;
-
-  const [textColor, setTextColor] = useState('black');
-
-  const handleInputChange = (e: any) => {
-    const inputValue = e.target.value;
-    console.log(links);
-    if (regex.test(inputValue)) {
-      const extractedName = extractSubstring(inputValue) || '';
-      const updatedData = { ...links, linkUrl: inputValue, name: extractedName };
-
-      setlink(updatedData);
-      setTextColor('black');
-      onLinkChange(inputValue);
-    } else {
-      setTextColor('red');
-    }
-  };
-  const handleInputBlur = () => {
-    dispatch(addLink(links));
-    console.log(links);
-  };
-
-  return (
-    <div
-      css={css`
-        width: 104rem;
-        border-radius: 1.2rem;
-        border: 1px solid black;
-        background: ${theme.palette.gray.white};
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 4rem;
-        align-items: center;
-        padding: 1.8rem;
-      `}
-    >
-      <input
-        type="text"
-        placeholder="http 또는 https를 포함하는 전체 링크를 입력해주세요"
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        {...register}
-        css={css`
-          color: ${textColor};
-          ${theme.typography.body1}
-        `}
-      />
-
-      <LinkImg name="notion" />
-    </div>
-  );
-};
-
 export const labelStyle = css`
   padding: 0.8rem;
   color: ${theme.palette.gray.white};
@@ -302,24 +216,7 @@ export const SecretInput = ({
   );
 };
 
-export const Labels = (props: { htmlFor: string; children: React.ReactNode }) => {
-  const { htmlFor, children } = props;
-  return (
-    <label
-      css={css`
-        padding: 0.8rem;
-        color: ${theme.palette.gray.white};
-        background-color: ${theme.palette.primary[500]};
-        border-radius: 0.4rem;
-        ${theme.typography.body3Bold}
-        cursor: pointer;
-      `}
-      htmlFor={htmlFor}
-    >
-      {children}
-    </label>
-  );
-};
+// 이미지 선택 컴포넌트
 export const PublishImg = (props: {
   htmlFor: string;
   imageSrc?: string | null;
@@ -331,7 +228,6 @@ export const PublishImg = (props: {
   const isValidImageFile = (file: File) => {
     const fileExtension = (file.name.split('.').pop() || '').toLowerCase();
 
-    // 유효한 확장자 목록
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
     return allowedExtensions.includes(fileExtension);
@@ -345,16 +241,14 @@ export const PublishImg = (props: {
     if (files.length > 0) {
       const imageFile = files[0];
 
-      // 이미지 파일 여부 확인 (예: 확장자 또는 MIME 유형 검사)
       if (isValidImageFile(imageFile)) {
-        // 이미지 파일인 경우 처리
         onImageDrop?.(imageFile);
       } else {
-        // 이미지 파일이 아닌 경우 alert
         alert('이미지 파일 형식이 아닙니다.');
       }
     }
   };
+
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
@@ -401,424 +295,48 @@ export const PublishImg = (props: {
   );
 };
 
-export const TextInputBox = ({
-  type,
-  text,
-  size,
-  max,
-  inputType,
-  onChange,
-  register,
-  onKeyDown,
-  value,
-}: TextInputBoxType) => {
-  const style = {
-    header1: css`
-      ${theme.typography.header1}
-    `,
-    body2: css`
-      ${theme.typography.body2}
-    `,
-    body1: css`
-      ${theme.typography.body1}
-    `,
-    border: css`
-      font-size: 2rem;
-      letter-spacing: -0.6px;
-      border-bottom: 1px solid #cbcbcb;
-    `,
-  };
-  return (
-    <input
-      css={css`
-        background: none;
-        color: #fff;
-        &::placeholder {
-          color: #cbcbcb;
-        }
-        ${style[type]};
-      `}
-      placeholder={text}
-      size={size}
-      maxLength={max}
-      type={inputType}
-      onKeyDown={onKeyDown}
-      onChange={onChange}
-      value={value}
-      // onChange={onChange}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...register}
-    />
-  );
-};
-
-export const ChildComponent = ({
-  formData,
-  onDataUpdate,
-  control,
-}: {
-  formData: any;
-  onDataUpdate: any;
-  control: any;
-}) => {
-  const { register, handleSubmit } = useFormContext();
-
-  const onSubmit = (data: any) => {
-    const combinedData = {
-      ...formData,
-      ...data,
-    };
-
-    console.log(combinedData);
-  };
-
-  const sendDataToParent = () => {
-    const data = 'This is data from the child component';
-    onDataUpdate(data);
-  };
-
-  return (
-    <div>
-      <input {...register('test')} />
-      <button type="submit" onClick={handleSubmit(onSubmit)}>
-        Submit
-      </button>
-      <button type="button" onClick={sendDataToParent}>
-        Send Data
-      </button>
-    </div>
-  );
-};
-
-export const ChildComponent2 = ({
-  formData,
-  onDataUpdate,
-  control,
-}: {
-  formData: any;
-  onDataUpdate: any;
-  control: any;
-}) => {
-  const { register, handleSubmit } = useFormContext();
-  const [data, setData] = useState('test');
-
-  return (
-    <Controller
-      control={control}
-      name="lastName"
-      render={({ field: { onChange, onBlur, value, ref } }) => <input type="text" />}
-    />
-  );
-};
-
-export const ChildComponent3 = ({ control }: { control: any }) => {
-  return (
-    <Controller
-      control={control}
-      name="lastName"
-      render={({ field: { onChange, onBlur, value, ref } }) => (
-        <input
-          type="text"
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
-        />
-      )}
-    />
-  );
-};
-
-// export const TeamInfoInputBox2 = ({
-//   addInfo,
-//   onClick,
-//   control,
-// }: {
-//   addInfo?: boolean;
-//   onClick?: () => void;
-//   control: any;
-// }) => {
-//   const [infoData, setInfoData] = useState<TeamMember[]>([
-//     { id: 1, name: '', position: '', role: '' },
-//   ]);
-//   const [position, setPosition] = useState('');
-//   const dispatch = useDispatch();
-
-//   const handleAddInfo = () => {
-//     const newMember: TeamMember = { id: infoData.length + 1, name: '', position: '', role: '' };
-//     setInfoData([...infoData, newMember]);
-//   };
-//   const handleConfirm = () => {
-//     const newData = infoData.map(({ id, ...rest }) => rest);
-//     console.log(newData);
-//     dispatch(addCrew(newData));
-//   };
-//   return (
-//     <div
-//       onClick={onClick}
-//       onKeyDown={(e) => {
-//         if (e.key === 'Enter' || e.key === ' ') {
-//           onClick?.();
-//         }
-//       }}
-//       role="button"
-//       tabIndex={0}
-//     >
-//       <InfoContainer>
-//         <InfoUpperContainer>
-//           <Controller
-//             control={control}
-//             name="position"
-//             render={({ field: { onChange, value } }) => (
-//               <InfoInput
-//                 placeholder="역할을 선택해주세요"
-//                 large
-//                 value={value}
-//                 onChange={(e) => {
-//                   onChange(e.target.value);
-//                 }}
-//               />
-//             )}
-//           />
-//         </InfoUpperContainer>
-
-//         <InfoDownContainer>
-//           <Section gap="0.8">
-//             {infoData.map((item, index) => (
-//               <Section key={item.id} gap="0.8">
-//                 <Controller
-//                   control={control}
-//                   name="name"
-//                   render={({ field: { onChange, value } }) => (
-//                     <InfoInput
-//                       placeholder="이름을 입력해주세요"
-//                       large
-//                       value={value}
-//                       onChange={(e) => {
-//                         onChange(e.target.value);
-//                       }}
-//                     />
-//                   )}
-//                 />
-//                 <Controller
-//                   control={control}
-//                   name="role"
-//                   render={({ field: { onChange, value } }) => (
-//                     <InfoInput
-//                       placeholder="어떤 역할을 했나요?"
-//                       value={value}
-//                       onChange={(e) => {
-//                         onChange(e.target.value);
-//                       }}
-//                     />
-//                   )}
-//                 />
-//               </Section>
-//             ))}
-//             {!addInfo && (
-//               <Body5
-//                 onClick={handleAddInfo}
-//                 style={css`
-//                   ${theme.typography.body2};
-//                   color: ${theme.palette.primary[500]};
-//                   text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
-//                   text-underline-offset: 0.5rem;
-//                   :hover {
-//                     cursor: pointer;
-//                   }
-//                 `}
-//               >
-//                 해당 포지션에 팀원을 더 추가하고 싶어요
-//               </Body5>
-//             )}
-//             <button onClick={handleConfirm} type="button">
-//               확인
-//             </button>
-//           </Section>
-//         </InfoDownContainer>
-
-//         <Overlay addInfo={addInfo} />
-//       </InfoContainer>
-//     </div>
-//   );
-// };
-
-// TeamInfoInputBox.defaultProps = { addInfo: false };
-
-// export const TeamInfoInputBox2 = ({
-//   addInfo,
-//   onClick,
-//   control,
-//   index,
-// }: {
-//   addInfo?: boolean;
-//   onClick?: () => void;
-//   control: any;
-//   index: number;
-// }) => {
-//   const fieldData = control.fields[index];
-//   const handleConfirm = () => {
-//     const { name, role, position } = fieldData;
-
-//     const newData = { name, role, position };
-//     console.log(newData);
-//   };
-
-//   return (
-//     <InfoContainer>
-//       <InfoUpperContainer>
-//         <Controller
-//           control={control}
-//           name={`projectCrew[${index}].position`}
-//           render={({ field: { onChange, value } }) => (
-//             <InfoInput
-//               placeholder="역할을 선택해주세요"
-//               large
-//               value={value}
-//               onChange={(e) => {
-//                 onChange(e.target.value);
-//               }}
-//             />
-//           )}
-//         />
-//       </InfoUpperContainer>
-
-//       <InfoDownContainer>
-//         <Section gap="0.8">
-//           <Section key={index} gap="0.8">
-//             <Controller
-//               control={control}
-//               name={`projectCrew[${index}].name`}
-//               render={({ field: { onChange, value } }) => (
-//                 <InfoInput
-//                   placeholder="이름을 입력해주세요"
-//                   large
-//                   value={value}
-//                   onChange={(e) => {
-//                     onChange(e.target.value);
-//                   }}
-//                 />
-//               )}
-//             />
-//             <Controller
-//               control={control}
-//               name={`projectCrew[${index}].role`}
-//               render={({ field: { onChange, value } }) => (
-//                 <InfoInput
-//                   placeholder="어떤 역할을 했나요?"
-//                   value={value}
-//                   onChange={(e) => {
-//                     onChange(e.target.value);
-//                   }}
-//                 />
-//               )}
-//             />
-//           </Section>
-//           {!addInfo && (
-//             <Body5
-//               style={css`
-//                 ${theme.typography.body2};
-//                 color: ${theme.palette.primary[500]};
-//                 text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
-//                 text-underline-offset: 0.5rem;
-//                 :hover {
-//                   cursor: pointer;
-//                 }
-//               `}
-//             >
-//               해당 포지션에 팀원을 더 추가하고 싶어요
-//             </Body5>
-//           )}
-//           <button onClick={handleConfirm} type="button">
-//             확인
-//           </button>
-//         </Section>
-//       </InfoDownContainer>
-
-//       <Overlay addInfo={addInfo} />
-//     </InfoContainer>
-//   );
-// };
-
-// TeamInfoInputBox.defaultProps = { addInfo: false };
-
-export const TeamInfoInputBox2 = ({
-  addInfo,
-  onClick,
-}: {
-  addInfo?: boolean;
-  onClick?: () => void;
-}) => {
-  return (
-    <InfoContainer>
-      <InfoUpperContainer2>
-        <InfoInput placeholder="역할을 선택해주세요" large color={`${theme.palette.gray.white}`} />
-        <button type="button">
-          <img src="/img/close.png" alt="Close Icon" />
-        </button>
-      </InfoUpperContainer2>
-
-      <InfoDownContainer>
-        <Section gap="0.8">
-          <InfoInput placeholder="이름을 입력해주세요" large />
-          <InfoInput placeholder="어떤 역할을 했나요?" />
-
-          {!addInfo && (
-            <Body5
-              style={css`
-                ${theme.typography.body2};
-                color: ${theme.palette.primary[500]};
-                text-decoration: ${theme.palette.primary[500]} 0.25rem solid underline;
-                text-underline-offset: 0.5rem;
-                :hover {
-                  cursor: pointer;
-                }
-              `}
-              onClick={onClick}
-            >
-              해당 포지션에 팀원을 더 추가하고 싶어요
-            </Body5>
-          )}
-        </Section>
-      </InfoDownContainer>
-
-      <Overlay addInfo={addInfo} onClick={onClick} />
-    </InfoContainer>
-  );
-};
-
-TeamInfoInputBox.defaultProps = { addInfo: false };
-
 export const LinkInputBox2 = ({
   control,
   indexs,
   remove,
-  onExtractedNameChange, // 상위 컴포넌트로 데이터를 전달할 콜백 함수
+  onExtractedNameChange,
 }: {
   control?: any;
   indexs?: any;
   remove?: (index: number) => void;
-  onExtractedNameChange: (newValue: string) => void; // 콜백 함수 타입 정의
+  onExtractedNameChange: (newValue: string) => void;
 }) => {
   const regex = /^(http|https):\/\//;
 
   const [textColor, setTextColor] = useState('black');
   const { setValue } = useForm();
-  const handleInputChange = (e: any) => {
-    const inputValue = e.target.value;
+  const [selectedImage, setSelectedImage] = useState<string>('other');
 
+  const onChangeForRole = (newValue: string) => {
+    const lowerValue = newValue.toLowerCase();
+    setSelectedImage(imageNames[lowerValue] || 'other');
+
+    setValue(`projectCrew[${indexs}].name`, newValue);
+    onExtractedNameChange(newValue);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
     if (regex.test(inputValue)) {
       const extractedName = extractSubstring(inputValue) || '';
-
       setTextColor('black');
+      onChangeForRole(extractedName);
     } else {
       setTextColor('red');
     }
   };
-  const onChangeForRole = (newValue: any) => {
-    // projectCrew[${indexs}].role 필드의 값을 newValue로 업데이트
-    setValue(`projectCrew[${indexs}].name`, newValue);
-    onExtractedNameChange(newValue);
+
+  const handleRemove = () => {
+    if (remove && indexs !== 0) {
+      remove(indexs);
+    }
   };
+
   return (
     <div
       css={css`
@@ -844,15 +362,7 @@ export const LinkInputBox2 = ({
             value={value}
             onChange={(e) => {
               onChange(e.target.value);
-
-              const inputValue = e.target.value;
-              if (regex.test(inputValue)) {
-                const extractedName = extractSubstring(inputValue) || '';
-                setTextColor('black');
-                onChangeForRole(extractedName);
-              } else {
-                setTextColor('red');
-              }
+              handleInputChange(e);
             }}
             css={css`
               color: ${textColor};
@@ -861,63 +371,169 @@ export const LinkInputBox2 = ({
           />
         )}
       />
-
       {indexs !== 0 && remove ? (
         <div style={{ display: 'flex', gap: '0.8rem' }}>
-          <button type="button" onClick={() => remove(indexs)} style={{ color: 'black' }}>
+          <button type="button" onClick={handleRemove} style={{ color: 'black' }}>
             <img src="/img/close.png" alt="Close Icon" />
           </button>
-          <LinkImg name="notion" />
+          <LinkImg name={selectedImage} />
         </div>
       ) : (
-        <LinkImg name="notion" />
+        <LinkImg name={selectedImage} />
       )}
     </div>
   );
 };
 
-export const StackInput = () => {
-  const [inputHashTag, setInputHashTag] = useState('');
-  const [hashTags, setHashTags] = useState<string[]>([]);
+// 셀렉트 옵션 정의
+export const Categoryoptions = [
+  { value: '웹서비스', label: '옵션 1' },
+  { value: '소셜미디어', label: '옵션 2' },
+  { value: '안드로이드', label: '옵션 3' },
+];
 
-  const changeHashTagInput = (e: any) => {
-    setInputHashTag(e.target.value);
-    console.log(inputHashTag);
-  };
+export const Stackoptions = [
+  { value: 'MAINTENANCE', label: '서비스 점검' },
+  { value: 'ACTIVE', label: '서비스 진행 중' },
+  { value: 'INACTIVE', label: '서비스 종료' },
+];
 
-  const onkeyDown = (e: any) => {
-    if (e.code !== 'Enter') return;
-    e.preventDefault();
-    console.log('테스트');
-  };
+export const OptionData = ({ data }: { data: any }) => {
+  const [options, setOptions] = useState([{ value: 0, label: '소속 클럽 없음' }]);
 
-  const isEmptyValue = (value: any) => {
-    if (!value.length) {
-      return true;
+  useEffect(() => {
+    if (data && Array.isArray(data)) {
+      const updatedOptions = [
+        ...options,
+        ...data.map((item: any) => ({
+          value: item.id.toString(),
+          label: item.name,
+        })),
+      ];
+      setOptions(updatedOptions);
     }
-    return false;
-  };
+  }, [data]);
 
-  const addHashTag = (e: any) => {
-    const allowedCommand = ['Comma', 'Enter', 'Space'];
-    if (!allowedCommand.includes(e.code)) return;
-
-    if (isEmptyValue(e.target.value.trim())) {
-      setInputHashTag('');
-      return;
-    }
-
-    let newHashTag = e.target.value.trim();
-    if (newHashTag.endsWith(',')) {
-      newHashTag = newHashTag.slice(0, newHashTag.length - 1);
-    }
-
-    setHashTags((prevHashTags) => {
-      return [...prevHashTags, newHashTag]; // 배열로 유지
-    });
-
-    setInputHashTag('');
-  };
-
-  return <div></div>;
+  return options;
 };
+
+// 날짜 정의
+export const DateSelector = ({
+  onDateRangeChange,
+}: {
+  onDateRangeChange: (dateRange: string) => void;
+}) => {
+  const [dateRange, setDateRange] = useState<null[] | [Date | null, Date | null]>([null, null]);
+
+  const [startDate, endDate] = dateRange;
+
+  const handleDateChange = (update: [Date | null, Date | null]) => {
+    if (!update[0]) {
+      setDateRange([null, null]);
+      onDateRangeChange(''); // 날짜가 선택되지 않은 경우 빈 문자열 전달
+    } else {
+      setDateRange(update);
+      onDateRangeChange(
+        `${update[0]?.toLocaleDateString()} - ${
+          update[1]?.toLocaleDateString() || update[0]?.toLocaleDateString()
+        }`,
+      );
+    }
+  };
+
+  return (
+    <DatePicker
+      selectsRange
+      startDate={startDate}
+      endDate={endDate}
+      locale={ko}
+      showPopperArrow={false}
+      placeholderText="시작 날짜를 선택하세요"
+      onChange={handleDateChange}
+      css={css`
+        background: none;
+        color: #fff;
+        font-size: 2rem;
+        letter-spacing: -0.6px;
+        cursor: pointer;
+        ${theme.typography.body1}
+        &::placeholder {
+          color: #cbcbcb;
+        }
+      `}
+      withPortal
+    />
+  );
+};
+
+export function StackInput({ onAddStackTag }: StackInputProps) {
+  const [inputStackTag, setInputStackTag] = useState<string>('');
+
+  const changeStackTagInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputStackTag(e.target.value);
+  };
+
+  const isEmptyValue = (value: string) => {
+    return !value.trim();
+  };
+
+  const addStackTag = () => {
+    if (inputStackTag.length < 10) {
+      if (isEmptyValue(inputStackTag)) {
+        setInputStackTag('');
+        return;
+      }
+
+      let newStackTag = inputStackTag.trim();
+      const regExp = /[{}[\]/?.;:|)*~`!^_+<>@#$%&\\=('"]/g;
+      if (regExp.test(newStackTag)) {
+        newStackTag = newStackTag.replace(regExp, '');
+      }
+      if (newStackTag.endsWith(',')) {
+        newStackTag = newStackTag.slice(0, newStackTag.length - 1);
+      }
+
+      if (isEmptyValue(newStackTag)) return;
+
+      onAddStackTag(newStackTag);
+
+      setInputStackTag('');
+    } else {
+      alert('10개 이상 불가능');
+    }
+  };
+
+  const onkeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedCommand = [' ', 'Enter', ','];
+    if (allowedCommand.includes(e.key)) {
+      e.preventDefault();
+      addStackTag();
+    }
+  };
+  const onBlur = () => {
+    addStackTag();
+  };
+  return (
+    <div>
+      <input
+        type="text"
+        value={inputStackTag}
+        onChange={changeStackTagInput}
+        onKeyDown={onkeyDown}
+        onBlur={onBlur}
+        placeholder="스택을 입력해주세요 (최대 10개)"
+        css={css`
+          background: none;
+          color: #fff;
+          font-size: 2rem;
+          letter-spacing: -0.6px;
+          cursor: pointer;
+          ${theme.typography.body1}
+          &::placeholder {
+            color: #cbcbcb;
+          }
+        `}
+      />
+    </div>
+  );
+}
