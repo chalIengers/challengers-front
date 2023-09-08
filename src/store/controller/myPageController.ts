@@ -39,6 +39,24 @@ export const myPageController: any = createApi({
         };
       },
     }),
+    unRegister: builder.mutation({
+      query: (data) => {
+        return {
+          url: 'unregister',
+          method: 'DELETE',
+          headers: { 'X-AUTH-TOKEN': data.accessToken },
+          body: { password: data.password },
+        };
+      },
+    }),
+    validateUnRegister: builder.query({
+      query: (data) => {
+        return {
+          url: 'validate-unregister',
+          headers: { 'X-AUTH-TOKEN': data.accessToken },
+        };
+      },
+    }),
   }),
 });
 
@@ -47,6 +65,8 @@ export const {
   useVerifyPasswordQuery,
   useSendCodeMutation,
   useChangePasswordMutation,
+  useUnRegisterMutation,
+  useValidateUnRegisterQuery,
 } = myPageController;
 
 export default myPageController;

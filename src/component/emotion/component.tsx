@@ -323,6 +323,10 @@ export const ButtonBox = ({
       ${theme.typography.header2}
       color: ${cancel && theme.palette.gray.black};
       background-color: ${cancel && theme.palette.gray[300]};
+      background-color: ${backgroundColor};
+      &:hover {
+        background-color: ${color};
+      }
     `,
     modalSmall: css`
       width: 14rem;
@@ -353,8 +357,9 @@ export const ButtonBox = ({
     `,
     large_modal: css`
       width: 100%;
-      padding: 2rem 22.4rem;
-      ${theme.typography.header2}
+      padding: 2rem;
+      background-color: ${backgroundColor};
+      ${theme.typography.header2};
     `,
   };
 

@@ -10,6 +10,8 @@ import {
   Overlay,
   RegisterModal,
   RegisterSuccessModal,
+  UnRegisterModal,
+  UnRegisterWarningModal,
 } from './component';
 
 const MODAL_TYPES = {
@@ -19,6 +21,8 @@ const MODAL_TYPES = {
   CommentModal: 'CommentModal',
   ChangePassword: 'ChangePassword',
   CommentBlackModal: 'CommentBlackModal',
+  UnRegisterWarningModal: 'UnRegisterWarningModal',
+  UnRegisterModal: 'UnRegisterModal',
 };
 
 const MODAL_COMPONENTS = [
@@ -45,6 +49,14 @@ const MODAL_COMPONENTS = [
   {
     type: MODAL_TYPES.CommentBlackModal,
     component: <CommentBlackModal />,
+  },
+  {
+    type: MODAL_TYPES.UnRegisterWarningModal,
+    component: <UnRegisterWarningModal />,
+  },
+  {
+    type: MODAL_TYPES.UnRegisterModal,
+    component: <UnRegisterModal />,
   },
 ];
 
