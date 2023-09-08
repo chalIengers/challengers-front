@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetVideosQuery, useGetTechStacksQuery } from '../../store/controller/projectController';
@@ -27,6 +27,7 @@ export function useGetProjectsBoxHook() {
     page: pageNumber,
     categories: projectMappingApi[sortType.service],
     sort: projectMappingApi[sortType.sort],
+    techStack: sortType.stack,
   });
 
   useEffect(() => {
@@ -41,21 +42,30 @@ export function useGetProjectsBoxHook() {
     if (data) dispatch(addProject(data?.content));
   }, [data, dispatch]);
 
-  useEffect(() => {
+  const handleScrollCallback = useCallback(() => {
     const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const { scrollY } = window;
+
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        windowHeight + scrollY >= documentHeight - 100 && // 예: 하단에서 1000px 이전에 호출
         !isFetching &&
-        data?.totalPages !== pageNumber
+        pageNumber < data?.totalPages
       ) {
         setPageNumber((prevPageNumber) => prevPageNumber + 1);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    handleScroll();
+  }, [data?.totalPages, isFetching, pageNumber]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrollCallback);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScrollCallback);
     };
-  }, [isFetching, data?.totalPages, pageNumber]);
+  }, [isFetching, data?.totalPages, pageNumber, handleScrollCallback]);
 
   return {
     data,
