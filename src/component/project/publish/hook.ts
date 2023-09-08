@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useSelector } from 'react-redux';
 import { TeamMember } from '../../../types/globalType';
+import { selectUser } from '../../../store/slice/userSlice';
+import { useFileUploadMutation } from '../../../store/controller/commonController';
 
 export const useImageUpload = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -83,4 +86,37 @@ export const useTeamInfoBoxes = () => {
     handleAddInfoBox,
     handleDeleteInfoBox,
   };
+};
+
+interface FileImageUploadProps {
+  Image: (params: { accessToken: string; fileData: File }) => any; // Image 함수의 타입을 명시
+
+  uploadImage: (file: File) => void; // uploadImage 함수의 타입을 명시
+}
+
+export const useFileImageUpload = ({ Image, uploadImage }: FileImageUploadProps) => {
+  const { accessToken } = useSelector(selectUser);
+  const [Fileimage, setFileimage] = useState<File | null>(null);
+
+  const Fileupload = async (file: any): Promise<string> => {
+    try {
+      if (accessToken) {
+        const resultData = await Image({ accessToken, fileData: file }).unwrap();
+        return resultData.msg;
+      }
+      throw new Error('토큰 값이 없습니다.');
+    } catch (error) {
+      console.log('이미지 업로드 실패:', error);
+      return '';
+    }
+  };
+
+  const handleImageChange = (File: File | null) => {
+    if (File) {
+      uploadImage(File);
+      setFileimage(File);
+    }
+  };
+
+  return { Fileimage, Fileupload, handleImageChange };
 };

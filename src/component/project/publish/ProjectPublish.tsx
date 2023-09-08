@@ -34,7 +34,7 @@ import {
   OptionData,
   StackInput,
 } from './component';
-import { useImageUpload, useTeamInfoBoxes } from './hook';
+import { useFileImageUpload, useImageUpload, useTeamInfoBoxes } from './hook';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
 import { Crews, ProjectInfo, initialProjectData } from '../../../types/globalType';
 import { useCreatePublishMutation } from '../../../store/controller/projectController';
@@ -50,26 +50,11 @@ const ProjectPublish = () => {
   const mutation = useCreatePublishMutation();
 
   const { imageSrc, uploadImage } = useImageUpload();
-  const [Fileimage, setFileimage] = useState<File | null>(null);
 
-  const Fileupload = async (file: any): Promise<string> => {
-    try {
-      const resultData = await Image({ accessToken, fileData: file }).unwrap();
-      console.log(resultData);
-
-      return resultData.msg;
-    } catch (error) {
-      console.log('이미지 업로드 실패:', error);
-      return '';
-    }
-  };
-
-  const handleImageChange = (File: File | null) => {
-    if (File) {
-      uploadImage(File);
-      setFileimage(File);
-    }
-  };
+  const { Fileimage, Fileupload, handleImageChange } = useFileImageUpload({
+    Image,
+    uploadImage,
+  });
 
   const [DateRange, setDateRange] = useState<string>('');
 
@@ -104,7 +89,6 @@ const ProjectPublish = () => {
   const [Name, setName] = useState('http://notion.com');
   const NameChange = (newValue: any, index: number) => {
     setName(newValue);
-
     setValue(`projectLink[${index}].name`, newValue);
   };
 
@@ -145,7 +129,6 @@ const ProjectPublish = () => {
     }
   };
 
-  // 데이터를 전송하거나 다른 비동기 작업을 수행하는 함수
   const doAsyncWork = async (data: any) => {
     try {
       await mutation[0]({ accessToken, newProjectData: data });
