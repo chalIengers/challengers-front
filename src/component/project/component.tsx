@@ -109,7 +109,7 @@ export const SelectBoxDropBox = ({
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
-    setSortType((prev) => ({ ...prev, [value]: innerText }));
+    if (innerText !== sortType[value]) setSortType((prev) => ({ ...prev, [value]: innerText }));
   };
 
   return (
