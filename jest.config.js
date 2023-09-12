@@ -1,10 +1,11 @@
 module.exports = {
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  // 테스트 하지 않는 경로
+  testPathIgnorePatterns: ['<rootDir>/client/node_modules/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
-  testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.css$': 'identity-obj-proxy',
+    '^src/(.*)$': '<rootDir>/src/$1',
   },
+  testEnvironment: 'jest-environment-jsdom',
 };
