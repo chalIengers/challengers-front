@@ -16,7 +16,7 @@ import { projectOptionType } from '../../json/data';
 import { selectProjects } from '../../store/slice/projectSlice';
 
 const Index = () => {
-  const { sortType, isFetching, setSortType, data } = useGetProjectsBoxHook();
+  const { sortType, isFetching, setSortType, data, containerRef } = useGetProjectsBoxHook();
   const projectDatas = useSelector(selectProjects);
 
   return (
@@ -51,7 +51,7 @@ const Index = () => {
           ))}
         </FlexWrapContainer>
         {isFetching && <LoadingContainer />}
-        {data?.last && <Body1>마지막 페이지입니다.</Body1>}
+        {data?.last ? <Body1>마지막 페이지입니다.</Body1> : <div ref={containerRef} />}
       </Section>
     </Inner>
   );
