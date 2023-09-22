@@ -33,9 +33,10 @@ export const TagList = ({ children, small }: TagListType) => (
  * @Containercomponent
  * @param children - 컨테이너 컴포넌트의 자식 요소
  */
-export const ContainerComponent = ({ children }: ContainerType) => {
+export const ContainerComponent = ({ id, children }: ContainerType) => {
   return (
     <div
+      id={id}
       css={css`
         width: 120rem;
         padding: 5.6rem 7.2rem;
@@ -277,8 +278,9 @@ const LoadingBox = () => (
  * @param children - FlexContainer 내부의 자식 요소
  */
 
-export const FlexWrapContainer = ({ children }: ContainerType) => (
+export const FlexWrapContainer = ({ id, children }: ContainerType) => (
   <div
+    id={id}
     css={css`
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;

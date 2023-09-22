@@ -160,3 +160,42 @@ export const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
 
   return updatedProjectCrew;
 };
+
+export const validateProjectData = (otherData: any) => {
+  if (!otherData.imageUrl) {
+    alert('이미지를 넣어주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectName) {
+    alert('제목을 작성해주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectDescription) {
+    alert('소제목을 작성해주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectPeriod) {
+    alert('제작 기간을 작성해주세요');
+    return 'SummaryContainer';
+  }
+  if (otherData.projectTechStack.length === 0) {
+    alert('기술 스택을 작성해주세요');
+    return 'SummaryContainer';
+  }
+  if (
+    otherData.projectCrew.length === 0 ||
+    otherData.projectCrew.some(
+      (crew: any) =>
+        crew.name.trim() === '' || crew.position.trim() === '' || crew.role.trim() === '',
+    )
+  ) {
+    alert('유효하지 않은 팀원 구성입니다');
+    return 'teamInfoContainer';
+  }
+  const regex = /^(http|https):\/\/.*\.com$/;
+  if (!otherData.projectLink.every((item: any) => regex.test(item.linkUrl.trim()))) {
+    alert('한 개 이상의 유효하지 않은 링크가 존재합니다');
+    return 'LinkContainer';
+  }
+  return null;
+};

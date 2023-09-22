@@ -5,6 +5,8 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 // Global Style
 export interface ContainerType {
   children: ReactNode;
+  id?: string;
+  ref?: React.RefObject<any>;
 }
 export interface StyleType {
   style: SerializedStyles;

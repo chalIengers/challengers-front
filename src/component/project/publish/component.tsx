@@ -369,20 +369,6 @@ export const LinkInputBox2 = ({
         control={control}
         name={`projectLink[${indexs}].linkUrl`}
         defaultValue=""
-        rules={{
-          required: true,
-          // validate: (value) => {
-          //   if (!value.startsWith('http://') && !value.startsWith('https://')) {
-          //     alert('URL은 http:// 또는 https://로 시작해야 합니다.');
-          //     return 'URL은 http:// 또는 https://로 시작해야 합니다.';
-          //   }
-          //   if (!value.endsWith('.com')) {
-          //     alert('URL은 .com으로 끝나야 합니다.');
-          //     return 'URL은 .com으로 끝나야 합니다.';
-          //   }
-          //   return true;
-          // },
-        }}
         render={({ field: { onChange, value } }) => (
           <input
             type="text"
@@ -413,6 +399,12 @@ export const LinkInputBox2 = ({
   );
 };
 
+const datePickerStyles = css`
+  width: 300px;
+  height: 40px;
+  /* 여기에 원하는 스타일을 추가합니다. */
+`.styles;
+
 // 날짜 정의 컴포넌트
 export const DateSelector = ({
   onDateRangeChange,
@@ -439,6 +431,7 @@ export const DateSelector = ({
 
   return (
     <DatePicker
+      className={datePickerStyles}
       selectsRange
       startDate={startDate}
       endDate={endDate}
@@ -446,6 +439,7 @@ export const DateSelector = ({
       showPopperArrow={false}
       placeholderText="시작 날짜를 선택하세요"
       onChange={handleDateChange}
+      closeOnScroll
       css={css`
         background: none;
         color: #fff;
