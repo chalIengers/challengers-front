@@ -7,8 +7,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css';
-import { Calendar, DateRangePicker, DateRange } from 'react-date-range';
-
+import { DateRangePicker } from 'react-date-range';
+import ko from 'date-fns/locale/ko';
 import { css } from '@emotion/react';
 import { v4 } from 'uuid';
 import { Editor } from 'editor_likelion';
@@ -38,10 +38,12 @@ import {
   Stackoptions,
   OptionData,
   StackInput,
+  DateRanges,
 } from './component';
 import {
   updateProjectCrew,
   useDateRange,
+  useDateRanges,
   useFileImageUpload,
   useImageUpload,
   useStackTags,
@@ -68,8 +70,7 @@ const ProjectPublish = () => {
     Image,
     uploadImage,
   });
-
-  const { DateRange, DateRangeChange } = useDateRange('');
+  const { formattedDateRange, handleDateRangeChange } = useDateRanges();
   const { StackTags, AddStackTag, removeStackTag } = useStackTags();
   const { teamInfoBoxes, handleInfoChange, handleAddInfoBox, handleDeleteInfoBox } =
     useTeamInfoBoxes();
@@ -111,9 +112,9 @@ const ProjectPublish = () => {
 
   const doAsyncWork = async (data: any) => {
     try {
-      await mutation[0]({ accessToken, newProjectData: data });
+      // await mutation[0]({ accessToken, newProjectData: data });
       console.log(data);
-      navigate('/project');
+      // navigate('/project');
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
       navigate('/project/publish');
@@ -128,7 +129,7 @@ const ProjectPublish = () => {
       const crewData = updateProjectCrew(teamInfoBoxes, otherData);
       otherData.projectCrew = crewData;
       otherData.projectTechStack = techStacks;
-      otherData.projectPeriod = DateRange;
+      otherData.projectPeriod = formattedDateRange;
       otherData.imageUrl = imageUrl;
 
       const errorMessageId = validateProjectData(otherData);
@@ -143,22 +144,6 @@ const ProjectPublish = () => {
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
     }
-  };
-  const [selectedRange, setSelectedRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection',
-    },
-  ]);
-
-  const handleSelect = (ranges: any) => {
-    setSelectedRange([ranges.selection]);
-  };
-  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-
-  const handleDatePickerClick = () => {
-    setDatePickerVisible((prevVisible) => !prevVisible);
   };
 
   return (
@@ -277,40 +262,7 @@ const ProjectPublish = () => {
                 )}
               />
               <Header2>프로젝트 기간</Header2>
-              <div
-                css={css`
-                  position: relative;
-                `}
-              >
-                <button type="button" onClick={handleDatePickerClick}>
-                  시작 날짜를 선택하세요
-                </button>
-                <p>Selected Start Date: {selectedRange[0].startDate.toDateString()}</p>
-                <p>Selected End Date: {selectedRange[0].endDate.toDateString()}</p>
-                {isDatePickerVisible && (
-                  <div
-                    css={css`
-                      position: absolute;
-                      z-index: 1;
-                      top: 100%;
-                      background-color: white;
-                      margin-top: 2rem;
-                      border: 1px solid #ccc;
-                      border-radius: 20px;
-                      padding: 20px;
-                    `}
-                  >
-                    <DateRangePicker
-                      css={css`
-                        color: black;
-                      `}
-                      ranges={selectedRange}
-                      onChange={handleSelect}
-                    />
-                  </div>
-                )}
-              </div>
-
+              <DateRanges onDateRangeChange={handleDateRangeChange} />
               {/* <DateSelector onDateRangeChange={DateRangeChange} /> */}
 
               <Header2>사용된 기술 스택</Header2>

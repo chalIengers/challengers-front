@@ -4,10 +4,11 @@
 import { css } from '@emotion/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ko } from 'date-fns/esm/locale';
+import ko from 'date-fns/locale/ko';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { DateRangePicker } from 'react-date-range';
 import theme from '../../../styles/theme';
 import { Body5, Header1, Section } from '../../emotion/GlobalStyle';
 import {
@@ -19,8 +20,8 @@ import {
   RowContainer,
   imageNames,
 } from '../emotion/component';
-import { StackInputProps, StackTagInputProps, TeamMember } from '../../../types/globalType';
-import { extractSubstring } from './hook';
+import { StackInputProps, TeamMember } from '../../../types/globalType';
+import { extractSubstring, formatDateString } from './hook';
 
 // 셀렉트 옵션 정의
 export const Categoryoptions = [
@@ -399,12 +400,6 @@ export const LinkInputBox2 = ({
   );
 };
 
-const datePickerStyles = css`
-  width: 300px;
-  height: 40px;
-  /* 여기에 원하는 스타일을 추가합니다. */
-`.styles;
-
 // 날짜 정의 컴포넌트
 export const DateSelector = ({
   onDateRangeChange,
@@ -431,7 +426,6 @@ export const DateSelector = ({
 
   return (
     <DatePicker
-      className={datePickerStyles}
       selectsRange
       startDate={startDate}
       endDate={endDate}
@@ -546,4 +540,103 @@ export const OptionData = ({ data }: { data: any }) => {
   }, [data]);
 
   return options;
+};
+
+export const DateRanges = ({
+  onDateRangeChange,
+}: {
+  onDateRangeChange: (dateRange: string) => void;
+}) => {
+  const [selectedRange, setSelectedRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
+  const [Datestring, setDatestring] = useState('기간을 선택하세요');
+  const handleSelect = (ranges: any) => {
+    const formattedStartDate = formatDateString(ranges.selection.startDate.toDateString());
+    const formattedEndDate = formatDateString(ranges.selection.endDate.toDateString());
+    setSelectedRange([ranges.selection]);
+    setDatestring(`${formattedStartDate} - ${formattedEndDate}`);
+    const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
+    onDateRangeChange(formattedDateRange);
+  };
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+
+  const handleDatePickerClick = () => {
+    setDatePickerVisible((prevVisible) => !prevVisible);
+  };
+
+  return (
+    <div
+      css={css`
+        position: relative;
+      `}
+    >
+      <button
+        type="button"
+        onClick={handleDatePickerClick}
+        css={css`
+          color: #cbcbcb;
+          font-size: 2rem;
+          letter-spacing: -0.6px;
+          ${theme.typography.body1}
+        `}
+      >
+        {Datestring}
+      </button>
+      {isDatePickerVisible && (
+        <div
+          css={css`
+            position: absolute;
+            z-index: 1;
+            top: 100%;
+            background-color: white;
+            margin-top: 2rem;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 20px;
+          `}
+        >
+          <DateRangePicker
+            css={css`
+              color: black;
+            `}
+            locale={ko}
+            ranges={selectedRange}
+            onChange={handleSelect}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const AutoHideAlert = () => {
+  const [isAlertVisible, setAlertVisible] = useState(true);
+
+  // 5초 후에 알림을 숨김
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAlertVisible(false);
+    }, 5000); // 5초 (5000밀리초)
+
+    // 컴포넌트가 언마운트되면 타이머를 클리어하여 메모리 누수를 방지
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  return (
+    <div>
+      {isAlertVisible && (
+        <div>
+          {/* 알림 내용 */}
+          <p>이미지를 넣어주세요</p>
+        </div>
+      )}
+    </div>
+  );
 };

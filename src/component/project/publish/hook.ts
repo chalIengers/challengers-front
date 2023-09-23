@@ -163,7 +163,6 @@ export const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
 
 export const validateProjectData = (otherData: any) => {
   if (!otherData.imageUrl) {
-    alert('이미지를 넣어주세요');
     return 'ImageContainer';
   }
   if (!otherData.projectName) {
@@ -198,4 +197,38 @@ export const validateProjectData = (otherData: any) => {
     return 'LinkContainer';
   }
   return null;
+};
+const monthMap: { [key: string]: string } = {
+  Jan: '01',
+  Feb: '02',
+  Mar: '03',
+  Apr: '04',
+  May: '05',
+  Jun: '06',
+  Jul: '07',
+  Aug: '08',
+  Sep: '09',
+  Oct: '10',
+  Nov: '11',
+  Dec: '12',
+};
+
+export const formatDateString = (dateString: any) => {
+  const [day, month, dayNum, year] = dateString.split(' ');
+  const formattedMonth = monthMap[month];
+  const formattedDayNum = dayNum.length === 1 ? `0${dayNum}` : dayNum;
+
+  return `${year}-${formattedMonth}-${formattedDayNum}`;
+};
+export const useDateRanges = () => {
+  const [formattedDateRange, setFormattedDateRange] = useState('');
+
+  const handleDateRangeChange = (range: string) => {
+    setFormattedDateRange(range);
+  };
+
+  return {
+    formattedDateRange,
+    handleDateRangeChange,
+  };
 };
