@@ -163,6 +163,7 @@ export const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
 
 export const validateProjectData = (otherData: any) => {
   if (!otherData.imageUrl) {
+    alert('이미지를 넣어주세요');
     return 'ImageContainer';
   }
   if (!otherData.projectName) {

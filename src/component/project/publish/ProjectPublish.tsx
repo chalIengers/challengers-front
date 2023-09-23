@@ -39,6 +39,7 @@ import {
   OptionData,
   StackInput,
   DateRanges,
+  CustomSelect,
 } from './component';
 import {
   updateProjectCrew,
@@ -54,6 +55,7 @@ import { useFileUploadMutation } from '../../../store/controller/commonControlle
 import { Crews, ProjectInfo, initialProjectData } from '../../../types/globalType';
 import { useCreatePublishMutation } from '../../../store/controller/projectController';
 import { useGetMyClubQuery } from '../../../store/controller/clubController';
+import { SelectBoxDropBox } from '../component';
 
 const ProjectPublish = () => {
   const navigate = useNavigate();
@@ -112,9 +114,9 @@ const ProjectPublish = () => {
 
   const doAsyncWork = async (data: any) => {
     try {
-      // await mutation[0]({ accessToken, newProjectData: data });
-      console.log(data);
-      // navigate('/project');
+      await mutation[0]({ accessToken, newProjectData: data });
+      // console.log(data);
+      navigate('/project');
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
       navigate('/project/publish');
@@ -205,17 +207,15 @@ const ProjectPublish = () => {
                 defaultValue="0"
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <SelectBox2
+                  <CustomSelect
                     options={OptionData({ data }).map((option) => ({
                       value: option.value,
                       label: option.label,
                     }))}
+                    places="소속 클럽을 선택하세요"
                     value={field.value}
-                    onChange={field.onChange}
-                    background="#333333"
-                    customStyle={{
-                      color: 'white',
-                      width: '20rem',
+                    onChange={(selectedValue: any) => {
+                      field.onChange(selectedValue);
                     }}
                   />
                 )}
@@ -227,14 +227,15 @@ const ProjectPublish = () => {
                 defaultValue="0"
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <SelectBox
-                    options={Categoryoptions.map((option) => option.value)}
+                  <CustomSelect
+                    options={Categoryoptions.map((option) => ({
+                      value: option.value,
+                      label: option.label,
+                    }))}
+                    places="서비스 형태를 선택하세요"
                     value={field.value}
-                    onChange={field.onChange}
-                    background="#333333"
-                    customStyle={{
-                      color: 'white',
-                      width: '20rem',
+                    onChange={(selectedValue: any) => {
+                      field.onChange(selectedValue);
                     }}
                   />
                 )}
@@ -246,17 +247,15 @@ const ProjectPublish = () => {
                 defaultValue="1"
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <SelectBox2
+                  <CustomSelect
                     options={Stackoptions.map((option) => ({
                       value: option.value,
                       label: option.label,
                     }))}
+                    places="프로젝트 현재 상태를 선택하세요"
                     value={field.value}
-                    onChange={field.onChange}
-                    background="#333333"
-                    customStyle={{
-                      color: 'white',
-                      width: '20rem',
+                    onChange={(selectedValue: any) => {
+                      field.onChange(selectedValue);
                     }}
                   />
                 )}

@@ -80,8 +80,9 @@ export const SelectBox = ({
         cursor: pointer;
         appearance: none;
         background: ${background || `${theme.palette.primary[500]}`};
-        ${theme.typography.body3Bold}
+        ${theme.typography.body2Bold}
         color: ${theme.palette.gray.white};
+        font-family: Pretendard;
         padding-right: 2.4rem;
         border-radius: 0.8rem;
         background-size: 1.2rem;
@@ -89,7 +90,7 @@ export const SelectBox = ({
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
         & option {
-          ${theme.typography.body3Bold}
+          ${theme.typography.body2Bold}
         }
         ${customStyle}
       `}
@@ -124,18 +125,19 @@ export const SelectBox2 = ({
         outline: none;
         cursor: pointer;
         appearance: none;
-        text-indent: 0.1rem;
         background: ${background || `${theme.palette.primary[500]}`};
-        ${theme.typography.body3Bold}
+        ${theme.typography.body2Bold}
         color: ${theme.palette.gray.white};
+        font-family: Pretendard;
         padding-right: 2.4rem;
         border-radius: 0.8rem;
+        gap: 1.2rem;
         background-size: 1.2rem;
         background-repeat: no-repeat;
         background-position: right 0.6rem center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.75em' height='0.4375em' viewBox='0 0 12 7'%3E%3Cpath fill='%23ffffff' d='M6 6.8l4-4H2l4 4z'/%3E%3C/svg%3E");
         & option {
-          ${theme.typography.body3Bold}
+          ${theme.typography.body2Bold}
         }
         ${customStyle}
       `}

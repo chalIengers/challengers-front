@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ko from 'date-fns/locale/ko';
 import DatePicker from 'react-datepicker';
@@ -25,10 +25,10 @@ import { extractSubstring, formatDateString } from './hook';
 
 // 셀렉트 옵션 정의
 export const Categoryoptions = [
-  { value: '전체 서비스', label: '옵션 1' },
-  { value: '웹 서비스', label: '옵션 2' },
-  { value: '앱 서비스', label: '옵션 3' },
-  { value: '기타 서비스', label: '옵션 3' },
+  { value: '전체 서비스', label: '전체 서비스' },
+  { value: '웹 서비스', label: '웹 서비스' },
+  { value: '앱 서비스', label: '앱 서비스' },
+  { value: '기타 서비스', label: '기타 서비스' },
 ];
 
 export const Stackoptions = [
@@ -558,19 +558,36 @@ export const DateRanges = ({
   const handleSelect = (ranges: any) => {
     const formattedStartDate = formatDateString(ranges.selection.startDate.toDateString());
     const formattedEndDate = formatDateString(ranges.selection.endDate.toDateString());
+
     setSelectedRange([ranges.selection]);
     setDatestring(`${formattedStartDate} - ${formattedEndDate}`);
+
     const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
     onDateRangeChange(formattedDateRange);
   };
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const dateRangesRef = useRef<HTMLDivElement | null>(null);
 
   const handleDatePickerClick = () => {
-    setDatePickerVisible((prevVisible) => !prevVisible);
+    setDatePickerVisible(!isDatePickerVisible);
   };
+
+  const handleGlobalClick = (event: MouseEvent) => {
+    if (dateRangesRef.current && !dateRangesRef.current.contains(event.target as HTMLElement)) {
+      setDatePickerVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleGlobalClick);
+    return () => {
+      document.removeEventListener('mousedown', handleGlobalClick);
+    };
+  }, []);
 
   return (
     <div
+      ref={dateRangesRef}
       css={css`
         position: relative;
       `}
@@ -592,12 +609,13 @@ export const DateRanges = ({
           css={css`
             position: absolute;
             z-index: 1;
-            top: 100%;
+            top: calc(100% + 10px); /* Adjust the spacing from the button */
+            left: 0;
             background-color: white;
-            margin-top: 2rem;
             border: 1px solid #ccc;
             border-radius: 20px;
             padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
           `}
         >
           <DateRangePicker
@@ -614,27 +632,191 @@ export const DateRanges = ({
   );
 };
 
-export const AutoHideAlert = () => {
-  const [isAlertVisible, setAlertVisible] = useState(true);
+// export const CustomSelect = ({ options }: { options: string[] }) => {
+//   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+//   const [showOptions, setShowOptions] = useState(false);
+//   const selectRef = useRef<HTMLDivElement | null>(null);
 
-  // 5초 후에 알림을 숨김
+//   const handleOptionClick = (option: string) => {
+//     setSelectedOption(option);
+//     setShowOptions(false);
+//   };
+
+//   // 전역 클릭 이벤트 핸들러
+//   const handleGlobalClick = (event: MouseEvent) => {
+//     if (selectRef.current && !selectRef.current.contains(event.target as HTMLElement)) {
+//       setShowOptions(false);
+//     }
+//   };
+
+//   // 컴포넌트가 마운트되면 전역 클릭 이벤트 핸들러 등록
+//   useEffect(() => {
+//     document.addEventListener('mousedown', handleGlobalClick);
+//     return () => {
+//       document.removeEventListener('mousedown', handleGlobalClick);
+//     };
+//   }, []);
+
+//   return (
+//     <div style={{ position: 'relative' }} ref={selectRef}>
+//       <button
+//         type="button"
+//         className={`selected-option ${showOptions ? 'open' : ''}`}
+//         onClick={() => setShowOptions(!showOptions)}
+//         style={{ zIndex: showOptions ? 2 : 1 }}
+//         css={css`
+//           color: #cbcbcb;
+//           font-size: 2rem;
+//           letter-spacing: -0.6px;
+//           ${theme.typography.body1}
+//         `}
+//       >
+//         {selectedOption || 'Select an option'}
+//       </button>
+//       {showOptions && (
+//         <div
+//           className="options"
+//           style={{
+//             position: 'absolute',
+//             top: '100%',
+//             left: 0,
+//             zIndex: 2,
+//             width: '12rem',
+//             padding: '2rem',
+//             backgroundColor: 'white',
+//           }}
+//         >
+//           {options.map((option) => (
+//             <button
+//               type="button"
+//               key={option}
+//               className={`option ${option === selectedOption ? 'selected' : ''}`}
+//               onClick={() => handleOptionClick(option)}
+//               css={css`
+//                 color: #cbcbcb;
+//                 font-size: 2rem;
+//                 letter-spacing: -0.6px;
+//                 ${theme.typography.body1}
+//               `}
+//             >
+//               {option}
+//             </button>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+interface Option {
+  value: string | number;
+  label: string;
+}
+
+interface CustomSelectProps {
+  options: Option[];
+  value: string | number | null;
+  onChange: (selectedValue: string | number | null) => void;
+  places: string;
+}
+
+export const CustomSelect = ({ options, value, onChange, places }: CustomSelectProps) => {
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [showOptions, setShowOptions] = useState(false);
+  const selectRef = useRef<HTMLDivElement | null>(null);
+
+  const handleOptionClick = (option: Option) => {
+    setSelectedOption(option);
+    setShowOptions(false);
+    console.log(option.value);
+    onChange(option.value); // 선택한 옵션의 value를 폼으로 전달
+  };
+
+  // 전역 클릭 이벤트 핸들러
+  const handleGlobalClick = (event: MouseEvent) => {
+    if (selectRef.current && !selectRef.current.contains(event.target as HTMLElement)) {
+      setShowOptions(false);
+    }
+  };
+
+  // 컴포넌트가 마운트되면 전역 클릭 이벤트 핸들러 등록
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setAlertVisible(false);
-    }, 5000); // 5초 (5000밀리초)
-
-    // 컴포넌트가 언마운트되면 타이머를 클리어하여 메모리 누수를 방지
+    document.addEventListener('mousedown', handleGlobalClick);
     return () => {
-      clearTimeout(timer);
+      document.removeEventListener('mousedown', handleGlobalClick);
     };
   }, []);
 
+  useEffect(() => {
+    // 전달받은 value 값이 변경될 때마다 selectedOption 업데이트
+    setSelectedOption(options.find((option) => option.value === value) || null);
+  }, [value, options]);
+
   return (
-    <div>
-      {isAlertVisible && (
-        <div>
-          {/* 알림 내용 */}
-          <p>이미지를 넣어주세요</p>
+    <div style={{ position: 'relative' }} ref={selectRef}>
+      <button
+        type="button"
+        className={`custom-select-button ${showOptions ? 'open' : ''}`}
+        onClick={() => setShowOptions(!showOptions)}
+        style={{ zIndex: showOptions ? 2 : 1 }}
+        css={css`
+          color: #cbcbcb;
+          font-size: 2rem;
+          letter-spacing: -0.6px;
+          ${theme.typography.body1}
+        `}
+      >
+        {selectedOption ? selectedOption.label : `${places}`}
+      </button>
+      {showOptions && (
+        <div
+          className="custom-select-options"
+          style={{
+            position: 'absolute',
+            top: '150%',
+            left: 0,
+            zIndex: 2,
+            width: '16rem',
+            padding: '2rem',
+            borderRadius: '1rem',
+            backgroundColor: 'white',
+            boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {options.map((option) => (
+            <>
+              <button
+                type="button"
+                key={option.value}
+                className={`custom-select-option ${
+                  option.value === selectedOption?.value ? 'selected' : ''
+                }`}
+                onClick={() => handleOptionClick(option)}
+                css={css`
+                  font-size: 2rem;
+                  margin-top: 0.5rem;
+                  margin-bottom: 0.5rem;
+                  letter-spacing: -0.6px;
+                  color: black;
+                  ${theme.typography.body1Bold}
+                  &:hover {
+                    color: ${theme.palette.primary[500]};
+                  }
+                `}
+              >
+                {option.label}
+              </button>
+              <hr
+                css={css`
+                  border: dashed 1px black;
+                  width: 12rem;
+                `}
+              />
+            </>
+          ))}
         </div>
       )}
     </div>
