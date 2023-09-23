@@ -728,18 +728,15 @@ export const CustomSelect = ({ options, value, onChange, places }: CustomSelectP
   const handleOptionClick = (option: Option) => {
     setSelectedOption(option);
     setShowOptions(false);
-    console.log(option.value);
-    onChange(option.value); // 선택한 옵션의 value를 폼으로 전달
+    onChange(option.value);
   };
 
-  // 전역 클릭 이벤트 핸들러
   const handleGlobalClick = (event: MouseEvent) => {
     if (selectRef.current && !selectRef.current.contains(event.target as HTMLElement)) {
       setShowOptions(false);
     }
   };
 
-  // 컴포넌트가 마운트되면 전역 클릭 이벤트 핸들러 등록
   useEffect(() => {
     document.addEventListener('mousedown', handleGlobalClick);
     return () => {
@@ -748,7 +745,6 @@ export const CustomSelect = ({ options, value, onChange, places }: CustomSelectP
   }, []);
 
   useEffect(() => {
-    // 전달받은 value 값이 변경될 때마다 selectedOption 업데이트
     setSelectedOption(options.find((option) => option.value === value) || null);
   }, [value, options]);
 
@@ -787,7 +783,7 @@ export const CustomSelect = ({ options, value, onChange, places }: CustomSelectP
           }}
         >
           {options.map((option) => (
-            <>
+            <div key={option.value}>
               <button
                 type="button"
                 key={option.value}
@@ -815,7 +811,7 @@ export const CustomSelect = ({ options, value, onChange, places }: CustomSelectP
                   width: 12rem;
                 `}
               />
-            </>
+            </div>
           ))}
         </div>
       )}

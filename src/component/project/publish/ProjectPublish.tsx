@@ -115,7 +115,7 @@ const ProjectPublish = () => {
   const doAsyncWork = async (data: any) => {
     try {
       await mutation[0]({ accessToken, newProjectData: data });
-      // console.log(data);
+      console.log(data);
       navigate('/project');
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
@@ -207,10 +207,24 @@ const ProjectPublish = () => {
                 defaultValue="0"
                 rules={{ required: true }}
                 render={({ field }) => (
+                  // <SelectBox2
+                  //   options={OptionData({ data }).map((option) => ({
+                  //     value: option.value,
+                  //     label: option.label,
+                  //   }))}
+                  //   value={field.value}
+                  //   onChange={field.onChange}
+                  //   background="#333333"
+                  //   customStyle={{
+                  //     color: 'white',
+                  //     width: '20rem',
+                  //   }}
+                  // />
                   <CustomSelect
                     options={OptionData({ data }).map((option) => ({
                       value: option.value,
                       label: option.label,
+                      key: option.value.toString(),
                     }))}
                     places="소속 클럽을 선택하세요"
                     value={field.value}
@@ -227,10 +241,21 @@ const ProjectPublish = () => {
                 defaultValue="0"
                 rules={{ required: true }}
                 render={({ field }) => (
+                  // <SelectBox
+                  //   options={Categoryoptions.map((option) => option.value)}
+                  //   value={field.value}
+                  //   onChange={field.onChange}
+                  //   background="#333333"
+                  //   customStyle={{
+                  //     color: 'white',
+                  //     width: '20rem',
+                  //   }}
+                  // />
                   <CustomSelect
                     options={Categoryoptions.map((option) => ({
                       value: option.value,
                       label: option.label,
+                      key: option.value.toString(),
                     }))}
                     places="서비스 형태를 선택하세요"
                     value={field.value}
@@ -247,10 +272,24 @@ const ProjectPublish = () => {
                 defaultValue="1"
                 rules={{ required: true }}
                 render={({ field }) => (
+                  // <SelectBox2
+                  //   options={Stackoptions.map((option) => ({
+                  //     value: option.value,
+                  //     label: option.label,
+                  //   }))}
+                  //   value={field.value}
+                  //   onChange={field.onChange}
+                  //   background="#333333"
+                  //   customStyle={{
+                  //     color: 'white',
+                  //     width: '20rem',
+                  //   }}
+                  // />
                   <CustomSelect
                     options={Stackoptions.map((option) => ({
                       value: option.value,
                       label: option.label,
+                      key: option.value.toString(),
                     }))}
                     places="프로젝트 현재 상태를 선택하세요"
                     value={field.value}
