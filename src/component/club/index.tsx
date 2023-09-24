@@ -32,6 +32,8 @@ const Index = () => {
     myClubContent = <div>로딩중...</div>;
   } else if (isError) {
     myClubContent = <div>Api 통신 에러!</div>;
+  } else if (data.length === 0) {
+    myClubContent = <div>가입된 클럽이 없습니다</div>;
   } else if (data) {
     myClubContent = data.map((club: MyClubDataType) => (
       <ClubBox
@@ -56,7 +58,6 @@ const Index = () => {
     myClubContent = <div>소속된 클럽이 없습니다</div>;
   }
 
-  const clubJoinButton = () => {};
   return (
     <Inner>
       <Banner />
