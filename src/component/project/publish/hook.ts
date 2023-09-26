@@ -40,11 +40,21 @@ export const useFormFields = (State: any) => {
 export default useFormFields;
 
 export const extractSubstring = (input: string) => {
-  const startIndex = input.indexOf('//');
-  const endIndex = input.indexOf('.');
-
-  if (startIndex !== -1 && endIndex !== -1) {
-    return input.slice(startIndex + 2, endIndex);
+  const wwwIndex = input.indexOf('www');
+  if (wwwIndex !== -1) {
+    // 'www'가 있는 경우
+    const startIndex = input.indexOf('.', wwwIndex); // 'www' 다음의 첫 번째 '.'를 찾습니다.
+    const endIndex = input.indexOf('.', startIndex + 1); // 첫 번째 '.' 다음의 '.'를 찾습니다.
+    if (startIndex !== -1 && endIndex !== -1) {
+      return input.slice(startIndex + 1, endIndex); // 'www' 다음의 '.' 다음부터 추출합니다.
+    }
+  } else {
+    // 'www'가 없는 경우
+    const startIndex = input.indexOf('//');
+    const endIndex = input.indexOf('.');
+    if (startIndex !== -1 && endIndex !== -1) {
+      return input.slice(startIndex + 2, endIndex);
+    }
   }
   return null;
 };
@@ -192,7 +202,7 @@ export const validateProjectData = (otherData: any) => {
     alert('유효하지 않은 팀원 구성입니다');
     return 'teamInfoContainer';
   }
-  const regex = /^(http|https):\/\/.*\.com$/;
+  const regex = /^(http|https):\/\/.*\./;
   if (!otherData.projectLink.every((item: any) => regex.test(item.linkUrl.trim()))) {
     alert('한 개 이상의 유효하지 않은 링크가 존재합니다');
     return 'LinkContainer';

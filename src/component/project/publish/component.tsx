@@ -453,6 +453,84 @@ export const DateSelector = ({
 // 기술 스택 컴포넌트
 export function StackInput({ onAddStackTag }: StackInputProps) {
   const [inputStackTag, setInputStackTag] = useState<string>('');
+  const [alertShown, setAlertShown] = useState<boolean>(false);
+
+  const changeStackTagInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputStackTag(e.target.value);
+    setAlertShown(false);
+  };
+
+  const isEmptyValue = (value: string) => {
+    return !value.trim();
+  };
+
+  const addStackTag = () => {
+    if (inputStackTag.length < 20) {
+      if (isEmptyValue(inputStackTag)) {
+        setInputStackTag('');
+        return;
+      }
+
+      let newStackTag = inputStackTag.trim();
+      const regExp = /[{}[\]/?.;:|)*~`!^_+<>@#$%&\\=('"]/g;
+      if (regExp.test(newStackTag)) {
+        newStackTag = newStackTag.replace(regExp, '');
+      }
+      if (newStackTag.endsWith(',')) {
+        newStackTag = newStackTag.slice(0, newStackTag.length - 1);
+      }
+
+      if (isEmptyValue(newStackTag)) return;
+
+      onAddStackTag(newStackTag);
+
+      setInputStackTag('');
+    } else if (!alertShown) {
+      alert('최대 글자를 초과했습니다.');
+      setAlertShown(true);
+      setInputStackTag('');
+    }
+  };
+
+  const onkeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedCommand = [' ', 'Enter', ','];
+    if (allowedCommand.includes(e.key)) {
+      e.preventDefault();
+      addStackTag();
+    }
+  };
+  const onBlur = () => {
+    addStackTag();
+  };
+  return (
+    <div>
+      <input
+        type="text"
+        value={inputStackTag}
+        onChange={changeStackTagInput}
+        onKeyDown={onkeyDown}
+        onBlur={onBlur}
+        placeholder="스택을 입력해주세요"
+        css={css`
+          background: none;
+          color: #fff;
+          font-size: 2rem;
+          letter-spacing: -0.6px;
+          cursor: pointer;
+          width: 80rem;
+          ${theme.typography.body1}
+          &::placeholder {
+            color: #cbcbcb;
+          }
+        `}
+      />
+    </div>
+  );
+}
+
+export function StackInput2({ onAddStackTag }: StackInputProps) {
+  const [inputStackTag, setInputStackTag] = useState<string>('');
+  const [isInputVisible, setInputVisible] = useState(false);
 
   const changeStackTagInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputStackTag(e.target.value);
@@ -463,7 +541,7 @@ export function StackInput({ onAddStackTag }: StackInputProps) {
   };
 
   const addStackTag = () => {
-    if (inputStackTag.length < 10) {
+    if (inputStackTag.length < 100) {
       if (isEmptyValue(inputStackTag)) {
         setInputStackTag('');
         return;
@@ -495,33 +573,127 @@ export function StackInput({ onAddStackTag }: StackInputProps) {
       addStackTag();
     }
   };
+
   const onBlur = () => {
     addStackTag();
+    setInputVisible(false);
   };
+
+  const toggleInputVisibility = () => {
+    setInputVisible(!isInputVisible);
+  };
+
   return (
-    <div>
-      <input
-        type="text"
-        value={inputStackTag}
-        onChange={changeStackTagInput}
-        onKeyDown={onkeyDown}
-        onBlur={onBlur}
-        placeholder="스택을 입력해주세요 (최대 10개)"
-        css={css`
-          background: none;
-          color: #fff;
-          font-size: 2rem;
-          letter-spacing: -0.6px;
-          cursor: pointer;
-          ${theme.typography.body1}
-          &::placeholder {
-            color: #cbcbcb;
-          }
-        `}
-      />
+    <div style={{ position: 'relative' }}>
+      <button
+        type="button"
+        onClick={toggleInputVisibility}
+        style={{
+          background: 'none',
+          fontSize: '2rem',
+          letterSpacing: '-0.6px',
+          cursor: 'pointer',
+          color: '#cbcbcb',
+        }}
+      >
+        스택을 입력해주세요 (최대 10개)
+      </button>
+      {isInputVisible && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            zIndex: 2,
+            width: '100%',
+            backgroundColor: 'white',
+            boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <input
+            type="text"
+            value={inputStackTag}
+            onChange={changeStackTagInput}
+            onKeyDown={onkeyDown}
+            onBlur={onBlur}
+          />
+        </div>
+      )}
     </div>
   );
 }
+
+export const StackInputContainer = ({
+  onAddStackTag,
+}: {
+  onAddStackTag: (tag: string) => void;
+}) => {
+  const [newStackTag, setNewStackTag] = useState('');
+  const [stackTags, setStackTags] = useState<string[]>([]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewStackTag(event.target.value);
+  };
+
+  const handleAddStackTag = () => {
+    if (newStackTag.trim() !== '') {
+      onAddStackTag(newStackTag);
+      setStackTags([...stackTags, newStackTag]); // 스택 태그 추가
+      setNewStackTag('');
+    }
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        type="text"
+        placeholder="Add Stack Tag"
+        value={newStackTag}
+        onChange={handleInputChange}
+        style={{
+          zIndex: 1,
+          padding: '0.5rem',
+          fontSize: '1rem',
+          border: '1px solid #ccc',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          zIndex: 2,
+          width: '100%', // 너비를 조절하여 입력 필드와 동일하게 확장
+          backgroundColor: 'white',
+          boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        {stackTags.map((tag) => (
+          <div key={tag} style={{ padding: '0.5rem', color: '#000' }}>
+            {tag}
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={handleAddStackTag}
+        style={{
+          position: 'absolute',
+          right: '0',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          padding: '0.5rem 1rem',
+          background: 'blue',
+          color: 'white',
+          cursor: 'pointer',
+          zIndex: 2,
+        }}
+      >
+        Add
+      </button>
+    </div>
+  );
+};
 
 export const OptionData = ({ data }: { data: any }) => {
   const [options, setOptions] = useState([{ value: 0, label: '소속 클럽 없음' }]);

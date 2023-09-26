@@ -40,6 +40,8 @@ import {
   StackInput,
   DateRanges,
   CustomSelect,
+  StackInputContainer,
+  StackInput2,
 } from './component';
 import {
   updateProjectCrew,
@@ -115,8 +117,8 @@ const ProjectPublish = () => {
   const doAsyncWork = async (data: any) => {
     try {
       await mutation[0]({ accessToken, newProjectData: data });
-      console.log(data);
       navigate('/project');
+      // console.log(data);
     } catch (error) {
       console.error('데이터 전송 중 오류 발생:', error);
       navigate('/project/publish');
@@ -173,10 +175,6 @@ const ProjectPublish = () => {
                 display: none;
               `}
             />
-            <TagList>
-              <Tag>서비스 형태가 들어가요</Tag>
-              <Tag>소속 클럽 이름이 들어가요</Tag>
-            </TagList>
 
             <Section gap="0.8">
               <TextInputBox
@@ -304,16 +302,30 @@ const ProjectPublish = () => {
               {/* <DateSelector onDateRangeChange={DateRangeChange} /> */}
 
               <Header2>사용된 기술 스택</Header2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                {StackTags.length > 0 &&
-                  StackTags.map((StackTag) => {
-                    return (
-                      <button type="button" key={v4()} onClick={() => removeStackTag(StackTag)}>
-                        <Tag>{StackTag}</Tag>
-                      </button>
-                    );
-                  })}
-                <StackInput onAddStackTag={AddStackTag} />
+              <div
+                style={{
+                  display: 'flex',
+                  maxWidth: '80rem',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.8rem',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  {StackTags.length > 0 &&
+                    StackTags.map((StackTag) => {
+                      return (
+                        <button type="button" key={v4()} onClick={() => removeStackTag(StackTag)}>
+                          <Tag>{StackTag}</Tag>
+                        </button>
+                      );
+                    })}
+                  <StackInput onAddStackTag={AddStackTag} />
+                </div>
               </div>
             </GridBox>
           </ContainerComponent>
