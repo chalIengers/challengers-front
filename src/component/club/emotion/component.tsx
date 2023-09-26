@@ -216,3 +216,45 @@ export const ClubPagNation = ({ totalPage }: { totalPage: number }) => {
     </div>
   );
 };
+
+export const MyClubButton = ({
+  totalPages,
+  setMyViewPage,
+  myClubPage,
+}: {
+  totalPages: Array<string>;
+  setMyViewPage: React.Dispatch<React.SetStateAction<number>>;
+  myClubPage: number;
+}) => {
+  const handlePageChange = (index: string) => {
+    setMyViewPage(Number(index));
+  };
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.8rem;
+      `}
+    >
+      {totalPages.map((pageIndex: string) => (
+        <button
+          key={pageIndex}
+          type="button"
+          aria-label="Save"
+          onClick={() => handlePageChange(pageIndex)}
+          css={css`
+            width: 1.6rem;
+            height: 1.6rem;
+            background-color: ${myClubPage === Number(pageIndex)
+              ? theme.palette.primary[500]
+              : theme.palette.gray.white};
+            border-radius: 50%;
+            cursor: pointer;
+          `}
+        />
+      ))}
+    </div>
+  );
+};

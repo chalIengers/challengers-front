@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, LinkTo, Toast, ClubPagNation } from './emotion/component';
+import { ClubBox, LinkTo, Toast, ClubPagNation, MyClubButton } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
@@ -17,6 +17,7 @@ const Index = () => {
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
   const { isLoading, isError, data } = useGetMyClubQuery({ accessToken });
+  const [myClubPage, setMyViewPage] = useState(0);
 
   const ShowToast = useCallback(() => {
     setShowToast(true);
@@ -33,7 +34,7 @@ const Index = () => {
   } else if (isError) {
     myClubContent = <div>Api 통신 에러!</div>;
   } else if (data.length === 0) {
-    myClubContent = <div>가입된 클럽이 없습니다</div>;
+    myClubContent = <div>소속된 클럽이 없습니다</div>;
   } else if (data) {
     myClubContent = data.map((club: MyClubDataType) => (
       <ClubBox
@@ -54,8 +55,32 @@ const Index = () => {
         }
       />
     ));
-  } else {
-    myClubContent = <div>소속된 클럽이 없습니다</div>;
+    myClubContent = (
+      <>
+        <ClubBox
+          key={data[myClubPage].id}
+          id={data[myClubPage].id}
+          name={data[myClubPage].name}
+          text={data[myClubPage].manager ? '클럽 관리 페이지' : '클럽 마스터 이메일 보기'}
+          logo={data[myClubPage].logo}
+          onClick={
+            data[myClubPage].manager
+              ? () => {
+                  navigate(`/club/admin/${data[myClubPage].id}`);
+                }
+              : () => {
+                  navigator.clipboard.writeText(data[myClubPage].managerEmail);
+                  ShowToast();
+                }
+          }
+        />
+        <MyClubButton
+          totalPages={Object.keys(data)}
+          setMyViewPage={setMyViewPage}
+          myClubPage={myClubPage}
+        />
+      </>
+    );
   }
 
   return (
