@@ -18,14 +18,15 @@ export const ScrollToTop = () => {
   return null;
 };
 
-// 새로고침 시 자동으로 이전 스크롤 위치로 이동하는 것을 방지
-export const PreventAutoScroll = () => {
-  useEffect(() => {
-    window.onbeforeunload = function pushRefresh() {
-      window.scrollTo(0, 0);
-    };
-  }, []);
-};
+// // 새로고침 시 자동으로 이전 스크롤 위치로 이동하는 것을 방지
+// export const PreventAutoScroll = () => {
+//   useEffect(() => {
+//     window.onbeforeunload = function pushRefresh() {
+//       window.scrollTo(0, 0);
+//     };
+//   }, []);
+// };
+
 export const RefreshTokenUtil = () => {
   const dispatch = useDispatch();
   const [refreshApi] = useRefreshUserMutation();

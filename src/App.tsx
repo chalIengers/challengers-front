@@ -10,12 +10,12 @@ import SignUp from './component/signUp/SignUp';
 import ClubPublish from './component/club/publish/ClubPublish';
 import ClubAdmin from './component/club/admin/ClubAdmin';
 import { Header } from './component/emotion/Header';
-import { PreventAutoScroll, RefreshTokenUtil, ScrollToTop } from './util/util';
+import { RefreshTokenUtil, ScrollToTop } from './util/util';
 import Login from './component/signUp/Login';
 import MyPage from './component/signUp/MyPage';
 
 function App() {
-  PreventAutoScroll();
+  // PreventAutoScroll();
   RefreshTokenUtil();
 
   return (
