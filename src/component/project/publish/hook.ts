@@ -42,14 +42,12 @@ export default useFormFields;
 export const extractSubstring = (input: string) => {
   const wwwIndex = input.indexOf('www');
   if (wwwIndex !== -1) {
-    // 'www'가 있는 경우
-    const startIndex = input.indexOf('.', wwwIndex); // 'www' 다음의 첫 번째 '.'를 찾습니다.
-    const endIndex = input.indexOf('.', startIndex + 1); // 첫 번째 '.' 다음의 '.'를 찾습니다.
+    const startIndex = input.indexOf('.', wwwIndex);
+    const endIndex = input.indexOf('.', startIndex + 1);
     if (startIndex !== -1 && endIndex !== -1) {
-      return input.slice(startIndex + 1, endIndex); // 'www' 다음의 '.' 다음부터 추출합니다.
+      return input.slice(startIndex + 1, endIndex);
     }
   } else {
-    // 'www'가 없는 경우
     const startIndex = input.indexOf('//');
     const endIndex = input.indexOf('.');
     if (startIndex !== -1 && endIndex !== -1) {
