@@ -132,7 +132,7 @@ export const ClubLogoPreView = ({ setImgFormData }: setImgFormDataType) => {
 
 export const ClubTypeBox = ({ text }: { text: string }) => {
   const dispatch = useDispatch();
-  const clubFormList = ['웹 서비스', '앱 서비스', 'AI 서비스', '기타 서비스 제공 클럽'];
+  const clubFormList = ['웹 서비스', '앱 서비스', '기타 서비스'];
 
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
