@@ -56,7 +56,6 @@ const Index = () => {
     myClubContent = <div>소속된 클럽이 없습니다</div>;
   }
 
-  const clubJoinButton = () => {};
   return (
     <Inner>
       <Banner />

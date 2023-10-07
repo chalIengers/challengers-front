@@ -29,7 +29,6 @@ export const ClubAcceptBox = ({
   id: string | undefined;
   comment: string;
 }) => {
-  const navigate = useNavigate();
   const token = useSelector(selectUser).accessToken;
   const dispatch = useDispatch();
   const [acceptCrew] = useAcceptCrewMutation();
@@ -49,8 +48,6 @@ export const ClubAcceptBox = ({
           token,
         };
         const response: any = await acceptCrew(data);
-        console.log(data);
-        console.log(response);
         alert(response.data?.msg);
         window.location.reload();
       }
@@ -69,8 +66,6 @@ export const ClubAcceptBox = ({
           token,
         };
         const response: any = await rejectCrew(data);
-        console.log(data);
-        console.log(response);
         alert(response.data.msg);
         window.location.reload();
       }
