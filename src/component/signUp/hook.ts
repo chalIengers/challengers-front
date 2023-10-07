@@ -60,12 +60,10 @@ export const useSignUpLogic = ({ watch }: { watch: UseFormWatch<FieldValues> }) 
       const response = await requestUser(signUpData);
       if (response.data.success) {
         // 이메일 인증코드 모달창
-        console.log(response.data);
         dispatch(openModal({ modalType: 'RegisterModal' }));
       } else {
         alert(response.data.msg);
       }
-      console.log('request-sign-up response:', response);
     } catch (err) {
       console.log(err);
     }
