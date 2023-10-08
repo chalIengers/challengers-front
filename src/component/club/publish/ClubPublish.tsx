@@ -60,15 +60,13 @@ const Publish = () => {
       }
 
       const dataResponse = await verifyClub({ accessToken, clubData: sendClubData }).unwrap();
-
+      console.log(dataResponse);
       if (dataResponse.success) {
         dispatch(setClubField({ field: 'userName', clubData: dataResponse.msg }));
         dispatch(openModal({ modalType: 'CreateClubModal' }));
-      } else {
-        alert(dataResponse.msg);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      alert(err.data.msg);
     }
   };
 

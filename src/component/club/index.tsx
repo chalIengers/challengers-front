@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, LinkTo, Toast, ClubPagNation } from './emotion/component';
+import { ClubBox, Toast, ClubPagNation, MyClubButton } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
@@ -17,6 +17,7 @@ const Index = () => {
   const [showToast, setShowToast] = useState(false);
   const { accessToken } = useSelector(selectUser);
   const { isLoading, isError, data } = useGetMyClubQuery({ accessToken });
+  const [myClubPage, setMyViewPage] = useState(0);
 
   const ShowToast = useCallback(() => {
     setShowToast(true);
@@ -32,6 +33,8 @@ const Index = () => {
     myClubContent = <div>로딩중...</div>;
   } else if (isError) {
     myClubContent = <div>Api 통신 에러!</div>;
+  } else if (data.length === 0) {
+    myClubContent = <div>소속된 클럽이 없습니다</div>;
   } else if (data) {
     myClubContent = data.map((club: MyClubDataType) => (
       <ClubBox
@@ -52,9 +55,43 @@ const Index = () => {
         }
       />
     ));
-  } else {
-    myClubContent = <div>소속된 클럽이 없습니다</div>;
+    myClubContent = (
+      <>
+        <ClubBox
+          key={data[myClubPage].id}
+          id={data[myClubPage].id}
+          name={data[myClubPage].name}
+          text={data[myClubPage].manager ? '클럽 관리 페이지' : '클럽 마스터 이메일 보기'}
+          logo={data[myClubPage].logo}
+          onClick={
+            data[myClubPage].manager
+              ? () => {
+                  navigate(`/club/admin/${data[myClubPage].id}`);
+                }
+              : () => {
+                  navigator.clipboard.writeText(data[myClubPage].managerEmail);
+                  ShowToast();
+                }
+          }
+        />
+        <MyClubButton
+          totalPages={Object.keys(data)}
+          setMyViewPage={setMyViewPage}
+          myClubPage={myClubPage}
+        />
+      </>
+    );
   }
+
+
+  const onClickApply = () => {
+    if (!accessToken) {
+      alert('로그인을 해주세요');
+      navigate('/login');
+    } else {
+      navigate('/club/publish');
+    }
+  };
 
   return (
     <Inner>
@@ -70,7 +107,9 @@ const Index = () => {
       <Section gap="3.2">
         <TextBox margin="2.4">
           <Header1>챌린저스에 등록된 클럽</Header1>
-          <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo>
+          <button type="button" onClick={onClickApply}>
+            클럽을 등록하고 싶다면?
+          </button>
         </TextBox>
         <ApiFetcher query={useGetClubListQuery(page)} loading={<div>로딩중...</div>}>
           {(ListData) => (

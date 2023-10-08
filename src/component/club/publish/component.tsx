@@ -12,7 +12,6 @@ import { setImgFormDataType } from '../../../types/globalType';
 const ImageUpload = ({ setImgFormData }: setImgFormDataType) => {
   const { imageSrc, uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch();
 
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +131,7 @@ export const ClubLogoPreView = ({ setImgFormData }: setImgFormDataType) => {
 
 export const ClubTypeBox = ({ text }: { text: string }) => {
   const dispatch = useDispatch();
-  const clubFormList = ['웹 서비스', '앱 서비스', 'AI 서비스', '기타 서비스 제공 클럽'];
+  const clubFormList = ['웹 서비스', '앱 서비스', '기타 서비스'];
 
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
