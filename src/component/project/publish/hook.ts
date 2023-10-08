@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
+import { v4 } from 'uuid';
 import { Crews, TeamMember } from '../../../types/globalType';
 import { selectUser } from '../../../store/slice/userSlice';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
@@ -40,11 +41,19 @@ export const useFormFields = (State: any) => {
 export default useFormFields;
 
 export const extractSubstring = (input: string) => {
-  const startIndex = input.indexOf('//');
-  const endIndex = input.indexOf('.');
-
-  if (startIndex !== -1 && endIndex !== -1) {
-    return input.slice(startIndex + 2, endIndex);
+  const wwwIndex = input.indexOf('www');
+  if (wwwIndex !== -1) {
+    const startIndex = input.indexOf('.', wwwIndex);
+    const endIndex = input.indexOf('.', startIndex + 1);
+    if (startIndex !== -1 && endIndex !== -1) {
+      return input.slice(startIndex + 1, endIndex);
+    }
+  } else {
+    const startIndex = input.indexOf('//');
+    const endIndex = input.indexOf('.');
+    if (startIndex !== -1 && endIndex !== -1) {
+      return input.slice(startIndex + 2, endIndex);
+    }
   }
   return null;
 };
@@ -120,16 +129,24 @@ export const useFileImageUpload = ({ Image, uploadImage }: FileImageUploadProps)
 
   return { Fileimage, Fileupload, handleImageChange };
 };
-
+interface StackTag {
+  id: string;
+  name: string;
+}
 export const useStackTags = () => {
-  const [StackTags, setStackTags] = useState<string[]>([]);
+  const [StackTags, setStackTags] = useState<StackTag[]>([]);
 
   const AddStackTag = (newStackTag: string) => {
-    setStackTags((prevStackTags) => [...prevStackTags, newStackTag]);
+    const newTag: StackTag = {
+      id: v4(),
+      name: newStackTag,
+    };
+    setStackTags((prevStackTags) => [...prevStackTags, newTag]);
   };
 
   const removeStackTag = (tagToRemove: string) => {
-    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
+    console.log('xptmxm');
+    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag.id !== tagToRemove));
   };
 
   return { StackTags, AddStackTag, removeStackTag };
@@ -159,4 +176,77 @@ export const updateProjectCrew = (teamInfoBoxes: any[], updatedData: any) => {
   });
 
   return updatedProjectCrew;
+};
+
+export const validateProjectData = (otherData: any) => {
+  if (!otherData.imageUrl) {
+    alert('이미지를 넣어주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectName) {
+    alert('제목을 작성해주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectDescription) {
+    alert('소제목을 작성해주세요');
+    return 'ImageContainer';
+  }
+  if (!otherData.projectPeriod) {
+    alert('제작 기간을 작성해주세요');
+    return 'SummaryContainer';
+  }
+  if (otherData.projectTechStack.length === 0) {
+    alert('기술 스택을 작성해주세요');
+    return 'SummaryContainer';
+  }
+  if (
+    otherData.projectCrew.length === 0 ||
+    otherData.projectCrew.some(
+      (crew: any) =>
+        crew.name.trim() === '' || crew.position.trim() === '' || crew.role.trim() === '',
+    )
+  ) {
+    alert('유효하지 않은 팀원 구성입니다');
+    return 'teamInfoContainer';
+  }
+  const regex = /^(http|https):\/\/.*\./;
+  if (!otherData.projectLink.every((item: any) => regex.test(item.linkUrl.trim()))) {
+    alert('한 개 이상의 유효하지 않은 링크가 존재합니다');
+    return 'LinkContainer';
+  }
+  return null;
+};
+const monthMap: { [key: string]: string } = {
+  Jan: '01',
+  Feb: '02',
+  Mar: '03',
+  Apr: '04',
+  May: '05',
+  Jun: '06',
+  Jul: '07',
+  Aug: '08',
+  Sep: '09',
+  Oct: '10',
+  Nov: '11',
+  Dec: '12',
+};
+
+export const formatDateString = (dateString: any) => {
+  const [day, month, dayNum, year] = dateString.split(' ');
+  const formattedMonth = monthMap[month];
+  const formattedDayNum = dayNum.length === 1 ? `0${dayNum}` : dayNum;
+
+  return `${year}-${formattedMonth}-${formattedDayNum}`;
+};
+export const useDateRanges = () => {
+  const [formattedDateRange, setFormattedDateRange] = useState('');
+
+  const handleDateRangeChange = (range: string) => {
+    setFormattedDateRange(range);
+  };
+
+  return {
+    formattedDateRange,
+    handleDateRangeChange,
+  };
 };
