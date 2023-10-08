@@ -83,7 +83,6 @@ const Index = () => {
     );
   }
 
-
   const onClickApply = () => {
     if (!accessToken) {
       alert('로그인을 해주세요');
