@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
+import { v4 } from 'uuid';
 import { Crews, TeamMember } from '../../../types/globalType';
 import { selectUser } from '../../../store/slice/userSlice';
 import { useFileUploadMutation } from '../../../store/controller/commonController';
@@ -128,16 +129,24 @@ export const useFileImageUpload = ({ Image, uploadImage }: FileImageUploadProps)
 
   return { Fileimage, Fileupload, handleImageChange };
 };
-
+interface StackTag {
+  id: string;
+  name: string;
+}
 export const useStackTags = () => {
-  const [StackTags, setStackTags] = useState<string[]>([]);
+  const [StackTags, setStackTags] = useState<StackTag[]>([]);
 
   const AddStackTag = (newStackTag: string) => {
-    setStackTags((prevStackTags) => [...prevStackTags, newStackTag]);
+    const newTag: StackTag = {
+      id: v4(),
+      name: newStackTag,
+    };
+    setStackTags((prevStackTags) => [...prevStackTags, newTag]);
   };
 
   const removeStackTag = (tagToRemove: string) => {
-    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag !== tagToRemove));
+    console.log('xptmxm');
+    setStackTags((prevStackTags) => prevStackTags.filter((tag) => tag.id !== tagToRemove));
   };
 
   return { StackTags, AddStackTag, removeStackTag };

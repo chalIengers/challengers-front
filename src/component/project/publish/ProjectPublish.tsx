@@ -129,7 +129,7 @@ const ProjectPublish = () => {
     try {
       const imageUrl = await Fileupload(Fileimage);
       const otherData = updateProjectData(Object.keys(data), data);
-      const techStacks = StackTags.map((tag) => ({ name: tag }));
+      const techStacks = StackTags.map((tag) => ({ name: tag.name }));
       const crewData = updateProjectCrew(teamInfoBoxes, otherData);
       otherData.projectCrew = crewData;
       otherData.projectTechStack = techStacks;
@@ -319,8 +319,12 @@ const ProjectPublish = () => {
                   {StackTags.length > 0 &&
                     StackTags.map((StackTag) => {
                       return (
-                        <button type="button" key={v4()} onClick={() => removeStackTag(StackTag)}>
-                          <Tag>{StackTag}</Tag>
+                        <button
+                          type="button"
+                          key={StackTag.id}
+                          onClick={() => removeStackTag(StackTag.id)}
+                        >
+                          <Tag>{StackTag.name}</Tag>
                         </button>
                       );
                     })}
