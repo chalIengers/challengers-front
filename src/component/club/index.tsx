@@ -83,6 +83,7 @@ const Index = () => {
     );
   }
 
+
   const onClickApply = () => {
     if (!accessToken) {
       alert('로그인을 해주세요');
@@ -106,7 +107,6 @@ const Index = () => {
       <Section gap="3.2">
         <TextBox margin="2.4">
           <Header1>챌린저스에 등록된 클럽</Header1>
-          {/* <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo> */}
           <button type="button" onClick={onClickApply}>
             클럽을 등록하고 싶다면?
           </button>

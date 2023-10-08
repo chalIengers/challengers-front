@@ -229,11 +229,8 @@ export const CommentBlackModal = () => {
           token,
           requestData: { cludId: data.commentClubState.id, comment },
         };
-        console.log(postData);
         request(postData)
           .then((res: any) => {
-            console.log(res);
-            console.log(res.data?.msg);
             alert(res.data.msg);
             if (res.data.success) dispatch(closeModal());
           })
@@ -266,7 +263,8 @@ export const CommentBlackModal = () => {
           다음 내용이 들어가면 성사확률이 올라갈거에요!
           
           - 간단한 자기소개
-          - 클럽에 들어오고 싶은 이유"
+          - 클럽에 들어오고 싶은 이유
+          "
           defaultFontColor="white"
           defaultFontSize="1.2rem"
           ref={editorRef}
@@ -328,7 +326,6 @@ export const UnRegisterModal = () => {
         password,
       };
       const resp = await unregister(data);
-      console.log(resp.data);
       if (resp.data.success) {
         alert('탈퇴되었습니다');
         dispatch(closeModal());

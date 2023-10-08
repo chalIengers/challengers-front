@@ -40,7 +40,7 @@ const Index = () => {
                 <NavigateButton />
               </TextBox>
 
-              <ChallengersLogo src={data.clubLogo} alt={data.clubName} />
+              <ChallengersLogo src={data.logoUrl} alt={data.clubName} />
             </>
           )}
         </ApiFetcher>

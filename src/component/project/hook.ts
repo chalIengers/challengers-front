@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetVideosQuery, useGetTechStacksQuery } from '../../store/controller/projectController';
@@ -22,6 +22,8 @@ export function useGetProjectsBoxHook() {
   });
   const [pageNumber, setPageNumber] = useState(0);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const { data, isFetching } = useGetVideosQuery({
     size: 6,
     page: pageNumber,
@@ -42,30 +44,33 @@ export function useGetProjectsBoxHook() {
     if (data) dispatch(addProject(data?.content));
   }, [data, dispatch]);
 
-  const handleScrollCallback = useCallback(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const { scrollY } = window;
+  useEffect(() => {
+    const options = {
+      root: null, // viewport를 기준으로 감시
+      rootMargin: '0px',
+      threshold: 0.1, // 대상 엘리먼트가 10% 이상 보일 때 콜백 실행
+    };
 
-      if (
-        windowHeight + scrollY >= documentHeight - 100 && // 예: 하단에서 1000px 이전에 호출
-        !isFetching &&
-        pageNumber < data?.totalPages
-      ) {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    const handleIntersect: IntersectionObserverCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !isFetching && pageNumber < data?.totalPages) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, options);
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
     };
-
-    handleScroll();
-  }, [data?.totalPages, isFetching, pageNumber]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScrollCallback);
-    return () => {
-      window.removeEventListener('scroll', handleScrollCallback);
-    };
-  }, [isFetching, data?.totalPages, pageNumber, handleScrollCallback]);
+  }, [isFetching, data?.totalPages, pageNumber]);
 
   return {
     data,
@@ -73,6 +78,7 @@ export function useGetProjectsBoxHook() {
     sortType,
     pageNumber,
     setSortType,
+    containerRef,
   };
 }
 

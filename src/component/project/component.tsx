@@ -10,13 +10,7 @@ import {
   SelectBoxDropBoxProps,
   SelectedBoxProps,
 } from '../../types/globalType';
-import {
-  Body3Bold,
-  Body4,
-  FlexSpaceBetweenContainer,
-  Section,
-  overFlowScroll,
-} from '../emotion/GlobalStyle';
+import { Body3Bold, Body4, FlexSpaceBetweenContainer, Section } from '../emotion/GlobalStyle';
 import { useTeckStackModalHook } from './hook';
 
 /**
@@ -206,7 +200,6 @@ const SearchResultContainer = ({ children, showOptions }: SelectBoxContainerProp
       border-radius: 1rem;
       border: 1px solid #f4f4f4;
       box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-      ${overFlowScroll}
     `}
   >
     {children}

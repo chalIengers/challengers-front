@@ -2,13 +2,14 @@
 import React, { ReactNode, useState } from 'react';
 import { css } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ButtonBox, ClubComponent } from '../../emotion/component';
 import theme from '../../../styles/theme';
 import { Body1, Body1Bold } from '../../emotion/GlobalStyle';
 import { ClubBoxProps, ContainerType, LinkToProps } from '../../../types/globalType';
 import { openModal } from '../../../store/slice/modalSlice';
 import { setCommentClubData } from '../../../store/slice/commentSlice';
+import { selectUser } from '../../../store/slice/userSlice';
 
 /**
  * '클럽 마스터 이메일 보기' 버튼을 눌렀을 때 뜨게 되는 컴포넌트
@@ -57,9 +58,12 @@ export const ClubContainer = ({ children }: ContainerType) => {
  */
 export const ClubBox = ({ id, name, logo, text, onClick }: ClubBoxProps) => {
   const dispatch = useDispatch();
+  const { accessToken } = useSelector(selectUser);
   const handleButtonClick = () => {
     if (onClick) {
       onClick();
+    } else if (!accessToken) {
+      alert('로그인을 해주세요');
     } else {
       dispatch(setCommentClubData({ id, name, logo }));
       dispatch(openModal({ modalType: 'CommentBlackModal' }));

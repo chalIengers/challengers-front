@@ -19,7 +19,6 @@ const MyPage = () => {
   const validate = useValidateUnRegisterQuery({ accessToken });
   const handleUnRegistClick = async () => {
     try {
-      console.log(validate.data);
       const { memberEmpty } = validate.data;
       const { notAdministrator } = validate.data;
       const { validateUser } = validate.data;
