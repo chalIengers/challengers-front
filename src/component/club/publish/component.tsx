@@ -12,7 +12,6 @@ import { setImgFormDataType } from '../../../types/globalType';
 const ImageUpload = ({ setImgFormData }: setImgFormDataType) => {
   const { imageSrc, uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch();
 
   // 이미지 파일 선택 onChange 함수
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
