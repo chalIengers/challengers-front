@@ -26,9 +26,10 @@ const linkImgList: LinkImgList = {
  * @param type link 이미지 크기 타입
  */
 export const LinkImg = ({ name, large }: LinkImgProps) => {
+  const validNames = ['github', 'notion', 'figma', 'other'];
   return (
     <img
-      src={linkImgList[name]}
+      src={validNames.includes(name) ? linkImgList[name] : linkImgList.other}
       alt={name}
       css={css`
         width: ${large ? 4.8 : 3.2}rem;
