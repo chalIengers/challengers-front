@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Banner, TextBox } from '../emotion/component';
 import { Inner, Header1, Section } from '../emotion/GlobalStyle';
-import { ClubBox, LinkTo, Toast, ClubPagNation, MyClubButton } from './emotion/component';
+import { ClubBox, Toast, ClubPagNation, MyClubButton } from './emotion/component';
 import { ApiFetcher } from '../../util/util';
 import { useGetClubListQuery, useGetMyClubQuery } from '../../store/controller/clubController';
 import { ClubComponentProps, MyClubDataType } from '../../types/globalType';
@@ -83,6 +83,15 @@ const Index = () => {
     );
   }
 
+  const onClickApply = () => {
+    if (!accessToken) {
+      alert('로그인을 해주세요');
+      navigate('/login');
+    } else {
+      navigate('/club/publish');
+    }
+  };
+
   return (
     <Inner>
       <Banner />
@@ -97,7 +106,10 @@ const Index = () => {
       <Section gap="3.2">
         <TextBox margin="2.4">
           <Header1>챌린저스에 등록된 클럽</Header1>
-          <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo>
+          {/* <LinkTo to="/club/publish">클럽을 등록하고 싶다면?</LinkTo> */}
+          <button type="button" onClick={onClickApply}>
+            클럽을 등록하고 싶다면?
+          </button>
         </TextBox>
         <ApiFetcher query={useGetClubListQuery(page)} loading={<div>로딩중...</div>}>
           {(ListData) => (
